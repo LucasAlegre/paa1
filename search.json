@@ -1,0 +1,981 @@
+[
+  {
+    "objectID": "aula1-intro.html#programa",
+    "href": "aula1-intro.html#programa",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Programa",
+    "text": "Programa\n\nApresentação da disciplina\nExemplos motivacionais",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#dados-gerais",
+    "href": "aula1-intro.html#dados-gerais",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Dados Gerais",
+    "text": "Dados Gerais\nDisciplina: INF05027 – Projeto e Análise de Algoritmos I\nProfessor: Lucas Nunes Alegre\nCarga horária: 60h (50 em sala de aula, 10 em atividades autônomas)\nCréditos: 4",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#sobre-o-professor",
+    "href": "aula1-intro.html#sobre-o-professor",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Sobre o Professor",
+    "text": "Sobre o Professor\nLucas Nunes Alegre:\n\nE-mail: lnalegre@inf.ufrgs.br\n\n\n\nSite: https://lucasalegre.github.io/\n\n\n\n\nPresencial: Sala 233, prédio 43424 (segundo andar)\n\n\n\n\n\nInteresses:\n\nInteligência Artificial.\nAprendizado de Máquina\nAprendizado por Reforço.\nRobótica.\nAnálise de Redes.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#motivação",
+    "href": "aula1-intro.html#motivação",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Motivação",
+    "text": "Motivação\nAs mudanças no currículo vão na seguinte direção:\n\nAprofundar a forma de se estudar algoritmos (sempre com análise de correção e custos)\n\n\n\nIntegração natural de teoria e prática\n\n\n\n\nReorganizar a exposição de tópicos de forma a seguir as referências da literatura mundial da área\n\n\n\nDesta forma, PAA1 + PAA2 no novo currículo cobrem conteúdos que eram vistos de forma não integrada em Teoria dos Grafos e Análise Combinatória, Complexidade de Algoritmos, Classificação e Pesquisa de Dados.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#bibliografia",
+    "href": "aula1-intro.html#bibliografia",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Bibliografia",
+    "text": "Bibliografia\n\n\nBibliografia:\n\nAlgorithm Design. Kleinberg, Jon; Tardos, Éva.\nAlgoritmos: Teoria e Prática. Cormen, Thomas H. et. al.\nAlgorithms Illuminated (Parts 1, 2, 3). Tim Roughgarden.\n\n\n\n\n\nBook 1\n\n\n\n\n\nBook 2\n\n\n\n\n\nBook 3\n\n\n\n\nMoodle:\nhttps://moodle.ufrgs.br/\n\nToda a comunicação oficial.\nDisponibilização de slides, atividades, material complementar.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#repositório",
+    "href": "aula1-intro.html#repositório",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Repositório",
+    "text": "Repositório\nGitHub:\nhttps://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos\n\nDiversidade de autores e lingugagens de programação.\nDisponibilização de códigos, demos, exemplos.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#avaliação",
+    "href": "aula1-intro.html#avaliação",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Avaliação",
+    "text": "Avaliação\nAtividades avaliadas:\n\nProva 1 (3.5pts) - Análise assintótica, teoria dos grafos, algoritmos simples sobre grafos\nProva 2 (3.5pts) - Algoritmos gulosos, algoritmos gulosos sobre grafos, estruturas de dados avançadas\nLaboratórios (2pt)\nAtividade(s) autônoma(s) (1pt)\n\n\nNF = 0.35 \\times P1 + 0.35 \\times P2 + 0.2 \\times Lab + 0.1 \\times Aut\n\nConceito definido a partir de NF da forma tradicional: A (\\geq9), B (\\geq7.5), C (\\geq6), D(&lt;6), FF (menos de 75% de frequência).",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#laboratórios",
+    "href": "aula1-intro.html#laboratórios",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Laboratórios",
+    "text": "Laboratórios\n\n4 ao longo do semestre\nAtividades avaliadas (0.5 pontos cada)\nEntrega individual, mas discussão e consulta liberadas\nPresencial!\nImplementação de algoritmos/análise na prática\nAmbientes de desafios\n\nLeetCode: https://leetcode.com/\nbeecrowd: https://beecrowd.com/\n\\cdots\n\nLinguagem de programação livre (dentro dos limites das ferramentas)",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#atividades-de-recuperação",
+    "href": "aula1-intro.html#atividades-de-recuperação",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Atividades de recuperação",
+    "text": "Atividades de recuperação\nExame de Recuperação\n\nProva sobre todo o conteúdo\nFinal do semestre\n\nNova nota final recalculada seguindo a seguinte fórmula:\n\nNE = 0.2 \\times NF + 0.8 \\times EXAME",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#conteúdo",
+    "href": "aula1-intro.html#conteúdo",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Conteúdo",
+    "text": "Conteúdo\nAnálise de Algoritmos\n\nCorreção de algoritmos\nAnálise assintótica do custo computacional de algoritmos\n\n\nGrafos: conceitos e algoritmos fundamentais\n\nGrafos: definição a representações computacionais\nPrincipais conceitos e algoritmos sobre grafos: busca, componentes, distância.\n\n\n\nEstratégia gulosa de projeto de algoritmos:\n\nEscalonamento e particionamento de intervalos\n\n\n\nAlgoritmos gulosos para grafos e estruturas de dados avançadas:\n\nÁrvore geradora de custo mínimo (Prim, Kruskal, union-find)\nDistância em grafos com pesos (Dijkstra, priority queues)",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#contexto-no-currículo",
+    "href": "aula1-intro.html#contexto-no-currículo",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Contexto no currículo",
+    "text": "Contexto no currículo\nAntes:\n\nINF01202 – ALGORITMOS E PROGRAMAÇÃO - CIC\nINF05008 – PENSAMENTO COMPUTACIONAL N\nINF01203 – ESTRUTURAS DE DADOS\nMAT01375 – MATEMÁTICA DISCRETA B\n\nDepois:\n\nINF05028 – PROJETO E ANÁLISE DE ALGORITMOS II\nINF05501 – TEORIA DA COMPUTAÇÃO II\nINF01048 – INTELIGÊNCIA ARTIFICIAL\nINF05010 – OTIMIZAÇÃO COMBINATÓRIA\n\nNa verdade\n\nO estudo dos algoritmos permeia a totalidade da ciência da computação e áreas relacionadas.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#motivação-programação-competitiva",
+    "href": "aula1-intro.html#motivação-programação-competitiva",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Motivação: programação competitiva",
+    "text": "Motivação: programação competitiva\nLaboratório de Programação Competitiva - LPC:\n\nhttps://www.inf.ufrgs.br/maratona/\nhttps://www.instagram.com/lpcufrgs\n\n\nLPC",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#motivação-entrevista-técnica",
+    "href": "aula1-intro.html#motivação-entrevista-técnica",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Motivação: entrevista técnica",
+    "text": "Motivação: entrevista técnica\n\nSilicon Valley",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#motivação-entrevista-técnica-1",
+    "href": "aula1-intro.html#motivação-entrevista-técnica-1",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Motivação: entrevista técnica",
+    "text": "Motivação: entrevista técnica\nE-mail Entrevista Google:\n\nAlgorithm Complexity: If you struggle with basic big-O complexity analysis, then you are almost guaranteed not to get hired.\nSorting: Know how to sort.\nHashtables: Arguably the single most important data structure known to mankind.\nTrees: Know about trees; basic tree construction, traversal and manipulation algorithms.\nGraphs: Graphs are really important at Google.\nOther data structures: You should especially know about the most famous classes of NP-complete problems, . . . Find out what NP-complete means.\nMathematics, Operating Systems, Coding.\nFinal Tips: ***Get your algorithms straight.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#motivação-resolver-problemas",
+    "href": "aula1-intro.html#motivação-resolver-problemas",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Motivação: resolver problemas",
+    "text": "Motivação: resolver problemas",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#professor-mas-e-a-ia",
+    "href": "aula1-intro.html#professor-mas-e-a-ia",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Professor, mas e a IA?",
+    "text": "Professor, mas e a IA?\n\nIA ajuda, mas não substitui prática: é como aprender um idioma, você precisa treinar para ganhar fluência.\nIA não é antagonista: eu pesquiso IA e usei como ferramenta ao longo da disciplina.\nMas você precisa saber conferir: sem base, você não detecta erros, suposições ruins e respostas “convincentes” porém incorretas.\nA disciplina não é só “programar”: é aprender a modelar problemas, escolher abordagens e justificar decisões.\nCautela com quem vende IA como solução para tudo (aprenderam antes de haver IA).\nGeneralização para problemas novos: IA tende a ir bem em soluções canônicas, mas e quando o problema é inédito ou exige uma ideia nova?\nFundamentos que não mudam: corretude, complexidade, limites e trade-offs valem com ou sem IA.\nMetodologia transferível: o que você aprende aqui serve para outras áreas (ciência de dados, bio, redes, sistemas, etc.).\nE sim, também é divertido!",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#projeto-e-análise-de-algoritmos",
+    "href": "aula1-intro.html#projeto-e-análise-de-algoritmos",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Projeto e Análise de Algoritmos",
+    "text": "Projeto e Análise de Algoritmos\nProjeto: técnicas para construção\n\nBusca exaustiva (backtracking).\nEstratégia Gulosa (greedy).\nDivisão e Conquista. (PAA2…)\nProgramação Dinâmica. (PAA2…)\nModelagem e Otimização. (Otimização Combinatória…)\n\n\nAnálise: verificação da qualidade do algoritmo\n\nCorreção\nCusto (em tempo)\nCusto (em espaço)\n\nAlgoritmos: processos computacionais",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#problema-do-troco-coin-changing",
+    "href": "aula1-intro.html#problema-do-troco-coin-changing",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Problema do troco (coin changing)",
+    "text": "Problema do troco (coin changing)\nObjetivo. Dadas denominações de moedas (ex.: \\{1, 5, 10, 25, 100\\}), pagar um valor usando o menor número de moedas.\n\nMoedashttps://brunogrisci.github.io/cashiers",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#problema-do-troco-coin-changing-1",
+    "href": "aula1-intro.html#problema-do-troco-coin-changing-1",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Problema do troco (coin changing)",
+    "text": "Problema do troco (coin changing)\nObjetivo. Dadas denominações de moedas (ex.: \\{1, 5, 10, 25, 100\\}), pagar um valor usando o menor número de moedas.\n\nAlgoritmo do caixa (guloso). Repetidamente escolha a maior moeda que não excede o valor restante.\n\n\nExemplos (ideia)\n\n34: pegue 25, depois 5, depois 1,1,1,1.\n2,89: escolha sempre a maior moeda possível e continue no restante.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#algoritmo-do-caixa-pseudocódigo",
+    "href": "aula1-intro.html#algoritmo-do-caixa-pseudocódigo",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Algoritmo do caixa: pseudocódigo",
+    "text": "Algoritmo do caixa: pseudocódigo\nCASHIERS-ALGORITHM(x, c1, ..., cn)\n1. Ordene as moedas: 0 &lt; c1 &lt; c2 &lt; ... &lt; cn\n2. S &lt;- []\n3. enquanto x &gt; 0:\n4.   k &lt;- maior índice tal que ck &lt;= x\n5.   se não existe tal k:\n6.      retorne \"sem solução\"\n7.   senão:\n8.      x &lt;- x - ck\n9.      adicione k ao final de S\n10. retorne S",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#o-algoritmo-do-caixa-é-ótimo",
+    "href": "aula1-intro.html#o-algoritmo-do-caixa-é-ótimo",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "O algoritmo do caixa é ótimo?",
+    "text": "O algoritmo do caixa é ótimo?\nPergunta. O algoritmo do caixa é ótimo para as moedas dos EUA \\{1,5,10,25,100\\}?\n\nSim, algoritmos gulosos são sempre ótimos.\nSim, para qualquer conjunto c_1 &lt; \\cdots &lt; c_n, desde que c_1=1.\nSim, por propriedades especiais das denominações dos EUA.\nNão.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#o-algoritmo-do-caixa-é-ótimo-1",
+    "href": "aula1-intro.html#o-algoritmo-do-caixa-é-ótimo-1",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "O algoritmo do caixa é ótimo?",
+    "text": "O algoritmo do caixa é ótimo?\nPergunta. O algoritmo do caixa é ótimo para as moedas dos EUA \\{1,5,10,25,100\\}?\n\nSim, algoritmos gulosos são sempre ótimos.\nSim, para qualquer conjunto c_1 &lt; \\cdots &lt; c_n, desde que c_1=1.\nSim, por propriedades especiais das denominações dos EUA.\nNão.\n\nDiscussão: (A) é falsa em geral; (B) também é falsa; (C) é a correta nesse caso.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#o-guloso-é-ótimo-para-qualquer-sistema-de-moedas",
+    "href": "aula1-intro.html#o-guloso-é-ótimo-para-qualquer-sistema-de-moedas",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "O guloso é ótimo para qualquer sistema de moedas?",
+    "text": "O guloso é ótimo para qualquer sistema de moedas?\n\nResposta curta: não.\nContraexemplo (selo/“postage”): denominações 1, 10, 21, 34, 70, 100, 350, 1225, 1500.\n\n\n\nStamps\n\n\n\n\n\nGuloso para 140: 100 + 34 + 1+1+1+1+1+1 (8 moedas).\nÓtimo: 70 + 70 (2 moedas).\n\n\n\nPode falhar até em viabilidade se c_1&gt;1: denominações 7,8,9.\n\nGuloso para 15: escolhe 9 e fica preso (não completa).\nÓtimo: 7 + 8.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#propriedades-de-uma-solução-ótima-moedas-dos-eua",
+    "href": "aula1-intro.html#propriedades-de-uma-solução-ótima-moedas-dos-eua",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Propriedades de uma solução ótima (moedas dos EUA)",
+    "text": "Propriedades de uma solução ótima (moedas dos EUA)\nPara denominações \\{1,5,10,25,100\\}, qualquer solução ótima satisfaz:\n\n(P1) número de pennies P \\le 4.\nProva por troca: substitua 5 pennies por 1 nickel.\n(P2) número de nickels N \\le 1.\n(P3) número de dimes D \\le 2.\n(P4) número de quarters Q \\le 3.\n(P5) N + D \\le 2.\nSe N=1 e D=2, substitua por 1 quarter.\n\n\nConsequência chave:\n\nP + 5N + 10D + 25Q \\le 99.\n\n(Isto limita o quanto dá para “fazer troco” sem usar moedas de 1 dólar.)",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#otimalidade-do-algoritmo-do-caixa-moedas-dos-eua",
+    "href": "aula1-intro.html#otimalidade-do-algoritmo-do-caixa-moedas-dos-eua",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Otimalidade do algoritmo do caixa (moedas dos EUA)",
+    "text": "Otimalidade do algoritmo do caixa (moedas dos EUA)\nTeorema. O algoritmo do caixa é ótimo para \\{1,5,10,25,100\\}.\n\nIdeia da prova (indução no valor x):\n\nConsidere c_k \\le x &lt; c_{k+1}. O guloso escolhe c_k.\nMostra-se que qualquer solução ótima também precisa usar c_k: caso contrário, teria de compor x só com c_1,\\dots,c_{k-1}, mas isso é impossível por limites como P\\le4, N\\le1, N+D\\le2, Q\\le3.\nEntão o problema reduz a x - c_k, resolvido otimalmente pelo guloso (hipótese de indução).\n\n\n\n\nIntuição: a prova é um “argumento de troca” + indução.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#proposição-solução-ótima-única-incluindo-moedas-de-1-dólar",
+    "href": "aula1-intro.html#proposição-solução-ótima-única-incluindo-moedas-de-1-dólar",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Proposição: solução ótima única (incluindo moedas de 1 dólar)",
+    "text": "Proposição: solução ótima única (incluindo moedas de 1 dólar)\nProposição. O algoritmo do caixa produz a única solução ótima para \\{1,5,10,25,100\\}.\nEsboço (caso das moedas de 1 dólar):\n\nPara um valor x.yy, o guloso escolhe x moedas de 1 dólar.\nSuponha, por contradição, que exista solução ótima com menos de x dólares.\nEntão o restante em \\{1,5,10,25\\} precisa somar \\ge 100, isto é, P + 5N + 10D + 25Q \\ge 100, contradizendo o limite \\le 99.\nArgumentos análogos justificam as escolhas gulosas para quarters, dimes e nickels.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#multiplicação-de-inteiros",
+    "href": "aula1-intro.html#multiplicação-de-inteiros",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Multiplicação de inteiros",
+    "text": "Multiplicação de inteiros\nDesde o ensino fundamental aprendemos algoritmos.\n\nPor exemplo, vamos realizar a seguinte multiplicação!\n\n1234 \\times 5678 = ~?\n\n\n\nVocê consegue…\n\ndescrever precisamente o método utilizado?\njustificar a sua correção?\nestimar o seu custo (em tempo)?",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#algoritmo-tradicional-de-multiplicação-atm",
+    "href": "aula1-intro.html#algoritmo-tradicional-de-multiplicação-atm",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Algoritmo tradicional de multiplicação (ATM)",
+    "text": "Algoritmo tradicional de multiplicação (ATM)\n\n\\begin{array}{lccccccccccr}\n&&&          & 1 & 2 & 3 & 4  && =x\\\\\n&&&\\times & 5 & 6 & 7 & 8 & & =y\\\\\n\\hline\n&&&&9&8&7&2&&\\\\\n&&&8&6&3&8&&&\\\\\n&&7&4&0&4&&&&\\\\\n&6&1&7&0&&&&&+\\\\\n\\hline\n&7&0&0&6&6&5&2\n\\end{array}\n\nAlgoritmo tradicional de multiplicação:\n\nmultiplique x por cada dígito de y, obtendo um resultado parcial deslocado pela posição do dígito de y\nsome todos os resultados parciais",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#correção-de-atm",
+    "href": "aula1-intro.html#correção-de-atm",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Correção de ATM",
+    "text": "Correção de ATM\n\n\\begin{array}{cccccccccccc}\n(& 1\\cdot10^3 &+&  2\\cdot10^2 &+& 3\\cdot10^1 &+& 4\\cdot10^0&) & +\\\\\n(& 5\\cdot10^3 &+&  6\\cdot10^2 &+& 7\\cdot10^1 &+& 8\\cdot10^0&)& =\\\\\n\\hline\n    (& 1\\cdot5 &)&&&&&&& \\cdot10^6\\\\\n    (& 1\\cdot6 &+&2\\cdot5&)&&&&& \\cdot10^5\\\\\n    (& 1\\cdot7 &+&2\\cdot6&+&3\\cdot5&)&&& \\cdot10^4\\\\\n    (& 1\\cdot8 &+&2\\cdot7&+&3\\cdot6&+&4\\cdot5&)& \\cdot10^3\\\\\n    (& 2\\cdot8 &+&3\\cdot7&+&4\\cdot6&)&&& \\cdot10^2\\\\\n    (& 3\\cdot8 &+&4\\cdot7&)&&&&& \\cdot10^1\\\\\n    (& 4\\cdot8 &)&&&&&&& \\cdot10^0\n\\end{array}",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#custo-da-multiplicação-tradicional-método-da-escola",
+    "href": "aula1-intro.html#custo-da-multiplicação-tradicional-método-da-escola",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Custo da multiplicação tradicional (método da escola)",
+    "text": "Custo da multiplicação tradicional (método da escola)\n\n\nExemplo (2 dígitos):\n\n\\begin{array}{rcccc}\n&&&3&2\\\\\n\\times&&&5&6\\\\ \\hline\n&&&1&2\\\\\n&&1&8&\\\\\n&&1&0&\\\\\n&1&5&&\\\\ \\hline\n&1&7&9&2\n\\end{array}\n\n\n4 multiplicações de 1 dígito (2\\times2)\n3 somas (para combinar termos e carry)\n\n\nGeneralização (n dígitos):\nSe x e y têm n dígitos, o algoritmo tradicional faz uma grade de produtos entre todos os pares de dígitos:\n\n\\underbrace{n\\times n}_{\\text{pares de dígitos}} \\Longrightarrow n^2\\ \\text{multiplicações de 1 dígito.}\n\n\nAs somas (incluindo carries) para acumular os resultados também custam, no máximo:\n\n\\text{somas/carries}=O(n^2).\n\n\n\nPortanto, contando operações elementares:\n\nT(n)=\\Theta(n^2).",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#mas.",
+    "href": "aula1-intro.html#mas.",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Mas….",
+    "text": "Mas….\n\n\nSerá que este é o melhor algoritmo para multiplicação de inteiros? Não daria para melhorar?\nA história da computação envolve o constante avanço sobre o que é conhecido, até se encontrar os reais limites de um dado processo.\nEm 1960, Kolmogorov propôs a conjectura de que multiplicação de inteiros seria \\Omega(n^2).\nEm uma semana, Anatoly Karatsuba (23 anos) propôs um algoritmo mais rápido: \\Theta(n^{\\log_2 3}) \\approx \\Theta(n^{1.58}).\n\n\n\n\n\n\n\nKolmogorov\n\n\n\nAndrei Nikolaevich Kolmogorov\n\n\n\n\n\nKaratsuba\n\n\n\nAnatolii Alexeievitch Karatsuba",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#karatsuba-ideia",
+    "href": "aula1-intro.html#karatsuba-ideia",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Karatsuba: ideia",
+    "text": "Karatsuba: ideia\n\nMotivação (2 dígitos, base 10):\nSe x=ab=a\\cdot 10+b e y=cd=c\\cdot 10+d, então:\n\n(a\\cdot 10+b)(c\\cdot 10+d)=ac\\cdot 10^2 + (ad+bc)\\cdot 10 + bd.\n\n. . .\nO truque é reescrever o termo do meio com a seguinte identidade:\n\nad+bc=(a+b)(c+d)-ac-bd.\n\n. . .\nGeneralização (qualquer número de dígitos):\nEscolha m\\approx\\lceil n/2\\rceil e defina B=10^m. Separe cada número em parte alta e baixa:\n\nx=x_1B+x_0,\\qquad y=y_1B+y_0,\\qquad\\text{com }x_0,y_0&lt;B.\n\n. . .\nEntão\n\nxy=z_2B^2+z_1B+z_0,\n\nonde Karatsuba calcula com 3 multiplicações:\n\nz_2=x_1y_1,\\qquad z_0=x_0y_0,\\qquad z_1=(x_1+x_0)(y_1+y_0)-z_2-z_0.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#algoritmo-de-karatsuba-para-multiplicação-akm",
+    "href": "aula1-intro.html#algoritmo-de-karatsuba-para-multiplicação-akm",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Algoritmo de Karatsuba para Multiplicação (AKM)",
+    "text": "Algoritmo de Karatsuba para Multiplicação (AKM)\n\n\n\\begin{array}{rrrr}\n& \\overbrace{12}^{a} & \\overbrace{34}^{b} \\\\\n\\times & \\overbrace{56}^{c} & \\overbrace{78}^{d} \\\\\n\\hline\nR1\\cdot 10^4 &+\\; R4\\cdot 10^2 &+\\; R2\n\\end{array}\n\nAlgoritmo de Karatsuba:\n\ncalcule R1 = a\\cdot c\ncalcule R2 = b\\cdot d\ncalcule R3 = (a+b)\\cdot(c+d)\ncalcule R4 = R3-R2-R1\ndevolva (R1\\cdot10^4 + R4\\cdot10^2 + R2)\n\nObs: R4\\cdot10^2 pois 2 é o tamanho de b (e d), e R1\\cdot10^4 pois 4 é o dobro do mesmo tamanho. Se o corte for diferente (largura de b e d), esses expoentes variam de acordo.\nVisualização: https://brunogrisci.github.io/karatsuba",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#correção-do-akm",
+    "href": "aula1-intro.html#correção-do-akm",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Correção do AKM",
+    "text": "Correção do AKM\nCorreção baseada nas seguintes identidades algébricas:\n\n\\begin{array}{rcl}\n1234 \\cdot 5678 &=& (12\\cdot 10^2 + 34)(56\\cdot 10^2 + 78)\\\\\n&=& (12\\cdot56)\\cdot10^4 + (12\\cdot78 + 34\\cdot56)\\cdot10^2 + (34\\cdot78)\\\\\n\\\\\nR1 &=& (12\\cdot56)\\\\\nR2 &=& (34\\cdot78)\\\\\nR3 &=& (12+34)(56+78)\\\\\n&=& (12\\cdot56)+(12\\cdot78+34\\cdot56)+(34\\cdot78)\\\\\nR4 &=& R3-R2-R1\n\\end{array}",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#análise-de-custo-do-akm",
+    "href": "aula1-intro.html#análise-de-custo-do-akm",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Análise de custo do AKM",
+    "text": "Análise de custo do AKM\n\n\\text{Se } n = 2^k\\ \\text{(número de dígitos), então o Karatsuba faz } 3^k\\ \\text{multiplicações.}\n\n\n\nA cada nível da recursão, o número é dividido ao meio: 2^k\\to 2^{k-1}\\to \\cdots \\to 2^0=1.\nLogo, são necessários k níveis para chegar a subproblemas de 1 dígito, e em cada nível o Karatsuba cria 3 subprodutos, totalizando 3^k.\n\n\n3^k = 3^{\\log_2 n} = n^{\\log_2 3} \\approx n^{1.58}.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#considerações-sobre-hardware",
+    "href": "aula1-intro.html#considerações-sobre-hardware",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Considerações sobre hardware",
+    "text": "Considerações sobre hardware\n\n\nMelhoria assintótica: \\log_2 3 \\approx 1{,}585. O algoritmo escolar usa \\mathcal{O}(n^2) multiplicações; Karatsuba reduz para \\mathcal{O}(n^{1{,}585}) quando n cresce.\nNa prática: o ganho depende de como o computador multiplica inteiros. Muitos processadores possuem multiplicador em hardware para tamanhos fixos, por exemplo 32 bits \\times 32 bits.\nRepresentação em base 2^{31}: em vez de separar em potências de 10, usamos blocos adequados ao hardware: x = a\\cdot2^{31}+b, onde a e b cabem em 32 bits.\nArquitetura: o custo relativo de adições, acessos à memória e multiplicações varia por geração. Em arquiteturas modernas, a diferença entre soma e multiplicação diminuiu.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#algoritmos-de-multiplicação-de-inteiros-longos",
+    "href": "aula1-intro.html#algoritmos-de-multiplicação-de-inteiros-longos",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Algoritmos de multiplicação de inteiros longos",
+    "text": "Algoritmos de multiplicação de inteiros longos\n\n\n\n\n\n\n\nflowchart TD\n    A[Toom-Cook (1963)&lt;br/&gt;generaliza divide-and-conquer]\n    B[Karatsuba (1960)&lt;br/&gt;O(n^1.585)]\n    C[Schonhage-Strassen (1971)&lt;br/&gt;O(n log n log log n)&lt;br/&gt;FFTs]\n    D[Harvey-van der Hoeven (2019)&lt;br/&gt;O(n log n)&lt;br/&gt;FFTs mais agressivas]\n    B --&gt; C --&gt; D\n\n\n\n\n\n\n\n\n\nClássico (escolar): \\mathcal{O}(n^2) costuma ganhar para n pequeno (baixo overhead).\nKaratsuba/Toom-Cook: reduzem multiplicações via truques algébricos; muito usados em bibliotecas e criptografia.\nSchönhage-Strassen: usa FFTs para multiplicar por convolução; domina em inteiros com dezenas a centenas de milhares de dígitos.\nHarvey-van der Hoeven: alcança \\mathcal{O}(n\\log n), mas é galáctico (ponto de virada impraticável hoje).\n\n\n\n\n\nKaratsuba, 1962: http://mi.mathnet.ru/dan26729\nHarvey, 2019: https://doi.org/10.4007/annals.2021.193.2.4",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula1-intro.html#concluindo",
+    "href": "aula1-intro.html#concluindo",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Concluindo",
+    "text": "Concluindo\n\nNotem que neste pequeno exemplo trabalhamos com algoritmos no “papel”, porém as mesmas perguntas valem para algoritmos rodando em sistemas computacionais.\n\n\n\nNeste primeiro mês, vamos abordar a base para a análise de correção e de custos de algoritmos, em particular a notação assintótica.\n\n\n\n\nDaqui para a frente, a ideia é saber desenvolver algoritmos tendo uma compreensão profunda sobre por que ele funciona e sermos capazes de estimar o seu respectivo custo (em espaço e memória).",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "",
+    "text": "Bem-vindo à página da disciplina de Projeto e Análise de Algoritmos I.\nAqui você encontrará os slides das aulas:\n\nAula 01: Introdução\nAulas 24–27: Grafos Eulerianos e Hamiltonianos, Planaridade, Coloração, Cobertura de Vértices\nAula 27: Cobertura de Vértices e Emparelhamentos"
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#problema-das-câmeras",
+    "href": "aula27-cobertura-emparelhamento.html#problema-das-câmeras",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Problema das Câmeras",
+    "text": "Problema das Câmeras\n\n\nSuponha um museu (ou galeria de arte) onde estão expostos diversos quadros muito valiosos. Para elaborar um sistema de monitoramento adequado, há disponíveis diversas câmeras de vigilância, que podem ser instaladas em entroncamentos de corredores do museu. Por simplicidade, assumimos que cada câmera permite a vigilância (em 360 graus) de todos os corredores a ela associados até o próximo entroncamento.\n\n\n\n\nMapa do museu\n\n\n\n\n\nPergunta: Qual o menor número de câmeras que precisamos instalar (e onde elas devem estar) para que não haja nenhum corredor do museu descoberto?",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#problema-das-câmeras-grafo-associado",
+    "href": "aula27-cobertura-emparelhamento.html#problema-das-câmeras-grafo-associado",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Problema das Câmeras: Grafo Associado",
+    "text": "Problema das Câmeras: Grafo Associado\nPodemos a partir do mapa do museu, gerar um grafo associado:\n\n\n\nMapa do museu\n\n\n\n\n\nGrafo associado",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#cobertura-de-vértices",
+    "href": "aula27-cobertura-emparelhamento.html#cobertura-de-vértices",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Cobertura de Vértices",
+    "text": "Cobertura de Vértices\n\nDef. Seja G = (V,E) um grafo simples. Uma cobertura de vértices é um subconjunto X \\subseteq V tal que, para toda aresta \\{x,y\\} \\in E,\nx \\in X \\quad \\text{ou}\\quad  y \\in X.\n\n\nEx. Abaixo temos em azul uma cobertura de vértices para o grafo do museu.\n\n\n\n\nGrafo associado",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#cobertura-de-vértices-mínima",
+    "href": "aula27-cobertura-emparelhamento.html#cobertura-de-vértices-mínima",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Cobertura de Vértices Mínima",
+    "text": "Cobertura de Vértices Mínima\n\nDef. Uma cobertura de vértices X de um grafo simples G é mínima sss para toda cobertura de vértices Y de G, |X| \\leq |Y|.\nNot. Denotamos \\textcolor{#2e75b6}{\\beta}(G) = |X| a cardinalidade de uma cobertura de vértices mínima X de G.\n\n\nExemplo. No caso do museu, temos abaixo (em azul) uma cobertura mínima com 5 nodos (note que há outras coberturas mínimas possíveis).\n\n\n\n\n\n\\quad \\textcolor{#2e75b6}{\\beta}(G) = 5",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#cobertura-de-vértices-algoritmos",
+    "href": "aula27-cobertura-emparelhamento.html#cobertura-de-vértices-algoritmos",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Cobertura de Vértices: Algoritmos",
+    "text": "Cobertura de Vértices: Algoritmos\n\nDeterminar para um grafo de entrada G uma cobertura mínima é o problema da Cobertura Mínima de Vértices (CMV), em inglês minimum vertex cover (MVC).\n\n\n\nAlgoritmo ingênuo (ineficiente): Gerar progressivamente todos os subconjuntos de vértices (ordenados por tamanho) e testar se todas as arestas estão cobertas.\n\n\n\n\nCMV é um problema conhecidamente NP-difícil, para o qual habitualmente são utilizadas heurísticas.\n\n\n\nOutras disciplinas detalharão algoritmos e heurísticas para esse problema.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#exercício",
+    "href": "aula27-cobertura-emparelhamento.html#exercício",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Exercício",
+    "text": "Exercício\nDetermine uma cobertura de vértices mínima e parâmetro \\textcolor{#2e75b6}{\\beta} do seguinte grafo:",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#maior-conjunto-independente",
+    "href": "aula27-cobertura-emparelhamento.html#maior-conjunto-independente",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Maior Conjunto Independente",
+    "text": "Maior Conjunto Independente\nLembremos que um conjunto independente de um grafo simples G=(V,E) é um subconjunto de vértices X \\subseteq V tal que, para quaisquer dois nodos x,y \\in X, não há aresta entre eles (\\{x,y\\} \\notin E).\n\nNotação. Denotamos \\textcolor{#c40000}{\\alpha}(G) o tamanho do conjunto independente máximo (de maior tamanho) de G. Também chamado número de estabilidade de G.\n\n\nExemplo. Para o grafo do museu, em vermelho temos um conjunto independente máximo.\n\n\n\n\n\n\n\n\n\\quad \\textcolor{#c40000}{\\alpha}(G) = 5\n\nP. Dado um grafo simples G, existe alguma relação entre \\textcolor{#c40000}{\\alpha}(G) e \\textcolor{#2e75b6}{\\beta}(G)?",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#relação-entre-textcolorc40000alphag-e-textcolor2e75b6betag",
+    "href": "aula27-cobertura-emparelhamento.html#relação-entre-textcolorc40000alphag-e-textcolor2e75b6betag",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Relação entre \\textcolor{#c40000}{\\alpha}(G) e \\textcolor{#2e75b6}{\\beta}(G)",
+    "text": "Relação entre \\textcolor{#c40000}{\\alpha}(G) e \\textcolor{#2e75b6}{\\beta}(G)\nSeja G=(V,E) um grafo simples.\n\n\nObs. Se X \\subseteq V for uma cobertura de vértices, então V-X é um conjunto independente.\nObs. Se Y \\subseteq V for um conjunto independente, então V-Y é uma cobertura de vértices.\n\n\n\n\nLema.\n\\textcolor{#c40000}{\\alpha}(G) + \\textcolor{#2e75b6}{\\beta}(G) = |V|",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#relação-entre-textcolorc40000alphag-e-textcolor2e75b6betag-1",
+    "href": "aula27-cobertura-emparelhamento.html#relação-entre-textcolorc40000alphag-e-textcolor2e75b6betag-1",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Relação entre \\textcolor{#c40000}{\\alpha}(G) e \\textcolor{#2e75b6}{\\beta}(G)",
+    "text": "Relação entre \\textcolor{#c40000}{\\alpha}(G) e \\textcolor{#2e75b6}{\\beta}(G)\n\n\nSeja \\textcolor{#c40000}{S} \\subseteq V um conjunto independente de tamanho \\textcolor{#c40000}{\\alpha}(G).\n\n\\textcolor{#2e75b6}{V - S} tem tamanho |V| - \\textcolor{#c40000}{\\alpha}(G).\nConsidere uma aresta arbitrária \\{u,v\\} \\in E.\n\\textcolor{#c40000}{S} é conjunto independente\n\n\\Rightarrow ou u \\notin \\textcolor{#c40000}{S}, ou v \\notin \\textcolor{#c40000}{S}, ou ambos.\n\\Rightarrow ou u \\in \\textcolor{#2e75b6}{V - S}, ou v \\in \\textcolor{#2e75b6}{V - S}, ou ambos.\n\nPortanto, \\textcolor{#2e75b6}{V - S} cobre a aresta \\{u,v\\}.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#relação-entre-textcolorc40000alphag-e-textcolor2e75b6betag-2",
+    "href": "aula27-cobertura-emparelhamento.html#relação-entre-textcolorc40000alphag-e-textcolor2e75b6betag-2",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Relação entre \\textcolor{#c40000}{\\alpha}(G) e \\textcolor{#2e75b6}{\\beta}(G)",
+    "text": "Relação entre \\textcolor{#c40000}{\\alpha}(G) e \\textcolor{#2e75b6}{\\beta}(G)\n\n\nSeja \\textcolor{#2e75b6}{C} \\subseteq V uma cobertura de vértices de tamanho \\textcolor{#2e75b6}{\\beta}(G).\n\n\\textcolor{#c40000}{V - C} tem tamanho |V| - \\textcolor{#2e75b6}{\\beta}(G).\nConsidere uma aresta arbitrária \\{u,v\\} \\in E.\n\\textcolor{#2e75b6}{C} é uma cobertura de vértices\n\n\\Rightarrow ou u \\in \\textcolor{#2e75b6}{C}, ou v \\in \\textcolor{#2e75b6}{C}, ou ambos.\n\\Rightarrow ou u \\notin \\textcolor{#c40000}{V - C}, ou v \\notin \\textcolor{#c40000}{V - C}, ou ambos.\n\nPortanto, \\textcolor{#c40000}{V - C} é conjunto independente.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#relação-entre-textcolorc40000alphag-e-chig",
+    "href": "aula27-cobertura-emparelhamento.html#relação-entre-textcolorc40000alphag-e-chig",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Relação entre \\textcolor{#c40000}{\\alpha}(G) e \\chi(G)",
+    "text": "Relação entre \\textcolor{#c40000}{\\alpha}(G) e \\chi(G)\nSeja G=(V,E) um grafo simples.\n\nObs. Uma coloração de vértices de G corresponde a uma partição dos seus vértices em subconjuntos independentes. O número mínimo de cores necessárias numa coloração de vértices é o número cromático \\chi(G).\n\nLema.\n\n\\chi(G) \\geq \\frac{|V|}{\\textcolor{#c40000}{\\alpha}(G)}\n\n\nProva.\n\nUm grafo pode ser colorido com \\chi(G) cores. Cada uma dessas cores forma um conjunto independente.\nComo o tamanho máximo de qualquer conjunto independente é \\textcolor{#c40000}{\\alpha}(G), cada uma das \\chi(G) pode colorir no máximo \\textcolor{#c40000}{\\alpha}(G) nodos.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#textcolorc40000alphag-e-grafos-de-intervalo",
+    "href": "aula27-cobertura-emparelhamento.html#textcolorc40000alphag-e-grafos-de-intervalo",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "\\textcolor{#c40000}{\\alpha}(G) e Grafos de Intervalo",
+    "text": "\\textcolor{#c40000}{\\alpha}(G) e Grafos de Intervalo\n\n\nVisualização",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#emparelhamentos-1",
+    "href": "aula27-cobertura-emparelhamento.html#emparelhamentos-1",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Emparelhamentos",
+    "text": "Emparelhamentos\n\nDef. Seja G=(V,E) um grafo simples. Um emparelhamento de G é um subconjunto A \\subseteq E onde, para todas arestas e_1,e_2 \\in A, temos que e_1 e e_2 não são adjacentes (isto é, não possuem nenhum vértice em comum).\n\n\nObs. Um emparelhamento também é chamado acoplamento, conjunto independente de arestas ou casamento. Em inglês, usa-se a expressão matching.\n\nEx. Emparelhamento (em azul) contendo três arestas.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#emparelhamentos-perfeitos",
+    "href": "aula27-cobertura-emparelhamento.html#emparelhamentos-perfeitos",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Emparelhamentos Perfeitos",
+    "text": "Emparelhamentos Perfeitos\n\nDef. Se um emparelhamento A de G incidir sobre todos os vértices do grafo, dizemos que A é um emparelhamento perfeito.\n\n\nObs. Só é possível haver emparelhamentos perfeitos quando |V| for par.\n\n\n\nNot. Denotamos \\textcolor{#c40000}{\\alpha'}(G) o tamanho do emparelhamento máximo (de maior tamanho) do grafo G.\n\n\n\nObs. Note que o maior emparelhamento pode não ser perfeito.\n\n\n\nEx. Emparelhamento perfeito e máximo (em azul):",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#emparelhamentos-e-conjuntos-independentes",
+    "href": "aula27-cobertura-emparelhamento.html#emparelhamentos-e-conjuntos-independentes",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Emparelhamentos e Conjuntos Independentes",
+    "text": "Emparelhamentos e Conjuntos Independentes\n\nDef. Seja G=(V,E) um grafo simples. Denotamos grafo linha de G o grafo simples L(G)=(V',E') onde\n\nV' = E\n\\{e_1,e_2\\} \\in E' sss as arestas e_1 e e_2 compartilham exatamente um vértice.\n\n\nExemplo:\n\n\n\nG =\n\n\n\n\n\n\nL(G) =\n\n\n\n\n\n\n\n\nLema. Como cada emparelhamento em G é um conjunto independente em L(G), temos \\textcolor{#c40000}{\\alpha'}(G) = \\textcolor{#c40000}{\\alpha}(L(G)).",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#exercício-1",
+    "href": "aula27-cobertura-emparelhamento.html#exercício-1",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Exercício",
+    "text": "Exercício\nDetermine um emparelhamento máximo para o seguinte grafo:\n\n\n\n\n\nP. O emparelhamento encontrado é perfeito?",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#algoritmos-para-emparelhamentos",
+    "href": "aula27-cobertura-emparelhamento.html#algoritmos-para-emparelhamentos",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Algoritmos para Emparelhamentos",
+    "text": "Algoritmos para Emparelhamentos\nObs. A forma mais comum de encontrar um emparelhamento máximo é começar com um emparelhamento qualquer M e procurar caminhos aumentantes (caminho que permite aumentar o tamanho do emparelhamento atual).\nPelo lema de Berge, M é máximo sss não existe caminho aumentante em relação a M.\n\n\n\n\n\n\n\n\n\n\nCaso\nIdeia/algoritmo\nComplexidade\n\n\n\n\nGrafo bipartido, sem pesos\nRedução para fluxo máximo; caminhos aumentantes um a um\nO(\\lvert V\\rvert\\lvert E\\rvert)\n\n\nGrafo bipartido, sem pesos\nHopcroft–Karp: encontra vários caminhos aumentantes por fase\nO(\\sqrt{\\lvert V\\rvert}\\,\\lvert E\\rvert)\n\n\nGrafo geral, sem pesos\nEdmonds: algoritmo dos blossoms, contraindo ciclos ímpares\nO(\\lvert V\\rvert^2\\lvert E\\rvert)\n\n\nGrafo geral, sem pesos\nMicali–Vazirani: versão mais eficiente, porém mais complexa\nO(\\sqrt{\\lvert V\\rvert}\\,\\lvert E\\rvert)\n\n\n\n\n\nObs. Encontrar um emparelhamento maximal é mais simples: um algoritmo guloso basta. Porém, maximal não significa máximo; em geral é apenas uma 2-aproximação para o tamanho ótimo.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#grafos-e-intratabilidade-1",
+    "href": "aula27-cobertura-emparelhamento.html#grafos-e-intratabilidade-1",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Grafos e Intratabilidade",
+    "text": "Grafos e Intratabilidade\n\nObs. Alguns problemas em grafos possuem algoritmos eficientes, como busca em largura, busca em profundidade, caminhos mínimos, árvores geradoras mínimas e emparelhamentos em vários casos.\n\n\n\nMas muitos problemas naturais em grafos parecem ser muito mais difíceis.\n\n\n\n\nExemplo: em vez de perguntar apenas se dois vértices estão conectados, podemos perguntar:\n\n\nExiste um ciclo simples que visita todos os vértices exatamente uma vez?\n\n\n\n\nEsse é o problema do ciclo Hamiltoniano, um exemplo clássico de problema difícil em grafos.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#classes-de-complexidade",
+    "href": "aula27-cobertura-emparelhamento.html#classes-de-complexidade",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Classes de Complexidade",
+    "text": "Classes de Complexidade\n\n\n  \n  \n  Universo de Problemas\n\n  \n  \n  Problemas Computáveis\n\n  \n  \n  Problemas Decidíveis\n\n\n\nAo falar de classes de complexidade, nós categorizamos as classes dos problemas decidíveis, isto é, problemas para os quais existem algoritmos que respondem corretamente perguntas de SIM ou NÃO.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#classes-de-complexidade-1",
+    "href": "aula27-cobertura-emparelhamento.html#classes-de-complexidade-1",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Classes de Complexidade",
+    "text": "Classes de Complexidade\n\n\n  \n  \n  NP\n\n  \n  \n  P\n\n  \n  \n  NP-Difícil\n\n  \n  NP-Completo\n\n\n\nE se P = NP?\n\n  \n  \n  NP-Difícil\n\n  \n  \n  P = NP\n  = NP-Completo",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#sutilezas",
+    "href": "aula27-cobertura-emparelhamento.html#sutilezas",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Sutilezas",
+    "text": "Sutilezas\nSe sabe:\n\nQue o problema do caminho mais curto está em P.\nQue o problema da 4-coloração está em P.\n\n\nAinda não se sabe:\n\nO problema do caminho mais longo está em P?\nO problema da 3-coloração está em P?\n\n\n\nParecem perguntas bem diferentes:\n\nMas as duas têm respostas idênticas.\nResponder sim é o mesmo que dizer P = NP.\n\n\nContudo, conjecturamos que a resposta seja não!",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#classe-np-completo",
+    "href": "aula27-cobertura-emparelhamento.html#classe-np-completo",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Classe NP-completo",
+    "text": "Classe NP-completo\n\nInformalmente, um problema está em NP quando, se alguém nos entregar uma solução candidata, conseguimos verificar rapidamente se ela está correta.\n\n\n\nUm problema é NP-completo quando:\n\nestá em NP;\né tão difícil quanto qualquer outro problema em NP.\n\n\n\n\n\nOu seja, se descobríssemos um algoritmo eficiente (polinomial) para um problema NP-completo, então todos os problemas em NP teriam algoritmos eficientes.\n\n\n\n\nAté hoje, não se sabe se isso é possível. Essa é a famosa pergunta:\n\n\nP = NP\\text{?}",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#prêmio-millennium",
+    "href": "aula27-cobertura-emparelhamento.html#prêmio-millennium",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Prêmio Millennium",
+    "text": "Prêmio Millennium",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#por-que-np-completo-é-importante",
+    "href": "aula27-cobertura-emparelhamento.html#por-que-np-completo-é-importante",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Por Que NP-completo é Importante?",
+    "text": "Por Que NP-completo é Importante?\n\nProblemas NP-completos aparecem naturalmente em otimização, planejamento, escalonamento, redes, bioinformática, inteligência artificial e teoria dos grafos.\n\n\n\nNa prática, saber que um problema é NP-completo sugere que talvez não exista um algoritmo eficiente para resolvê-lo exatamente em todos os casos.\n\n\n\n\nPor isso, costuma-se usar:\n\nalgoritmos aproximados;\nheurísticas;\nalgoritmos exponenciais otimizados;\nrestrições do problema que sejam mais fáceis.\n\n\n\n\n\nExistem ainda classes de problemas possivelmente mais difíceis, como PSPACE-completo e EXPTIME-completo, estudadas em disciplinas de teoria da computação e complexidade.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#problemas-np-completos-em-grafos",
+    "href": "aula27-cobertura-emparelhamento.html#problemas-np-completos-em-grafos",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Problemas NP-completos em Grafos",
+    "text": "Problemas NP-completos em Grafos\nObs. Vários problemas clássicos de grafos são NP-completos quando escritos como problemas de decisão.\n\nClique: existe um conjunto de k vértices todos conectados entre si?\nConjunto independente: existe um conjunto de k vértices sem arestas entre eles?\nCobertura por vértices: existe um conjunto de k vértices que toca todas as arestas?\nColoração: é possível colorir os vértices com k cores sem conflito?\nCaminho/Ciclo Hamiltoniano: existe um caminho/ciclo que passa por todos os vértices uma vez?\nConjunto dominante: existe um conjunto de k vértices que domina todo o grafo?",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#reduções-traduzindo-problemas-difíceis",
+    "href": "aula27-cobertura-emparelhamento.html#reduções-traduzindo-problemas-difíceis",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Reduções: Traduzindo Problemas Difíceis",
+    "text": "Reduções: Traduzindo Problemas Difíceis\n\nObs. Uma redução polinomial é uma forma eficiente de transformar instâncias de um problema em instâncias de outro.\n\n\n\nComo todos os problemas NP-completos são, em certo sentido, igualmente difíceis, eles podem ser traduzidos uns nos outros por reduções polinomiais.\n\n\n\n Exemplo intuitivo:\n\nresolver CLIQUE eficientemente \\Rightarrow resolver outros problemas NP-completos eficientemente\n\n\n\n\nAssim, NP-completude é uma linguagem comum para explicar por que muitos problemas diferentes parecem compartilhar a mesma barreira de dificuldade.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#hipergrafos",
+    "href": "aula27-cobertura-emparelhamento.html#hipergrafos",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Hipergrafos",
+    "text": "Hipergrafos\n\nUm hipergrafo é uma generalização de um grafo.\n\n\n\nEm um grafo comum, cada aresta conecta exatamente dois vértices.\n\n\n\n\nEm um hipergrafo, uma hiperaresta pode conectar qualquer quantidade de vértices.\n\n\n\n\nFormalmente, um hipergrafo não direcionado pode ser escrito como H = (V,E), onde V é o conjunto de vértices e cada hiperaresta e \\in E é um subconjunto de V:\n\ne \\subseteq V.\n\n\nAssim, grafos comuns são um caso particular de hipergrafos em que toda aresta tem tamanho 2.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula27-cobertura-emparelhamento.html#exemplos-de-hipergrafos",
+    "href": "aula27-cobertura-emparelhamento.html#exemplos-de-hipergrafos",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Exemplos de Hipergrafos",
+    "text": "Exemplos de Hipergrafos\n\n\n\n\n\nHiperarestas representadas por regiões coloridas.\n\n\n\n\n\n\nRepresentação alternativa: vértices à esquerda e hiperarestas como linhas.\n\n\n\nSaiba mais: https://en.wikipedia.org/wiki/Hypergraph",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula24-grafos-eulerianos.html#problema-das-pontes-de-königsberg",
+    "href": "aula24-grafos-eulerianos.html#problema-das-pontes-de-königsberg",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Problema das Pontes de Königsberg",
+    "text": "Problema das Pontes de Königsberg\nConsiderado o primeiro problema de teoria dos grafos, resolvido em 1736 por Leonard Euler.\nProblema: Dada a disposição das pontes da cidade, há algum caminho que passe por cada uma delas uma única vez?\n\n\n\n\n\nRepresentação das pontes de Königsberg\n\n\n\n\n\n\nMultigrafo equivalente",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula24-grafos-eulerianos.html#tipos-de-passeio",
+    "href": "aula24-grafos-eulerianos.html#tipos-de-passeio",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Tipos de Passeio",
+    "text": "Tipos de Passeio\n\n\nDefinição: Um passeio p(x,y) é fechado quando x = y.\nDefinição: Uma trilha (trail) é um passeio sem arestas repetidas.\nDefinição: Um caminho (path) é uma trilha p(x,y) sem nodos repetidos (com exceção de x e y, que podem ser iguais).\nDefinição: Nomes especiais:\n\ncircuito (circuit): trilha fechada\nciclo (cycle): caminho fechado\nlaço (loop): caminho fechado de tamanho 1\n\n\n\n\n\n\n\ngraph TD\n  A([Passeio])\n  B([Trilha])\n  C([\"Passeio\\nFechado\"])\n  D([Caminho])\n  E([Circuito])\n  F([Ciclo])\n  G([Laço])\n\n  A --&gt; B\n  A --&gt; C\n  B --&gt; D\n  B --&gt; E\n  C --&gt; E\n  D --&gt; F\n  E --&gt; F\n  F --&gt; G\n\n  style A fill:#23373b,color:#fafafa,stroke:none\n  style B fill:#23373b,color:#fafafa,stroke:none\n  style C fill:#23373b,color:#fafafa,stroke:none\n  style D fill:#23373b,color:#fafafa,stroke:none\n  style E fill:#23373b,color:#fafafa,stroke:none\n  style F fill:#23373b,color:#fafafa,stroke:none\n  style G fill:#23373b,color:#fafafa,stroke:none",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula24-grafos-eulerianos.html#circuitos-e-grafos-eulerianos",
+    "href": "aula24-grafos-eulerianos.html#circuitos-e-grafos-eulerianos",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Circuitos e Grafos Eulerianos",
+    "text": "Circuitos e Grafos Eulerianos\n\nDefinição: Uma trilha/circuito é euleriana(o) \\iff passa por todas as arestas do grafo.\n\n\n\nDefinição: Um grafo é semi-euleriano \\iff possui uma trilha euleriana ou é nulo (sem arestas).\n\n\n\n\nDefinição: Um grafo é euleriano \\iff possui um circuito euleriano ou é nulo (sem arestas).",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula24-grafos-eulerianos.html#caracterização-de-grafos-eulerianos",
+    "href": "aula24-grafos-eulerianos.html#caracterização-de-grafos-eulerianos",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Caracterização de Grafos Eulerianos",
+    "text": "Caracterização de Grafos Eulerianos\n\nLema: Dado um grafo simples finito G, se \\deg(v) \\geq 2 para todo v \\in V, então G é cíclico.\n\n\nDemonstração: Considere um caminho c em G aberto (extremos a \\neq b) e maximal (não está contido em outro caminho aberto):\nc(a,b) = a - \\cdots - b\n\nComo G é finito, caminhos maximais existem em cada componente conexo.\nComo \\deg(a) \\geq 2, o nodo a está conectado a algum nodo extra x.\nSe x \\notin c, existiria um caminho maior c'(x,b) — contradição com a maximalidade de c.\nLogo, a está conectado a algum x \\in c, formando um ciclo. \\blacksquare",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula24-grafos-eulerianos.html#caracterização-de-grafos-eulerianos-cont.",
+    "href": "aula24-grafos-eulerianos.html#caracterização-de-grafos-eulerianos-cont.",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Caracterização de Grafos Eulerianos (cont.)",
+    "text": "Caracterização de Grafos Eulerianos (cont.)\n\nDefinição: Um componente conexo é não-trivial sse possui ao menos uma aresta.\n\n\nTeorema: Um grafo simples finito G=(V,E) é euleriano sse possui no máximo um componente conexo não-trivial e os graus de todos os nós são pares.\n\n\nDemonstração (\\Rightarrow) G possui circuito euleriano c.\nUm nodo n pode ocorrer ou não em c:\n\nn \\notin c: grau 0 (par).\nn \\in c: cada ocorrência acrescenta 2 ao grau (incidente a duas arestas distintas). Logo, \\deg(n) = 2 \\times (\\text{ocorrências de } n \\text{ em } c) — par. \\blacksquare\n\n\n\n\nObs.: Se houvesse mais de um componente conexo não-trivial, não seria possível que o circuito percorresse todos os componentes — contradição.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula24-grafos-eulerianos.html#caracterização-de-grafos-eulerianos-cont.-1",
+    "href": "aula24-grafos-eulerianos.html#caracterização-de-grafos-eulerianos-cont.-1",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Caracterização de Grafos Eulerianos (cont.)",
+    "text": "Caracterização de Grafos Eulerianos (cont.)\n\nTeorema: G é euleriano sse no máx. um componente conexo não-trivial e todos os graus são pares.\n\nDemonstração (\\Leftarrow) Por indução em |E|:\n\nCaso base: |E|=0. O grafo é euleriano por definição.\nPasso indutivo: Como existem nodos de grau &gt; 0, há ao menos um componente não-trivial. Pelo Lema, existe um subciclo \\color{blue}{C=(V_C,E_C)} em G.\nO grafo \\color{red}{G'} = G - \\color{blue}{E_C} tem menos arestas, todos os graus são pares, e cada componente conexo não-trivial de \\color{red}{G'} compartilha ao menos um vértice com \\color{blue}{C} em G.\nHI: Cada componente de \\color{red}{G'} é nulo ou tem circuito euleriano.\nResultado: Percorre-se \\color{blue}{C} entrando nos circuitos eulerianos dos componentes de \\color{red}{G'} ao passar por nodos comuns. \\blacksquare\n\n\nCorolário: Todo grafo euleriano pode ser decomposto em ciclos disjuntos nas arestas.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula24-grafos-eulerianos.html#algoritmo-de-hierholzer-1873",
+    "href": "aula24-grafos-eulerianos.html#algoritmo-de-hierholzer-1873",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Algoritmo de Hierholzer (1873)",
+    "text": "Algoritmo de Hierholzer (1873)\nEncontrando o circuito euleriano de um grafo euleriano:\nalgoritmo Hierholzer(G, v_inicial):\n  St ← pilha vazia\n  empilhe v_inicial em St\n  enquanto St ≠ ∅:\n    v ← topo(St)\n    se grau(v) = 0:\n      adicione v à resposta\n      desempilhe v de St\n    senão:\n      escolha uma aresta (v, u) em G\n      remova (v, u) de G\n      empilhe u em St\n  retorne resposta (invertida)\n\nComplexidade? O(|E|)",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula24-grafos-eulerianos.html#algoritmo-de-hierholzer-python",
+    "href": "aula24-grafos-eulerianos.html#algoritmo-de-hierholzer-python",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Algoritmo de Hierholzer — Python",
+    "text": "Algoritmo de Hierholzer — Python\ndef hierholzer(G, v_inicial):\n    St = [v_inicial]\n    resposta = []\n    while St:\n        v = St[-1]\n        if G.degree(v) == 0:\n            resposta.append(v)\n            St.pop()\n        else:\n            u = G.neighbors(v)[0]  # escolha uma aresta (v, u)\n            G.remove_edge(v, u)     # remova (v, u) de G\n            St.append(u)           # empilhe u em St\n    return resposta[::-1]       # retorne resposta (invertida)",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula24-grafos-eulerianos.html#exemplo",
+    "href": "aula24-grafos-eulerianos.html#exemplo",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Exemplo",
+    "text": "Exemplo",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula24-grafos-eulerianos.html#algoritmo-de-hierholzer-exemplo",
+    "href": "aula24-grafos-eulerianos.html#algoritmo-de-hierholzer-exemplo",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Algoritmo de Hierholzer — Exemplo",
+    "text": "Algoritmo de Hierholzer — Exemplo\n\n\nGrafo (todos os graus pares):\n\n\n\n\n\n\n\n\n\n\nA\n\nA\n\n\n\nB\n\nB\n\n\n\nA--B\n\ne₁\n\n\n\nC\n\nC\n\n\n\nA--C\n\ne₃\n\n\n\nB--C\n\ne₂\n\n\n\nD\n\nD\n\n\n\nC--D\n\ne₄\n\n\n\nE\n\nE\n\n\n\nC--E\n\ne₆\n\n\n\nD--E\n\ne₅\n\n\n\n\n\n\n\n\n\\deg(C)=4;\\quad \\deg(A)=\\deg(B)=\\deg(D)=\\deg(E)=2\nCircuito: A \\to B \\to C \\to D \\to E \\to C \\to A\n\n\n\n\n\n\n\n\n\n#\nPilha St (base→topo)\nOperação\n\n\n\n\n0\n[A]\ninício em A\n\n\n1\n[A,B]\nremove e_1, empilha B\n\n\n2\n[A,B,C]\nremove e_2, empilha C\n\n\n3\n[A,B,C,A]\nremove e_3, empilha A\n\n\n4\n[A,B,C]\n\\deg(A)=0: adiciona A\n\n\n5\n[A,B,C,D]\nremove e_4, empilha D\n\n\n6\n[A,B,C,D,E]\nremove e_5, empilha E\n\n\n7\n[A,B,C,D,E,C]\nremove e_6, empilha C\n\n\n8\n[A,B,C,D,E]\n\\deg(C)=0: adiciona C\n\n\n9\n[A,B,C,D]\n\\deg(E)=0: adiciona E\n\n\n10\n[A,B,C]\n\\deg(D)=0: adiciona D\n\n\n11\n[A,B]\n\\deg(C)=0: adiciona C\n\n\n12\n[A]\n\\deg(B)=0: adiciona B\n\n\n13\n[\\,]\n\\deg(A)=0: adiciona A",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula24-grafos-eulerianos.html#problema-do-ciclo-hamiltoniano",
+    "href": "aula24-grafos-eulerianos.html#problema-do-ciclo-hamiltoniano",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Problema do Ciclo Hamiltoniano",
+    "text": "Problema do Ciclo Hamiltoniano\nProblema: Achar um caminho fechado nos vértices de um dodecaedro passando por cada vértice uma única vez.\n\nProposto por Sir William Rowan Hamilton em 1857. Foi criado um jogo de tabuleiro baseado nele (Icosian game).\n\n\n\n\n\nDodecaedro\n\n\n\n\n\n\nVisão planar\n\n\n\n\n\n\nIcosian game",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula24-grafos-eulerianos.html#ciclos-e-grafos-hamiltonianos",
+    "href": "aula24-grafos-eulerianos.html#ciclos-e-grafos-hamiltonianos",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Ciclos e Grafos Hamiltonianos",
+    "text": "Ciclos e Grafos Hamiltonianos\n\nDefinição: Um caminho/ciclo é hamiltoniano \\iff passa por todos os vértices do grafo.\n\n\n\nDefinição: Um grafo é semi-hamiltoniano \\iff possui um caminho hamiltoniano ou possui 1 vértice.\n\n\n\n\nDefinição: Um grafo é hamiltoniano \\iff possui um ciclo hamiltoniano ou possui 1 vértice.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula24-grafos-eulerianos.html#caracterização-de-grafos-hamil",
+    "href": "aula24-grafos-eulerianos.html#caracterização-de-grafos-hamil",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Caracterização de Grafos Hamil",
+    "text": "Caracterização de Grafos Hamil\nGrafos eulerianos possuem uma caracterização precisa em termos de graus dos vértices.\n\nNo caso de grafos hamiltonianos, não se sabe até o momento um conjunto de condições simultaneamente suficientes e necessárias que os caracterizem completamente.\n\n\nExemplo: Condições necessárias para um grafo simples G ser hamiltoniano:\n\n\\delta(G) \\geq 2\nG é conexo\n\nNote que elas não são suficientes — existe grafo conexo com \\delta(G) \\geq 2 que não é hamiltoniano.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula24-grafos-eulerianos.html#condição-suficiente-teorema-de-dirac",
+    "href": "aula24-grafos-eulerianos.html#condição-suficiente-teorema-de-dirac",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Condição Suficiente — Teorema de Dirac",
+    "text": "Condição Suficiente — Teorema de Dirac\nIdeia: se o grafo contém arestas suficientes, ele certamente é hamiltoniano.\nÀ medida que \\delta(G) cresce, há mais interconexões entre nodos arbitrários.\nPergunta: Qual o menor \\delta(G) para garantir que o grafo é hamiltoniano?\n\n\nTeorema (Dirac, 1952): Se G=(V,E) é um grafo simples finito com |V| \\geq 3 e \\delta(G) \\geq |V|/2, então G é hamiltoniano.\n\n\n\nEsboço da prova: Baseada em grafos não-hamiltonianos maximais.\n\nDefinição: G é não-hamiltoniano maximal sse G não é hamiltoniano mas, para qualquer aresta e \\notin E, o grafo (V, E \\cup \\{e\\}) é hamiltoniano.\n\nIntuição: possui o maior número possível de arestas sem ser hamiltoniano. Deve ser semi-hamiltoniano.",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  },
+  {
+    "objectID": "aula24-grafos-eulerianos.html#teorema-de-dirac-provaer",
+    "href": "aula24-grafos-eulerianos.html#teorema-de-dirac-provaer",
+    "title": "Projeto e Análise de Algoritmos I",
+    "section": "Teorema de Dirac — Provaer}",
+    "text": "Teorema de Dirac — Provaer}\nMostramos que não existe grafo não-hamiltoniano maximal G com \\delta(G) \\geq n/2, onde n=|V|.\n\nTome um caminho hamiltoniano aberto c em G: \\quad a - \\cdots - b\n\n\nSe algum vizinho de a sucede imediatamente um vizinho de b no caminho c, existe um ciclo hamiltoniano — contradição.\na \\xrightarrow{\\quad} \\cdots \\xrightarrow{\\quad} v_i \\xrightarrow{\\quad} v_{i+1} \\xrightarrow{\\quad} \\cdots \\xrightarrow{\\quad} b\n\n\nSejam V_a = posições dos antecessores dos vizinhos de a, e V_b = posições dos vizinhos de b (ambos de 1 a n-1).\n\n\nCom \\delta(G) \\geq n/2: |V_a| \\geq n/2 e |V_b| \\geq n/2, portanto:\nn = |V_a| + |V_b| = |V_a \\cup V_b| + |V_a \\cap V_b|\n\n\nComo o índice n não ocorre em V_a nem V_b, temos |V_a \\cup V_b| &lt; n.\nPortanto |V_a \\cap V_b| \\geq 1 — sempre existe um índice comum que fecha o ciclo hamiltoniano. \\blacksquare",
+    "crumbs": [
+      "Home",
+      "Aulas",
+      "Projeto e Análise de Algoritmos I"
+    ]
+  }
+]

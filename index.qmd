@@ -1,0 +1,11 @@
+---
+title: "Projeto e Análise de Algoritmos I"
+---
+
+Bem-vindo à página da disciplina de **Projeto e Análise de Algoritmos I**.
+
+Aqui você encontrará os slides das aulas:
+
+- [Aula 01: Introdução](aula1-intro.qmd)
+- [Aulas 24–27: Grafos Eulerianos e Hamiltonianos, Planaridade, Coloração, Cobertura de Vértices](aula24-grafos-eulerianos.qmd)
+- [Aula 27: Cobertura de Vértices e Emparelhamentos](aula27-cobertura-emparelhamento.qmd)

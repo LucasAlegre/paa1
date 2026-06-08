@@ -1,0 +1,25 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "Projeto e Análise de Algoritmos I"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+  sidebar:
+    style: "floating"
+    search: true
+    contents:
+      - section: "Aulas"
+        contents:
+          - aula1-intro.qmd
+          - aula24-grafos-eulerianos.qmd
+          - aula27-cobertura-emparelhamento.qmd
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true

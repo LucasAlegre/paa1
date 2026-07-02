@@ -1,11 +1,201 @@
 ---
 title: "Projeto e Análise de Algoritmos I"
+sidebar: false
+toc: false
+page-layout: full
 ---
 
-Bem-vindo à página da disciplina de **Projeto e Análise de Algoritmos I**.
+**INF05027 — 2026/2 · Turma B · Terças e Quintas 10:30 · Prof. Lucas Nunes Alegre**
 
-Aqui você encontrará os slides das aulas:
+<style>
+.sched td, .sched th { padding: 0.55rem 0.75rem; vertical-align: middle; }
+.sched .wk {
+  background-color: #e9ecef;
+  text-align: center;
+  font-weight: 700;
+  color: #343a40;
+  border-right: 2px solid #adb5bd !important;
+}
+.sched .wk-sa {
+  background-color: #ced4da;
+  text-align: center;
+  font-style: italic;
+  color: #6c757d;
+  font-size: .82em;
+  border-right: 2px solid #adb5bd !important;
+}
+.sched .row-lab   { background-color: #e8f5e9; }
+.sched .row-prova { background-color: #fff8e1; }
+.sched .row-exame { background-color: #fce4ec; }
+.sched .row-sa    { background-color: #f0f0f0; color: #868e96; font-style: italic; }
+.sched .t-red   { color: #c62828; font-weight: 500; }
+.sched .t-blue  { color: #1565c0; font-weight: 500; }
+.sched .t-green { color: #2e7d32; font-weight: 500; }
+.sched .t-black { color: #000000; font-weight: 600; }
+</style>
 
-- [Aula 01: Introdução](aula1-intro.qmd)
-- [Aulas 24–27: Grafos Eulerianos e Hamiltonianos, Planaridade, Coloração, Cobertura de Vértices](aula24-grafos-eulerianos.qmd)
-- [Aula 27: Cobertura de Vértices e Emparelhamentos](aula27-cobertura-emparelhamento.qmd)
+<table class="table table-bordered sched">
+<thead style="background-color:#495057; color:#fff;">
+<tr>
+  <th style="width:5%;text-align:center;">Semana</th>
+  <th style="width:10%">Data</th>
+  <th style="width:9%">Local</th>
+  <th>Assunto</th>
+  <th style="width:7%">Slides</th>
+  <th style="width:22%">Materiais</th>
+</tr>
+</thead>
+<tbody>
+<!-- Semana 1 -->
+<tr>
+  <td rowspan="2" class="wk">1</td>
+  <td>qui. 06/ago.</td><td>Sala 111</td><td class="t-red">Introdução. Problema do Troco. Multiplicação de Inteiros (Karatsuba).</td><td><a href="aula1-intro.qmd">Slides</a></td><td></td>
+</tr>
+<tr>
+  <td>ter. 11/ago.</td><td>Sala 111</td><td class="t-red">Emparelhamento Estável. Problemas Representativos.</td><td></td><td></td>
+</tr>
+<!-- Semana 2 -->
+<tr>
+  <td rowspan="2" class="wk">2</td>
+  <td>qui. 13/ago.</td><td>Sala 111</td><td class="t-red">Correção: Introdução à Provas de Correção, Invariantes. Algoritmos de ordenamento.</td><td></td><td></td>
+</tr>
+<tr>
+  <td>ter. 18/ago.</td><td>Sala 111</td><td class="t-red">Notação Assintótica I.</td><td></td><td></td>
+</tr>
+<!-- Semana 3 -->
+<tr>
+  <td rowspan="2" class="wk">3</td>
+  <td>qui. 20/ago.</td><td>Sala 111</td><td class="t-red">Notação Assintótica II.</td><td></td><td></td>
+</tr>
+<tr>
+  <td>ter. 25/ago.</td><td>Sala 111</td><td class="t-blue">Teoria dos Grafos: definições, representação, graus.</td><td></td><td></td>
+</tr>
+<!-- Semana 4 -->
+<tr>
+  <td rowspan="2" class="wk">4</td>
+  <td>qui. 27/ago.</td><td>Sala 111</td><td class="t-blue">Teoria dos Grafos: isomorfismo, famílias de grafos, conectividade.</td><td></td><td></td>
+</tr>
+<tr class="row-lab">
+  <td>ter. 01/set.</td><td>Lab 104</td><td class="t-black">Laboratório Avaliado 1: Correção, Notação assintótica e Representações de Grafos</td><td></td>
+</tr>
+<!-- Semana 5 -->
+<tr>
+  <td rowspan="2" class="wk">5</td>
+  <td>qui. 03/set.</td><td>Sala 111</td><td class="t-blue">Operações sobre Grafos, Dígrafos, Árvores. Grafos Bipartidos. Cliques.</td><td></td><td></td>
+</tr>
+<tr>
+  <td>ter. 08/set.</td><td>Sala 111</td><td class="t-blue">Algoritmos para Grafos: Correção e Complexidade. BFS e DFS.</td><td></td><td></td>
+</tr>
+<!-- Semana 6 -->
+<tr>
+  <td rowspan="2" class="wk">6</td>
+  <td>qui. 10/set.</td><td>Sala 111</td><td class="t-blue">Algoritmos para Grafos: Distância. Ordenação topológica. Componentes Conexos.</td><td></td><td></td>
+</tr>
+<tr class="row-lab">
+  <td>ter. 15/set.</td><td>Lab 104</td><td class="t-black">Laboratório Avaliado 2: Algoritmos para Grafos</td><td></td>
+</tr>
+<!-- Semana 7 -->
+<tr>
+  <td rowspan="2" class="wk">7</td>
+  <td>qui. 17/set.</td><td>Sala 111</td><td class="t-blue">Revisão</td><td></td><td></td>
+</tr>
+<tr class="row-prova">
+  <td>ter. 22/set.</td><td>Lab 103</td><td><strong>PROVA 1</strong></td><td></td><td></td>
+</tr>
+<!-- Semana 8 -->
+<tr>
+  <td rowspan="2" class="wk">8</td>
+  <td>qui. 24/set.</td><td>Sala 111</td><td class="t-green">Algoritmos Gulosos. Introdução. Escalonamento de Intervalos. Particionamento de Intervalos.</td><td></td><td></td>
+</tr>
+<tr>
+  <td>ter. 29/set.</td><td>Sala 111</td><td class="t-green">Algoritmos Gulosos. Minimizar Atraso. Caching Ótimo.</td><td></td><td></td>
+</tr>
+<!-- Semana 9 -->
+<tr>
+  <td rowspan="2" class="wk">9</td>
+  <td>qui. 01/out.</td><td>Sala 111</td><td class="t-green">Distância em Grafos Valorados. Descrição do Problema, Algoritmo de Dijkstra.</td><td></td><td></td>
+</tr>
+<tr>
+  <td>ter. 06/out.</td><td>Sala 111</td><td class="t-green">Distância em Grafos Valorados. Estrutura Heap, Algoritmo de Dijkstra otimizado.</td><td></td><td></td>
+</tr>
+<!-- Semana 10 -->
+<tr class="row-lab">
+  <td rowspan="2" class="wk">10</td>
+  <td>qui. 08/out.</td><td>Lab 104</td><td class="t-black">Laboratório Avaliado 3: Algoritmos Gulosos, Distância sobre grafos valorados</td><td></td>
+</tr>
+<tr>
+  <td>ter. 13/out.</td><td>Sala 111</td><td class="t-green">Árvore Geradora Mínima 1 (Descrição do Problema, Algoritmo de Prim)</td><td></td><td></td>
+</tr>
+<!-- Semana 11 -->
+<tr>
+  <td rowspan="2" class="wk">11</td>
+  <td>qui. 15/out.</td><td>Sala 111</td><td class="t-green">Árvore Geradora Mínima 2 (Algoritmo de Kruskal, Estrutura Union-Find)</td><td></td><td></td>
+</tr>
+<tr class="row-sa">
+  <td>ter. 20/out.</td><td>—</td><td><em>Semana Acadêmica</em></td><td></td><td></td>
+</tr>
+<!-- Semana Acadêmica (qui) -->
+<tr class="row-sa">
+  <td class="wk-sa">Sem.<br>Acad.</td>
+  <td>qui. 22/out.</td><td>—</td><td><em>Semana Acadêmica</em></td><td></td><td></td>
+</tr>
+<!-- Semana 12 -->
+<tr>
+  <td rowspan="2" class="wk">12</td>
+  <td>ter. 27/out.</td><td>Sala 111</td><td class="t-green">Código de Huffman.</td><td></td><td></td>
+</tr>
+<tr class="row-lab">
+  <td>qui. 29/out.</td><td>Lab 104</td><td class="t-black">Laboratório Avaliado 4: Árvore Geradora Mínima</td><td></td>
+</tr>
+<!-- Semana 13 -->
+<tr>
+  <td rowspan="2" class="wk">13</td>
+  <td>ter. 03/nov.</td><td>Sala 111</td><td class="t-blue">Grafos Eulerianos e Hamiltonianos. Caixeiro Viajante.</td><td><a href="aula24-grafos-eulerianos.qmd">Slides</a></td><td></td>
+</tr>
+<tr>
+  <td>qui. 05/nov.</td><td>Sala 111</td><td class="t-blue">Planaridade.</td><td><a href="aula24-grafos-eulerianos.qmd">Slides</a></td><td></td>
+</tr>
+<!-- Semana 14 -->
+<tr>
+  <td rowspan="2" class="wk">14</td>
+  <td>ter. 10/nov.</td><td>Sala 111</td><td class="t-blue">Coloração de Grafos.</td><td><a href="aula24-grafos-eulerianos.qmd">Slides</a></td><td></td>
+</tr>
+<tr>
+  <td>qui. 12/nov.</td><td>Sala 111</td><td class="t-blue">Cobertura de Vértices e Emparelhamentos.</td><td><a href="aula27-cobertura-emparelhamento.qmd">Slides</a></td><td></td>
+</tr>
+<!-- Semana 15 -->
+<tr>
+  <td rowspan="2" class="wk">15</td>
+  <td>ter. 17/nov.</td><td>Sala 111</td><td class="t-blue">Análise de Redes.</td><td></td><td></td>
+</tr>
+<tr>
+  <td>qui. 19/nov.</td><td>Sala 111</td><td class="t-blue">Revisão</td><td></td>
+</tr>
+<!-- Semana 16 -->
+<tr class="row-prova">
+  <td class="wk">16</td>
+  <td>qui. 26/nov.</td><td>Lab 103</td><td><strong>PROVA 2</strong></td><td></td><td></td>
+</tr>
+<!-- Semana 17 -->
+<tr class="row-exame">
+  <td class="wk">17</td>
+  <td>qui. 03/dez.</td><td>Lab 103</td><td><strong>EXAME</strong></td><td></td><td></td>
+</tr>
+</tbody>
+</table>
+
+<br> 
+
+## Bibliografia
+
+| Sigla | Título | Autores |
+|:------|:-------|:--------|
+| AI1 | *Algorithms Illuminated, Part 1* | Tim Roughgarden |
+| AI2 | *Algorithms Illuminated, Part 2* | Tim Roughgarden |
+| AI3 | *Algorithms Illuminated, Part 3* | Tim Roughgarden |
+| AI4 | *Algorithms Illuminated, Part 4* | Tim Roughgarden |
+| KT | *Algorithm Design* | Kleinberg & Tardos |
+| Cor | *Introduction to Algorithms* | Cormen et al. |
+| EP | *Introdução à Teoria dos Grafos* | Edson Prestes |
+| DW | *Introduction to Graph Theory* | Douglas West |
+| Ritt | *Notas de Aula* | Ritt/Buriol |

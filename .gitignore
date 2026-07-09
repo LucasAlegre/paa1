@@ -5,3 +5,5 @@
 *_files/
 *.html
 .DS_Store
+
+.aulas-projeto-e-analise-de-algoritmos/*

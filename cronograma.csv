@@ -1,0 +1,45 @@
+INF05027- PROJETO E ANÁLISE DE ALGORITMOS I,,,,,,,,
+CRONOGRAMA PRELIMINAR - 2026/2,,,,,,,,
+Turma B – Terças e Quintas - 10:30 (Prof. Lucas Nunes Alegre),,,,,,,,
+Semana,Dia,Aula,Entregas,Tipo,Local,Assunto,Referências,Livros
+1,qui. 6/ago.,1,,Presencial,Sala 111 (43425),Introdução. Problema do Troco. Multiplicação de Inteiros (Karatsuba).,AI1 (1.1-3),AI1 - Algorithms Illuminated 1 - Roughgarden
+,ter. 11/ago.,2,,Presencial,Sala 111 (43425),Emparelhamento Estável. Problemas Representativos.,KT (1.1),AI2 - Algorithms Illuminated 2 - Roughgarden
+2,qui. 13/ago.,3,,Presencial,Sala 111 (43425),"Correção: Introdução à Provas de Correção, Invariantes. Algoritmos de ordenamento.","AI1 (1.4-5), Cor (2.1-3), KT(1,SE)",AI3 - Algorithms Illuminated 3 - Roughgarden
+,ter. 18/ago.,4,,Presencial,Sala 111 (43425),Notação Assintótica I. ,"AI1(2), KT(2)",AI4 - Algorithms Illuminated 4 - Roughgarden
+3,qui. 20/ago.,5,,Presencial,Sala 111 (43425),Notação Assintótica II.,"AI1(2), KT(2)",KT - Algorithm Design - Kleinberg & Tardos
+,ter. 25/ago.,6,,Presencial,Sala 111 (43425),"Teoria dos Grafos: definições, representação, graus.",EP (1.1 - 1.3),Cor - Introduction to Algorithms - Cormen
+4,qui. 27/ago.,7,,Presencial,Sala 111 (43425),"Teoria dos Grafos: isomorfismo, famílias de grafos, conectividade.","EP (1.4, 1.6, 2.1, 3.1 e 3.2)",EP - Introdução à Teoria dos Grafos - Edson Prestes
+,ter. 1/set.,8,Lab 1,Presencial,Lab 104 (43425),"Laboratório Avaliado 1: Correção, Notação assintótica e Representações de Grafos",,DW - Introduction to Graph Theory - Douglas West
+5,qui. 3/set.,9,,Presencial,Sala 111 (43425),"Operações sobre Grafos, Dígrafos, Árvores. Grafos Bipartidos. Cliques.",,Ritt - Notas de Aula - Ritt/Buriol
+,ter. 08/set.,10,,Presencial,Sala 111 (43425),Algoritmos para Grafos: Correção e Complexidade. BFS e DFS.,KT(3),
+6,qui. 10/set.,11,,Presencial,Sala 111 (43425),Algoritmos para Grafos: Distância. Ordenação topológica. Componentes Conexos.,KT(3),
+,ter. 15/set.,12,Lab 2,Presencial,Lab 104 (43425),Laboratório Avaliado 2: Algoritmos para Grafos,,
+7,qui. 17/set.,13,,Presencial,Sala 111 (43425),Revisão,,
+,ter. 22/set.,14,,Presencial,Lab 103 (43413),PROVA 1,,
+,qui. 24/set.,15,,Presencial,Sala 111 (43425),Algoritmos Gulosos. Introdução. Escalonamento de Intervalos. Particionamento de Intervalos.,KT 4.1,
+9,ter. 29/set.,16,,Presencial,Sala 111 (43425),Algoritmos Gulosos. Minimizar Atraso. Caching Ótimo.,KT 4.2 e 4.3,
+,qui. 1/out.,17,,Presencial,Sala 111 (43425),"Distância em Grafos Valorados. Descrição do Problema, Algoritmo de Dijkstra.",KT 4.4,
+10,ter. 06/out.,18,,Presencial,Sala 111 (43425),"Distância em Grafos Valorados. Estrutura Heap, Algoritmo de Dijkstra otimizado.",KT 4.4,
+,qui. 08/out.,19,Lab 3,Presencial,Lab 104 (43425),"Laboratório Avaliado 3: Algoritmos Gulosos, Distância sobre grafos valorados",,
+11,ter. 13/out.,20,,Presencial,Sala 111 (43425),"Árvore geradora mínima 1 (Descrição do Problema, Algoritmo de Prim)",KT 4.5 e 4.6,
+,qui. 15/out.,21,,Presencial,Sala 111 (43425),"Árvore geradora mínima 2 (Algoritmo de Kruskal, Estrututura Union-Find)",KT 4.5 e 4.6,
+,ter. 20/out.,,,,,Semana Acadêmica,,
+,qui. 22/out.,,,,,Semana Acadêmica,,
+12,ter. 27/out.,22,,Presencial,Sala 111 (43425),Código de Huffman. ,,
+,qui. 29/out.,23,Lab 4,Presencial,Lab 104 (43425),Laboratório Avaliado 4: Árvore Geradora Mínima,,
+13,ter. 3/nov.,24,,Presencial,Sala 111 (43425),Grafos Eulerianos e Hamiltonianos. Caixeiro Viajante.,,
+,qui. 5/nov.,25,,Presencial,Sala 111 (43425),Planaridade.,,
+14,ter. 10/nov.,26,,Presencial,Sala 111 (43425),Coloração de Grafos.,,
+15,qui. 12/nov.,27,,Presencial,Sala 111 (43425),Cobertura de Vértices e Emparelhamentos.,,
+,ter. 17/nov.,28,,Presencial,Sala 111 (43425),Análise de Redes.,,
+16,qui. 19/nov.,29,Trabalho,Presencial,,Revisão,,
+,ter. 24/nov.,,,,,,,
+17,qui. 26/nov.,30,,Presencial,Lab 103 (43413),PROVA 2,,
+,,-,,,,,,
+18,qui. 3/dez.,-,,Presencial,Lab 103 (43413),EXAME,,
+,,-,,,,,,
+19,,-,,,,,,
+,,-,,,,,,
+20,,-,-,-,-,APROPRIAÇÃO DOS CONCEITOS,,
+,,,,,,,,
+"Este cronograma pode sofrer modificações ao longo do semestre, sendo importante verificá-lo periodicamente.",,,,,,,,

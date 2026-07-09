@@ -4,22 +4,18 @@ project:
 
 website:
   title: "Projeto e Análise de Algoritmos I"
+  favicon: favicon.ico
   navbar:
     left:
       - href: index.qmd
         text: Home
-  sidebar:
-    style: "floating"
-    search: true
-    contents:
-      - section: "Aulas"
-        contents:
-          - aula1-intro.qmd
-          - aula24-grafos-eulerianos.qmd
-          - aula27-cobertura-emparelhamento.qmd
+      - href: exercicios.qmd
+        text: Exercícios
 
 format:
   html:
     theme: cosmo
     css: styles.css
     toc: true
+    toc-location: left
+    include-after-body: _footer.html

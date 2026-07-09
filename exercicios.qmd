@@ -1,0 +1,20 @@
+---
+title: "Lista de Exercícios"
+toc: true
+toc-depth: 3
+toc-title: "Tópicos"
+---
+
+Exercícios organizados por tópico. Use o menu lateral para navegar entre os tópicos.
+
+---
+
+# Prova 1
+
+## Análise Assintótica
+
+Em breve.
+
+
+# Prova 2
+

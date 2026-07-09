@@ -51,7 +51,14 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <!-- Semana 1 -->
 <tr>
   <td class="wk">1</td>
-  <td>qui. 06/ago.</td><td>Sala 111</td><td class="t-red">Introdução. Problema do Troco. Multiplicação de Inteiros (Karatsuba).</td><td><a href="aula1-intro.qmd">Slides</a></td><td></td>
+  <td>qui. 06/ago.</td>
+  <td>Sala 111</td>
+  <td class="t-red">Introdução. Problema do Troco. Multiplicação de Inteiros (Karatsuba).</td>
+  <td><a href="aulas/aula1-intro.qmd">Slides</a></td>
+  <td>
+  <a href="https://colab.research.google.com/drive/1NTX2_Xdrp_uBE72-WmnId2fL5lTmG1Ha?usp=sharing">De C para Python (Prof. Álvaro Becker)</a>
+  
+  </td>
 </tr>
 <!-- Semana 2 -->
 <tr>
@@ -152,18 +159,18 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <!-- Semana 13 -->
 <tr>
   <td rowspan="2" class="wk">13</td>
-  <td>ter. 03/nov.</td><td>Sala 111</td><td class="t-blue">Grafos Eulerianos e Hamiltonianos. Caixeiro Viajante.</td><td><a href="aula24-grafos-eulerianos.qmd">Slides</a></td><td></td>
+  <td>ter. 03/nov.</td><td>Sala 111</td><td class="t-blue">Grafos Eulerianos e Hamiltonianos. Caixeiro Viajante.</td><td><a href="aulas/aula24-grafos-eulerianos.qmd">Slides</a></td><td></td>
 </tr>
 <tr>
-  <td>qui. 05/nov.</td><td>Sala 111</td><td class="t-blue">Planaridade.</td><td><a href="aula24-grafos-eulerianos.qmd">Slides</a></td><td></td>
+  <td>qui. 05/nov.</td><td>Sala 111</td><td class="t-blue">Planaridade.</td><td><a href="aulas/aula24-grafos-eulerianos.qmd">Slides</a></td><td></td>
 </tr>
 <!-- Semana 14 -->
 <tr>
   <td rowspan="2" class="wk">14</td>
-  <td>ter. 10/nov.</td><td>Sala 111</td><td class="t-blue">Coloração de Grafos.</td><td><a href="aula24-grafos-eulerianos.qmd">Slides</a></td><td></td>
+  <td>ter. 10/nov.</td><td>Sala 111</td><td class="t-blue">Coloração de Grafos.</td><td><a href="aulas/aula24-grafos-eulerianos.qmd">Slides</a></td><td></td>
 </tr>
 <tr>
-  <td>qui. 12/nov.</td><td>Sala 111</td><td class="t-blue">Cobertura de Vértices e Emparelhamentos.</td><td><a href="aula27-cobertura-emparelhamento.qmd">Slides</a></td><td></td>
+  <td>qui. 12/nov.</td><td>Sala 111</td><td class="t-blue">Cobertura de Vértices e Emparelhamentos.</td><td><a href="aulas/aula27-cobertura-emparelhamento.qmd">Slides</a></td><td></td>
 </tr>
 <!-- Semana 15 -->
 <tr>

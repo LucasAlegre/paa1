@@ -1,7 +1,7 @@
 ---
 title: "Lista de Exercícios"
 toc: true
-toc-depth: 3
+toc-depth: 4
 toc-title: "Tópicos"
 ---
 
@@ -15,6 +15,9 @@ Exercícios organizados por tópico. Use o menu lateral para navegar entre os t�
 
 Em breve.
 
+## Teoria de Grafos
+
+Em breve.
 
 # Prova 2
 

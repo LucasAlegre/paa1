@@ -1,0 +1,544 @@
+---
+title: "Projeto e Análise de Algoritmos I"
+subtitle: "Aula 02: Emparelhamento Estável"
+author: "Lucas Nunes Alegre"
+institute: |
+  Universidade Federal do Rio Grande do Sul  <br>
+  Instituto de Informática <br> Departamento de Informática Teórica  
+  <br><br><br>
+  <span style="display:inline-block; max-width:60%; font-size:0.55em;">Estes slides utilizam conteúdo adaptado da bibliografia da disciplina e também de notas de aula e slides prévios dos professores Bruno Grisci, Rodrigo Machado, André Grahl Pereira, Lucas Nunes Alegre, Marcus Ritt e Luciana Buriol.</span>
+date: ""
+lang: pt-BR
+
+format:
+  revealjs:
+    theme: [default, metropolis.scss]
+    slide-number: true
+    progress: true
+    transition: fade
+    width: 1024
+    height: 768
+    margin: 0.15
+    html-math-method: katex
+    title-slide-attributes:
+      data-background-color: "#ffffff"
+    center: false
+    highlight-style: github
+    fig-align: center
+    embed-resources: false
+    preview-links: true
+    include-in-header:
+      - pseudocode-reveal.html
+    chalkboard:
+      theme: whiteboard
+      boardmarker-width: 5
+      buttons: false
+
+filters:
+  - leovan/pseudocode
+---
+
+# Emparelhamento Estável
+
+## Emparelhamento entre Hospitais e Estudantes de Medicina
+
+**Objetivo:** Dado um conjunto de preferências entre hospitais e estudantes de medicina, definir um processo de admissão **autoimposto**.
+
+![](images/medstudent.jpeg){width=30%}
+![](images/hospitalufrgs.jpg){width=30%}
+
+. . .
+
+**Par Instável:** estudante $e$ e hospital $h$ são instáveis se:
+
+- $e$ prefere $h$ ao seu hospital atribuído; e
+- $h$ prefere $e$ a um dos seus estudantes aprovados.
+
+. . .
+
+**Emparelhamento Estável:**
+
+- Interesse próprio força a atribuição e previne acordos unilaterais.
+
+. . .
+
+**Exemplo:** Empresas e estudantes.
+
+## Problema de Emparelhamento Estável
+
+**Objetivo:** Dado um conjunto de $n$ homens e um conjunto de $n$ mulheres, encontrar uma atribuição adequada.
+
+- Participantes ranqueiam membros do grupo oposto.
+- Cada homem lista mulheres em ordem de preferência da melhor para a pior.
+- Cada mulher lista homens em ordem de preferência do melhor para o pior.
+
+**Emparelhamento Estável:** Problema exemplo.
+
+## Emparelhamento Perfeito
+
+> [**Def.**]{.label-def} Um **emparelhamento** $S$ é um conjunto ordenado de pares $m$-$w$ com $m \in M$ e $w \in W$ tal que cada homem $m \in M$ e cada mulher $w \in W$ aparece no máximo em um par de $S$.
+
+. . .
+
+> [**Def.**]{.label-def} Um emparelhamento $S$ é **perfeito** se $|S|=|M|=|W|=n$.
+
+. . .
+
+**Emparelhamento Perfeito:** Exemplo.
+
+## Par Instável
+
+> [**Def.**]{.label-def} Dado um emparelhamento perfeito $S$, um homem $m$ e uma mulher $w$ são um **par instável** se:
+>
+> - $m$ prefere $w$ a sua parceira atual; e
+> - $w$ prefere $m$ a seu parceiro atual.
+
+. . .
+
+> [**Obs.**]{.label-rmk} Um par instável $(m, w)$ pode melhorar seus parceiros com uma ação conjunta.
+
+**Emparelhamento Estável:** Exemplo.
+
+## Problema de Emparelhamento Estável
+
+> [**Def.**]{.label-def} Um **emparelhamento estável** é um emparelhamento perfeito sem pares instáveis.
+
+. . .
+
+**Problema:** Dadas listas de preferências de $n$ homens e $n$ mulheres, encontrar um emparelhamento estável (se existir).
+
+- Natural, desejável, condição autoimposta.
+- Interesse próprio previne qualquer homem-mulher trocar de pares.
+
+## Problema de Emparelhamento Estável
+
+**P:** Emparelhamentos estáveis sempre existem?
+
+. . .
+
+**Problema:** Colega de Quarto Estável.
+
+- $2n$ pessoas.
+- Cada pessoa ranqueia outras pessoas de $1$ até $2n-1$.
+- Atribuir pares de colegas de quarto sem pares instáveis.
+- Emparelhamentos estáveis nem sempre existem.
+- Note que nesse caso não há a separação em dois grupos isolados.
+
+## Problema de Emparelhamento Estável
+
+**P:** Emparelhamentos estáveis sempre existem?
+
+. . .
+
+|     | 1ª | 2ª | 3ª |
+|-----|----|----|-----|
+| A   | B  | C  | D  |
+| B   | C  | A  | D  |
+| C   | A  | B  | D  |
+| D   | A  | B  | C  |
+
+**Observações sobre instabilidades:**
+
+- A–B, C–D $\Rightarrow$ B–C instável
+- A–C, B–D $\Rightarrow$ A–B instável
+- A–D, B–C $\Rightarrow$ A–C instável
+
+**Conclusão:** Não existe emparelhamento perfeito que seja estável neste exemplo.
+
+. . .
+
+**P:** Como encontrar um emparelhamento estável?
+
+# Algoritmo Gale-Shapley
+
+## Algoritmo Gale-Shapley
+
+Algoritmo intuitivo que **garante** encontrar um emparelhamento estável.
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Gale-Shapley}{$x,\ c_1, \ldots, c_n$}
+\State Inicialize $S \gets \emptyset$, e todos os homens e mulheres como livres
+\While{existe um homem livre $m$ que ainda não propôs a toda mulher}
+    \State Escolha um tal homem $m$
+    \State Seja $w$ a mulher de maior preferência de $m$ à qual $m$ ainda não propôs
+    \If{$w$ está livre}
+        \State $S \gets S \cup \{(m, w)\}$
+    \Else
+        \State $w$ está atualmente emparelhada com $m'$
+        \If{$w$ prefere $m'$ a $m$}
+            \State $m$ continua livre
+        \Else
+            \State $S \gets S \setminus \{(m', w)\}$
+            \State $S \gets S \cup \{(m, w)\}$
+            \State $m'$ fica livre
+        \EndIf
+    \EndIf
+\EndWhile
+\State \Return $S$
+\EndProcedure
+\end{algorithmic}
+```
+
+## {data-background-iframe="https://brunogrisci.github.io/stablematching" data-background-interactive="true"}
+
+# Análise de Gale-Shapley
+
+## Algoritmo Gale-Shapley
+
+O que mostrar?
+
+. . .
+
+**Item 1:** Emparelhamento perfeito.
+
+. . .
+
+**Item 2:** Sem pares instáveis.
+
+. . .
+
+**Item 3:** Algoritmo G-S termina.
+
+. . .
+
+**Item 4:** Justiça.
+
+## Prova de Corretude: Emparelhamento Perfeito
+
+> [**Afirmação.**]{.label-thm} No Algoritmo G-S, todos os homens e mulheres são emparelhados.
+
+. . .
+
+> [**Prova.**]{.label-prf} Prova por contradição.
+
+::: {.incremental}
+- Suponha para o efeito de contradição que o homem $m$ não está pareado quando o algoritmo termina.
+- $m$ foi rejeitado por todas as mulheres na sua lista.
+- Então todas as mulheres têm um par ao fim do algoritmo que elas preferem a $m$.
+- Mas o número de homens e mulheres é o mesmo. Então, todo homem possui um par, inclusive $m$, o que gera uma **contradição**. $\blacksquare$
+:::
+
+## Algoritmo Gale-Shapley
+
+O que mostrar?
+
+**Item 1:** ~~Emparelhamento perfeito.~~
+
+. . .
+
+**Item 2:** Sem pares instáveis.
+
+. . .
+
+**Item 3:** Algoritmo G-S termina.
+
+. . .
+
+**Item 4:** Justiça.
+
+## Prova de Corretude: Emparelhamento Estável
+
+> [**Afirmação.**]{.label-thm} No Algoritmo G-S, não existem pares instáveis.
+
+. . .
+
+> [**Prova.**]{.label-prf} $S$ é perfeito. Suponha para o efeito de contradição que o par $(m, w) \in S$ é instável.
+
+. . .
+
+- **Caso 1:** $m$ nunca propôs a $w$.
+    - $m$ prefere seu par atual a $w$.
+    - $(m, w)$ é estável.
+
+. . .
+
+- **Caso 2:** $m$ propôs a $w$.
+    - $w$ rejeitou $m$ (imediatamente ou depois).
+    - $w$ prefere seu par atual a $m$.
+    - $(m, w)$ é estável.
+- Em ambos os casos, o par $(m, w)$ é estável. $\blacksquare$
+
+## Algoritmo Gale-Shapley
+
+O que mostrar?
+
+**Item 1:** ~~Emparelhamento perfeito.~~
+
+**Item 2:** ~~Sem pares instáveis.~~
+
+. . .
+
+**Item 3:** Algoritmo G-S termina.
+
+. . .
+
+**Item 4:** Justiça.
+
+## Prova de Corretude: Terminação
+
+> [**Obs.**]{.label-rmk} Homens propõem para mulheres em ordem decrescente de preferência (**apenas piora**).
+
+. . .
+
+> [**Obs.**]{.label-rmk} Assim que uma mulher é proposta, ela nunca fica sozinha, ela apenas troca a proposta atual por uma proposta melhor (**apenas melhora**).
+
+. . .
+
+**P:** Como provar que o algoritmo termina?
+
+. . .
+
+**P:** Como medir progresso? . . . Número de indivíduos livres? . . . Número de pares? . . . Número de propostas realizadas?
+
+## Prova de Corretude: Terminação
+
+> [**Afirmação.**]{.label-thm} O algoritmo termina no máximo após $n^2$ iterações do loop.
+
+> [**Prova.**]{.label-prf} A cada iteração do loop um homem propõe para uma nova mulher. Existem apenas $n^2$ possíveis propostas. $\blacksquare$
+
+. . .
+
+:::: columns
+::: {.column width="49%"}
+**Homens**
+
+| | 1ª | 2ª | 3ª | 4ª | 5ª |
+|---|---|---|---|---|---|
+| V | A | B | C | D | E |
+| W | B | C | D | A | E |
+| X | C | D | A | B | E |
+| Y | D | A | B | C | E |
+| Z | A | B | C | D | E |
+:::
+
+::: {.column width="49%"}
+**Mulheres**
+
+| | 1ª | 2ª | 3ª | 4ª | 5ª |
+|---|---|---|---|---|---|
+| A | W | X | Y | Z | V |
+| B | X | Y | Z | V | W |
+| C | Y | Z | V | W | X |
+| D | Z | V | W | X | Y |
+| E | V | W | X | Y | Z |
+:::
+::::
+
+**Exemplo:** Pior caso.
+
+## Pior caso
+
+> [**Afirmação.**]{.label-thm} O algoritmo realiza no máximo $n(n-1)+1$ propostas.
+
+> [**Prova.**]{.label-prf}
+
+::: {.incremental}
+- Nenhum homem pode ser rejeitado $n$ vezes: se isso ocorresse, ele ficaria sem opções, o que contradiria que sempre há um emparelhamento estável.
+- Logo, cada homem sofre no máximo $(n-1)$ rejeições.
+- Suponha que no passo $n(n-1)$ o homem $m$ é rejeitado pela $(n-1)$-ésima vez; ainda resta a $n$-ésima mulher de sua lista $\Rightarrow$ é preciso mais um passo para ele propor a ela.
+- Como o algoritmo termina, existe exatamente um último passo sem rejeições (apenas aceitações), fechando os noivados. $\blacksquare$
+:::
+
+. . .
+
+$$
+\underbrace{n}_{\text{homens}} \underbrace{(n-1)}_{\text{rejeições}} + \underbrace{1}_{\text{final sem rejeição}} = n(n-1)+1.
+$$
+
+## Resumo
+
+> [**Teorema.**]{.label-thm} [Gale-Shapley 1962] O algoritmo Gale-Shapley garante encontrar um emparelhamento estável para qualquer **instância** do Problema de Emparelhamento Estável.
+
+. . .
+
+**P:** Se existem múltiplos emparelhamentos estáveis, qual o algoritmo G-S irá retornar? A ordem das propostas importa?
+
+## Algoritmo Gale-Shapley
+
+O que mostrar?
+
+**Item 1:** ~~Emparelhamento perfeito.~~
+
+. . .
+
+**Item 2:** ~~Sem pares instáveis.~~
+
+. . .
+
+**Item 3:** ~~Algoritmo G-S termina.~~
+
+. . .
+
+**Item 4:** Justiça.
+
+# Justiça
+
+## Entendendo a Solução
+
+**P.** A ordem em que os homens são selecionados para propor muda o resultado do algoritmo?
+
+. . .
+
+> [**Def.**]{.label-def} Uma mulher $w$ é uma **parceira viável** para um homem $m$ se existe algum emparelhamento estável com o par $(m, w)$.
+
+. . .
+
+**Exemplo:**
+
+- $m - w, w'$.
+- $m' - w, w'$.
+- $w - m, m'$.
+- $w' - m, m'$.
+- Apenas $w$ é viável para $m$.
+
+## Entendendo a Solução
+
+> [**Def.**]{.label-def} Uma mulher $w$ é uma **parceira viável** para um homem $m$ se existe algum emparelhamento estável com o par $(m, w)$.
+
+. . .
+
+**Atribuição Homem-Ótima:** Todo homem recebe a melhor parceira viável.
+
+- É um emparelhamento perfeito?
+- É um emparelhamento estável?
+
+. . .
+
+> [**Afirmação.**]{.label-thm} Toda execução do algoritmo G-S retorna uma atribuição homem-ótima.
+
+> [**Corolário.**]{.label-cor} Uma atribuição homem-ótima é um emparelhamento estável.
+
+## Otimalidade para Homens
+
+> [**Afirmação.**]{.label-thm} O algoritmo G-S é **homem-ótimo**.
+
+> [**Prova.**]{.label-prf} Por contradição. Suponha que um homem é atribuído a uma mulher pior do que sua melhor parceira viável.
+
+::: {.incremental}
+- Suponha que, na execução $E$ do algoritmo G–S, exista um emparelhamento $S$ onde algum homem $m$ **não** está com sua **melhor parceira válida** (**best(m)**).
+- Como os homens propõem em ordem decrescente de preferência, isso implica que $m$ foi rejeitado por uma parceira válida $w$.
+- Considere o **primeiro** momento em $E$ em que um homem é rejeitado por uma parceira válida: $w$ é **best(m)**.
+- A rejeição ocorreu porque: (a) $m$ propôs e $w$ preferiu seu noivo atual $m'$, ou (b) $w$ rompeu o noivado com $m$ para aceitar $m'$.
+:::
+
+## Otimalidade para Homens
+
+::: {.incremental}
+- Como $w$ é parceira válida de $m$, existe um emparelhamento estável $S'$ que contém $(m, w)$.
+- Com quem $m'$ está em $S'$? Seja $w'$ a parceira de $m'$ em $S'$, com $w' \neq w$.
+- No momento em que $m'$ ficou noivo de $w$ em $E$, ele ainda não havia sido rejeitado por parceira válida ($m$ foi o primeiro rejeitado), logo $m'$ prefere $w$ a $w'$.
+- Já $w$ prefere $m'$ a $m$ (pois o rejeitou em $E$).
+- Assim, $(m', w)$ é instável em $S'$, **contradição**. $\blacksquare$
+:::
+
+. . .
+
+**Conclusão:** Todo homem termina com sua melhor parceira válida no algoritmo G–S.
+
+## Visualizando a contradição no Gale–Shapley — Passo 1
+
+**$m$ propõe a $w$ em ordem de preferência; $w$ aceita $\Rightarrow$ noivado $m$–$w$.**
+
+$$
+m \xrightarrow{\text{propõe}} w \quad \Rightarrow \quad m \text{–} w \text{ noivados}
+$$
+
+## Visualizando a contradição no Gale–Shapley — Passo 2
+
+**Primeiro** rejeite por parceira válida: $w$ prefere $m'$ a $m$ e rejeita $m$.
+
+$$
+m' \xrightarrow{\text{propõe}} w \quad \Rightarrow \quad w \text{ rejeita } m \text{ e aceita } m'
+$$
+
+## Visualizando a contradição no Gale–Shapley — Passo 3
+
+- Suponha, para contradição, um emparelhamento **estável** $S'$ com $(m,w)$.
+- Então, em $S'$, $m'$ deve estar com alguma $w' \neq w$.
+
+## Visualizando a contradição no Gale–Shapley — Passo 4
+
+- $w$ prefere $m'$ a $m$ (rejeitou $m$ por $m'$ em $E$).
+- $m'$ prefere $w$ a $w'$ (não fora rejeitado por parceira válida antes).
+- Logo, $(m',w)$ é instável em $S'$ $\Rightarrow$ **contradição**.
+
+**Conclusão:** todo homem termina com sua **melhor parceira válida** no algoritmo G–S.
+
+## Entendendo a Solução
+
+**P:** O que acontece com as mulheres?
+
+. . .
+
+**Pessimalidade para Mulheres:** Cada mulher recebe o pior parceiro viável.
+
+## Pessimalidade para Mulheres
+
+> [**Afirmação.**]{.label-thm} O algoritmo G-S é **mulher-péssimo**.
+
+> [**Prova.**]{.label-prf} Por contradição. Suponha que o homem $m$ é atribuído a $w$ em $S^*$, mas $m$ não é o pior parceiro viável de $w$.
+
+::: {.incremental}
+- Então existe um emparelhamento estável $S'$ em que $w$ é pareada com um homem $m'$, de quem $w$ gosta menos do que $m$.
+- $\Rightarrow$ $w$ prefere $m$ a $m'$.
+- Seja $w' \neq w$ a parceira de $m$ em $S'$. Por otimalidade para homens, $w$ é a melhor parceira viável para $m$ (foram pareados em $S^*$).
+- $\Rightarrow$ $m$ prefere $w$ a $w'$.
+- Então, $(m, w)$ é um par **instável** em $S'$, uma **contradição**. $\blacksquare$
+:::
+
+## Emparelhamento de Empresas e Alunos
+
+**Exemplo:** Homens $\approx$ Empresas, Mulheres $\approx$ Alunos.
+
+**Variação 1:** Alguns participantes declaram outros como inaceitáveis.
+
+**Variação 2:** Números diferentes de homens e mulheres.
+
+**Variação 3:** Poligamia limitada.
+
+. . .
+
+> [**Def.**]{.label-def} Um emparelhamento $S$ é **instável** se há uma empresa $e$ e um aluno $a$ tal que:
+>
+> - $e$ e $a$ são aceitáveis mutuamente; e
+> - $a$ não está emparelhado, ou $a$ prefere $e$ a sua empresa atual; e
+> - $e$ não preencheu todas as suas vagas, ou $e$ prefere $a$ a um dos seus atuais estagiários.
+
+# Contexto Histórico
+
+## Contexto Histórico
+
+- Nomeado em homenagem a **David Gale** e **Lloyd Shapley**, que o publicaram em 1962.
+- Já era utilizado desde o início da década de 1950 no **National Resident Matching Program** (NRMP), para alocação de médicos residentes nos EUA.
+
+## Contexto Histórico
+
+**National Resident Matching Program.**
+
+- Processo de decisão centralizada.
+- $38.000$ estudantes e $28.000$ posições.
+
+![](images/residencia.PNG){width=80%}
+
+## Nobel de Economia em 2012
+
+**Lloyd Shapley:** Teoria de emparelhamento estável e algoritmo G-S.
+
+. . .
+
+**Alvin Roth:** Aplicação do algoritmo G-S no problema de **hospitais e estudantes**, e **doadores de órgãos com pacientes**.
+
+![](images/nobel.PNG){width=80%}
+
+
+#
+
+::: {style="text-align: center; margin-top: 15vh;"}
+[?]{style="font-size: 5em; color: #d10000; font-weight: 700;"}
+:::
+
+

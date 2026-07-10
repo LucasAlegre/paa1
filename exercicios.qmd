@@ -11,6 +11,12 @@ Exercícios organizados por tópico. Use o menu lateral para navegar entre os t�
 
 # Prova 1
 
+## Aula 01 - Emparelhamento Estável
+
+1. Implemente o algoritmo de Gale-Shapley na sua linguagem de programação de preferência. Verificar se ele está correto e se a pior execução não demanda mais do que $n^2$ propostas. 
+
+2. Resolva os "Solved Exercise 1" e "Solved Exercise 2" disponíveis no final do Capítulo 1 do livro "Algorithm Design" (Kleinberg, Tardos). Depois leia a solução dos autores do livro e verifique na prática através dos cenários "Categorias boas e ruins" e "Pares proibidos" na visualização.
+
 ## Análise Assintótica
 
 Em breve.

@@ -1,0 +1,45 @@
+---
+title: "Programação"
+toc: true
+toc-depth: 4
+toc-title: "Seções"
+---
+
+Nesta página, você encontrará materiais e recursos para apoiar a implementação de algoritmos na disciplina.
+
+---
+
+## Materiais
+
+- [De C para Python](https://colab.research.google.com/drive/1NTX2_Xdrp_uBE72-WmnId2fL5lTmG1Ha?usp=sharing)
+
+## Prática de Algoritmos (Juízes Online)
+
+Recomendamos as seguintes plataformas para você praticar a resolução de problemas algorítmicos e melhorar suas habilidades em programação:
+
+- [LeetCode](https://leetcode.com/)
+- [Advent of Code](https://adventofcode.com/)
+- [Beecrowd (antigo URI)](https://www.beecrowd.com.br/)
+- [Codeforces](https://codeforces.com/)
+- [HackerRank](https://www.hackerrank.com/)
+
+## Controle de Versão (GitHub)
+
+Para manter seus códigos organizados e seguros, é altamente recomendável criar um repositório no GitHub para a disciplina. 
+
+Ao final do semestre, o seu repositório será avaliado e contará como parte da nota de Atividades Autônomas da disciplina.
+
+**The Missing Semester of Your CS Education**: [https://missing.csail.mit.edu](https://missing.csail.mit.edu)
+- Excelente material para aprender Git, Linux e outras ferramentas úteis para o desenvolvimento de software.
+
+### Passo a passo sugerido:
+
+**Obs: A importância de usar Linux.** Grande parte das ferramentas de desenvolvimento, compiladores (como GCC) e ambientes de programção no geral são desenvolvidos primariamente em/para sistemas Linux. Acostumar-se com o terminal e com as ferramentas do ecossistema Linux facilitará muito não apenas a compilação do seu código e a resolução de exercícios, mas também sua futura atuação profissional.
+
+> Para evitar dualboot, é possível usar o Linux dentro do Windows através do **WSL (Windows Subsystem for Linux)**.
+
+1. **Crie uma conta no GitHub**: Caso ainda não possua, acesse [github.com](https://github.com/) e registre-se.
+2. **Crie um repositório**: No GitHub, crie um novo repositório (ex: `paa1-exercicios`) para guardar suas implementações.
+3. **Instale o VSCode**: Recomendamos o uso do [Visual Studio Code](https://code.visualstudio.com/) como editor principal.
+4. **Clone o repositório**: No VSCode, abra o terminal (ou a paleta de comandos) e use `git clone <URL_DO_SEU_REPOSITORIO>` para baixar o repositório em sua máquina.
+5. **Codifique e faça commits**: À medida que resolver exercícios, adicione os arquivos na pasta do repositório. Pelo VSCode (na aba *Source Control* no menu lateral), você pode adicionar (*stage*) os arquivos, escrever uma mensagem de *commit* e fazer o *push* ("Sync Changes") para enviar as alterações para o GitHub.

@@ -54,12 +54,12 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td class="wk">1</td>
   <td>qui. 06/ago.</td>
   <td>Sala 111</td>
-  <td class="t-red">Introdução. Problema do Troco. Multiplicação de Inteiros (Karatsuba).</td>
+  <td class="t-red">Introdução à Disciplina. Problema do Troco.</td>
   <td style="text-align:center;"><a href="aulas/aula1-intro.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li class="mb-1"><a href="https://colab.research.google.com/drive/1NTX2_Xdrp_uBE72-WmnId2fL5lTmG1Ha?usp=sharing"><i class="bi bi-file-earmark-code me-1"></i>De C para Python (Prof. Álvaro Becker)</a></li>
-      <li><a href="https://brunogrisci.github.io/karatsuba"><i class="bi bi-display me-1"></i>Visualização Karatsuba</a></li>
+      <li><a href="https://brunogrisci.github.io/cashiers"><i class="bi bi-display me-1"></i>Visualização Problema do Troco</a></li>
     </ul>
   </td>
 </tr>
@@ -68,9 +68,14 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td rowspan="2" class="wk">2</td>
   <td>ter. 11/ago.</td>
   <td>Sala 111</td>
-  <td class="t-red">Emparelhamento Estável. Problemas Representativos.</td>
-  <td></td>
-  <td></td>
+  <td class="t-red">Emparelhamento Estável. Gale-Shapley.</td>
+  <td style="text-align:center;"><a href="aulas/aula2-gale-shapley.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td>
+    <ul class="list-unstyled mb-0">
+      <li class="mb-1"><a href="https://brunogrisci.github.io/stablematching"><i class="bi bi-display me-1"></i>Visualização Gale-Shapley</a></li>
+      <li><a href="https://www.youtube.com/watch?v=LtTV6rIxhdo"><i class="bi bi-youtube me-1"></i>Stable Marriage (the math bit)</a></li>
+    </ul>
+  </td>
 </tr>
 <tr>
   <td>qui. 13/ago.</td>
@@ -261,14 +266,14 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 03/nov.</td>
   <td>Sala 111</td>
   <td class="t-blue">Grafos Eulerianos e Hamiltonianos. Caixeiro Viajante.</td>
-  <td style="text-align:center;"><a href="aulas/aula24-grafos-eulerianos.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td></td>
   <td></td>
 </tr>
 <tr>
   <td>qui. 05/nov.</td>
   <td>Sala 111</td>
   <td class="t-blue">Planaridade.</td>
-  <td style="text-align:center;"><a href="aulas/aula24-grafos-eulerianos.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td></td>
   <td></td>
 </tr>
 <!-- Semana 14 -->
@@ -277,7 +282,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 10/nov.</td>
   <td>Sala 111</td>
   <td class="t-blue">Coloração de Grafos.</td>
-  <td style="text-align:center;"><a href="aulas/aula24-grafos-eulerianos.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td></td>
   <td></td>
 </tr>
 <tr>

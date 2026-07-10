@@ -178,7 +178,21 @@ Conceito definido a partir de $NF$ da forma tradicional: A $(\geq9)$, B $(\geq7.
 
 ## Python
 
-- [De C para Python]()
+- [De C para Python](https://colab.research.google.com/drive/1NTX2_Xdrp_uBE72-WmnId2fL5lTmG1Ha?usp=sharing): [https://colab.research.google.com/drive/1NTX2_Xdrp_uBE72-WmnId2fL5lTmG1Ha?usp=sharing](https://colab.research.google.com/drive/1NTX2_Xdrp_uBE72-WmnId2fL5lTmG1Ha?usp=sharing)
+
+. . .
+
+- É **fortemente** sugerido aprender Python para esta disciplina.
+  - Algoritmos em aula serão apresentados em **pseudocódigo** e/ou **Python**
+  - "Mas eu odeio Python..." - 2ª opção: **C++**
+
+. . .
+
+- Programar é como tocar um instrumento: é necessário **praticar toda semana**!
+
+. . .
+
+- Exercícios e materiais de programação sugeridos na página da disciplina: [Programação](https://lucasalegre.github.io/paa1/programacao)
 
 ## Atividades de recuperação
 
@@ -270,8 +284,8 @@ E-mail Entrevista **Google**:
 
 | | |
 |---|---|
-| ![](images/amazon.jpg){width=47% height="34%"} | ![](images/gps.jpg){width=47% height="34%"} |
-| ![](images/sequences.png){width=47% height="34%"} | ![](images/Job-Application-vs.-The-Resume.jpg){width=47% height="34%"} |
+| ![](images/amazon.jpg){width=100%} | ![](images/gps.jpg){width=100% } |
+| ![](images/sequences.png){width=100%} | ![](images/Job-Application-vs.-The-Resume.jpg){width=100%} |
 
 ## Professor, mas e a IA?
 
@@ -296,8 +310,6 @@ E-mail Entrevista **Google**:
 
 - **E sim, também é divertido!**
 :::
-
-# Exemplos Motivacionais
 
 ## Projeto e Análise de Algoritmos
 
@@ -456,9 +468,7 @@ $$
 
 . . .
 
-::: {.small}
 *Intuição:* a prova é um “argumento de troca” + indução.
-:::
 
 ## Proposição: solução ótima única (incluindo moedas de 1 dólar)
 
@@ -471,292 +481,17 @@ $$
 - Então o restante em $\{1,5,10,25\}$ precisa somar $\ge 100$\textcent, isto é, $P + 5N + 10D + 25Q \ge 100$, contradizendo o limite $\le 99$.
 - Argumentos análogos justificam as escolhas gulosas para quarters, dimes e nickels.
 
-# Karatsuba - Multiplicação de Inteiros
-
-## Multiplicação de inteiros
-
-Desde o ensino fundamental aprendemos algoritmos.
-
-. . .
-
-Por exemplo, vamos realizar a seguinte multiplicação!
-
-$$
-1234 \times 5678 = ~?
-$$
-
-. . .
-
-Você consegue...
-
-- [**descrever precisamente**]{.bold-emph} o método utilizado?
-- [**justificar**]{.bold-emph} a sua correção?
-- [**estimar**]{.bold-emph} o seu custo (em tempo)?
-
-## Algoritmo tradicional de multiplicação (ATM)
-
-$$
-\begin{array}{lccccccccccr}
-&&&          & 1 & 2 & 3 & 4  && =x\\
-&&&\times & 5 & 6 & 7 & 8 & & =y\\
-\hline
-&&&&9&8&7&2&&\\
-&&&8&6&3&8&&&\\
-&&7&4&0&4&&&&\\
-&6&1&7&0&&&&&+\\
-\hline
-&7&0&0&6&6&5&2
-\end{array}
-$$
-
-Algoritmo tradicional de multiplicação:
-
-1. multiplique $x$ por cada dígito de $y$, obtendo um resultado parcial deslocado pela posição do dígito de $y$
-2. some todos os resultados parciais
-
-## Correção de ATM
-
-$$
-\begin{array}{cccccccccccc}
- (& 1\cdot10^3 &+&  2\cdot10^2 &+& 3\cdot10^1 &+& 4\cdot10^0&) & +\\
- (& 5\cdot10^3 &+&  6\cdot10^2 &+& 7\cdot10^1 &+& 8\cdot10^0&)& =\\
- \hline
-	(& 1\cdot5 &)&&&&&&& \cdot10^6\\
-	(& 1\cdot6 &+&2\cdot5&)&&&&& \cdot10^5\\
-	(& 1\cdot7 &+&2\cdot6&+&3\cdot5&)&&& \cdot10^4\\
-	(& 1\cdot8 &+&2\cdot7&+&3\cdot6&+&4\cdot5&)& \cdot10^3\\
-	(& 2\cdot8 &+&3\cdot7&+&4\cdot6&)&&& \cdot10^2\\
-	(& 3\cdot8 &+&4\cdot7&)&&&&& \cdot10^1\\
-	(& 4\cdot8 &)&&&&&&& \cdot10^0
-\end{array}
-$$
-
-## Custo da multiplicação tradicional (método da escola)
-
-:::: columns
-::: {.column width="44%"}
-[**Exemplo (2 dígitos):**]{.bold-emph}
-
-$$
-\begin{array}{rcccc}
-&&&3&2\\
-\times&&&5&6\\ \hline
-&&&1&2\\
-&&1&8&\\
-&&1&0&\\
-&1&5&&\\ \hline
-&1&7&9&2
-\end{array}
-$$
-
-- $4$ multiplicações de 1 dígito $(2\times2)$
-- $3$ somas (para combinar termos e carry)
-:::
-::: {.column width="56%"}
-[**Generalização (n dígitos):**]{.bold-emph}
-
-Se $x$ e $y$ têm $n$ dígitos, o algoritmo tradicional faz uma grade de produtos entre todos os pares de dígitos:
-
-$$
-\underbrace{n\times n}_{\text{pares de dígitos}} \Longrightarrow n^2\ \text{multiplicações de 1 dígito.}
-$$
-
-::: {.fragment}
-As somas (incluindo carries) para acumular os resultados também custam, no máximo:
-
-$$
-\text{somas/carries}=O(n^2).
-$$
-
-:::
-
-::: {.fragment}
-Portanto, contando operações elementares:
-
-$$
-T(n)=\Theta(n^2).
-$$
-:::
-:::
-::::
-
-## Mas....
-
-::: {.small}
-- Será que este é o [**melhor algoritmo**]{.bold-emph} para multiplicação de inteiros? Não daria para melhorar?
-- A história da computação envolve o constante avanço sobre o que é conhecido, até se encontrar os reais limites de um dado processo.
-- Em 1960, Kolmogorov propôs a conjectura de que multiplicação de inteiros seria $\Omega(n^2)$.
-- Em uma semana, Anatoly Karatsuba (23 anos) propôs um algoritmo mais rápido: $\Theta(n^{\log_2 3}) \approx \Theta(n^{1.58})$.
-:::
-
-:::: columns
-::: {.column width="48%"}
-![Kolmogorov](images/Andrej_Nikolajewitsch_Kolmogorov.jpg){width=45%}
-
-::: {.small}
-Andrei Nikolaevich Kolmogorov
-:::
-:::
-::: {.column width="48%"}
-![Karatsuba](images/Karatsuba_graduate2.jpg){width=50%}
-
-::: {.small}
-Anatolii Alexeievitch Karatsuba
-:::
-:::
-::::
-
-## Karatsuba: ideia
-
-::: {.small}
-**_Motivação (2 dígitos, base 10):_**
-
-Se $x=ab=a\cdot 10+b$ e $y=cd=c\cdot 10+d$, então:
-
-$$
-(a\cdot 10+b)(c\cdot 10+d)=ac\cdot 10^2 + (ad+bc)\cdot 10 + bd.
-$$
-
-. . .
-
-O truque é reescrever o termo do meio com a seguinte identidade:
-
-$$
-ad+bc=(a+b)(c+d)-ac-bd.
-$$
-
-. . .
-
-**_Generalização (qualquer número de dígitos):_**
-
-Escolha $m\approx\lceil n/2\rceil$ e defina $B=10^m$. Separe cada número em parte alta e baixa:
-
-$$
-x=x_1B+x_0,\qquad y=y_1B+y_0,\qquad\text{com }x_0,y_0<B.
-$$
-
-. . .
-
-Então
-
-$$
-xy=z_2B^2+z_1B+z_0,
-$$
-
-onde Karatsuba calcula com **3 multiplicações**:
-
-$$
-z_2=x_1y_1,\qquad z_0=x_0y_0,\qquad z_1=(x_1+x_0)(y_1+y_0)-z_2-z_0.
-$$
-:::
-
-## Algoritmo de Karatsuba para Multiplicação (AKM)
-
-::: {.small}
-$$
-\begin{array}{rrrr}
-& \overbrace{12}^{a} & \overbrace{34}^{b} \\
-\times & \overbrace{56}^{c} & \overbrace{78}^{d} \\
-\hline
-R1\cdot 10^4 &+\; R4\cdot 10^2 &+\; R2
-\end{array}
-$$
-
-*Algoritmo de Karatsuba:*
-
-1. calcule $R1 = a\cdot c$
-2. calcule $R2 = b\cdot d$
-3. calcule $R3 = (a+b)\cdot(c+d)$
-4. calcule $R4 = R3-R2-R1$
-5. devolva $(R1\cdot10^4 + R4\cdot10^2 + R2)$
-
-Obs: $R4\cdot10^2$ pois 2 é o tamanho de b (e d), e $R1\cdot10^4$ pois 4 é o dobro do mesmo tamanho. Se o corte for diferente (largura de b e d), esses expoentes variam de acordo.
-
-*Visualização:* <https://brunogrisci.github.io/karatsuba>
-:::
-
-## Correção do AKM
-
-Correção baseada nas seguintes identidades algébricas:
-
-$$
-\begin{array}{rcl}
-1234 \cdot 5678 &=& (12\cdot 10^2 + 34)(56\cdot 10^2 + 78)\\
-&=& (12\cdot56)\cdot10^4 + (12\cdot78 + 34\cdot56)\cdot10^2 + (34\cdot78)\\
-\\
-R1 &=& (12\cdot56)\\
-R2 &=& (34\cdot78)\\
-R3 &=& (12+34)(56+78)\\
-&=& (12\cdot56)+(12\cdot78+34\cdot56)+(34\cdot78)\\
-R4 &=& R3-R2-R1
-\end{array}
-$$
-
-## Análise de custo do AKM
-
-$$
-\text{Se } n = 2^k\ \text{(número de dígitos), então o Karatsuba faz } 3^k\ \text{multiplicações.}
-$$
-
-. . .
-
-::: {.small}
-A cada nível da recursão, o número é dividido ao meio: $2^k\to 2^{k-1}\to \cdots \to 2^0=1$.  
-Logo, são necessários $k$ níveis para chegar a subproblemas de $1$ dígito, e em cada nível o Karatsuba cria $3$ subprodutos, totalizando $3^k$.
-:::
-
-$$
-3^k = 3^{\log_2 n} = n^{\log_2 3} \approx n^{1.58}.
-$$
-
-## Considerações sobre hardware
-
-::: {.small}
-- *Melhoria assintótica:* $\log_2 3 \approx 1{,}585$. O algoritmo escolar usa $\mathcal{O}(n^2)$ multiplicações; Karatsuba reduz para $\mathcal{O}(n^{1{,}585})$ quando $n$ cresce.
-- *Na prática:* o ganho depende de **como o computador multiplica** inteiros. Muitos processadores possuem multiplicador em hardware para tamanhos fixos, por exemplo **32 bits $\times$ 32 bits**.
-- *Representação em base $2^{31}$:* em vez de separar em potências de $10$, usamos blocos adequados ao hardware: $x = a\cdot2^{31}+b$, onde $a$ e $b$ cabem em 32 bits.
-- *Arquitetura:* o custo relativo de **adições, acessos à memória e multiplicações** varia por geração. Em arquiteturas modernas, a diferença entre soma e multiplicação diminuiu.
-:::
-
-## Algoritmos de multiplicação de inteiros longos
-
-:::: columns
-::: {.column width="47%"}
-```{mermaid}
-flowchart TD
-	A[Toom-Cook (1963)<br/>generaliza divide-and-conquer]
-	B[Karatsuba (1960)<br/>O(n^1.585)]
-	C[Schonhage-Strassen (1971)<br/>O(n log n log log n)<br/>FFTs]
-	D[Harvey-van der Hoeven (2019)<br/>O(n log n)<br/>FFTs mais agressivas]
-	B --> C --> D
-```
-:::
-::: {.column width="53%"}
-::: {.small}
-- **Clássico (escolar):** $\mathcal{O}(n^2)$ costuma ganhar para $n$ pequeno (baixo overhead).
-- **Karatsuba/Toom-Cook:** reduzem multiplicações via truques algébricos; muito usados em bibliotecas e **criptografia**.
-- **Schönhage-Strassen:** usa **FFTs** para multiplicar por convolução; domina em inteiros com dezenas a centenas de milhares de dígitos.
-- **Harvey-van der Hoeven:** alcança $\mathcal{O}(n\log n)$, mas é **galáctico** (ponto de virada impraticável hoje).
-:::
-:::
-::::
-
-::: {.small}
-- Karatsuba, 1962: <http://mi.mathnet.ru/dan26729>
-- Harvey, 2019: <https://doi.org/10.4007/annals.2021.193.2.4>
-:::
 
 ## Concluindo
 
-- Notem que neste pequeno exemplo trabalhamos com algoritmos no "papel", porém as mesmas perguntas valem para algoritmos rodando em sistemas computacionais.
-
-. . .
 
 - Neste primeiro mês, vamos abordar a base para a **análise de correção e de custos de algoritmos**, em particular a **notação assintótica**.
 
 . . .
 
-- Daqui para a frente, a ideia é saber desenvolver algoritmos tendo uma compreensão profunda sobre **por que ele funciona** e sermos capazes de estimar o seu respectivo **custo** (em tempo e espaço).
+- Daqui para a frente, a ideia é saber desenvolver algoritmos tendo uma compreensão profunda sobre:
+  - **por que ele funciona (corretude)** e
+  - seu respectivo **custo** (em tempo e espaço).
 
 #
 

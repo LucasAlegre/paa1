@@ -11,6 +11,13 @@ website:
         text: Home
       - href: exercicios.qmd
         text: Exercícios
+      - href: programacao.qmd
+        text: Programação
+    right:
+      - icon: github
+        href: https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos
+        aria-label: GitHub
+        text: Códigos
 
 format:
   html:

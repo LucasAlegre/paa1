@@ -40,12 +40,14 @@ filters:
 
 # Emparelhamento Estável
 
-## Emparelhamento entre Hospitais e Estudantes de Medicina
+## Emparelhamento entre Hospitais e Médicos
 
-**Objetivo:** Dado um conjunto de preferências entre hospitais e estudantes de medicina, definir um processo de admissão **autoimposto**.
+> [**Objetivo:**]{.label-def} Dado um conjunto de preferências entre hospitais e estudantes de medicina, definir um processo de admissão **autoimposto**.
 
+::: {style="text-align: center"}
 ![](images/medstudent.jpeg){width=30%}
 ![](images/hospitalufrgs.jpg){width=30%}
+:::
 
 . . .
 
@@ -72,7 +74,25 @@ filters:
 - Cada homem lista mulheres em ordem de preferência da melhor para a pior.
 - Cada mulher lista homens em ordem de preferência do melhor para o pior.
 
-**Emparelhamento Estável:** Problema exemplo.
+[**Exemplo de Instância (3 homens, 3 mulheres):**]{.label-exmp}
+
+:::: {.columns}
+::: {.column width="45%"}
+**Preferências dos Homens:**
+
+- $m_1 \colon w_1 \succ w_2 \succ w_3$
+- $m_2 \colon w_2 \succ w_1 \succ w_3$
+- $m_3 \colon w_1 \succ w_2 \succ w_3$
+:::
+
+::: {.column width="45%"}
+**Preferências das Mulheres:**
+
+- $w_1 \colon m_2 \succ m_1 \succ m_3$
+- $w_2 \colon m_1 \succ m_2 \succ m_3$
+- $w_3 \colon m_1 \succ m_2 \succ m_3$
+:::
+::::
 
 ## Emparelhamento Perfeito
 
@@ -84,7 +104,12 @@ filters:
 
 . . .
 
-**Emparelhamento Perfeito:** Exemplo.
+<br>
+
+[**Exemplo de Emparelhamento Perfeito:**]{.label-exmp}
+
+- $M = \{m_1, m_2, m_3\}$ e $W = \{w_1, w_2, w_3\}$
+- $S = \{(m_1, w_2), (m_2, w_1), (m_3, w_3)\}$
 
 ## Par Instável
 
@@ -97,7 +122,25 @@ filters:
 
 > [**Obs.**]{.label-rmk} Um par instável $(m, w)$ pode melhorar seus parceiros com uma ação conjunta.
 
-**Emparelhamento Estável:** Exemplo.
+[Exemplo:]{.label-exmp}
+
+:::: {.columns}
+::: {.column width="45%"}
+**Preferências:**
+
+- $m_1 \colon w_1 \succ w_2$
+- $m_2 \colon w_1 \succ w_2$
+- $w_1 \colon m_1 \succ m_2$
+- $w_2 \colon m_1 \succ m_2$
+:::
+::: {.column width="55%"}
+**Emparelhamentos:**
+
+- $\{(m_1, w_1), (m_2, w_2)\}$ é **estável**
+- $\{(m_1, w_2), (m_2, w_1)\}$ é **instável** \
+(pois $m_1$ e $w_1$ formam um par instável)
+:::
+::::
 
 ## Problema de Emparelhamento Estável
 
@@ -112,7 +155,7 @@ filters:
 
 ## Problema de Emparelhamento Estável
 
-**P:** Emparelhamentos estáveis sempre existem?
+[**P:**]{.label-qstn} Emparelhamentos estáveis sempre existem?
 
 . . .
 
@@ -126,7 +169,7 @@ filters:
 
 ## Problema de Emparelhamento Estável
 
-**P:** Emparelhamentos estáveis sempre existem?
+[**P:**]{.label-qstn} Emparelhamentos estáveis sempre existem?
 
 . . .
 
@@ -183,7 +226,7 @@ Algoritmo intuitivo que **garante** encontrar um emparelhamento estável.
 \end{algorithmic}
 ```
 
-## {data-background-iframe="https://brunogrisci.github.io/stablematching" data-background-interactive="true"}
+## {data-background-iframe="https://brunogrisci.github.io/stablematching" data-background-interactive="true" .hide-header}
 
 # Análise de Gale-Shapley
 
@@ -470,7 +513,7 @@ $$
 
 ## Entendendo a Solução
 
-**P:** O que acontece com as mulheres?
+[**P:**]{.label-qstn} O que acontece com as mulheres?
 
 . . .
 
@@ -532,7 +575,7 @@ $$
 
 **Alvin Roth:** Aplicação do algoritmo G-S no problema de **hospitais e estudantes**, e **doadores de órgãos com pacientes**.
 
-![](images/nobel.PNG){width=80%}
+![](images/nobel.PNG){fig-align="center" width=80%}
 
 
 #
@@ -540,5 +583,3 @@ $$
 ::: {style="text-align: center; margin-top: 15vh;"}
 [?]{style="font-size: 5em; color: #d10000; font-weight: 700;"}
 :::
-
-

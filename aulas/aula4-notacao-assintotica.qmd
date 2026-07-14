@@ -1,0 +1,953 @@
+---
+title: "Projeto e Análise de Algoritmos I"
+subtitle: "Aula 04: Análise de Algoritmos. Notação Assintótica I."
+author: "Lucas Nunes Alegre"
+institute: |
+  Universidade Federal do Rio Grande do Sul  <br>
+  Instituto de Informática <br> Departamento de Informática Teórica  
+  <br><br><br>
+  <span style="display:inline-block; max-width:60%; font-size:0.55em;">Estes slides utilizam conteúdo adaptado da bibliografia da disciplina e também de notas de aula e slides prévios dos professores Bruno Grisci, Rodrigo Machado, André Grahl Pereira, Lucas Nunes Alegre, Marcus Ritt e Luciana Buriol.</span>
+date: ""
+lang: pt-BR
+
+format:
+  revealjs:
+    theme: [default, metropolis.scss]
+    slide-number: true
+    progress: true
+    transition: fade
+    width: 1024
+    height: 768
+    margin: 0.15
+    html-math-method: katex
+    title-slide-attributes:
+      data-background-color: "#ffffff"
+    center: false
+    highlight-style: github
+    fig-align: center
+    embed-resources: false
+    preview-links: true
+    include-in-header:
+      - pseudocode-reveal.html
+    chalkboard:
+      theme: whiteboard
+      boardmarker-width: 5
+      buttons: false
+
+filters:
+  - leovan/pseudocode
+---
+
+## Como Medir o Custo de um Algoritmo?
+
+Quando analisamos algoritmos, precisamos de uma métrica de *custo*.
+
+Mas *o que* exatamente devemos medir?
+
+. . .
+
+**Possíveis Medidas:**
+
+::: {.incremental}
+- Tempo de execução (*ms, segundos, minutos, dias, anos*)
+- Espaço utilizado na memória (*bits, KB, MB, GB, TB*)
+- Consumo de energia (*kWh*)
+- Custos financeiros (\$, R\$, £, ¥)
+- Outros recursos (rede, *hardware* especializado, etc.)
+:::
+
+. . .
+
+*P:* Qual dessas medidas é a mais relevante para analisar algoritmos?
+
+## Modelo de Computação
+
+**Modelo RAM (Random Access Machine):**
+
+::: {.incremental}
+- Vamos assumir um computador genérico, que executa operações em sequência, sem paralelismo.
+- E se o processador tem uma instrução para ordenação? Ordenação $O(1)$? **Não realístico.**
+- Exponenciação é operação de tempo constante?
+  - Pode ser implementado com *shift-right/shift-left*.
+  - Vamos assumir que $2^k$ tem tempo constante para $k$ pequeno.
+- Não vamos considerar hierarquia de memória.
+:::
+
+## Análise de Algoritmos
+
+**Modelo RAM (Random Access Machine):**
+
+::: {.incremental}
+- **Observação:** Em geral é desnecessário definir o custo de cada instrução, assumimos um [custo constante]{style="color: red;"} para qualquer instrução.
+- **Definição:** Toda operação simples leva tempo constante:
+  - Adição, subtração, multiplicação, divisão, $\dots$
+  - Movimentos de dados (acesso e escrita na memória).
+  - Controle condicional.
+- **Observação:** Operações complexas não levam tempo constante:
+  - *Loops*.
+  - Chamadas a sub-rotinas como ordenação.
+:::
+
+## Análise de Algoritmos
+
+::: {.incremental}
+- *P:* Como analisar o tempo de execução de um algoritmo?
+
+- **Observação:** O tempo requerido por um algoritmo depende da **entrada**:
+  - Ordenar 100.000 números leva mais tempo que ordenar 3 números.
+
+- Precisamos levar o [tamanho da entrada]{style="color: red;"} em consideração.
+:::
+
+## Análise de Algoritmos: Tamanho da Entrada
+
+::: {.incremental}
+- **Tamanho da Entrada:**
+  - Depende do problema a ser estudado.
+  - Geralmente o número de itens na entrada (números).
+  - Multiplicar dois números inteiros: número de bits.
+  - Pode ser descrito por mais de um número: grafos ($V$ e $E$).
+
+- *P:* Qual o tamanho da entrada de um Cubo Mágico?
+:::
+
+## Análise de Algoritmos: Tempo de Execução
+
+::: {.incremental}
+- **Tempo de Execução:** Para uma entrada especifica, é o número de instruções primitivas (*steps*) executadas.
+
+- Instruções independente de máquina:
+  - Cada linha $i$ custa tempo constante $c_i$.
+  - Uma linha que custa $c_i$ e é executada $n$ vezes vai contribuir $c_i \cdot n$.
+:::
+
+$T(n) =$ número de instruções executadas para entrada de tamanho $n$.
+
+## Laços (*Loops*)
+
+O teste do laço é executado uma vez a mais que o conteúdo do bloco:
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\For{$j \gets 1$ \To $n$} \Comment{Executa $n + 1$ vezes}
+  \State $A[j] \gets 0$ \Comment{Executa $n$ vezes}
+\EndFor
+\end{algorithmic}
+```
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\While{$j > 0$} \Comment{Executa $X + 1$ vezes}
+  \State $j \gets \dots$ \Comment{Executa $X$ vezes}
+\EndWhile
+\end{algorithmic}
+```
+
+# Análise do InsertionSort
+
+## Ordenação por Inserção (Insertion Sort)
+
+| | InsertionSort$(A)$: | **Custo** | Repetições |
+|---|---|---|---|
+| 1. | **for** $j \gets 2$ **to** $A.length$ | $c_1$ | $n$ |
+| 2. | $\quad key \gets A[j]$ | $c_2$ | $n-1$ |
+| 3. | $\quad$ // Insere $A[j]$ na lista ordenada $A[1 \dots j-1]$ | $0$ | $n-1$ |
+| 4. | $\quad i \gets j-1$ | $c_4$ | $n-1$ |
+| 5. | $\quad$ **while** $i > 0$ **and** $A[i] > key$ | $c_5$ | $\sum_{j=2}^n t_j$ |
+| 6. | $\quad\quad A[i+1] \gets A[i]$ | $c_6$ | $\sum_{j=2}^n (t_j - 1)$ |
+| 7. | $\quad\quad i \gets i-1$ | $c_7$ | $\sum_{j=2}^n (t_j - 1)$ |
+| 8. | $\quad A[i+1] \gets key$ | $c_8$ | $n-1$ |
+
+. . .
+
+Quantas execuções?
+
+$t_j$: n° de repetições do laço da linha 5 para aquele valor de $j$.
+
+## Ordenação por Inserção (Insertion Sort)
+
+Somando todos os Custos:
+
+$$T(n) = c_1 n + c_2(n-1) + 0(n-1) + c_4(n-1) + c_5 \sum_{j=2}^n t_j + c_6 \sum_{j=2}^n (t_j - 1) + c_7 \sum_{j=2}^n (t_j - 1) + c_8(n-1)$$
+
+<br>
+
+[**Problema:**]{style="color: red;"} Como nos livramos de $t_j$? O valor de $t_j$ para cada $j$ depende da sequência de entrada, que não temos como saber *a priori*.
+
+. . .
+
+**Solução:** Podemos analisar o [melhor]{style="color: green;"} e o [pior]{style="color: red;"} caso! Isto é, podemos inferir limites inferiores e limites superiores para $t_j$.
+
+## Ordenação por Inserção (Insertion Sort)
+
+::: {.incremental}
+- **Melhor Caso:** $t_j = 1$
+- $A[i] \le key$
+- Sequência já ordenada!
+:::
+
+. . .
+
+$$
+\begin{align}
+T(n) &= c_1 n + c_2(n-1) + 0(n-1) + c_4(n-1) + c_5 \sum_{j=2}^n t_j + \\
+     &\quad c_6 \sum_{j=2}^n (t_j - 1) + c_7 \sum_{j=2}^n (t_j - 1) + c_8(n-1)
+\end{align}
+$$
+
+## Ordenação por Inserção (Insertion Sort)
+
+- **Melhor Caso:** $t_j = 1$
+- $A[i] \le key$
+- Sequência já ordenada!
+
+$$
+\begin{align}
+T(n) &= c_1 n + c_2(n-1) + 0(n-1) + c_4(n-1) + c_5 \sum_{j=2}^n 1 + c_6 \sum_{j=2}^n (1 - 1) \\
+     &\quad + c_7 \sum_{j=2}^n (1 - 1) + c_8(n-1)\\
+     &= c_1 n + c_2(n-1) + c_4(n-1) + c_5(n-1) + c_8(n-1) \\
+     &= (c_1 + c_2 + c_4 + c_5 + c_8)n - (c_2 + c_4 + c_5 + c_8) \\
+     &= a \cdot n + b
+\end{align}
+$$
+
+. . .
+
+Lembrando que $\sum_{j=1}^{n}=n$.
+
+**Melhor Caso: função linear** em $n$.
+
+## Ordenação por Inserção (Insertion Sort)
+
+::: {.incremental}
+- **Pior Caso:** $t_j = j$
+- $A[i] > key$ **sempre**
+- Sequência ordenada em [ordem reversa!]{style="color: red;"}
+:::
+
+. . .
+
+$$\sum_{j=2}^n j = \frac{n(n+1)}{2} - 1 \quad \text{e} \quad \sum_{j=2}^n (j-1) = \frac{n(n-1)}{2}$$
+
+. . .
+
+$$
+\begin{align}
+T(n) &= c_1 n + c_2 (n-1) + c_4 (n-1) + c_5 \left(\frac{n(n+1)}{2}-1\right) + c_6 \left(\frac{n(n-1)}{2}\right) \\
+     &\quad + c_7 \left(\frac{n(n-1)}{2}\right) + c_8 (n-1) \\
+     &= \left( \frac{c_5}{2} + \frac{c_6}{2} + \frac{c_7}{2} \right) n^2 + \left( c_1 + c_2 + c_4 + \frac{c_5}{2} - \frac{c_6}{2} - \frac{c_7}{2} + c_8 \right) n  - (c_2 + c_4 + c_5 + c_8)\\
+     &= a n^2 + b n + c
+\end{align}
+$$
+
+## Ordenação por Inserção (Insertion Sort)
+
+**Pior Caso:** $t_j = j$
+
+. . .
+
+> [**Pior Caso:**]{style="color: red;"} **função quadrática** em $n$.
+
+. . .
+
+::: {.incremental}
+- $a, b$ e $c$ dependem do custo das instruções ($c_i$).
+- $T(n) = n^2$?
+- Não é igual, mas cresce como $n^2$.
+- $T(n) \sim n^2$ (**ordem de crescimento**).
+:::
+
+## Análise de Algoritmos
+
+::: {.incremental}
+- *P:* Por que o pior caso?
+
+- **Observação:** Nós em geral nos preocupamos em encontrar o tempo de execução do [pior caso]{style="color: red;"}:
+  - O maior tempo de execução para qualquer entrada de tamanho $n$.
+  - O pior caso dá uma garantia para qualquer entrada.
+  - Para alguns algoritmos o pior caso ocorre com frequência
+    - Exemplo: busca de um item não presente em um vetor.
+
+- *P:* Alternativas ao pior caso?
+:::
+
+## Análise de Algoritmos
+
+::: {.incremental}
+- *P:* Qual é caso médio do algoritmo de Ordenação por Inserção?
+
+- **Observação:** Para ordenar um vetor ordenado randomicamente com elementos distintos:
+  - Em média $A[j]$ é menor que metade dos elementos em $A[1 \dots j-1]$.
+  - Assim, o algoritmo deve comparar o elemento com metade dos elementos até encontrar a posição de $key$.
+
+- **Observação:** Então $t_j = \frac{j}{2}$, isso é aproximadamente metade do pior caso, mas ainda é uma [função quadrática]{style="color: red;"}.
+
+- *P:* Quais instâncias aparecem no mundo real?
+:::
+
+## Busca em Vetor Não Ordenado
+
+No nosso caso, abstraímos com unidades constantes de computação.
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Busca-Linear}{$x,\ A[1..n]$}
+  \For{$i \gets 1$ \To $n$}
+    \If{$A[i] = x$}
+      \Return $i$
+    \EndIf
+  \EndFor
+  \Return \textsc{Não-Encontrado}
+\EndProcedure
+\end{algorithmic}
+```
+
+*Passos unitários contados:*
+
+- leitura de $A[i]$
+- comparação $A[i]{=}x$
+- incremento de $i$
+- **return**
+- $\ldots$
+
+*Observação:* Nessa disciplina, também iremos considerar unidades constantes de armazenamento para analisar a complexidade de espaço.
+
+## Busca em Vetor Não Ordenado
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Busca-Linear}{$x,\ A[1..n]$}
+  \For{$i \gets 1$ \To $n$}
+    \If{$A[i] = x$}
+      \Return $i$
+    \EndIf
+  \EndFor
+  \Return \textsc{Não-Encontrado}
+\EndProcedure
+\end{algorithmic}
+```
+
+**Exemplo:** Procurar $x=23$ em $A[1..10]$
+
+| Índice | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|--------|---|---|---|---|---|---|---|---|---|---|
+| Valor  | 42 | 7 | 85 | 13 | 66 | 90 | **23** | 5 | 77 | 31 |
+
+## Busca em Vetor Não Ordenado
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Busca-Linear}{$x,\ A[1..n]$}
+  \For{$i \gets 1$ \To $n$}
+    \If{$A[i] = x$}
+      \Return $i$
+    \EndIf
+  \EndFor
+  \Return \textsc{Não-Encontrado}
+\EndProcedure
+\end{algorithmic}
+```
+
+**Exemplo:** Procurar $x=42$ em $A[1..10]$
+
+| Índice | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|--------|---|---|---|---|---|---|---|---|---|---|
+| Valor  | **42** | 7 | 85 | 13 | 66 | 90 | 23 | 5 | 77 | 31 |
+
+## Busca em Vetor Não Ordenado
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Busca-Linear}{$x,\ A[1..n]$}
+  \For{$i \gets 1$ \To $n$}
+    \If{$A[i] = x$}
+      \Return $i$
+    \EndIf
+  \EndFor
+  \Return \textsc{Não-Encontrado}
+\EndProcedure
+\end{algorithmic}
+```
+
+**Exemplo:** Procurar $x=15$ em $A[1..10]$
+
+| Índice | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 |
+|--------|---|---|---|---|---|---|---|---|---|---|
+| Valor  | 42 | 7 | 85 | 13 | 66 | 90 | 23 | 5 | 77 | 31 |
+
+## Qual Caso Devemos Considerar?
+
+- **Melhor Caso:** quando encontramos o elemento logo na primeira comparação.
+
+- **Pior Caso:** quando precisamos examinar todos os elementos do vetor.
+
+- **Caso Médio:** quando o elemento pode aparecer em qualquer posição com igual probabilidade.
+
+. . .
+
+*P:* Qual desses casos é o mais relevante para analisar algoritmos em teoria da computação?
+
+## Análise de Pior Caso
+
+::: {.incremental}
+- Procuramos um limite superior para o **tempo de execução máximo** de um algoritmo em entradas de tamanho $N$.
+- Pode parecer drástico, mas na prática a análise de [pior caso]{style="color: red;"} costuma refletir bem a eficiência real.
+- Alternativa: análise de caso médio (entradas "aleatórias"), [porém]{style="color: red;"}:
+  - Difícil definir uma distribuição de entradas realista.
+  - Resultados dependem mais do modelo de aleatoriedade do que do algoritmo.
+- Análise de [pior caso]{style="color: red;"} é a **abordagem padrão** na teoria de algoritmos.
+- *Benchmark* inicial: comparação com **busca força bruta** sobre todo o espaço de soluções.
+:::
+
+## Busca em Vetor Não Ordenado
+
+*P:* Qual o [pior caso]{style="color: red;"}?
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Busca-Linear}{$x,\ A[1..n]$}
+  \For{$i \gets 1$ \To $n$}
+    \If{$A[i] = x$}
+      \Return $i$
+    \EndIf
+  \EndFor
+  \Return \textsc{Não-Encontrado}
+\EndProcedure
+\end{algorithmic}
+```
+
+$T(n) = 3n + 1$
+
+## BubbleSort
+
+*P:* Qual o [pior caso]{style="color: red;"}?
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Swap}{$A, x, y$}
+  \State $tmp \gets A[x]$
+  \State $A[x] \gets A[y]$
+  \State $A[y] \gets tmp$
+\EndProcedure
+\end{algorithmic}
+```
+
+$T(n) = 2 + 2 + 1 = 5$
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{BubbleSort}{$A$}
+  \State $n \gets \text{length}(A)$
+  \For{$i \gets 1$ \To $n-1$}
+    \For{$j \gets 1$ \To $n-i$}
+      \If{$A[j] > A[j+1]$}
+        \State $\text{Swap}(A, j, j+1)$
+      \EndIf
+    \EndFor
+  \EndFor
+\EndProcedure
+\end{algorithmic}
+```
+
+$T(n) = (n-1)(n-1)(1+5) = 6n^2 - 12n + 6$
+
+## Ordem de Crescimento {.t}
+
+*Observação:* Focar a análise nas características importantes.
+
+<br>
+
+- Considerar apenas os termos de **maior ordem** da fórmula.
+- Remover os termos de menor ordem.
+- Ignorar os coeficientes (constantes).
+
+## Um Pensamento Moderno
+
+![](images/babbage.png){width=100%}
+
+## Tempos de Execução {.t}
+
+*Eficiência:* Diferentes algoritmos para resolver o mesmo problema podem diferir dramaticamente em sua eficiência.
+
+*Problema de Ordenação:* Uma sequência de $n=10.000.000$ números.
+
+. . .
+
+[**Algoritmo A:**]{style="color: orange;"} $T(n) = 2n^2$.
+
+. . .
+
+[**Algoritmo B:**]{style="color: blue;"} $T(n) = 50n \log n$.
+
+. . .
+
+*Constantes* $c_1=2$ e $c_2=50$ não dependem de $n$.
+
+. . .
+
+*P:* Qual será a diferença de eficiência dos dois algoritmos?
+
+## Tempos de Execução {.t}
+
+*Computador 1:* Executa $10$ bilhões de instruções por segundo.
+
+<br>
+
+[**A-1:**]{style="color: orange;"} $\dfrac{2 \cdot (10^7)^2 \text{ instruções}}{10^{10} \text{ instruções/segundo}} = 20.000 \text{ segundos } (5{,}5 \text{ horas})$.
+
+<br>
+
+[**B-1:**]{style="color: blue;"} $\dfrac{50 \cdot (10^7) \cdot \log(10^7) \text{ instruções}}{10^{10} \text{ instruções/segundo}} = 1{,}16 \text{ segundos}$.
+
+. . .
+
+<br>
+
+*Computador 2:* Executa $10$ milhões de instruções por segundo.
+
+<br>
+
+[**A-2:**]{style="color: orange;"} $\dfrac{2 \cdot (10^7)^2 \text{ instruções}}{10^{7} \text{ instruções/segundo}} = 20.000.000 \text{ segundos } (231 \text{ dias})$.
+
+<br>
+
+[**B-2:**]{style="color: blue;"} $\dfrac{50 \cdot (10^7) \cdot \log(10^7) \text{ instruções}}{10^{7} \text{ instruções/segundo}} = 1.163 \text{ segundos } (\approx 19 \text{ minutos})$.
+
+## Tempos de Execução {.t}
+
+![](images/tempos.png){width=100%}
+
+Tempo de execução para diferentes algoritmos em entradas de tamanho crescente em um computador executando um milhão de instruções por segundo. Em casos com tempo $\geq 10^{25}$ anos substituído por *very long*. Para referência, a idade estimada do universo é de aproximadamente $4 \times 10^{17}$ [segundos]{style="color: red;"}.
+
+## Eficiência: Força Bruta {.t}
+
+*Espaço de Busca:*
+
+::: {.incremental}
+- Os problemas que vamos estudar possuem **natureza discreta**.
+- Eles envolvem uma **busca implícita** sobre um grande conjunto de **possibilidades combinatórias**.
+- Com o objetivo de encontrar uma **solução** que satisfaz um conjunto de condições.
+- Para muitos problemas existirá a opção de realizar uma **busca por força bruta** checando todas as soluções.
+:::
+
+. . .
+
+*P:* Exemplo?
+
+. . .
+
+*Observação:* Em geral, nós consideramos o algoritmo mais eficiente se seu tempo de execução no [pior caso]{style="color: red;"} tem *ordem de crescimento menor* (tese de Cobham-Edmonds).
+
+*P:* Uma definição para um algoritmo eficiente?
+
+## Eficiência: Polinomial {.t}
+
+*Def.* Nós dizemos que um algoritmo é *eficiente* se tem tempo de execução *polinomial*.
+
+. . .
+
+*P:* E se for $n^{100}$ vs. $1.001^{n}$?
+
+*Justificativa:*
+
+- Funciona na prática.
+- Normalmente, algoritmos têm baixas constantes e baixos expoentes.
+- Desenvolver um algoritmo polinomial em geral envolve entender alguma estrutura fundamental do espaço de busca do problema.
+
+. . .
+
+*Exceções:*
+
+- Simplex vs. Método de Elipsóide.
+- Busca Heurística.
+
+# Análise Assintótica
+
+## Intuição {.t}
+
+*Ideia:* Suprimir fatores constantes e termos de baixa ordem.
+
+<br>
+
+- Independente de máquina.
+- Foco em grandes entradas.
+- Descreve o crescimento de funções.
+- Descreve o comportamento de funções [no limite]{style="color: red;"}.
+
+<br>
+
+. . .
+
+*Exemplo:* $8n^3 + 50n + 86$ cresce como $n^3$.
+
+<br>
+
+. . .
+
+*Terminologia:* O algoritmo tem tempo de execução $\mathcal{O}(n^3)$, onde $n$ é o tamanho da entrada.
+
+## Intuição {.t}
+
+*Problema:* O vetor $A$ contem o número $t$?
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Busca}{$A, n, t$}
+  \For{$i \gets 1$ \To $n$}
+    \If{$A[i] = t$}
+      \Return \textbf{true}
+    \EndIf
+  \EndFor
+  \Return \textbf{false}
+\EndProcedure
+\end{algorithmic}
+```
+
+<br>
+
+*P:* Qual é o tempo de execução?  
+*P:* Quanto espaço é usado?
+
+## Intuição {.t}
+
+*Problema:* O vetor $A$ contem o número $t$?
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Busca}{$A, n, t$}
+  \For{$i \gets 1$ \To $n$}
+    \If{$A[i] = t$}
+      \Return \textbf{true}
+    \EndIf
+  \EndFor
+  \Return \textbf{false}
+\EndProcedure
+\end{algorithmic}
+```
+
+<br>
+
+*P:* Qual é o tempo de execução? $\mathcal{O}(n)$
+
+## Intuição {.t}
+
+*Problema:* O vetor $A$ ou o vetor $B$ contem o número $t$?
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Busca-Dupla}{$A, B, n, t$}
+  \For{$i \gets 1$ \To $n$}
+    \If{$A[i] = t$}
+      \Return \textbf{true}
+    \EndIf
+  \EndFor
+  \For{$i \gets 1$ \To $n$}
+    \If{$B[i] = t$}
+      \Return \textbf{true}
+    \EndIf
+  \EndFor
+  \Return \textbf{false}
+\EndProcedure
+\end{algorithmic}
+```
+
+*P:* Qual é o tempo de execução?
+
+## Intuição {.t}
+
+*Problema:* O vetor $A$ ou o vetor $B$ contem o número $t$?
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Busca-Dupla}{$A, B, n, t$}
+  \For{$i \gets 1$ \To $n$}
+    \If{$A[i] = t$}
+      \Return \textbf{true}
+    \EndIf
+  \EndFor
+  \For{$i \gets 1$ \To $n$}
+    \If{$B[i] = t$}
+      \Return \textbf{true}
+    \EndIf
+  \EndFor
+  \Return \textbf{false}
+\EndProcedure
+\end{algorithmic}
+```
+
+*P:* Qual é o tempo de execução? $\mathcal{O}(n)$
+
+## Intuição {.t}
+
+*Problema:* O vetor $A$ e o vetor $B$ contem um número em comum?
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Busca-Comum}{$A, B, n$}
+  \For{$i \gets 1$ \To $n$}
+    \For{$j \gets 1$ \To $n$}
+      \If{$A[i] = B[j]$}
+        \Return \textbf{true}
+      \EndIf
+    \EndFor
+  \EndFor
+  \Return \textbf{false}
+\EndProcedure
+\end{algorithmic}
+```
+
+*P:* Qual é o tempo de execução?
+
+## Intuição {.t}
+
+*Problema:* O vetor $A$ e o vetor $B$ contem um número em comum?
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Busca-Comum}{$A, B, n$}
+  \For{$i \gets 1$ \To $n$}
+    \For{$j \gets 1$ \To $n$}
+      \If{$A[i] = B[j]$}
+        \Return \textbf{true}
+      \EndIf
+    \EndFor
+  \EndFor
+  \Return \textbf{false}
+\EndProcedure
+\end{algorithmic}
+```
+
+*P:* Qual é o tempo de execução? $\mathcal{O}(n^2)$
+
+## Intuição {.t}
+
+*Problema:* O vetor $A$ tem um elemento duplicado?
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Verifica-Duplicatas}{$A, n$}
+  \For{$i \gets 1$ \To $n$}
+    \For{$j \gets i+1$ \To $n$}
+      \If{$A[i] = A[j]$}
+        \Return \textbf{true}
+      \EndIf
+    \EndFor
+  \EndFor
+  \Return \textbf{false}
+\EndProcedure
+\end{algorithmic}
+```
+
+*P:* Qual é o tempo de execução?
+
+## Intuição {.t}
+
+*Problema:* O vetor $A$ tem um elemento duplicado?
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Verifica-Duplicatas}{$A, n$}
+  \For{$i \gets 1$ \To $n$}
+    \For{$j \gets i+1$ \To $n$}
+      \If{$A[i] = A[j]$}
+        \Return \textbf{true}
+      \EndIf
+    \EndFor
+  \EndFor
+  \Return \textbf{false}
+\EndProcedure
+\end{algorithmic}
+```
+
+*P:* Qual é o tempo de execução? $\mathcal{O}(n^2)$
+
+## Notação Big $\mathcal{O}$ - Limitante Superior {.t}
+
+*Observação.* Seja $T(n)$ uma função em $n=1, 2, 3, \dots$ (em geral o pior tempo de execução de um algoritmo).
+
+. . .
+
+*P:* Quando $T(n)$ é $\mathcal{O}(f(n))$?
+
+. . .
+
+*R:* Se eventualmente (para $n$ suficientemente grande), $T(n)$ é limitado por cima por $f(n)$ multiplicada por uma constante.
+
+## Notação Big $\mathcal{O}$ - Limitante Superior
+
+:::: columns
+::: {.column width="34%"}
+![](images/bigO.png){width=90%}
+:::
+::: {.column width="64%"}
+*Def.* $T(n)$ é $\mathcal{O}(f(n))$ se e somente se existe uma constante $c > 0$ e um $n_0 \geq 0$ tal que $T(n) \leq c \cdot f(n)$ para todo $n \geq n_0$.
+
+. . .
+
+*Exemplo:* $T(n) = 32n^2 + 17n + 1.$
+
+- $T(n)$ é $\mathcal{O}(n^2)$.
+- $T(n)$ é $\mathcal{O}(n^3)$.
+- $T(n)$ [não]{style="color: red;"} é $\mathcal{O}(n)$.
+- $T(n)$ [não]{style="color: red;"} é $\mathcal{O}(n\log(n))$.
+:::
+::::
+
+. . .
+
+*Uso:* Ordenação por Inserção é $\mathcal{O}(n^2)$.
+
+. . .
+
+*Observação:* $c$ e $n_0$ não podem depender de $n$.
+
+## Busca em Vetor Não Ordenado
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Busca-Linear}{$x,\ A[1..n]$}
+  \For{$i \gets 1$ \To $n$}
+    \If{$A[i] = x$}
+      \Return $i$
+    \EndIf
+  \EndFor
+  \Return \textsc{Não-Encontrado}
+\EndProcedure
+\end{algorithmic}
+```
+
+$T(n) = 3n + 1$
+
+<br>
+
+$T(n)$ é $\mathcal{O}(n)$: $c = 4$ e $n_0 = 1$, $c = 3{,}5$ e $n_0 = 2$, $\dots$
+
+$T(n)$ é $\mathcal{O}(n^2)$, $\mathcal{O}(n^3)$, $\dots$
+
+<https://www.geogebra.org/classic/czf4djzt>
+
+## BubbleSort
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{BubbleSort}{$A$}
+  \State $n \gets \text{length}(A)$
+  \For{$i \gets 1$ \To $n-1$}
+    \For{$j \gets 1$ \To $n-i$}
+      \If{$A[j] > A[j+1]$}
+        \State $\text{Swap}(A, j, j+1)$
+      \EndIf
+    \EndFor
+  \EndFor
+\EndProcedure
+\end{algorithmic}
+```
+
+$T(n) = (n-1)(n-1)(1+5) = 6n^2 - 12n + 6$
+
+<br>
+
+$T(n)$ é $\mathcal{O}(n^2)$: $c = 6$ e $n_0 = 0$, $\dots$
+
+$T(n)$ é $\mathcal{O}(n^3)$, $\mathcal{O}(n^4)$, $\dots$
+
+$T(n)$ [não]{style="color: red;"} é $\mathcal{O}(n)$.
+
+<https://www.geogebra.org/classic/h2f2scrd>
+
+## Notação Big $\mathcal{O}$: Polinômios {.t}
+
+*Def.* $T(n)$ é $\mathcal{O}(f(n))$ se e somente se existe uma constante $c > 0$ e um $n_0$ tal que $T(n) \leq c \cdot f(n)$ para todo $n \geq n_0$.
+
+<br>
+
+*Afirmação.* Se $T(n) = a_k n^k + \dots + a_1 n^1 + a_0$ então $T(n) = \mathcal{O}(n^k)$.
+
+. . .
+
+*Prova.* Escolha $n_0=1$ e $c=|a_k|+\dots+|a_1|+|a_0|$.
+
+. . .
+
+Nós temos que mostrar que $\forall n \geq n_0, T(n) \leq c \cdot n^k$.
+
+. . .
+
+$T(n) \leq |a_k|n^k+\dots+|a_1|n^1+|a_0|$.
+
+. . .
+
+$T(n) \leq |a_k|n^k+\dots+|a_1|n^k+|a_0|n^k$.
+
+. . .
+
+$T(n) \leq (|a_k| + \dots + |a_1| + |a_0|)n^k$.
+
+. . .
+
+$T(n) \leq c \cdot n^k$ $\blacksquare$
+
+<https://www.geogebra.org/classic/dhycydkx>
+
+#
+
+::: {style="text-align: center; margin-top: 15vh;"}
+[?]{style="font-size: 5em; color: #d10000; font-weight: 700;"}
+:::

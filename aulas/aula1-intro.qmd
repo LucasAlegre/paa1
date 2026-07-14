@@ -102,7 +102,10 @@ As mudanças no currículo vão na seguinte direção:
 
 . . .
 
-Desta forma, *PAA1* + *PAA2* no novo currículo cobrem conteúdos que eram vistos de forma não integrada em *Teoria dos Grafos e Análise Combinatória*, *Complexidade de Algoritmos*, *Classificação e Pesquisa de Dados*.
+Desta forma, *PAA1* + *PAA2* no novo currículo cobrem conteúdos que eram vistos de forma não integrada em:
+- **Teoria dos Grafos e Análise Combinatória**
+- **Complexidade de Algoritmos**
+- **Classificação e Pesquisa de Dados**
 
 ## Bibliografia
 
@@ -113,6 +116,8 @@ Desta forma, *PAA1* + *PAA2* no novo currículo cobrem conteúdos que eram visto
 - **Algorithm Design. Kleinberg, Jon; Tardos, Éva.**
 - Algoritmos: Teoria e Prática. Cormen, Thomas H. et. al.
 - Algorithms Illuminated (Parts 1, 2, 3). Tim Roughgarden.
+
+<br>
 
 **Moodle:**  
 <https://moodle.ufrgs.br/>
@@ -144,16 +149,17 @@ Desta forma, *PAA1* + *PAA2* no novo currículo cobrem conteúdos que eram visto
 
 <https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos>
 
+
 - Diversidade de autores e lingugagens de programação.
 - Disponibilização de códigos, demos, exemplos.
 
 ## Avaliação
 
-**Atividades avaliadas:**
+**Atividades Avaliadas:**
 
-- Prova 1 ($3.5$pts) - Análise assintótica, teoria dos grafos, algoritmos simples sobre grafos
-- Prova 2 ($3.5$pts) - Algoritmos gulosos, algoritmos gulosos sobre grafos, estruturas de dados avançadas
-- Laboratórios ($2$pt)
+- **Prova 1** ($3.5$pts) - Análise assintótica, teoria dos grafos, algoritmos simples sobre grafos
+- **Prova 2** ($3.5$pts) - Algoritmos gulosos, algoritmos gulosos sobre grafos, estruturas de dados avançadas
+- **Laboratórios** ($2$pt)
 - Atividade(s) autônoma(s) ($1$pt)
 
 $$
@@ -164,7 +170,7 @@ Conceito definido a partir de $NF$ da forma tradicional: A $(\geq9)$, B $(\geq7.
 
 ## Laboratórios
 
-- **4** ao longo do semestre
+- **4** laboratórios ao longo do semestre
 - Atividades avaliadas ($0.5$ pontos cada)
 - Entrega individual, mas discussão e consulta liberadas
 - **Presencial!**
@@ -184,7 +190,7 @@ Conceito definido a partir de $NF$ da forma tradicional: A $(\geq9)$, B $(\geq7.
 
 - É **fortemente** sugerido aprender Python para esta disciplina.
   - Algoritmos em aula serão apresentados em **pseudocódigo** e/ou **Python**
-  - "Mas eu odeio Python..." - 2ª opção: **C++**
+  - "Mas eu não gosto de Python..." - 2ª opção: **C++**
 
 . . .
 
@@ -194,7 +200,7 @@ Conceito definido a partir de $NF$ da forma tradicional: A $(\geq9)$, B $(\geq7.
 
 - Exercícios e materiais de programação sugeridos na página da disciplina: [Programação](https://lucasalegre.github.io/paa1/programacao)
 
-## Atividades de recuperação
+## Atividade de Recuperação
 
 **Exame de Recuperação**
 
@@ -335,7 +341,7 @@ E-mail Entrevista **Google**:
 
 ## Problema do Troco (Coin Changing)
 
-[**Objetivo.**]{.bold-emph} Dadas denominações de moedas (ex.: $\{1, 5, 10, 25, 100\}$),
+> [**Objetivo.**]{.label-def} Dadas denominações de moedas (ex.: $\{1, 5, 10, 25, 100\}$),
 pagar um valor usando o **menor número de moedas**.
 
 ![](images/US-Coin-Denomination_6778-0049_a_main.jpg){width=45%}
@@ -344,17 +350,21 @@ pagar um valor usando o **menor número de moedas**.
 
 ## Problema do Troco (Coin Changing)
 
-[**Objetivo.**]{.bold-emph} Dadas denominações de moedas (ex.: $\{1, 5, 10, 25, 100\}$),
+> [**Objetivo.**]{.label-def} Dadas denominações de moedas (ex.: $\{1, 5, 10, 25, 100\}$),
 pagar um valor usando o **menor número de moedas**.
 
 . . .
 
-[**Algoritmo do caixa (guloso).**]{.bold-emph}
+<br>
+
+**Algoritmo do caixa (guloso).**
 Repetidamente escolha a **maior** moeda que **não excede** o valor restante.
 
 . . .
 
-[**Exemplos (ideia)**]{.bold-emph}
+<br>
+
+[**Exemplos (ideia)**]{.label-exmp}
 
 - 34\textcent: pegue 25, depois 5, depois 1,1,1,1.
 - 2,89: escolha sempre a maior moeda possível e continue no restante.
@@ -384,12 +394,9 @@ Repetidamente escolha a **maior** moeda que **não excede** o valor restante.
 \end{algorithmic}
 ```
 
-
-
 ## O algoritmo do caixa é ótimo?
 
-[**Pergunta.**]{.bold-emph} O algoritmo do caixa é ótimo para as moedas dos EUA
-$\{1,5,10,25,100\}$?
+> [**Pergunta.**]{.label-qstn} O algoritmo do caixa é ótimo para as moedas dos EUA $\{1,5,10,25,100\}$?
 
 1. Sim, algoritmos gulosos são sempre ótimos.
 2. Sim, para qualquer conjunto $c_1 < \cdots < c_n$, desde que $c_1=1$.
@@ -398,8 +405,7 @@ $\{1,5,10,25,100\}$?
 
 ## O algoritmo do caixa é ótimo?
 
-[**Pergunta.**]{.bold-emph} O algoritmo do caixa é ótimo para as moedas dos EUA
-$\{1,5,10,25,100\}$?
+> [**Pergunta.**]{.label-qstn} O algoritmo do caixa é ótimo para as moedas dos EUA $\{1,5,10,25,100\}$?
 
 1. Sim, algoritmos gulosos são sempre ótimos.
 2. Sim, para qualquer conjunto $c_1 < \cdots < c_n$, desde que $c_1=1$.
@@ -412,12 +418,12 @@ $\{1,5,10,25,100\}$?
 
 . . .
 
-[**Resposta curta: não.**]{.bold-emph}
+**Resposta curta: não.**
 
-[**Contraexemplo (selo/“postage”):**]{.bold-emph}
+**Contraexemplo (selo/“postage”):**
 denominações $1, 10, 21, 34, 70, 100, 350, 1225, 1500$.
 
-![](images/stamps.png){width=50%}
+![](images/stamps.png){width=60%}
 
 . . .
 
@@ -426,7 +432,7 @@ denominações $1, 10, 21, 34, 70, 100, 350, 1225, 1500$.
 
 . . .
 
-[**Pode falhar até em viabilidade se $c_1>1$:**]{.bold-emph}
+**Pode falhar até em viabilidade se $c_1>1$:**
 denominações $7,8,9$.
 
 - Guloso para 15\textcent: escolhe 9 e fica preso (não completa).
@@ -446,7 +452,7 @@ Para denominações $\{1,5,10,25,100\}$, qualquer solução ótima satisfaz:
 
 . . .
 
-[**Consequência chave:**]{.bold-emph}
+**Consequência chave:**
 
 $$
 P + 5N + 10D + 25Q \le 99.
@@ -460,21 +466,23 @@ $$
 
 . . .
 
-[**Ideia da prova (indução no valor $x$):**]{.bold-emph}
+[**Ideia da prova (indução no valor $x$):**]{.label-prf}
 
+:::{.incremental}
 - Considere $c_k \le x < c_{k+1}$. O guloso escolhe $c_k$.
 - Mostra-se que **qualquer solução ótima** também precisa usar $c_k$: caso contrário, teria de compor $x$ só com $c_1,\dots,c_{k-1}$, mas isso é impossível por limites como $P\le4$, $N\le1$, $N+D\le2$, $Q\le3$.
 - Então o problema reduz a $x - c_k$, resolvido otimalmente pelo guloso (hipótese de indução).
+:::
 
 . . .
 
-*Intuição:* a prova é um “argumento de troca” + indução.
+**Intuição:** a prova é um “argumento de troca” + indução.
 
-## Proposição: solução ótima única (incluindo moedas de 1 dólar)
+## Solução ótima única (incluindo moedas de 1 dólar)
 
-[**Proposição.**]{.bold-emph} O algoritmo do caixa produz a [**única**]{.bold-emph} solução ótima para $\{1,5,10,25,100\}$.
+> [**Proposição.**]{.label-thm} O algoritmo do caixa produz a **única** solução ótima para $\{1,5,10,25,100\}$.
 
-[**Esboço (caso das moedas de 1 dólar):**]{.bold-emph}
+[**Esboço (caso das moedas de 1 dólar):**]{.label-prf}
 
 - Para um valor $x.yy$, o guloso escolhe $x$ moedas de 1 dólar.
 - Suponha, por contradição, que exista solução ótima com menos de $x$ dólares.

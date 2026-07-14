@@ -12,11 +12,13 @@ Para pseudocódigos, use exatamente o estilo de pseudocódigo da aula1-intro.qmd
 
 Todo pseucódigo deve começar com \Procedure com o nome da função e entradas, tal qual o exemplo em aula1-intro.qmd.
 
-Para comando textbf ou \bemph, use **asteriscos duplos**
+Para comando \textbf, \emph ou \bemph, use **asteriscos duplos**
 
-Para teoremas, observações, etc, use ">" e os .label-thm, .label-rmk, etc. em metropolis.scss
+Para teoremas, observações, etc, use ">" e os .label-thm, .label-rmk, etc. Ver todos os disponíveis em metropolis.scss
 
 Confira se os caminhos das imagens estão corretos. Todas as imagens estão em aulas/images ou aulas/fig.
+
+Para títulos de seções e slides, capítalize a letra inicial das palavras (exceto preposições, como habitual).
 
 Toda aula deve terminar exatamente com:
 
@@ -26,3 +28,4 @@ Toda aula deve terminar exatamente com:
 [?]{style="font-size: 5em; color: #d10000; font-weight: 700;"}
 :::
 
+Após, atualize o arquivo index.qmd para incluir as novas aulas no cronograma.

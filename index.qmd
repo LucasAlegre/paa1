@@ -81,7 +81,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>qui. 13/ago.</td>
   <td>Sala 111</td>
   <td class="t-red">Correção: Introdução à Provas de Correção, Invariantes. Algoritmos de ordenamento.</td>
-  <td></td>
+  <td style="text-align:center;"><a href="aulas/aula3-correcao.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td></td>
 </tr>
 <!-- Semana 3 -->
@@ -90,7 +90,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 18/ago.</td>
   <td>Sala 111</td>
   <td class="t-red">Notação Assintótica I.</td>
-  <td></td>
+  <td style="text-align:center;"><a href="aulas/aula4-notacao-assintotica.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td></td>
 </tr>
 <tr>

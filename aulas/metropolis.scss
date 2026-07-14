@@ -127,6 +127,11 @@ $code-block-border-color: rgba($m-dark, 0.15) !default;
   border-bottom: 2px solid $m-blue;
 }
 
+.reveal .slides section:not(.title-slide):not(.has-dark-background) h2:empty,
+.reveal .slides section.hide-header h2 {
+  display: none !important;
+}
+
 // ── Progress bar ────────────────────────────────────────────────────────────
 .reveal .progress {
   color: $m-accent;

@@ -214,13 +214,13 @@ $code-block-border-color: rgba($m-dark, 0.15) !default;
   box-sizing: border-box;
   max-height: 100%;
   overflow-y: auto !important;
-  padding-top: 0.35em !important;
+  padding-top: 0 !important;
   padding-bottom: 1em !important;
 }
 
 .reveal .slides section.live-code-slide h2 {
-  margin: 0 0 0.45em !important;
-  padding: 0 0 0.3em !important;
+  margin: -0.4em -0.85em 0.55em !important;
+  padding: 0.25em 0.85em 0.35em !important;
 }
 
 // ── Live code cell colors ───────────────────────────────────────────────────

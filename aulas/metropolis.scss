@@ -209,6 +209,118 @@ $code-block-border-color: rgba($m-dark, 0.15) !default;
 }
 .reveal code { font-size: 0.9em; }
 
+// ── Live code slide layout ──────────────────────────────────────────────────
+.reveal .slides section.live-code-slide {
+  box-sizing: border-box;
+  max-height: 100%;
+  overflow-y: auto !important;
+  padding-top: 0.35em !important;
+  padding-bottom: 1em !important;
+}
+
+.reveal .slides section.live-code-slide h2 {
+  margin: 0 0 0.45em !important;
+  padding: 0 0 0.3em !important;
+}
+
+// ── Live code cell colors ───────────────────────────────────────────────────
+.reveal .card.exercise-editor {
+  --exercise-main-color: #24292f;
+  --exercise-output-color: #24292f;
+  --exercise-main-bg: #ffffff;
+  --exercise-cap-bg: #f6f8fa;
+  --exercise-gray: #d0d7de;
+  --exercise-code-block-color: #24292f;
+  --exercise-code-block-bg: #ffffff;
+  --exercise-primary-rgb: 9, 105, 218;
+  --exercise-editor-hl-kw: #cf222e;
+  --exercise-editor-hl-op: #0550ae;
+  --exercise-editor-hl-ot: #0550ae;
+  --exercise-editor-hl-at: #8250df;
+  --exercise-editor-hl-cf: #cf222e;
+  --exercise-editor-hl-co: #6e7781;
+  --exercise-editor-hl-st: #0a3069;
+  --exercise-editor-hl-ss: #0a3069;
+  --exercise-editor-hl-va: #24292f;
+  --exercise-editor-hl-cn: #0550ae;
+  --exercise-editor-hl-dv: #0550ae;
+  --exercise-editor-hl-fu: #8250df;
+  background-color: #ffffff;
+  border-color: #d0d7de;
+  color: #24292f;
+}
+
+.reveal .card.exercise-editor .card-header {
+  background-color: #f6f8fa;
+  border-bottom-color: #d0d7de;
+  color: #57606a;
+}
+
+.reveal .card.exercise-editor .exercise-editor-body,
+.reveal .card.exercise-editor .cm-editor {
+  background-color: #ffffff;
+  color: #24292f;
+}
+
+.reveal .card.exercise-editor .cm-content {
+  caret-color: #0969da;
+}
+
+.reveal .card.exercise-editor .cm-gutters {
+  background-color: #f6f8fa;
+  border-right-color: #d0d7de;
+  color: #6e7781;
+}
+
+.reveal .card.exercise-editor .cm-activeLine {
+  background-color: #f6f8fa;
+}
+
+.reveal .card.exercise-editor .cm-activeLineGutter {
+  background-color: #eef3f8;
+  color: #24292f;
+}
+
+.reveal .card.exercise-editor .cm-selectionBackground,
+.reveal .card.exercise-editor .cm-content ::selection {
+  background-color: #b6d7ff !important;
+}
+
+.quarto-light .reveal .btn.btn-exercise-editor.btn-primary {
+  --exercise-btn-bg: #0969da;
+  --exercise-btn-color: #ffffff;
+  --exercise-btn-border-color: #0969da;
+  --exercise-btn-hover-bg: #0550ae;
+  --exercise-btn-hover-color: #ffffff;
+  --exercise-btn-hover-border-color: #0550ae;
+}
+
+.quarto-light .reveal .btn.btn-exercise-editor.btn-outline-dark {
+  --exercise-btn-bg: #ffffff;
+  --exercise-btn-color: #24292f;
+  --exercise-btn-border-color: #d0d7de;
+  --exercise-btn-hover-bg: #f3f4f6;
+  --exercise-btn-hover-color: #24292f;
+  --exercise-btn-hover-border-color: #8c959f;
+}
+
+.reveal .cell-output-container-pyodide pre {
+  background-color: #f6f8fa;
+  border-color: #d0d7de;
+  color: #24292f;
+}
+
+.reveal .cell-output-container-pyodide pre code {
+  background-color: transparent;
+  color: inherit;
+}
+
+.reveal .cell-output-pyodide.cell-output-stderr pre {
+  background-color: #fff1f0;
+  border-color: #ffebe9;
+  color: #cf222e;
+}
+
 // ── Misc helpers ────────────────────────────────────────────────────────────
 .reveal .small  { font-size: 0.8em; }
 .reveal .tiny   { font-size: 0.65em; }

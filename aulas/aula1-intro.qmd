@@ -11,7 +11,7 @@ date: ""
 lang: pt-BR
 
 format:
-  revealjs:
+  live-revealjs:
     theme: [default, metropolis.scss]
     slide-number: true
     progress: true
@@ -38,10 +38,12 @@ filters:
   - leovan/pseudocode
 ---
 
-## Programa
+
+## Programa {.scrollable .live-code-slide}
 
 - Apresentação da disciplina
 - Exemplos motivacionais
+
 
 # Apresentação da Disciplina
 
@@ -489,6 +491,60 @@ $$
 - Então o restante em $\{1,5,10,25\}$ precisa somar $\ge 100$\textcent, isto é, $P + 5N + 10D + 25Q \ge 100$, contradizendo o limite $\le 99$.
 - Argumentos análogos justificam as escolhas gulosas para quarters, dimes e nickels.
 
+# Implementação do Algoritmo do Caixa (Python)
+
+## Implementação do algoritmo do caixa (Python) {.scrollable .live-code-slide}
+
+[Github: Implementação](https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/troco.py)
+
+```{pyodide}
+
+from typing import List
+
+def greedy_troco(valor: float, moedas: List[int]):
+    """Algoritmo guloso para o problema do troco."""
+    return {}
+
+
+moedas = [1, 5, 10, 25, 50, 100]
+
+valor = 13.42
+troco = greedy_troco(valor, moedas)
+print(troco)
+```
+
+## Implementação do algoritmo do caixa (Python) {.live-code-slide}
+
+[Github: Implementação](https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/troco.py)
+
+```{pyodide}
+#| caption: "Implementação do algoritmo do caixa (Python)"
+from typing import List
+
+def greedy_troco(valor: float, moedas: List[int]):
+    """Algoritmo guloso para o problema do troco."""
+    moedas = sorted(moedas, reverse=True)
+    troco = {m : 0 for m in moedas}
+    valor *= 100
+    while valor != 0:
+        sem_solucao = True
+        for m in moedas:
+            if m <= valor:
+                troco[m] += 1
+                valor -= m
+                sem_solucao = False
+                break
+        if sem_solucao:
+            print("Sem solução!")
+    return troco
+
+
+moedas = [1, 5, 10, 25, 50, 100]
+
+valor = 13.42
+troco = greedy_troco(valor, moedas)
+print(troco)
+```
 
 ## Concluindo
 
@@ -506,4 +562,3 @@ $$
 ::: {style="text-align: center; margin-top: 15vh;"}
 [?]{style="font-size: 5em; color: #d10000; font-weight: 700;"}
 :::
-

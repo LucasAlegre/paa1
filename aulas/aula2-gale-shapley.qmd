@@ -373,24 +373,23 @@ O que mostrar?
 
 **Exemplo:** Pior caso.
 
-## Pior caso
+## Pior Caso
 
 > [**Afirmação.**]{.label-thm} O algoritmo realiza no máximo $n(n-1)+1$ propostas.
 
 > [**Prova.**]{.label-prf}
 
 ::: {.incremental}
-- Nenhum homem pode ser rejeitado $n$ vezes: se isso ocorresse, ele ficaria sem opções, o que contradiria que sempre há um emparelhamento estável.
-- Logo, cada homem sofre no máximo $(n-1)$ rejeições.
-- Suponha que no passo $n(n-1)$ o homem $m$ é rejeitado pela $(n-1)$-ésima vez; ainda resta a $n$-ésima mulher de sua lista $\Rightarrow$ é preciso mais um passo para ele propor a ela.
-- Como o algoritmo termina, existe exatamente um último passo sem rejeições (apenas aceitações), fechando os noivados. $\blacksquare$
+
+* Uma mulher, ao receber uma proposta, nunca mais volta a ficar livre.
+* O algoritmo termina no exato momento em que a última mulher livre é pedida em noivado.
+* No pior caso, antes dessa última proposta, as outras $(n-1)$ mulheres já receberam propostas de todos os $n$ homens.
+* Isso totaliza $n(n-1)$ propostas feitas a essas mulheres.
+* A proposta seguinte é feita à mulher restante e encerra o algoritmo.
+* Portanto, o número máximo de propostas é
+$$\underbrace{n}_{\text{homens}} \underbrace{(n-1)}_{\text{rejeições}} + \underbrace{1}_{\text{final sem rejeição}}  = n^2 - n + 1.$$
+$\blacksquare$
 :::
-
-. . .
-
-$$
-\underbrace{n}_{\text{homens}} \underbrace{(n-1)}_{\text{rejeições}} + \underbrace{1}_{\text{final sem rejeição}} = n(n-1)+1.
-$$
 
 ## Resumo
 
@@ -398,7 +397,9 @@ $$
 
 . . .
 
-**P:** Se existem múltiplos emparelhamentos estáveis, qual o algoritmo G-S irá retornar? A ordem das propostas importa?
+<br>
+
+> [**P:**]{.label-qstn} Se existem múltiplos emparelhamentos estáveis, qual o algoritmo G-S irá retornar? A ordem das propostas importa?
 
 ## Algoritmo Gale-Shapley
 
@@ -513,7 +514,7 @@ $$
 
 ## Entendendo a Solução
 
-[**P:**]{.label-qstn} O que acontece com as mulheres?
+> [**P:**]{.label-qstn} O que acontece com as mulheres?
 
 . . .
 

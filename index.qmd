@@ -53,7 +53,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <tr>
   <td class="wk">1</td>
   <td>qui. 06/ago.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-red">Introdução à Disciplina. Problema do Troco.</td>
   <td style="text-align:center;"><a href="aulas/aula1-intro.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td>
@@ -67,7 +67,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <tr>
   <td rowspan="2" class="wk">2</td>
   <td>ter. 11/ago.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-red">Emparelhamento Estável. Gale-Shapley.</td>
   <td style="text-align:center;"><a href="aulas/aula2-gale-shapley.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td>
@@ -79,7 +79,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <tr>
   <td>qui. 13/ago.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-red">Correção: Introdução à Provas de Correção, Invariantes. Algoritmos de ordenamento.</td>
   <td style="text-align:center;"><a href="aulas/aula3-correcao.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td></td>
@@ -88,14 +88,14 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <tr>
   <td rowspan="2" class="wk">3</td>
   <td>ter. 18/ago.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-red">Notação Assintótica I.</td>
   <td style="text-align:center;"><a href="aulas/aula4-notacao-assintotica.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td></td>
 </tr>
 <tr>
   <td>qui. 20/ago.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-red">Notação Assintótica II.</td>
   <td></td>
   <td></td>
@@ -104,14 +104,14 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <tr>
   <td rowspan="2" class="wk">4</td>
   <td>ter. 25/ago.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-blue">Teoria dos Grafos: definições, representação, graus.</td>
   <td></td>
   <td></td>
 </tr>
 <tr>
   <td>qui. 27/ago.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-blue">Teoria dos Grafos: isomorfismo, famílias de grafos, conectividade.</td>
   <td></td>
   <td></td>
@@ -127,7 +127,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <tr>
   <td>qui. 03/set.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-blue">Operações sobre Grafos, Dígrafos, Árvores. Grafos Bipartidos. Cliques.</td>
   <td></td>
   <td></td>
@@ -136,14 +136,14 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <tr>
   <td rowspan="2" class="wk">6</td>
   <td>ter. 08/set.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-blue">Algoritmos para Grafos: Correção e Complexidade. BFS e DFS.</td>
   <td></td>
   <td></td>
 </tr>
 <tr>
   <td>qui. 10/set.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-blue">Algoritmos para Grafos: Distância. Ordenação topológica. Componentes Conexos.</td>
   <td></td>
   <td></td>
@@ -159,7 +159,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <tr>
   <td>qui. 17/set.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-blue">Revisão</td>
   <td></td>
   <td></td>
@@ -175,7 +175,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <tr>
   <td>qui. 24/set.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-green">Algoritmos Gulosos. Introdução. Escalonamento de Intervalos. Particionamento de Intervalos.</td>
   <td></td>
   <td></td>
@@ -184,14 +184,14 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <tr>
   <td rowspan="2" class="wk">9</td>
   <td>ter. 29/set.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-green">Algoritmos Gulosos. Minimizar Atraso. Caching Ótimo.</td>
   <td></td>
   <td></td>
 </tr>
 <tr>
   <td>qui. 01/out.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-green">Distância em Grafos Valorados. Descrição do Problema, Algoritmo de Dijkstra.</td>
   <td></td>
   <td></td>
@@ -200,7 +200,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <tr>
   <td rowspan="2" class="wk">10</td>
   <td>ter. 06/out.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-green">Distância em Grafos Valorados. Estrutura Heap, Algoritmo de Dijkstra otimizado.</td>
   <td></td>
   <td></td>
@@ -216,14 +216,14 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <tr>
   <td rowspan="2" class="wk">11</td>
   <td>ter. 13/out.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-green">Árvore Geradora Mínima 1 (Descrição do Problema, Algoritmo de Prim)</td>
   <td></td>
   <td></td>
 </tr>
 <tr>
   <td>qui. 15/out.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-green">Árvore Geradora Mínima 2 (Algoritmo de Kruskal, Estrutura Union-Find)</td>
   <td></td>
   <td></td>
@@ -248,7 +248,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <tr>
   <td rowspan="2" class="wk">12</td>
   <td>ter. 27/out.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-green">Código de Huffman.</td>
   <td></td>
   <td></td>
@@ -264,14 +264,14 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <tr>
   <td rowspan="2" class="wk">13</td>
   <td>ter. 03/nov.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-blue">Grafos Eulerianos e Hamiltonianos. Caixeiro Viajante.</td>
   <td></td>
   <td></td>
 </tr>
 <tr>
   <td>qui. 05/nov.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-blue">Planaridade.</td>
   <td></td>
   <td></td>
@@ -280,14 +280,14 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <tr>
   <td rowspan="2" class="wk">14</td>
   <td>ter. 10/nov.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-blue">Coloração de Grafos.</td>
   <td></td>
   <td></td>
 </tr>
 <tr>
   <td>qui. 12/nov.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-blue">Cobertura de Vértices e Emparelhamentos.</td>
   <td style="text-align:center;"><a href="aulas/aula27-cobertura-emparelhamento.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td></td>
@@ -296,14 +296,14 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <tr>
   <td rowspan="2" class="wk">15</td>
   <td>ter. 17/nov.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-blue">Análise de Redes.</td>
   <td></td>
   <td></td>
 </tr>
 <tr>
   <td>qui. 19/nov.</td>
-  <td>Sala 111</td>
+  <td>Sala 113</td>
   <td class="t-blue">Revisão</td>
   <td></td>
   <td></td>

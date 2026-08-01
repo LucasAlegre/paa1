@@ -1,6 +1,6 @@
 ---
 title: "Projeto e Análise de Algoritmos I"
-subtitle: "Aula 03: Correção de algoritmos. Algoritmos iterativos e recursivos de ordenação. Cálculo do maior divisor comum."
+subtitle: "Aula 03: Correção de Algoritmos. Invariantes"
 author: "Lucas Nunes Alegre"
 institute: |
   Universidade Federal do Rio Grande do Sul  <br>
@@ -11,7 +11,7 @@ date: ""
 lang: pt-BR
 
 format:
-  revealjs:
+  live-revealjs:
     theme: [default, metropolis.scss]
     slide-number: true
     progress: true
@@ -40,50 +40,69 @@ filters:
 
 ## Programa
 
-- Correção de algoritmos
+- Correção de Algoritmos
 - Problema da Ordenação de Vetores
+- Princípio da Invariante
 - Algoritmos Iterativos de Ordenação
 - Algoritmos Recursivos de Ordenação
 - Cálculo do Maior Divisor Comum
 
-# Correção de algoritmos
+# Correção de Algoritmos
 
-##
+## {.center}
 
-"Uma demonstração de correção convincente será impossível enquanto o mecanismo seja visto como uma caixa preta, nossa única esperança é não considerar um mecanismo como uma caixa preta."
+::: {style="max-width: 85%; margin: 0 auto; text-align: center;"}
+[“]{style="font-size: 4.5em; color: #2e75b6; line-height: 0.1; vertical-align: -0.35em; font-family: Georgia, serif;"}
 
-<br>
+::: {style="font-size: 1.35em; line-height: 1.5; font-style: italic; color: #23373b; margin-top: 0.5rem; margin-bottom: 2rem;"}
+Uma demonstração de correção convincente será impossível enquanto o algoritmo seja visto como uma caixa preta, nossa única esperança é não considerar o algoritmo como uma caixa preta.
+:::
 
-*Edsger W. Dijkstra.*  
-*"Notes On Structured Programming", 1970*
+— **Edsger W. Dijkstra**  
+[*"Notes On Structured Programming", 1970*]{style="font-size: 0.85em; color: #666;"}
+:::
 
 ## Introdução
 
-::: {.incremental}
-- *Def.* Um *algoritmo* é qualquer *procedimento computacional bem definido* que recebe um conjunto de valores como **entrada** e produz um conjunto de valores como **saída**.
+> [**Def.**]{.label-def} Um *algoritmo* é qualquer *procedimento computacional bem definido* que recebe um conjunto de valores como **entrada** e produz um conjunto de valores como **saída**.
 
-- *Ferramenta:* Um algoritmo pode ser visto como uma ferramenta para resolver um problema.
+. . .
 
-- *Def.* Um algoritmo [resolve um problema]{style="color: red;"} se para toda entrada:
-  - Ele [pára]{style="color: red;"}.
-  - Retorna a saída [correta]{style="color: red;"}.
+> [**Obs.**]{.label-rmk} Um algoritmo pode ser visto como uma ferramenta para resolver um problema.
 
-- *P.* Um algoritmo que não pára é útil?
-- *P.* Um algoritmo incorreto é útil?
-:::
+. . .
 
-## Correção de Algoritmos
+> [**Def.**]{.label-def} Um algoritmo [resolve um problema]{style="color: red;"} se para toda entrada: <br>
+> - Ele [pára]{style="color: red;"}. <br>
+> - Retorna a saída [correta]{style="color: red;"}.
+
+. . .
+
+<br>
+
+> [**P.**]{.label-qstn} Um algoritmo que não pára é útil? Um algoritmo incorreto é útil?
+
+## Correção de Algoritmos {.scrollable .live-code-slide}
 
 ::: {.incremental}
 - Como discutido, um *algoritmo* é uma sequência de passos para a resolução de um *problema* ou *cálculo* de uma quantidade.
-- Um *algoritmo* está *correto* quando a sua respectiva saída corresponde à solução ou quantidade esperada para todas as possíveis entradas.
+- Um *algoritmo* está **correto** quando a sua respectiva saída corresponde à solução ou quantidade esperada para **todas as possíveis entradas**.
 - Exemplo de [algoritmo (incorreto)]{style="color: red;"} para calcular números primos
 $$f(n) = n^2 + n + 41$$
 (gera números primos somente enquanto $n < 40$)
 - Antes de pensarmos no *custo do algoritmo*, é importante confirmar que ele *realmente* resolve o problema!
 :::
 
-## Testando a correção de algoritmos
+. . .
+
+```{pyodide}
+def f(n):
+  return n**2 + n + 41
+
+f(1), f(2), f(39), f(40) # 1681 é divisível por 41
+```
+
+## Testando a Correção de Algoritmos
 
 ::: {.incremental}
 - Determinar a **correção** de algoritmos/programas pode depender muito da descrição do mesmo e de seu estilo.
@@ -92,7 +111,7 @@ $$f(n) = n^2 + n + 41$$
 - Dessa forma, **provas** de correção são necessárias para garantir que algoritmos estejam corretos em relação ao problema que visam resolver.
 :::
 
-## Provando a correção de algoritmos
+## Provando a Correção de Algoritmos
 
 Algumas técnicas importantes para provar a correção de algoritmos:
 
@@ -107,46 +126,40 @@ Algumas técnicas importantes para provar a correção de algoritmos:
 
 Além da resposta do algoritmo estar correta, é também necessário estipular a **garantia de terminação** do algoritmo (i.e. variantes para laços)
 
-## Correção dos algoritmos vistos previamente
+## Correção dos Algoritmos Vistos Previamente
 
-**Multiplicação de inteiros (Karatsuba)**:
+**Problema do Troco (Greedy Cashier's Algorithm)**:
 
-- Correção baseada nas seguintes identidades algébricas
-$$
-\begin{array}{rl}
-1234 \times 5678 & = (12 \cdot 10^2 + 34)(56 \cdot 10^2 + 78)\\
- & = (12\times56) \cdot 10^4 + (12\times78 + 34\times56)\cdot 10^2 + (34\times78) \\
-(12+34)(56+78) & = (12\times56)+(12\times78)+(34\times56)+(34\times78) \\
-\end{array}
-$$
+- Correção baseada em propriedades matemáticas do conjunto de moedas usados para fornecer o troco.
 
 . . .
 
-**Emparelhamento estável (Gale-Shapley)**:
+**Emparelhamento Estável (Gale-Shapley)**:
 
 - Correção baseada em um raciocínio por contradição (se a resposta do algoritmo não for um emparelhamento estável, é possível deduzir uma contradição lógica)
+
 
 # Problema da Ordenação de Vetores
 
 ## Ordenação de Vetores
 
-*Entrada.* Uma sequência de $k$ números $\langle a_1,a_2, \dots, a_k \rangle$.
+> [**Entrada.**]{.label-def} Uma sequência de $k$ números $\langle a_1,a_2, \dots, a_k \rangle$.
 
 <br>
 
-*Objetivo.* Encontrar a permutação $\langle a_1',a_2', \dots, a_k' \rangle$ em que $a_1' \leq a_2' \leq \dots \leq a_k'$.
+> [**Objetivo.**]{.label-def} Encontrar a permutação $\langle a_1',a_2', \dots, a_k' \rangle$ em que $a_1' \leq a_2' \leq \dots \leq a_k'$.
 
 . . .
 
 <br>
 
-*Instância:* $\langle 31,41,59,26,41,58 \rangle$
+[**Instância:**]{.label-exmp} $\langle 31,41,59,26,41,58 \rangle$
 
-- Satisfaz todas as restrições que impostas pela definição do problema.
+- Satisfaz todas as restrições impostas pela definição do problema.
 
 <br>
 
-*Solução.* $\langle 26, 31, 41, 41, 58, 59 \rangle$.
+[**Solução.**]{.label-ansr} $\langle 26, 31, 41, 41, 58, 59 \rangle$.
 
 # Algoritmos Iterativos de Ordenação
 
@@ -168,9 +181,8 @@ Funciona da forma que um humano organiza uma mão jogando cartas:
 :::
 ::::
 
-## Visualização
+## {data-background-iframe="https://visualgo.net/en/sorting" data-background-interactive="true" .hide-header}
 
-<https://visualgo.net/en/sorting>
 
 ## Ordenação por Inserção (InsertionSort)
 
@@ -194,44 +206,46 @@ Funciona da forma que um humano organiza uma mão jogando cartas:
 \end{algorithmic}
 ```
 
-**Obs:** nos pseudocódigos de todos os algoritmos desta aula, assumimos indexação de 1 a n (para vetores de tamanho n)
+> [**Obs.**]{.label-rmk} Nos pseudocódigos de todos os algoritmos desta aula, assumimos indexação de 1 a $n$ (para vetores de tamanho $n$).
+
+# Princípio da Invariante
 
 ## Corretude
 
-*Def.* Uma execução de um algoritmo é uma [sequência]{style="color: red;"} de estados com a propriedade de que:
+> [**Def.**]{.label-def} Uma execução de um algoritmo é uma [sequência]{style="color: red;"} de estados com a propriedade de que:
 
 - Tem um estado inicial; e
 - Se $q$ e $r$ são estados consecutivos na [sequência]{style="color: red;"}, então $q \longrightarrow r$.
 
 . . .
 
-*Def.* Um estado é [alcançável]{style="color: red;"} se aparece em alguma execução.
+> [**Def.**]{.label-def} Um estado é [alcançável]{style="color: red;"} se aparece em alguma execução.
 
 . . .
 
-*Def.* Uma [invariante]{style="color: red;"} é uma propriedade ${\color{green!50!black}P}$ para estados.
+> [**Def.**]{.label-def} Uma [invariante]{style="color: red;"} é uma propriedade $\textcolor{#2e7d32}{P}$ para estados.
 
-- Tal que se ${\color{green!50!black}P}(q)$, o estado $q$ possui a propriedade ${\color{green!50!black}P}$; e
+- Tal que se $\textcolor{#2e7d32}{P}(q)$, o estado $q$ possui a propriedade $\textcolor{#2e7d32}{P}$; e
 - $q \longrightarrow r$; então
-- ${\color{green!50!black}P}(r)$, o estado $r$ possui a propriedade ${\color{green!50!black}P}$.
+- $\textcolor{#2e7d32}{P}(r)$, o estado $r$ possui a propriedade $\textcolor{#2e7d32}{P}$.
 
 . . .
 
-*Principio da Invariante.* Se o estado inicial possui a invariante, então **todos os estados alcançáveis possuem a invariante**.
+> [**Princípio da Invariante.**]{.label-thm} Se o estado inicial possui a invariante, então **todos os estados alcançáveis possuem a invariante**.
 
 ## Princípio da Invariante {.t}
 
 <br>
 
-*Item 1.* Define a propriedade.
+**Item 1.** Define a propriedade.
 
 . . .
 
-*Item 2.* Prova que a propriedade se mantém para $q \longrightarrow r$.
+**Item 2.** Prova que a propriedade se mantém para $q \longrightarrow r$.
 
 . . .
 
-*Item 3.* Prova que a propriedade se mantém para qualquer estado alcançável.
+**Item 3.** Prova que a propriedade se mantém para qualquer estado alcançável.
 
 . . .
 
@@ -242,25 +256,25 @@ Funciona da forma que um humano organiza uma mão jogando cartas:
 
 . . .
 
-*Item 4.* Prova que o algoritmo termina.
+**Item 4.** Prova que o algoritmo termina.
 
 . . .
 
-*Item 5.* Conclui que o algoritmo resolve o problema.
+**Item 5.** Conclui que o algoritmo resolve o problema.
 
 ## Corretude: InsertionSort
 
 <br>
 
-*$Ordenado(q)$.* A subsequência representada pelo estado $q$ de $j-1$ números $\langle a_1', a_2', \dots, a_{j-1}'\rangle$ obedece a restrição de que $a_1' \leq a_2' \leq \dots \leq a_{j-1}'$.
+> [**Def.**]{.label-def} $Ordenado(q)$: A subsequência representada pelo estado $q$ de $j-1$ números $\langle a_1', a_2', \dots, a_{j-1}'\rangle$ obedece a restrição de que $a_1' \leq a_2' \leq \dots \leq a_{j-1}'$.
 
 . . .
 
-*Lema 1.* Para qualquer transição $q \longrightarrow r$, do algoritmo de Ordenação por Inserção, se $Ordenado(q)$ então $Ordenado(r)$.
+> [**Lema 1.**]{.label-lem} Para qualquer transição $q \longrightarrow r$ do algoritmo de Ordenação por Inserção, se $Ordenado(q)$ então $Ordenado(r)$.
 
 . . .
 
-*Prova.* A demonstração do lema segue da construção do loop while.
+[**Prova.**]{.label-prf} A demonstração do lema segue da construção do loop while.
 
 . . .
 
@@ -272,41 +286,41 @@ Nesse ponto $key$ é colocada na posição correta e a subsequência está orden
 
 $\blacksquare$
 
-## InsertionSort: terminação
+## InsertionSort: Terminação
 
 <br>
 
-*Lema 2.* O algoritmo de Ordenação por Inserção termina.
+> [**Lema 2.**]{.label-lem} O algoritmo de Ordenação por Inserção termina.
 
 . . .
 
-*Prova.* O loop externo termina quando $j > n$, isso ocorre quando $j > A.length$ e $j$ é apenas incrementado durante o algoritmo.
+[**Prova.**]{.label-prf} O loop externo termina quando $j > n$, isso ocorre quando $j > A.length$ e $j$ é apenas incrementado durante o algoritmo.
 
 $\blacksquare$
 
 . . .
 
-*Corolário.* O algoritmo de Ordenação por Inserção resolve o problema de ordenação.
+> [**Corolário.**]{.label-cor} O algoritmo de Ordenação por Inserção resolve o problema de ordenação.
 
 . . .
 
-*Prova.* Pelo *Lema 2*, sabemos que agoritmo termina depois de $n$ iterações. Pelo *Teorema 1* sabemos que toda subsequência alcançada pelo algoritmo está ordenada, como na iteração $n+1$ a subsequência corresponde a todo o vetor, então podemos concluir que o algoritmo resolve o problema.
+[**Prova.**]{.label-prf} Pelo **Lema 2**, sabemos que o algoritmo termina depois de $n$ iterações. Pelo **Teorema 1** sabemos que toda subsequência alcançada pelo algoritmo está ordenada, como na iteração $n+1$ a subsequência corresponde a todo o vetor, então podemos concluir que o algoritmo resolve o problema.
 
 $\blacksquare$
 
-## Princípio da Invariante {.t}
+## Princípio da Invariante
 
 <br>
 
-*Item 1.* Define a propriedade.
+**Item 1.** Define a propriedade.
 
 . . .
 
-*Item 2.* Prova que a propriedade se mantém para $q \longrightarrow r$.
+**Item 2.** Prova que a propriedade se mantém para $q \longrightarrow r$.
 
 . . .
 
-*Item 3.* Prova que a propriedade se mantém para qualquer estado alcançável.
+**Item 3.** Prova que a propriedade se mantém para qualquer estado alcançável.
 
 . . .
 
@@ -317,13 +331,13 @@ $\blacksquare$
 
 . . .
 
-*Item 4.* Prova que o algoritmo termina.
+**Item 4.** Prova que o algoritmo termina.
 
 . . .
 
-*Item 5.* Conclui que o algoritmo resolve o problema.
+**Item 5.** Conclui que o algoritmo resolve o problema.
 
-## Princípio da Invariante: criador
+## Princípio da Invariante: Criador
 
 :::: columns
 ::: {.column width="28%"}
@@ -333,14 +347,80 @@ $\blacksquare$
 ::: {.incremental}
 - Formulado por Robert W. Floyd na Carnegie-Mellon University em 1967.
 - Jovem prodígio que nunca concluiu o doutorado.
-- Principio simples e amplamente aplicável.
+- Princípio simples e amplamente aplicável.
 - Professor em Stanford e Prêmio Turing em $1978$.
 - Robert W Floyd, por Donald E. Knuth: <http://oldwww.acm.org/pubs/membernet/stories/floyd.pdf>.
 :::
 :::
 ::::
 
-## Ordenação por seleção (SelectionSort)
+## Exercício 1: Soma dos Elementos
+
+Qual é o invariante do laço no algoritmo a seguir?
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Soma}{$A, n$}
+  \State $s \gets 0$
+  \For{$i \gets 1$ \To $n$}
+    \State $s \gets s + A[i]$
+  \EndFor
+  \Return $s$
+\EndProcedure
+\end{algorithmic}
+```
+
+> [**Exercício.**]{.label-excs} Determine a propriedade invariante do laço `For` e o argumento de terminação.
+
+## Exercício 1: Solução
+
+> [**Solução.**]{.label-ansr}
+> 
+> - **Invariante do laço:** No início de cada iteração $i$ ($1 \le i \le n+1$), a variável $s$ contém a soma dos elementos da subsequência $A[1 \dots i-1]$:
+> $$s = \sum_{k=1}^{i-1} A[k]$$
+>   - **Base ($i=1$):** $s = 0$ (soma de conjunto vazio).
+>   - **Passo ($i \to i+1$):** adiciona-se $A[i]$ a $s$, mantendo $s = \sum_{k=1}^{i} A[k]$.
+> 
+> - **Terminação:** O laço termina quando $i = n+1$. Pelo invariante, $s = \sum_{k=1}^{n} A[k]$, ou seja, a soma de todo o vetor $A$. $\blacksquare$
+
+## Exercício 2: Maior Elemento
+
+Qual é o invariante do laço no algoritmo a seguir?
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{MaiorElemento}{$A, n$}
+  \State $m \gets A[1]$
+  \For{$i \gets 2$ \To $n$}
+    \If{$A[i] > m$}
+      \State $m \gets A[i]$
+    \EndIf
+  \EndFor
+  \Return $m$
+\EndProcedure
+\end{algorithmic}
+```
+
+> [**Exercício.**]{.label-excs} Determine a propriedade invariante do laço `For` e o argumento de terminação.
+
+## Exercício 2: Solução
+
+> [**Solução.**]{.label-ansr}
+> 
+> - **Invariante do laço:** No início de cada iteração $i$ ($2 \le i \le n+1$), a variável $m$ armazena o maior valor presente no subvetor $A[1 \dots i-1]$:
+> $$m = \max(A[1 \dots i-1])$$
+>   - **Base ($i=2$):** $m = A[1] = \max(A[1 \dots 1])$.
+>   - **Passo ($i \to i+1$):** se $A[i] > m$, $m$ é atualizado para $A[i]$, mantendo $m = \max(A[1 \dots i])$.
+> 
+> - **Terminação:** O laço termina quando $i = n+1$. Pelo invariante, $m = \max(A[1 \dots n])$, garantindo que $m$ é o maior elemento de todo o vetor $A$. $\blacksquare$
+
+## Ordenação por Seleção (SelectionSort)
 
 ```pseudocode
 #| html-line-number: true
@@ -450,7 +530,7 @@ A sua ideia fundamental é uma rotina que une **duas listas ordenadas** em uma *
 
 O algoritmo divide a entrada ao meio até chegar ao caso base (vetor de tamanho 1 -- trivialmente ordenado), e após recombina os vetores ordenados.
 
-## MergeSort: ideia principal
+## MergeSort: Ideia Principal
 
 ```pseudocode
 #| html-line-number: true
@@ -477,7 +557,7 @@ No pseudocódigo acima, as rotinas $\text{FirstHalf}$ e $\text{SecondHalf}$ extr
 
 Implementações eficientes de **MergeSort** requerem o uso de um vetor auxiliar e manipulação de índices (para que os cortes tenham custo constante).
 
-## MergeSort: main (eficiente)
+## MergeSort: Main (Eficiente)
 
 ```pseudocode
 #| html-line-number: true
@@ -497,12 +577,9 @@ Implementações eficientes de **MergeSort** requerem o uso de um vetor auxiliar
 
 <br>
 
-Observações:
+> [**Obs.**]{.label-rmk} $\textit{start}$ e $\textit{end}$ representam os índices de início e fim da parte do vetor a ser ordenado. Para ordenar o vetor inteiro, chame $\text{MergeSort}(A, 1, \text{length}(A))$.
 
-- $\textit{start}$ e $\textit{end}$ representam os índices de início e fim da parte do vetor a ser ordenado.
-- para ordenar o vetor inteiro, necessário chamar $\text{MergeSort}(1, \text{length}(A))$
-
-## MergeSort: merge (eficiente)
+## MergeSort: Merge (Eficiente)
 
 :::: columns
 ::: {.column width="48%"}
@@ -543,14 +620,14 @@ Observações:
 ```
 :::
 ::: {.column width="48%"}
-Observações:
-
+::: {.incremental}
 - Há um vetor auxiliar $\textit{Aux}$ que recebe a porção do vetor a ser ordenada (linhas 1-2), contendo os dois subvetores já ordenados (de $\textit{start}$ a $\textit{mid}$, e de $\textit{mid}+1$ a $\textit{end}$)
 - $i$ aponta para o início do primeiro subvetor ordenado em $\textit{Aux}$ (inicia com $\textit{start}$)
 - $j$ aponta para o início do segundo subvetor ordenado em $\textit{Aux}$ (inicia com $\textit{mid}+1$)
 - $k$ aponta para a posição onde os elementos dos dois subvetores serão inseridos em $A$ (inicia com $\textit{start}$)
 - o laço das linhas 6-12 compara o menor de cada subvetor, inserindo na posição correta do vetor de saída (e atualizando os índices)
 - o laço das linhas 13-16 e 17-20 copiam os elementos de um dos subvetores quando o outro subvetor já terminou.
+:::
 :::
 ::::
 
@@ -567,11 +644,13 @@ Para determinar a correção do **MergeSort** utilizamos **indução estrutural 
 
 <br>
 
+::: {.incremental}
 - **Pivô:** escolha de um elemento arbitrário da sequência.
 - **Particionamento:** formação de dois subvetores (elementos $\le$ pivô e elementos $>$ pivô).
 - **Recursão:** ordenação recursiva dos subvetores utilizando o próprio algoritmo.
 - **Desempenho:** caso médio similar ao **MergeSort**; pior caso com custo $O(n^2)$.
 - **Espaço:** não requer alocação de memória adicional.
+:::
 
 ## QuickSort: Ideia Principal
 
@@ -601,7 +680,7 @@ Para determinar a correção do **MergeSort** utilizamos **indução estrutural 
 - Similarmente ao **MergeSort**, implementações eficientes de **QuickSort** requerem a minimização da movimentação de dados por meio do uso de índices e reaproveitamento do espaço do próprio vetor sendo ordenado.
 :::
 
-## QuickSort: main (eficiente)
+## QuickSort: Main (Eficiente)
 
 ```pseudocode
 #| html-line-number: true
@@ -618,12 +697,9 @@ Para determinar a correção do **MergeSort** utilizamos **indução estrutural 
 \end{algorithmic}
 ```
 
-Observações:
+> [**Obs.**]{.label-rmk} A rotina $\text{Partition}$ executa ao mesmo tempo a *extração do pivô* e o particionamento dos demais valores, devolvendo o índice $p$ do pivô. Os elementos anteriores a $p$ são menores que o pivô, e os posteriores a $p$, maiores. Para ordenar todo o vetor, a chamada inicial é $\text{QuickSort}(A, 1, \text{length}(A))$.
 
-- a rotina $\text{Partition}$ executa ao mesmo tempo a *extração do pivô* e o particionamento dos demais valores, devolvendo o índice $p$ do pivô. Os elementos anteriores à $p$ são menores que o pivô, e os posteriores à $p$, maiores.
-- para ordenar todo o vetor, a chamada inicial é $\text{QuickSort}(1, \text{length}(A))$
-
-## QuickSort: partition (eficiente)
+## QuickSort: Partition (Eficiente)
 
 :::: columns
 ::: {.column width="48%"}
@@ -652,8 +728,6 @@ Observações:
 :::
 ::: {.column width="48%"}
 ::: {.incremental}
-Observações:
-
 - $x$ é o pivô (aqui extraído da última posição)
 - $i$ é o índice do **último** valor menor ou igual a $x$
 - o laço 3-6 faz $j$ percorrer todo vetor do início ao fim (excluindo $\textit{end}$). Se encontra um valor menor ou igual a $x$, o joga para o início por meio de uma troca e ajusta o índice $i$
@@ -672,361 +746,6 @@ Determine:
 
 1. argumentos para a correção do QuickSort
 2. argumentos para a terminação do QuickSort
-
-# Cálculo do Maior Divisor Comum
-
-## Maior Divisor Comum
-
-Dados dois números naturais $a$ e $b$, dizemos que $a$ é um **divisor** de $b$ se **existir** um natural $k$ tal que
-$$a \times k = b$$
-
-. . .
-
-*Notação:* denotamos $a \mid b$ para indicar que $a$ é divisor de $b$, e $a \nmid b$ quando não é.
-
-<br>
-
-*Exemplos:*
-
-:::: columns
-::: {.column width="33%"}
-- $0\mid 0$
-- $5\mid 0$
-- $1\mid 1$
-:::
-::: {.column width="33%"}
-- $2\mid 4$
-- $3\mid 3$
-- $3\mid 15$
-:::
-::: {.column width="33%"}
-- $3\nmid 4$
-- $0 \nmid 1$
-- $2\nmid 5$
-:::
-::::
-
-## Divisores de um Número
-
-Para $n>0$, podemos calcular **todos os seus divisores** testando a divisibilidade dos números de $1$ a $n$:
-
-*Exemplo:*  
-divisores(0) = $\{ 0, 1, 2, 3, 4, \ldots \}$  
-divisores(1) = $\{ 1 \}$  
-divisores(2) = $\{ 1, 2 \}$  
-divisores(10) = $\{ 1, 2, 5, 10 \}$  
-divisores(12) = $\{ 1, 2, 3, 4, 6, 12 \}$  
-divisores(15) = $\{ 1, 3, 5, 15 \}$  
-divisores(11) = $\{ 1, 11 \}$  
-
-<br>
-
-*Observação* $1$ e $n$ são sempre divisores de $n$. Quando um número tem *exatamente* dois divisores, dizemos que ele é [primo]{style="color: red;"}.
-
-## Maior Divisor Comum
-
-Dados dois números $a$ e $b$, definimos o [maior divisor comum]{style="color: red;"} $MDC(a,b)$ como o maior $x$ tal que $(x\mid a)$ e $(x \mid b)$.
-
-<br>
-
-*Exemplos:*  
-Já que  
-~~divisores(10) = $\{ 1, 2, \mathbf{5}, 10 \}$~~  
-~~divisores(15) = $\{ 1, 3, \mathbf{5}, 15 \}$~~  
-temos MDC(10,15) = 5  
-MDC(10,9) = 1  
-MDC(10,36) = 2  
-MDC(0,5) = 5  
-
-<br>
-
-Quando $MDC(a,b) = 1$, dizemos que $a$ e $b$ são [primos entre si]{style="color: red;"}.
-
-## Máximo divisor comum: algoritmo trivial
-
-```pseudocode
-#| html-line-number: true
-#| html-no-end: true
-
-\begin{algorithmic}
-\Procedure{MDC1}{$a, b$}
-  \State $\textit{mdc} \gets 1$
-  \For{$x \gets 1$ \To $\min(a,b)$}
-    \If{$(x \mid a)$ \textbf{ and } $(x \mid b)$}
-      \State $\textit{mdc} \gets x$
-    \EndIf
-  \EndFor
-  \Return $\textit{mdc}$
-\EndProcedure
-\end{algorithmic}
-```
-
-Determine:
-
-- correção de MDC1
-- terminação de MDC1
-
-Sobre o desempenho de MDC: quantos passos esse algoritmo executa (no melhor e no pior caso)?
-
-## Máximo divisor comum: algoritmo trivial melhorado
-
-```pseudocode
-#| html-line-number: true
-#| html-no-end: true
-
-\begin{algorithmic}
-\Procedure{MDC2}{$a, b$}
-  \State $x \gets \min(a,b)$
-  \While{$x > 0$}
-    \If{$(x \mid a)$ \textbf{ and } $(x \mid b)$}
-      \Return $x$
-    \EndIf
-    \State $x \gets x - 1$
-  \EndWhile
-\EndProcedure
-\end{algorithmic}
-```
-
-Determine:
-
-- correção de MDC2
-- terminação de MDC2
-
-Sobre o desempenho de MDC2: quantos passos esse algoritmo executa (no melhor e no pior caso)?
-
-## Algoritmo de Euclides para MDC
-
-O Algoritmo de Euclides é um método eficiente para cálculo do MDC de dois números.
-
-<br>
-
-Um dos mais antigos algoritmos da história ainda em uso, foi descrito no livro **Os Elementos** de Euclides (por volta de 300 A.C.).
-
-<br>
-
-A sua primeira formulação foi baseada na seguinte observação, assumindo $a>b$:
-
-$$MDC(a,b) = MDC(a-b,b)$$
-
-*Pergunta:* você consegue justificar por que a identidade acima vale?
-
-## Identidade fundamental (1)
-
-Vamos mostrar que, se $a>b$, temos $MDC(a,b) = MDC(a-b,b)$.
-
-Para isso, assumimos $x = MDC(a,b)$ e precisamos mostrar duas coisas:
-
-- $(x \mid a-b)$ ($x$ é divisor comum de $a-b$ e $b$)
-- se $(y \mid b)$ e $(y \mid a-b)$, então $x\geq y$ ($x$ é o maior deles)
-
-. . .
-
-*Lema 1:* $(x \mid a-b)$  
-Prova:
-
-. . .
-
-1. como $(x \mid a)$, temos $x \cdot k_1 = a$ (para algum $k_1$)
-2. como $(x \mid b)$, temos $x \cdot k_2 = b$ (para algum $k_2$)
-3. logo, $(a-b) = (x \cdot k_1 - x \cdot k_2) = x \cdot (k_2-k_1)$
-4. portanto, $(x \mid a-b)$ (observe que $k_2-k_1>0$ pois $a>b$). $\square$
-
-## Identidade fundamental (2)
-
-Assuma $x = MDC(a,b)$
-
-<br>
-
-*Lema 2:* se $(y \mid b)$ e $(y \mid a-b)$, então $x \geq y$
-
-Prova:
-
-. . .
-
-1. premissa 1 é $(y \mid b)$, isto é, $y \cdot c_1 = b$
-2. premissa 2 é $(y \mid a-b)$, isto é, $y \cdot c_2 = a-b$
-3. note que $a = b + (a-b) = y \cdot c_1 + y \cdot c_2 = y*(c_1 + c_2)$.
-4. logo, $(y \mid a)$.
-5. como $(y \mid b)$ e $(y \mid a)$, temos $x \geq y$ pela definição de $MDC(a,b)$ $\square$
-
-## Algoritmo de Euclides (primeira versão)
-
-```pseudocode
-#| html-line-number: true
-#| html-no-end: true
-
-\begin{algorithmic}
-\Procedure{Euclides1}{$a, b$}
-  \While{$a \neq 0$ \textbf{ and } $b \neq 0$}
-    \If{$a \geq b$}
-      \State $(a, b) \gets (a-b, b)$
-    \Else
-      \State $(a, b) \gets (b-a, a)$
-    \EndIf
-  \EndWhile
-  \If{$a = 0$}
-    \Return $b$
-  \Else
-    \Return $a$
-  \EndIf
-\EndProcedure
-\end{algorithmic}
-```
-
-<br>
-
-*Demonstração do algoritmo no computador.*
-
-<br>
-
-*Pergunta:* podemos fazer melhor?
-
-## Acelerando o algoritmo
-
-Considere a execução da primeira versão do algoritmo de Euclides para os valores 45 e 12:
-
-:::: columns
-::: {.column width="48%"}
-45 12  
-33 12
-
-. . .
-
-21 12
-
-. . .
-
-9 12 ~~$\gets$ olhe aqui!~~
-
-. . .
-
-3 9
-
-. . .
-
-6 3
-
-. . .
-
-3 3
-
-. . .
-
-3 0
-
-. . .
-
-MDC = 3
-:::
-::: {.column width="48%"}
-. . .
-
-O valor 9 corresponde ao **resto da divisão de 45 por 12**, pois é o momento onde a subtração sucessiva do primeiro pelo segundo para (e a partir daí os números trocam de posição).
-
-. . .
-
-Se o resto da divisão é 0, sabemos que $MDC(0,n) = n$ (para $n>0$).
-
-<br>
-
-Podemos usar o resto da divisão do maior pelo menor para pular passos e ter um algoritmo mais eficiente!
-:::
-::::
-
-## Algoritmo de Euclides (versão otimizada)
-
-```pseudocode
-#| html-line-number: true
-#| html-no-end: true
-
-\begin{algorithmic}
-\Procedure{Euclides2}{$a, b$}
-  \While{$a \neq 0$ \textbf{ and } $b \neq 0$}
-    \If{$a \geq b$}
-      \State $(a, b) \gets (b, a \bmod b)$
-    \Else
-      \State $(a, b) \gets (a, b \bmod a)$
-    \EndIf
-  \EndWhile
-  \If{$a = 0$}
-    \Return $b$
-  \Else
-    \Return $a$
-  \EndIf
-\EndProcedure
-\end{algorithmic}
-```
-
-<br>
-
-*Demonstração do algoritmo no computador.*
-
-## Execução da versão otimizada
-
-Execução da segunda versão do algoritmo de Euclides para os valores 45 e 12:
-
-:::: columns
-::: {.column width="48%"}
-<br>
-
-45 12  
-12 9  
-9 3  
-3 0  
-MDC = 3
-:::
-::: {.column width="48%"}
-<br>
-
-Determine:
-
-- correção de **Euclides2**
-- terminação de **Euclides2**
-:::
-::::
-
-Foi provado em 1844 por Gabriel Lamé que o número de passos requeridos para calcular **Euclides2(a,b)** é menor que $5n$, sendo $n$ o número de dígitos decimais de $\min(a,b)$.
-
-## Algoritmo de Euclides (otimizado, versão recursiva)
-
-```pseudocode
-#| html-line-number: true
-#| html-no-end: true
-
-\begin{algorithmic}
-\Procedure{Euclides3}{$a, b$}
-  \If{$b = 0$}
-    \Return $a$
-  \Else
-    \Return $\text{Euclides3}(b, a \bmod b)$
-  \EndIf
-\EndProcedure
-\end{algorithmic}
-```
-
-<br>
-
-**Observação:** Ao chamar $\text{Euclides3}(a,b)$ com $a<b$, o algoritmo acaba chamando $\text{Euclides3}(b,a)$ pois $a\bmod b=a$. Desta forma, garantidamente o segundo argumento se torna o menor dos dois e alcançará o valor $0$ primeiro.
-
-## Aplicações do algoritmo de Euclides (otimizado)
-
-::: {.incremental}
-1. simplificar uma fração $\frac{a}{b}$ dividindo o numerador e o denominador por $MDC(a,b)$:
-
-$$\frac{45}{12} = \frac{45 \div 3}{12 \div 3} = \frac{15}{4}$$
-
-<br>
-
-2. calcular o MMC (mínimo múltiplo comum) de dois números, dado que
-
-$MMC(a,b) = (a \times b) \div MDC(a,b)$
-
-$$MMC(45,12) = (45 \times 12) / 3 = 180$$
-
-<br>
-
-3. além de diversas aplicações em teoria dos números e criptografia $\ldots$
-:::
 
 #
 

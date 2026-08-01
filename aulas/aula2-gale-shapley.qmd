@@ -601,6 +601,16 @@ O que mostrar?
 
 ![](images/nobel.PNG){fig-align="center" width=80%}
 
+## Uma Aplicação Moderna
+
+**Content delivery networks (CDNs).** Distribute much of world’s content on web.
+
+- **User**. Preferences based on latency and packet loss.
+- **Web server**. Preferences based on costs of bandwidth and co-location.
+- **Goal**. Assign billions of users to servers, every 10 seconds.
+
+![Akamai](fig/akamai.png){width=80%}
+
 # Implementação em Python
 
 ## Implementação em Python {.scrollable .live-code-slide}

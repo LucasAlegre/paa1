@@ -11,7 +11,7 @@ date: ""
 lang: pt-BR
 
 format:
-  revealjs:
+  live-revealjs:
     theme: [default, metropolis.scss]
     slide-number: true
     progress: true
@@ -68,39 +68,39 @@ filters:
 
 ## Problema de Emparelhamento Estável
 
-**Objetivo:** Dado um conjunto de $n$ homens e um conjunto de $n$ mulheres, encontrar uma atribuição adequada.
+**Objetivo:** Dado um conjunto de $n$ hospitais e um conjunto de $n$ estudantes, encontrar uma atribuição adequada.
 
 - Participantes ranqueiam membros do grupo oposto.
-- Cada homem lista mulheres em ordem de preferência da melhor para a pior.
-- Cada mulher lista homens em ordem de preferência do melhor para o pior.
+- Cada hospital lista estudantes em ordem de preferência da melhor para a pior.
+- Cada estudante lista hospitais em ordem de preferência do melhor para o pior.
 
-[**Exemplo de Instância (3 homens, 3 mulheres):**]{.label-exmp}
+[**Exemplo de Instância (3 hospitais, 3 estudantes):**]{.label-exmp}
 
 :::: {.columns}
 ::: {.column width="45%"}
-**Preferências dos Homens:**
+**Preferências dos Hospitais:**
 
-- $m_1 \colon w_1 \succ w_2 \succ w_3$
-- $m_2 \colon w_2 \succ w_1 \succ w_3$
-- $m_3 \colon w_1 \succ w_2 \succ w_3$
+- $h_1 \colon e_1 \succ e_2 \succ e_3$
+- $h_2 \colon e_2 \succ e_1 \succ e_3$
+- $h_3 \colon e_1 \succ e_2 \succ e_3$
 :::
 
 ::: {.column width="45%"}
-**Preferências das Mulheres:**
+**Preferências dos Estudantes:**
 
-- $w_1 \colon m_2 \succ m_1 \succ m_3$
-- $w_2 \colon m_1 \succ m_2 \succ m_3$
-- $w_3 \colon m_1 \succ m_2 \succ m_3$
+- $e_1 \colon h_2 \succ h_1 \succ h_3$
+- $e_2 \colon h_1 \succ h_2 \succ h_3$
+- $e_3 \colon h_1 \succ h_2 \succ h_3$
 :::
 ::::
 
 ## Emparelhamento Perfeito
 
-> [**Def.**]{.label-def} Um **emparelhamento** $S$ é um conjunto ordenado de pares $m$-$w$ com $m \in M$ e $w \in W$ tal que cada homem $m \in M$ e cada mulher $w \in W$ aparece no máximo em um par de $S$.
+> [**Def.**]{.label-def} Um **emparelhamento** $S$ é um conjunto ordenado de pares $h$-$e$ com $h \in H$ e $e \in E$ tal que cada hospital $h \in H$ e cada estudante $e \in E$ aparece no máximo em um par de $S$.
 
 . . .
 
-> [**Def.**]{.label-def} Um emparelhamento $S$ é **perfeito** se $|S|=|M|=|W|=n$.
+> [**Def.**]{.label-def} Um emparelhamento $S$ é **perfeito** se $|S|=|H|=|E|=n$.
 
 . . .
 
@@ -108,19 +108,19 @@ filters:
 
 [**Exemplo de Emparelhamento Perfeito:**]{.label-exmp}
 
-- $M = \{m_1, m_2, m_3\}$ e $W = \{w_1, w_2, w_3\}$
-- $S = \{(m_1, w_2), (m_2, w_1), (m_3, w_3)\}$
+- $H = \{h_1, h_2, h_3\}$ e $E = \{e_1, e_2, e_3\}$
+- $S = \{(h_1, e_2), (h_2, e_1), (h_3, e_3)\}$
 
 ## Par Instável
 
-> [**Def.**]{.label-def} Dado um emparelhamento perfeito $S$, um homem $m$ e uma mulher $w$ são um **par instável** se:
+> [**Def.**]{.label-def} Dado um emparelhamento perfeito $S$, um hospital $h$ e uma estudante $e$ são um **par instável** se:
 >
-> - $m$ prefere $w$ a sua parceira atual; e
-> - $w$ prefere $m$ a seu parceiro atual.
+> - $h$ prefere $e$ a seu parceiro atual; e
+> - $e$ prefere $h$ a seu parceiro atual.
 
 . . .
 
-> [**Obs.**]{.label-rmk} Um par instável $(m, w)$ pode melhorar seus parceiros com uma ação conjunta.
+> [**Obs.**]{.label-rmk} Um par instável $(h, e)$ pode melhorar seus parceiros com uma ação conjunta.
 
 [Exemplo:]{.label-exmp}
 
@@ -128,17 +128,17 @@ filters:
 ::: {.column width="45%"}
 **Preferências:**
 
-- $m_1 \colon w_1 \succ w_2$
-- $m_2 \colon w_1 \succ w_2$
-- $w_1 \colon m_1 \succ m_2$
-- $w_2 \colon m_1 \succ m_2$
+- $h_1 \colon e_1 \succ e_2$
+- $h_2 \colon e_1 \succ e_2$
+- $e_1 \colon h_1 \succ h_2$
+- $e_2 \colon h_1 \succ h_2$
 :::
 ::: {.column width="55%"}
 **Emparelhamentos:**
 
-- $\{(m_1, w_1), (m_2, w_2)\}$ é **estável**
-- $\{(m_1, w_2), (m_2, w_1)\}$ é **instável** \
-(pois $m_1$ e $w_1$ formam um par instável)
+- $\{(h_1, e_1), (h_2, e_2)\}$ é **estável**
+- $\{(h_1, e_2), (h_2, e_1)\}$ é **instável** \
+(pois $h_1$ e $e_1$ formam um par instável)
 :::
 ::::
 
@@ -148,10 +148,10 @@ filters:
 
 . . .
 
-**Problema:** Dadas listas de preferências de $n$ homens e $n$ mulheres, encontrar um emparelhamento estável (se existir).
+**Problema:** Dadas listas de preferências de $n$ hospitais e $n$ estudantes, encontrar um emparelhamento estável (se existir).
 
 - Natural, desejável, condição autoimposta.
-- Interesse próprio previne qualquer homem-mulher trocar de pares.
+- Interesse próprio previne qualquer hospital-estudante trocar de pares.
 
 ## Problema de Emparelhamento Estável
 
@@ -203,21 +203,21 @@ Algoritmo intuitivo que **garante** encontrar um emparelhamento estável.
 #| html-no-end: true
 
 \begin{algorithmic}
-\Procedure{Gale-Shapley}{$x,\ c_1, \ldots, c_n$}
-\State Inicialize $S \gets \emptyset$, e todos os homens e mulheres como livres
-\While{existe um homem livre $m$ que ainda não propôs a toda mulher}
-    \State Escolha um tal homem $m$
-    \State Seja $w$ a mulher de maior preferência de $m$ à qual $m$ ainda não propôs
-    \If{$w$ está livre}
-        \State $S \gets S \cup \{(m, w)\}$
+\Procedure{Gale-Shapley}{$H, E$}
+\State Inicialize $S \gets \emptyset$, e todos os hospitais e estudantes como livres
+\While{existe um hospital livre $h$ que ainda não propôs a todo estudante}
+    \State Escolha um tal hospital $h$
+    \State Seja $e$ o estudante de maior preferência de $h$ ao qual $h$ ainda não propôs
+    \If{$e$ está livre}
+        \State $S \gets S \cup \{(h, e)\}$
     \Else
-        \State $w$ está atualmente emparelhada com $m'$
-        \If{$w$ prefere $m'$ a $m$}
-            \State $m$ continua livre
+        \State $e$ está atualmente emparelhado com $h'$
+        \If{$e$ prefere $h'$ a $h$}
+            \State $h$ continua livre
         \Else
-            \State $S \gets S \setminus \{(m', w)\}$
-            \State $S \gets S \cup \{(m, w)\}$
-            \State $m'$ fica livre
+            \State $S \gets S \setminus \{(h', e)\}$
+            \State $S \gets S \cup \{(h, e)\}$
+            \State $h'$ fica livre
         \EndIf
     \EndIf
 \EndWhile
@@ -252,17 +252,17 @@ O que mostrar?
 
 ## Prova de Corretude: Emparelhamento Perfeito
 
-> [**Afirmação.**]{.label-thm} No Algoritmo G-S, todos os homens e mulheres são emparelhados.
+> [**Afirmação.**]{.label-thm} No Algoritmo G-S, todos os hospitais e estudantes são emparelhados.
 
 . . .
 
 > [**Prova.**]{.label-prf} Prova por contradição.
 
 ::: {.incremental}
-- Suponha para o efeito de contradição que o homem $m$ não está pareado quando o algoritmo termina.
-- $m$ foi rejeitado por todas as mulheres na sua lista.
-- Então todas as mulheres têm um par ao fim do algoritmo que elas preferem a $m$.
-- Mas o número de homens e mulheres é o mesmo. Então, todo homem possui um par, inclusive $m$, o que gera uma **contradição**. $\blacksquare$
+- Suponha para o efeito de contradição que o hospital $h$ não está pareado quando o algoritmo termina.
+- $h$ foi rejeitado por todos os estudantes na sua lista.
+- Então todos os estudantes têm um par ao fim do algoritmo que elas preferem a $h$.
+- Mas o número de hospitais e estudantes é o mesmo. Então, todo hospital possui um par, inclusive $h$, o que gera uma **contradição**. $\blacksquare$
 :::
 
 ## Algoritmo Gale-Shapley
@@ -289,21 +289,21 @@ O que mostrar?
 
 . . .
 
-> [**Prova.**]{.label-prf} $S$ é perfeito. Suponha para o efeito de contradição que o par $(m, w) \in S$ é instável.
+> [**Prova.**]{.label-prf} $S$ é perfeito. Suponha para o efeito de contradição que o par $(h, e) \in S$ é instável.
 
 . . .
 
-- **Caso 1:** $m$ nunca propôs a $w$.
-    - $m$ prefere seu par atual a $w$.
-    - $(m, w)$ é estável.
+- **Caso 1:** $h$ nunca propôs a $e$.
+    - $h$ prefere seu par atual a $e$.
+    - $(h, e)$ é estável.
 
 . . .
 
-- **Caso 2:** $m$ propôs a $w$.
-    - $w$ rejeitou $m$ (imediatamente ou depois).
-    - $w$ prefere seu par atual a $m$.
-    - $(m, w)$ é estável.
-- Em ambos os casos, o par $(m, w)$ é estável. $\blacksquare$
+- **Caso 2:** $h$ propôs a $e$.
+    - $e$ rejeitou $h$ (imediatamente ou depois).
+    - $e$ prefere seu par atual a $h$.
+    - $(h, e)$ é estável.
+- Em ambos os casos, o par $(h, e)$ é estável. $\blacksquare$
 
 ## Algoritmo Gale-Shapley
 
@@ -323,11 +323,11 @@ O que mostrar?
 
 ## Prova de Corretude: Terminação
 
-> [**Obs.**]{.label-rmk} Homens propõem para mulheres em ordem decrescente de preferência (**apenas piora**).
+> [**Obs.**]{.label-rmk} Hospitais propõem para estudantes em ordem decrescente de preferência (**apenas piora**).
 
 . . .
 
-> [**Obs.**]{.label-rmk} Assim que uma mulher é proposta, ela nunca fica sozinha, ela apenas troca a proposta atual por uma proposta melhor (**apenas melhora**).
+> [**Obs.**]{.label-rmk} Assim que uma estudante é proposta, ela nunca fica sozinha, ela apenas troca a proposta atual por uma proposta melhor (**apenas melhora**).
 
 . . .
 
@@ -341,13 +341,13 @@ O que mostrar?
 
 > [**Afirmação.**]{.label-thm} O algoritmo termina no máximo após $n^2$ iterações do loop.
 
-> [**Prova.**]{.label-prf} A cada iteração do loop um homem propõe para uma nova mulher. Existem apenas $n^2$ possíveis propostas. $\blacksquare$
+> [**Prova.**]{.label-prf} A cada iteração do loop um hospital propõe para uma nova estudante. Existem apenas $n^2$ possíveis propostas. $\blacksquare$
 
 . . .
 
 :::: columns
 ::: {.column width="49%"}
-**Homens**
+**Hospitais**
 
 | | 1ª | 2ª | 3ª | 4ª | 5ª |
 |---|---|---|---|---|---|
@@ -359,7 +359,7 @@ O que mostrar?
 :::
 
 ::: {.column width="49%"}
-**Mulheres**
+**Estudantes**
 
 | | 1ª | 2ª | 3ª | 4ª | 5ª |
 |---|---|---|---|---|---|
@@ -381,13 +381,13 @@ O que mostrar?
 
 ::: {.incremental}
 
-* Uma mulher, ao receber uma proposta, nunca mais volta a ficar livre.
-* O algoritmo termina no exato momento em que a última mulher livre é pedida em noivado.
-* No pior caso, antes dessa última proposta, as outras $(n-1)$ mulheres já receberam propostas de todos os $n$ homens.
-* Isso totaliza $n(n-1)$ propostas feitas a essas mulheres.
-* A proposta seguinte é feita à mulher restante e encerra o algoritmo.
+* Uma estudante, ao receber uma proposta, nunca mais volta a ficar livre.
+* O algoritmo termina no exato momento em que o último estudante livre é comprometida.
+* No pior caso, antes dessa última proposta, os outros $(n-1)$ estudantes já receberam propostas de todos os $n$ hospitais.
+* Isso totaliza $n(n-1)$ propostas feitas a essas estudantes.
+* A proposta seguinte é feita à estudante restante e encerra o algoritmo.
 * Portanto, o número máximo de propostas é
-$$\underbrace{n}_{\text{homens}} \underbrace{(n-1)}_{\text{rejeições}} + \underbrace{1}_{\text{final sem rejeição}}  = n^2 - n + 1.$$
+$$\underbrace{n}_{\text{hospitais}} \underbrace{(n-1)}_{\text{rejeições}} + \underbrace{1}_{\text{final sem rejeição}}  = n^2 - n + 1.$$
 $\blacksquare$
 :::
 
@@ -423,124 +423,147 @@ O que mostrar?
 
 ## Entendendo a Solução
 
-**P.** A ordem em que os homens são selecionados para propor muda o resultado do algoritmo?
+**P.** A ordem em que os hospitais são selecionados para propor muda o resultado do algoritmo?
 
 . . .
 
-> [**Def.**]{.label-def} Uma mulher $w$ é uma **parceira viável** para um homem $m$ se existe algum emparelhamento estável com o par $(m, w)$.
+> [**Def.**]{.label-def} Uma estudante $e$ é uma **parceiro viável** para um hospital $h$ se existe algum emparelhamento estável com o par $(h, e)$.
 
 . . .
 
 **Exemplo:**
 
-- $m - w, w'$.
-- $m' - w, w'$.
-- $w - m, m'$.
-- $w' - m, m'$.
-- Apenas $w$ é viável para $m$.
+- $h - e, e'$.
+- $h' - e, e'$.
+- $e - h, h'$.
+- $e' - h, h'$.
+- Apenas $e$ é viável para $h$.
 
 ## Entendendo a Solução
 
-> [**Def.**]{.label-def} Uma mulher $w$ é uma **parceira viável** para um homem $m$ se existe algum emparelhamento estável com o par $(m, w)$.
+> [**Def.**]{.label-def} Uma estudante $e$ é uma **parceiro viável** para um hospital $h$ se existe algum emparelhamento estável com o par $(h, e)$.
 
 . . .
 
-**Atribuição Homem-Ótima:** Todo homem recebe a melhor parceira viável.
+**Atribuição Hospital-Ótima:** Todo hospital recebe o melhor parceiro viável.
 
 - É um emparelhamento perfeito?
 - É um emparelhamento estável?
 
 . . .
 
-> [**Afirmação.**]{.label-thm} Toda execução do algoritmo G-S retorna uma atribuição homem-ótima.
+> [**Afirmação.**]{.label-thm} Toda execução do algoritmo G-S retorna uma atribuição hospital-ótima.
 
-> [**Corolário.**]{.label-cor} Uma atribuição homem-ótima é um emparelhamento estável.
+> [**Corolário.**]{.label-cor} Uma atribuição hospital-ótima é um emparelhamento estável.
 
-## Otimalidade para Homens
+## Otimalidade para Hospitais
 
-> [**Afirmação.**]{.label-thm} O algoritmo G-S é **homem-ótimo**.
+> [**Afirmação.**]{.label-thm} O algoritmo G-S é **hospital-ótimo**: cada hospital recebe sua **melhor parceiro viável**.
 
-> [**Prova.**]{.label-prf} Por contradição. Suponha que um homem é atribuído a uma mulher pior do que sua melhor parceira viável.
+> [**Prova.**]{.label-prf} Por **contradição**.
 
+**[Hipótese]** Suponha que algum hospital não termina com suo melhor parceiro viável.
+
+- Como os hospitais propõem em ordem decrescente de preferência, algum hospital foi **rejeitado** por um parceiro viável.
+- Seja $h$ o **primeiro** hospital rejeitado por um parceiro viável, e $e = \text{best}(h)$ esso parceiro.
+  - *(Até esse momento, nenhum outro hospital foi rejeitado por uma viável.)*
+- Quando $e$ rejeita $h$, ela se compromete com outro pretendente $h'$ — logo $e$ **prefere $h'$ a $h$**.
+
+
+## Otimalidade para Hospitais — Estrutura da Contradição
+
+:::: {.columns}
+::: {.column width="50%"}
 ::: {.incremental}
-- Suponha que, na execução $E$ do algoritmo G–S, exista um emparelhamento $S$ onde algum homem $m$ **não** está com sua **melhor parceira válida** (**best(m)**).
-- Como os homens propõem em ordem decrescente de preferência, isso implica que $m$ foi rejeitado por uma parceira válida $w$.
-- Considere o **primeiro** momento em $E$ em que um homem é rejeitado por uma parceira válida: $w$ é **best(m)**.
-- A rejeição ocorreu porque: (a) $m$ propôs e $w$ preferiu seu noivo atual $m'$, ou (b) $w$ rompeu o noivado com $m$ para aceitar $m'$.
+**[Construção]** $e$ é viável para $h$, logo **por definição** existe emparelhamento estável $S'$ com $(h, e)$.
+
+- Seja $e'$ o parceiro de $h'$ em $S'$ (com $e' \neq e$).
+- **Em $E$:** quando $h'$ propôs a $e$, ainda não havia sido rejeitado por nenhuma viável — pois $h$ foi o **primeiro**!
+- $e'$ é viável para $h'$ (estão em $S'$). Se $h'$ tivesse proposto a $e'$ antes e $e'$ o rejeitasse → $h'$ seria o primeiro rejeitado, não $h$ — **contradição**!
+- Logo $h'$ ainda não propôs a $e'$ ⟹ $h'$ **prefere $e$ a $e'$**.
+- Temos: $h'$ prefere $e$ a $e'$ **e** $e$ prefere $h'$ a $h$ ⟹ $(h', e)$ **bloqueia** $S'$. $\blacksquare$
 :::
-
-## Otimalidade para Homens
-
-::: {.incremental}
-- Como $w$ é parceira válida de $m$, existe um emparelhamento estável $S'$ que contém $(m, w)$.
-- Com quem $m'$ está em $S'$? Seja $w'$ a parceira de $m'$ em $S'$, com $w' \neq w$.
-- No momento em que $m'$ ficou noivo de $w$ em $E$, ele ainda não havia sido rejeitado por parceira válida ($m$ foi o primeiro rejeitado), logo $m'$ prefere $w$ a $w'$.
-- Já $w$ prefere $m'$ a $m$ (pois o rejeitou em $E$).
-- Assim, $(m', w)$ é instável em $S'$, **contradição**. $\blacksquare$
 :::
+::: {.column width="50%"}
 
-. . .
+```{=html}
+<div style="font-size:0.72em; margin-top:0.2em;">
 
-**Conclusão:** Todo homem termina com sua melhor parceira válida no algoritmo G–S.
+  <!-- Execução E -->
+  <div style="background:#f0f4ff; border:1.5px solid #3949ab; border-radius:8px; padding:0.5em 0.8em; margin-bottom:0.5em;">
+    <div style="font-weight:bold; color:#3949ab; margin-bottom:0.4em; text-align:center;">Execução <i>E</i> do G-S</div>
+    <div style="display:flex; align-items:center; justify-content:center; gap:0.5em; flex-wrap:wrap;">
+      <div style="background:#c8e6c9; border:1.5px solid #388e3c; border-radius:6px; padding:0.3em 0.7em; font-weight:bold;"><i>h</i></div>
+      <div style="color:#c62828; font-size:1.3em; font-weight:bold;">&#8603;</div>
+      <div style="background:#fff9c4; border:1.5px solid #f9a825; border-radius:6px; padding:0.3em 0.7em; font-weight:bold;"><i>e</i></div>
+      <div style="color:#388e3c; font-size:1.3em; font-weight:bold;">&#8594;</div>
+      <div style="background:#ffcdd2; border:1.5px solid #c62828; border-radius:6px; padding:0.3em 0.7em; font-weight:bold;"><i>h</i>&#8242;</div>
+    </div>
+    <div style="text-align:center; color:#555; margin-top:0.3em; font-size:0.85em;"><i>e</i> rejeita <i>h</i> e prefere <i>h</i>&#8242;</div>
+  </div>
 
-## Visualizando a contradição no Gale–Shapley — Passo 1
+  <!-- Estável S' -->
+  <div style="background:#f3e5f5; border:1.5px solid #6a1b9a; border-radius:8px; padding:0.5em 0.8em; margin-bottom:0.5em;">
+    <div style="font-weight:bold; color:#6a1b9a; margin-bottom:0.4em; text-align:center;">Emparelhamento estável <i>S</i>&#8242;</div>
+    <div style="display:flex; justify-content:center; gap:1.2em;">
+      <div style="display:flex; align-items:center; gap:0.3em;">
+        <div style="background:#c8e6c9; border:1.5px solid #388e3c; border-radius:6px; padding:0.3em 0.6em; font-weight:bold;"><i>h</i></div>
+        <span style="font-size:1.1em;">&#8596;</span>
+        <div style="background:#fff9c4; border:1.5px solid #f9a825; border-radius:6px; padding:0.3em 0.6em; font-weight:bold;"><i>e</i></div>
+      </div>
+      <div style="display:flex; align-items:center; gap:0.3em;">
+        <div style="background:#ffcdd2; border:1.5px solid #c62828; border-radius:6px; padding:0.3em 0.6em; font-weight:bold;"><i>h</i>&#8242;</div>
+        <span style="font-size:1.1em;">&#8596;</span>
+        <div style="background:#e1bee7; border:1.5px solid #6a1b9a; border-radius:6px; padding:0.3em 0.6em; font-weight:bold;"><i>e</i>&#8242;</div>
+      </div>
+    </div>
+  </div>
 
-**$m$ propõe a $w$ em ordem de preferência; $w$ aceita $\Rightarrow$ noivado $m$–$w$.**
+  <!-- Contradição -->
+  <div style="background:#fbe9e7; border:2px solid #bf360c; border-radius:8px; padding:0.5em 0.8em; text-align:center;">
+    <div><b><i>h</i>&#8242; prefere <i>e</i> a <i>e</i>&#8242;</b></div>
+    <div><b><i>e</i> prefere <i>h</i>&#8242; a <i>h</i></b></div>
+    <div style="color:#bf360c; margin-top:0.3em;">&#10233; (<i>h</i>&#8242;, <i>e</i>) bloqueia <i>S</i>&#8242; — contradição!</div>
+  </div>
 
-$$
-m \xrightarrow{\text{propõe}} w \quad \Rightarrow \quad m \text{–} w \text{ noivados}
-$$
+</div>
+```
 
-## Visualizando a contradição no Gale–Shapley — Passo 2
+:::
+::::
 
-**Primeiro** rejeite por parceira válida: $w$ prefere $m'$ a $m$ e rejeita $m$.
+> **Conclusão:** Todo hospital termina com suo melhor parceiro viável no algoritmo G–S.
 
-$$
-m' \xrightarrow{\text{propõe}} w \quad \Rightarrow \quad w \text{ rejeita } m \text{ e aceita } m'
-$$
-
-## Visualizando a contradição no Gale–Shapley — Passo 3
-
-- Suponha, para contradição, um emparelhamento **estável** $S'$ com $(m,w)$.
-- Então, em $S'$, $m'$ deve estar com alguma $w' \neq w$.
-
-## Visualizando a contradição no Gale–Shapley — Passo 4
-
-- $w$ prefere $m'$ a $m$ (rejeitou $m$ por $m'$ em $E$).
-- $m'$ prefere $w$ a $w'$ (não fora rejeitado por parceira válida antes).
-- Logo, $(m',w)$ é instável em $S'$ $\Rightarrow$ **contradição**.
-
-**Conclusão:** todo homem termina com sua **melhor parceira válida** no algoritmo G–S.
 
 ## Entendendo a Solução
 
-> [**P:**]{.label-qstn} O que acontece com as mulheres?
+> [**P:**]{.label-qstn} O que acontece com os estudantes?
 
 . . .
 
-**Pessimalidade para Mulheres:** Cada mulher recebe o pior parceiro viável.
+**Pessimalidade para Estudantes:** Cada estudante recebe o pior parceiro viável.
 
-## Pessimalidade para Mulheres
+## Pessimalidade para Estudantes
 
-> [**Afirmação.**]{.label-thm} O algoritmo G-S é **mulher-péssimo**.
+> [**Afirmação.**]{.label-thm} O algoritmo G-S é **estudante-péssimo**.
 
-> [**Prova.**]{.label-prf} Por contradição. Suponha que o homem $m$ é atribuído a $w$ em $S^*$, mas $m$ não é o pior parceiro viável de $w$.
+> [**Prova.**]{.label-prf} Por contradição. Suponha que o hospital $h$ é atribuído a $e$ em $S^*$, mas $h$ não é o pior parceiro viável de $e$.
 
 ::: {.incremental}
-- Então existe um emparelhamento estável $S'$ em que $w$ é pareada com um homem $m'$, de quem $w$ gosta menos do que $m$.
-- $\Rightarrow$ $w$ prefere $m$ a $m'$.
-- Seja $w' \neq w$ a parceira de $m$ em $S'$. Por otimalidade para homens, $w$ é a melhor parceira viável para $m$ (foram pareados em $S^*$).
-- $\Rightarrow$ $m$ prefere $w$ a $w'$.
-- Então, $(m, w)$ é um par **instável** em $S'$, uma **contradição**. $\blacksquare$
+- Então existe um emparelhamento estável $S'$ em que $e$ é pareado com um hospital $h'$, de quem $e$ gosta menos do que $h$.
+- $\Rightarrow$ $e$ prefere $h$ a $h'$.
+- Seja $e' \neq e$ o parceiro de $h$ em $S'$. Por otimalidade para hospitais, $e$ é o melhor parceiro viável para $h$ (foram pareados em $S^*$).
+- $\Rightarrow$ $h$ prefere $e$ a $e'$.
+- Então, $(h, e)$ é um par **instável** em $S'$, uma **contradição**. $\blacksquare$
 :::
 
 ## Emparelhamento de Empresas e Alunos
 
-**Exemplo:** Homens $\approx$ Empresas, Mulheres $\approx$ Alunos.
+**Exemplo:** Hospitais $\approx$ Empresas, Estudantes $\approx$ Alunos.
 
 **Variação 1:** Alguns participantes declaram outros como inaceitáveis.
 
-**Variação 2:** Números diferentes de homens e mulheres.
+**Variação 2:** Números diferentes de hospitais e estudantes.
 
 **Variação 3:** Poligamia limitada.
 
@@ -578,6 +601,220 @@ $$
 
 ![](images/nobel.PNG){fig-align="center" width=80%}
 
+# Implementação em Python
+
+## Implementação em Python {.scrollable .live-code-slide}
+
+[Github](https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/galeshapley.py)
+
+```{pyodide}
+# Prof. Bruno Iochins Grisci
+
+import random
+from collections import deque
+import matplotlib.pyplot as plt
+
+def plot_curves(i_rand, i_hard, i_easy):
+    # Build aligned x/y arrays
+    xs = sorted(i_rand.keys())
+    y_rand = [i_rand[n] for n in xs]
+    y_hard = [i_hard[n] for n in xs]
+    y_easy = [i_easy[n] for n in xs]
+
+    # (Optional) theoretical references
+    y_linear = xs                              # ~ n      (easy)
+    y_quadratic_half = [n*(n+1)//2 for n in xs]     # ~ n^2/2  (hard-ish)
+    y_quadratic = [n*n for n in xs]     # ~ n^2 (hard-ish)
+
+    plt.figure(figsize=(8, 5))
+    plt.plot(xs, y_rand, marker='o', label='Random')
+    plt.plot(xs, y_hard, marker='s', label='Hard-ish (identical hospitals)')
+    plt.plot(xs, y_easy, marker='^', label='Easy (unique top choices)')
+
+    # (Optional) add theory lines
+    plt.plot(xs, y_linear, linestyle='--', label='~ n (theory)')
+    plt.plot(xs, y_quadratic_half, linestyle='--', label='~ n(n+1)/2 (theory)')
+    # plt.plot(xs, y_quadratic, linestyle='--', label='~ n*n (theory)')
+
+    plt.title('Gale–Shapley: iterations vs problem size n')
+    plt.xlabel('n (|H| = |E|)')
+    plt.ylabel('Number of loop iterations')
+    plt.legend()
+    plt.grid(True)
+    plt.tight_layout()
+    #plt.yscale('log')
+    plt.show()
+
+def random_instance(n, seed=None):
+    """
+    Create a random one-to-one instance with n 'hospitals' and n 'students'.
+    Names: H1..Hn and E1..En.
+    """
+    rng = random.Random(seed)
+    men = [f"M{i}" for i in range(1, n+1)]
+    women = [f"W{i}" for i in range(1, n+1)]
+
+    m_prefs = {m: rng.sample(women, k=n) for m in men}
+    w_prefs = {w: rng.sample(men, k=n) for w in women}
+    return m_prefs, w_prefs
+
+def worstish_instance(n):
+    """
+    Identical hospitals, reversed students (tends to increase proposals).
+    """
+    men = [f"M{i}" for i in range(1, n+1)]
+    women = [f"W{i}" for i in range(1, n+1)]
+    # All men rank W1 > W2 > ... > Wn
+    m_prefs = {m: women[:] for m in men}
+    # Each woman ranks men in reverse (Mn > ... > M1)
+    rev_men = men[::-1]
+    w_prefs = {w: rev_men[:] for w in women}
+    return m_prefs, w_prefs    
+
+def easy_instance(n):
+    """
+    Each man’s top choice is unique and each student ranks their designated hospital first. Then everyone gets committed on their first proposal.
+    """
+    men   = [f"M{i}" for i in range(1, n+1)]
+    women = [f"W{i}" for i in range(1, n+1)]
+    # Mi's top choice is Wi; each woman Wi ranks Mi first
+    m_prefs = {
+        men[i]: [women[i]] + [w for w in women if w != women[i]] 
+        for i in range(n)
+    }
+    w_prefs = {
+        women[i]: [men[i]] + [m for m in men if m != men[i]]
+        for i in range(n)
+    }
+    return m_prefs, w_prefs
+
+def gale_shapley(m_prefs: dict[str, list[str]], w_prefs: dict[str, list[str]], verbose=False):
+    """
+    m_prefs: {hospital: [students in descending preference]}
+    w_prefs: {student: [hospitals in descending preference]}
+    returns: set of (hospital, student) pairs
+    """
+    # Precompute each student's ranking of hospitals for comparisons
+    w_rank = {w: {m: i for i, m in enumerate(pref_list)} for w, pref_list in w_prefs.items()}
+
+    # https://www.geeksforgeeks.org/python/deque-in-python/
+    free_men = deque(m_prefs.keys())        # all hospitals start free
+    next_idx = {m: 0 for m in m_prefs}      # next woman to propose to per man
+    engaged_to = {}                         # woman -> man (current fiancé)
+
+    i_loop = 0
+    while free_men:
+        i_loop += 1
+        m = free_men.popleft()
+
+        # If m has already proposed to every woman, skip (no match possible)
+        if next_idx[m] >= len(m_prefs[m]):
+            if verbose: print(f'{m} has already proposed to everyone.')
+            continue
+
+        # Highest-ranked woman m hasn't proposed to yet
+        w = m_prefs[m][next_idx[m]]
+        next_idx[m] += 1
+
+        if verbose: print(f'{m} proposes to {w}.')        
+
+        if w not in engaged_to:             # w is free
+            engaged_to[w] = m               # (m, w) become engaged
+            if verbose: print(f'{w} is free, {m} and {w} become engaged.')     
+        else:
+            m_prime = engaged_to[w]         # w is engaged to m'
+            # If w prefers current fiancé m' over m
+            if w_rank[w][m_prime] < w_rank[w][m]:
+                # m remains free; try next woman later
+                free_men.append(m)
+                if verbose: print(f'{m} remains free.')   
+            else:
+                # w prefers m to m'
+                engaged_to[w] = m           # (m, w) become engaged
+                free_men.append(m_prime)    # m' becomes free
+                if verbose: print(f'{m} and {w} become engaged, {m_prime} becomes free.')   
+
+        # If m still hasn't proposed to everyone and is free, he'll re-enter loop via queue
+        # Loop continues while there exists a free man who hasn't proposed to all women
+
+        if verbose: print(engaged_to)
+
+    # Build result set S of engaged pairs
+    return {(m, w) for w, m in engaged_to.items()}, i_loop
+
+def main():
+
+    # Demo: https://www.cs.princeton.edu/~wayne/kleinberg-tardos/pdf/01DemoGaleShapley.pdf
+    # hospitals’ preference lists
+    HPL = {           #1st      2nd       3rd         4th       5th 
+        'Atlanta': ['Wayne',  'Val',     'Yolanda', 'Zeus',   'Xavier'],
+        'Boston':  ['Yolanda','Wayne',   'Val',     'Xavier', 'Zeus'],
+        'Chicago': ['Wayne',  'Zeus',    'Xavier',  'Yolanda','Val'],
+        'Detroit': ['Val',    'Yolanda', 'Xavier',  'Wayne',  'Zeus'],
+        'El Paso': ['Wayne',  'Yolanda', 'Val',     'Zeus',   'Xavier'],
+    }
+
+    # students’ preference lists
+    SPL = {           #1st      2nd       3rd         4th       5th 
+    'Val':     ['El Paso', 'Atlanta', 'Boston',  'Detroit', 'Chicago'],
+    'Wayne':   ['Chicago', 'Boston',  'Detroit', 'Atlanta', 'El Paso'],
+    'Xavier':  ['Boston',  'Chicago', 'Detroit', 'El Paso', 'Atlanta'],
+    'Yolanda': ['Atlanta', 'El Paso', 'Detroit', 'Chicago', 'Boston'],
+    'Zeus':    ['Detroit', 'Boston',  'El Paso', 'Chicago', 'Atlanta'],
+    }
+
+    # Pior caso dos slides de aula
+    HOSPITAIS = {
+        'V': ['A', 'B', 'C', 'D', 'E'],
+        'W': ['B', 'C', 'D', 'A', 'E'],
+        'X': ['C', 'D', 'A', 'B', 'E'],
+        'Y': ['D', 'A', 'B', 'C', 'E'],
+        'Z': ['A', 'B', 'C', 'D', 'E'],
+    }
+
+    ESTUDANTES = {
+       'A': ['W', 'X', 'Y', 'Z', 'V'],
+       'B': ['X', 'Y', 'Z', 'V', 'W'],
+       'C': ['Y', 'Z', 'V', 'W', 'X'],
+       'D': ['Z', 'V', 'W', 'X', 'Y'],
+       'E': ['V', 'W', 'X', 'Y', 'Z'],
+    }
+
+    # Demo:
+    print(gale_shapley(HPL, SPL, True))
+
+    # Worst case:
+    print(gale_shapley(HOSPITAIS, ESTUDANTES, True))
+
+    # Analysis:    
+    i_rand = {}
+    i_hard = {}
+    i_easy = {}
+
+    for n in range(10, 1000, 100):
+        mp, wm = random_instance(n)
+        i_rand[n] = gale_shapley(mp, wm)[1]
+    
+    for n in range(10, 1000, 100):
+        mp, wm = worstish_instance(n)
+        i_hard[n] = gale_shapley(mp, wm)[1]     
+
+    for n in range(10, 1000, 100):
+        mp, wm = easy_instance(n)
+        i_easy[n] = gale_shapley(mp, wm)[1] 
+
+    print('RANDOM')
+    print(i_rand)
+    print('WORST')
+    print(i_hard)
+    print('EASY')
+    print(i_easy)
+
+    plot_curves(i_rand, i_hard, i_easy)
+    
+
+main()
+```
 
 #
 

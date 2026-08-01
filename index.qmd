@@ -40,7 +40,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <table class="table table-bordered sched">
 <thead style="background-color:#495057; color:#fff;">
 <tr>
-  <th style="width:5%;text-align:center;">Semana</th>
+  <th style="width:5%;text-align:center;">Aula</th>
   <th style="width:10%">Data</th>
   <th style="width:9%">Local</th>
   <th>Assunto</th>
@@ -60,12 +60,13 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
     <ul class="list-unstyled mb-0">
       <li class="mb-1"><a href="https://colab.research.google.com/drive/1NTX2_Xdrp_uBE72-WmnId2fL5lTmG1Ha?usp=sharing"><i class="bi bi-file-earmark-code me-1"></i>De C para Python (Prof. Álvaro Becker)</a></li>
       <li><a href="https://brunogrisci.github.io/cashiers"><i class="bi bi-display me-1"></i>Visualização Problema do Troco</a></li>
+      <li><a href="https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/troco.py"><i class="bi bi-file-earmark-code me-1"></i>Código Problema do Troco (Python)</a></li>
     </ul>
   </td>
 </tr>
 <!-- Semana 2 -->
 <tr>
-  <td rowspan="2" class="wk">2</td>
+  <td class="wk">2</td>
   <td>ter. 11/ago.</td>
   <td>Sala 113</td>
   <td class="t-red">Emparelhamento Estável. Gale-Shapley.</td>
@@ -73,11 +74,14 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>
     <ul class="list-unstyled mb-0">
       <li class="mb-1"><a href="https://brunogrisci.github.io/stablematching"><i class="bi bi-display me-1"></i>Visualização Gale-Shapley</a></li>
+      <li><a href="https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/galeshapley.py"><i class="bi bi-file-earmark-code me-1"></i>Código Gale-Shapley (Python)</a></li>
       <li><a href="https://www.youtube.com/watch?v=LtTV6rIxhdo"><i class="bi bi-youtube me-1"></i>Stable Marriage (the math bit)</a></li>
+
     </ul>
   </td>
 </tr>
 <tr>
+  <td class="wk">3</td>
   <td>qui. 13/ago.</td>
   <td>Sala 113</td>
   <td class="t-red">Correção: Introdução à Provas de Correção, Invariantes. Algoritmos de ordenamento.</td>
@@ -86,7 +90,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <!-- Semana 3 -->
 <tr>
-  <td rowspan="2" class="wk">3</td>
+  <td class="wk">4</td>
   <td>ter. 18/ago.</td>
   <td>Sala 113</td>
   <td class="t-red">Notação Assintótica I.</td>
@@ -94,6 +98,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td></td>
 </tr>
 <tr>
+  <td class="wk">5</td>
   <td>qui. 20/ago.</td>
   <td>Sala 113</td>
   <td class="t-red">Notação Assintótica II.</td>
@@ -102,7 +107,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <!-- Semana 4 -->
 <tr>
-  <td rowspan="2" class="wk">4</td>
+  <td class="wk">6</td>
   <td>ter. 25/ago.</td>
   <td>Sala 113</td>
   <td class="t-blue">Teoria dos Grafos: definições, representação, graus.</td>
@@ -110,6 +115,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td></td>
 </tr>
 <tr>
+  <td class="wk">7</td>
   <td>qui. 27/ago.</td>
   <td>Sala 113</td>
   <td class="t-blue">Teoria dos Grafos: isomorfismo, famílias de grafos, conectividade.</td>
@@ -118,7 +124,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <!-- Semana 5 -->
 <tr class="row-lab">
-  <td rowspan="2" class="wk">5</td>
+  <td class="wk">8</td>
   <td>ter. 01/set.</td>
   <td>Lab 104</td>
   <td class="t-black">Laboratório Avaliado 1: Correção, Notação assintótica e Representações de Grafos</td>
@@ -126,6 +132,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td></td>
 </tr>
 <tr>
+  <td class="wk">9</td>
   <td>qui. 03/set.</td>
   <td>Sala 113</td>
   <td class="t-blue">Operações sobre Grafos, Dígrafos, Árvores. Grafos Bipartidos. Cliques.</td>
@@ -134,7 +141,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <!-- Semana 6 -->
 <tr>
-  <td rowspan="2" class="wk">6</td>
+  <td class="wk">10</td>
   <td>ter. 08/set.</td>
   <td>Sala 113</td>
   <td class="t-blue">Algoritmos para Grafos: Correção e Complexidade. BFS e DFS.</td>
@@ -142,6 +149,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td></td>
 </tr>
 <tr>
+  <td class="wk">11</td>
   <td>qui. 10/set.</td>
   <td>Sala 113</td>
   <td class="t-blue">Algoritmos para Grafos: Distância. Ordenação topológica. Componentes Conexos.</td>
@@ -150,7 +158,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <!-- Semana 7 -->
 <tr class="row-lab">
-  <td rowspan="2" class="wk">7</td>
+  <td class="wk">12</td>
   <td>ter. 15/set.</td>
   <td>Lab 104</td>
   <td class="t-black">Laboratório Avaliado 2: Algoritmos para Grafos</td>
@@ -158,6 +166,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td></td>
 </tr>
 <tr>
+  <td class="wk">13</td>
   <td>qui. 17/set.</td>
   <td>Sala 113</td>
   <td class="t-blue">Revisão</td>
@@ -166,7 +175,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <!-- Semana 8 -->
 <tr class="row-prova">
-  <td rowspan="2" class="wk">8</td>
+  <td class="wk">14</td>
   <td>ter. 22/set.</td>
   <td>Lab 103</td>
   <td><strong>PROVA 1</strong></td>
@@ -174,6 +183,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td></td>
 </tr>
 <tr>
+  <td class="wk">15</td>
   <td>qui. 24/set.</td>
   <td>Sala 113</td>
   <td class="t-green">Algoritmos Gulosos. Introdução. Escalonamento de Intervalos. Particionamento de Intervalos.</td>
@@ -182,7 +192,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <!-- Semana 9 -->
 <tr>
-  <td rowspan="2" class="wk">9</td>
+  <td class="wk">16</td>
   <td>ter. 29/set.</td>
   <td>Sala 113</td>
   <td class="t-green">Algoritmos Gulosos. Minimizar Atraso. Caching Ótimo.</td>
@@ -190,6 +200,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td></td>
 </tr>
 <tr>
+  <td class="wk">17</td>
   <td>qui. 01/out.</td>
   <td>Sala 113</td>
   <td class="t-green">Distância em Grafos Valorados. Descrição do Problema, Algoritmo de Dijkstra.</td>
@@ -198,7 +209,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <!-- Semana 10 -->
 <tr>
-  <td rowspan="2" class="wk">10</td>
+  <td class="wk">18</td>
   <td>ter. 06/out.</td>
   <td>Sala 113</td>
   <td class="t-green">Distância em Grafos Valorados. Estrutura Heap, Algoritmo de Dijkstra otimizado.</td>
@@ -206,6 +217,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td></td>
 </tr>
 <tr class="row-lab">
+  <td class="wk">19</td>
   <td>qui. 08/out.</td>
   <td>Lab 104</td>
   <td class="t-black">Laboratório Avaliado 3: Algoritmos Gulosos, Distância sobre grafos valorados</td>
@@ -214,7 +226,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <!-- Semana 11 -->
 <tr>
-  <td rowspan="2" class="wk">11</td>
+  <td class="wk">20</td>
   <td>ter. 13/out.</td>
   <td>Sala 113</td>
   <td class="t-green">Árvore Geradora Mínima 1 (Descrição do Problema, Algoritmo de Prim)</td>
@@ -222,6 +234,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td></td>
 </tr>
 <tr>
+  <td class="wk">21</td>
   <td>qui. 15/out.</td>
   <td>Sala 113</td>
   <td class="t-green">Árvore Geradora Mínima 2 (Algoritmo de Kruskal, Estrutura Union-Find)</td>
@@ -246,7 +259,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <!-- Semana 12 -->
 <tr>
-  <td rowspan="2" class="wk">12</td>
+  <td class="wk">22</td>
   <td>ter. 27/out.</td>
   <td>Sala 113</td>
   <td class="t-green">Código de Huffman.</td>
@@ -254,6 +267,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td></td>
 </tr>
 <tr class="row-lab">
+  <td class="wk">23</td>
   <td>qui. 29/out.</td>
   <td>Lab 104</td>
   <td class="t-black">Laboratório Avaliado 4: Árvore Geradora Mínima</td>
@@ -262,7 +276,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <!-- Semana 13 -->
 <tr>
-  <td rowspan="2" class="wk">13</td>
+  <td class="wk">24</td>
   <td>ter. 03/nov.</td>
   <td>Sala 113</td>
   <td class="t-blue">Grafos Eulerianos e Hamiltonianos. Caixeiro Viajante.</td>
@@ -270,6 +284,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td></td>
 </tr>
 <tr>
+  <td class="wk">25</td>
   <td>qui. 05/nov.</td>
   <td>Sala 113</td>
   <td class="t-blue">Planaridade.</td>
@@ -278,7 +293,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <!-- Semana 14 -->
 <tr>
-  <td rowspan="2" class="wk">14</td>
+  <td class="wk">26</td>
   <td>ter. 10/nov.</td>
   <td>Sala 113</td>
   <td class="t-blue">Coloração de Grafos.</td>
@@ -286,6 +301,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td></td>
 </tr>
 <tr>
+  <td class="wk">27</td>
   <td>qui. 12/nov.</td>
   <td>Sala 113</td>
   <td class="t-blue">Cobertura de Vértices e Emparelhamentos.</td>
@@ -294,7 +310,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <!-- Semana 15 -->
 <tr>
-  <td rowspan="2" class="wk">15</td>
+  <td class="wk">28</td>
   <td>ter. 17/nov.</td>
   <td>Sala 113</td>
   <td class="t-blue">Análise de Redes.</td>
@@ -302,6 +318,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td></td>
 </tr>
 <tr>
+  <td class="wk">29</td>
   <td>qui. 19/nov.</td>
   <td>Sala 113</td>
   <td class="t-blue">Revisão</td>
@@ -310,7 +327,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <!-- Semana 16 -->
 <tr class="row-prova">
-  <td class="wk">16</td>
+  <td class="wk">30</td>
   <td>qui. 26/nov.</td>
   <td>Lab 103</td>
   <td><strong>PROVA 2</strong></td>
@@ -319,7 +336,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 </tr>
 <!-- Semana 17 -->
 <tr class="row-exame">
-  <td class="wk">17</td>
+  <td class="wk"></td>
   <td>qui. 03/dez.</td>
   <td>Lab 103</td>
   <td><strong>EXAME</strong></td>

@@ -39,7 +39,7 @@ filters:
 ---
 
 
-## Programa {.scrollable .live-code-slide}
+## Programa
 
 - Apresentação da disciplina
 - Exemplos motivacionais

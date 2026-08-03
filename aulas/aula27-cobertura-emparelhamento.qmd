@@ -402,7 +402,7 @@ $\quad \textcolor{#2e75b6}{\beta}(G) = 5$
 
 . . .
 
-- *CMV* é um problema conhecidamente [NP-difícil]{.alert-text}, para o qual habitualmente são utilizadas heurísticas.
+- *CMV* é um problema conhecidamente [NP-difícil]{.alert}, para o qual habitualmente são utilizadas heurísticas.
 
 <br>
 
@@ -1465,7 +1465,7 @@ Parecem perguntas bem diferentes:
   - Mas as duas têm respostas idênticas.
   - Responder sim é o mesmo que dizer **P** = **NP**.
 
-> Contudo, conjecturamos que a resposta seja [não]{.alert-text}!
+> Contudo, conjecturamos que a resposta seja [não]{.alert}!
 
 --- 
 
@@ -1481,7 +1481,7 @@ Parecem perguntas bem diferentes:
 - Um problema é **NP-completo** quando:
 
   - está em **NP**;
-  - é [tão difícil quanto]{.alert-text} qualquer outro problema em **NP**.
+  - é [tão difícil quanto]{.alert} qualquer outro problema em **NP**.
 
 . . .
 

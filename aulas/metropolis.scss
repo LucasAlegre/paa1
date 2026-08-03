@@ -166,7 +166,9 @@ $code-block-border-color: rgba($m-dark, 0.15) !default;
 .label-ansr { color: #6600cc;   font-weight: 700; }   // violet
 .label-notn { color: #555;      font-weight: 700; }   // gray!50!black
 .bold-emph  { color: $m-blue;   font-weight: 700; font-style: italic; }  // \bemph
-.alert-text { color: #c40000; font-weight: 700; }
+.alert { color: #c40000; font-weight: 700; }
+
+
 
 // ── Theorem/definition blocks ───────────────────────────────────────────────
 .block-def, .block-thm, .block-lem, .block-cor {

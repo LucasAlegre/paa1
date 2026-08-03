@@ -142,7 +142,7 @@ $$c(a,b) = a - \cdots - b$$
 ## Caracterização de Grafos Eulerianos (cont.)
 
 ::: {.block-def}
-[**Definição:**]{.label-def} Um componente conexo é [**não-trivial**]{.alert-text} **sse** possui ao menos uma aresta.
+[**Definição:**]{.label-def} Um componente conexo é [**não-trivial**]{.alert} **sse** possui ao menos uma aresta.
 :::
 
 ::: {.block-thm}
@@ -405,7 +405,7 @@ Grafos eulerianos possuem uma caracterização precisa em termos de graus dos v�
 
 . . .
 
-No caso de grafos hamiltonianos, [**não se sabe até o momento um conjunto de condições simultaneamente suficientes e necessárias que os caracterizem completamente.**]{.alert-text}
+No caso de grafos hamiltonianos, [**não se sabe até o momento um conjunto de condições simultaneamente suficientes e necessárias que os caracterizem completamente.**]{.alert}
 
 . . .
 
@@ -414,7 +414,7 @@ No caso de grafos hamiltonianos, [**não se sabe até o momento um conjunto de c
 1. $\delta(G) \geq 2$
 2. $G$ é conexo
 
-Note que elas [**não são suficientes**]{.alert-text} — existe grafo conexo com $\delta(G) \geq 2$ que não é hamiltoniano.
+Note que elas [**não são suficientes**]{.alert} — existe grafo conexo com $\delta(G) \geq 2$ que não é hamiltoniano.
 
 ## Condição Suficiente — Teorema de Dirac {.smaller}
 

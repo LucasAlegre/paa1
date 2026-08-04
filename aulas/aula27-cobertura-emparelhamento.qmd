@@ -1,6 +1,6 @@
 ---
 title: "Projeto e Análise de Algoritmos I"
-subtitle: "Aula 27: Cobertura de Vértices e Emparelhamentos"
+subtitle: "Aula 27 - Cobertura de Vértices e Emparelhamentos"
 author: "Lucas Nunes Alegre"
 institute: |
   Universidade Federal do Rio Grande do Sul  <br>
@@ -12,14 +12,14 @@ lang: pt-BR
 
 
 format:
-  revealjs:
+  live-revealjs:
     theme: [default, metropolis.scss]
     slide-number: true
     progress: true
     transition: fade
     width: 1024
     height: 768
-    margin: 0.15
+    margin: 0.1
     html-math-method: katex
     title-slide-attributes:
       data-background-color: "#ffffff"

@@ -1,12 +1,12 @@
 ---
 title: "Projeto e Análise de Algoritmos I"
-subtitle: "Aula 01: Introdução"
+subtitle: "Aula 01 - Introdução"
 author: "Lucas Nunes Alegre"
 institute: |
   Universidade Federal do Rio Grande do Sul  <br>
   Instituto de Informática <br> Departamento de Informática Teórica  
   <br><br><br>
-  <span style="display:inline-block; max-width:60%; font-size:0.55em;">Estes slides utilizam conteúdo adaptado da bibliografia da disciplina e também de notas de aula e slides prévios dos professores Bruno Grisci, Rodrigo Machado, André Grahl Pereira, Lucas Nunes Alegre, Marcus Ritt e Luciana Buriol.</span>
+  <span style="display:inline-block; max-width:50%; font-size:0.5em; color: #757575;">Estes slides utilizam conteúdo adaptado da bibliografia da disciplina e também de notas de aula e slides prévios dos professores Bruno Grisci, Rodrigo Machado e André Grahl.</span>
 date: ""
 lang: pt-BR
 
@@ -18,7 +18,7 @@ format:
     transition: fade
     width: 1024
     height: 768
-    margin: 0.15
+    margin: 0.1
     html-math-method: katex
     title-slide-attributes:
       data-background-color: "#ffffff"

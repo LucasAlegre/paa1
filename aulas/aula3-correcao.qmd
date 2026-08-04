@@ -1,6 +1,6 @@
 ---
 title: "Projeto e Análise de Algoritmos I"
-subtitle: "Aula 03: Correção de Algoritmos. Invariantes"
+subtitle: "Aula 03 - Correção de Algoritmos. Invariantes"
 author: "Lucas Nunes Alegre"
 institute: |
   Universidade Federal do Rio Grande do Sul  <br>
@@ -18,7 +18,7 @@ format:
     transition: fade
     width: 1024
     height: 768
-    margin: 0.15
+    margin: 0.1
     html-math-method: katex
     title-slide-attributes:
       data-background-color: "#ffffff"

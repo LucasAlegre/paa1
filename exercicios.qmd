@@ -5,25 +5,268 @@ toc-depth: 4
 toc-title: "Tópicos"
 ---
 
+<style>
+ol[type="a"] > li::marker, ol ol > li::marker {
+  content: counter(list-item, lower-alpha) ") ";
+}
+</style>
+
 Exercícios organizados por tópico. Use o menu lateral para navegar entre os tópicos.
 
 ---
 
 # Prova 1
 
-## Aula 01 - Emparelhamento Estável
+## Emparelhamento Estável
 
-1. Implemente o algoritmo de Gale-Shapley na sua linguagem de programação de preferência. Verificar se ele está correto e se a pior execução não demanda mais do que $n^2$ propostas. 
+1. Implemente o algoritmo de Gale-Shapley na sua linguagem de programação de preferência. Verifique se ele está correto e se a pior execução não demanda mais do que $n^2$ propostas.
 
-2. Resolva os "Solved Exercise 1" e "Solved Exercise 2" disponíveis no final do Capítulo 1 do livro "Algorithm Design" (Kleinberg, Tardos). Depois leia a solução dos autores do livro e verifique na prática através dos cenários "Categorias boas e ruins" e "Pares proibidos" na visualização.
+2. Resolva os "Solved Exercise 1" e "Solved Exercise 2" disponíveis no final do Capítulo 1 do livro *Algorithm Design* (Kleinberg, Tardos). Depois leia a solução dos autores do livro e verifique na prática através dos cenários "Categorias boas e ruins" e "Pares proibidos" na visualização.
+
+3. Considere as tabelas de preferências abaixo para um grupo de alunos e empresas:
+
+   **Preferências dos Alunos:**
+
+   | Alunos | 1ª opção | 2ª opção | 3ª opção | 4ª opção |
+   | :--- | :--- | :--- | :--- | :--- |
+   | **A** | Z | Y | X | W |
+   | **B** | X | Y | W | Z |
+   | **C** | Z | W | X | Y |
+   | **D** | W | X | Y | Z |
+
+   **Preferências das Empresas:**
+
+   | Empresas | 1ª opção | 2ª opção | 3ª opção | 4ª opção |
+   | :--- | :--- | :--- | :--- | :--- |
+   | **X** | D | A | C | B |
+   | **Y** | C | B | A | D |
+   | **Z** | D | C | A | B |
+   | **W** | B | D | C | A |
+
+   Use o Algoritmo Gale-Shapley para encontrar dois emparelhamentos estáveis entre empresas e alunos considerando estas tabelas (um em que os alunos propõem e outro em que as empresas propõem).
+
+4. Decida se a seguinte afirmação é falsa ou verdadeira:
+
+   > *Dado qualquer instância do problema do emparelhamento estável é possível determinar se a instância possui solução única (um único emparelhamento estável é possível) com um algoritmo polinomial.*
+
+   Se a afirmação for falsa, forneça o esboço de uma prova. Se a afirmação for verdadeira, forneça um algoritmo polinomial que determina se a instância tem solução única e explique por que o algoritmo funciona.
+
+---
+
+## Correção de Algoritmos e Invariantes
+
+1. Prove que o **Algoritmo 1** (Ordenação por Seleção) resolve o problema de ordenação usando o princípio da invariante.
+
+   - **Entrada:** Uma sequência de $k$ números $\langle a_1, a_2, \dots, a_k \rangle$.
+   - **Objetivo:** Encontrar a permutação $\langle a_1', a_2', \dots, a_k' \rangle$ tal que $a_1' \leq a_2' \leq \dots \leq a_k'$.
+
+   ```pseudo
+   Entrada: Vetor A de tamanho k
+   para i = 1 até A.length - 1 faça:
+       menor = i
+       para j = i + 1 até A.length faça:
+           se A[j] < A[menor] então:
+               menor = j
+       troca(A[menor], A[i])
+   retorne A
+   ```
+
+2. Considere a seguinte rotina em notação C-like, com indexação de vetor iniciada em 0:
+
+   ```c
+   // Entrada: vetor v de tamanho N (>= 1)
+   // contendo somente inteiros maiores ou iguais a zero
+   // Saída: variável x
+   x = 0;
+   i = 0;
+   while (i < N) {
+       if (v[i] > x) {
+           x = v[i];
+       }
+       i++;
+   }
+   ```
+
+   Descreva uma **invariante do laço `while`** que nos permita concluir, ao final da execução, que $x$ contém o maior valor presente no vetor $v$.
+
+---
 
 ## Análise Assintótica
 
-Em breve.
+1. Demonstre ou refute usando as definições formais:
 
-## Teoria de Grafos
+   a) $3n^5 = \Theta(n^4)$?
+   b) $42n^2 + 666n + 4 = O(n^2)$?
+   c) $2^{n+1} = O(2^n)$?
+   d) $2^{2n} = O(2^n)$?
+   e) $f(n) = \mathcal{O}(g(n))$ implica $g(n) = \mathcal{O}(f(n))$?
+   f) $f(n) = \mathcal{O}(g(n))$ implica $g(n) = \Omega(f(n))$?
 
-Em breve.
+2. Mostre que, para quaisquer constantes reais $a$ e $b$, sendo $b > 0$:
+
+   $$(n+a)^b = \Theta(n^b)$$
+
+3. Dada a seguinte lista de funções, ordene-as em ordem ascendente de crescimento assintótico. Isto é, se $f(n)$ ocorre antes de $g(n)$ na lista, então $f(n) = O(g(n))$:
+
+   a) $f_1(n) = n^{2.5}$
+   b) $f_2(n) = \sqrt{2n}$
+   c) $f_3(n) = n + 10$
+   d) $f_4(n) = 10^n$
+   e) $f_5(n) = 100^n$
+   f) $f_6(n) = n^2 \log n$
+
+4. Apresente a **ordem de crescimento assintótica** do custo computacional (como função de $N$) dos seguintes trechos de código (em notação C-like). Tente definir a ordem mais justa utilizando notação $O$ (limitante superior).
+
+   a)
+   ```c
+   int sum = 0;
+   for (int n = N; n > 0; n = floor(n/2))
+       for (int i = 0; i < n; i++)
+           sum++;
+   ```
+
+   b)
+   ```c
+   int sum = 0;
+   for (int i = 1; i < N; i = 2*i)
+       for (int j = 0; j < i; j++)
+           sum++;
+   ```
+
+   c)
+   ```c
+   int sum = 0;
+   for (int i = 1; i < N; i = 2*i)
+       for (int j = 0; j < N; j++)
+           sum++;
+   ```
+
+5. Considere $v$ como sendo um vetor ordenado de tamanho $N$. Desenvolva um algoritmo que determine se $x$ está ou não em $v$ que, garantidamente, possua custo assintótico estritamente menor que $O(N)$; isto é, $o(N)$ (ó pequeno).
+
+---
+
+## Teoria dos Grafos e Algoritmos
+
+1. Seja $G = (V, E)$ um **grafo simples**. Suponha que ele esteja representado por **lista de adjacências**: um vetor de nodos, onde cada nodo $n$ aponta para uma lista das arestas que partem de $n$ (não havendo uma lista específica de arestas que chegam em $n$). Dado $G$ e um vértice $v$, quantas operações são necessárias para identificar as **arestas que chegam em $v$**?
+
+   a) $\Theta(1)$
+   b) $\Theta(\text{deg}(v))$
+   c) $\Theta(|V|)$
+   d) $\Theta(|V|+|E|)$
+   e) $\Theta(|E|)$
+
+2. Seja $G = (V, E)$ um **dígrafo**. Suponha que ele esteja representado por **lista de adjacências**: um vetor de nodos, onde cada nodo $n$ aponta para uma lista das arestas que partem de $n$ (não havendo uma lista específica de arestas que chegam em $n$). Dado $G$ e um vértice $v$, quantas operações são necessárias para identificar as **arestas que chegam em $v$**?
+
+   a) $\Theta(1)$
+   b) $\Theta(\text{deg}(v))$
+   c) $\Theta(|V|)$
+   d) $\Theta(|V|+|E|)$
+   e) $\Theta(|E|)$
+
+3. Considere um grafo simples $G$ com $n \ge 2$ vértices. Fixe um nodo $v$, e considere a execução do algoritmo BFS de cálculo de distância em níveis a partir de $v$. Considerando todos os formatos que $G$ possa ter, quais são os possíveis números mínimo e máximo de níveis, respectivamente?
+
+   a) $1$ e $n-1$
+   b) $2$ e $n-1$
+   c) $1$ e $n$
+   d) $2$ e $n$
+   e) $2$ e $\lfloor \frac{n}{2} \rfloor$
+
+4. Considere um **grafo simples** $G$ com $n$ vértices e $m$ arestas. Quais são os números mínimo e máximo, respectivamente, de componentes conexos que o grafo pode ter?
+
+   a) $1$ e $n-1$
+   b) $1$ e $n$
+   c) $1$ e $\max(m,n)$
+   d) $2$ e $\max(m,n)$
+   e) $\max(1, n-m)$ e $n-k+1$, onde $k$ é o menor inteiro tal que $\binom{k}{2} \ge m$ (e, se $m=0$, o máximo é $n$)
+
+5. Considere o dígrafo abaixo: quantos ordenamentos topológicos distintos ele possui?
+```{dot}
+//| fig-width: 4
+//| fig-align: center
+digraph G {
+    layout=neato;
+    graph [margin=0.1, pad=0];
+    node [fontname="Times-Italic", fontsize=18, shape=plaintext];
+    edge [arrowsize=0.6];
+
+    A [pos="0,2.4!"];
+    B [pos="1.8,2.4!"];
+    C [pos="1.8,1.2!"];
+
+    D [pos="3.6,2.4!"];
+    E [pos="3.6,1.2!"];
+
+    A -> B;
+    A -> C;
+    B -> D;
+    C -> E;
+    E -> D;
+}
+```
+   a) $0$
+   b) $1$
+   c) $2$
+   d) $3$
+   e) $4$
+
+6. Considere o dígrafo abaixo: quantos componentes fortemente conexos ele possui?
+```{dot}
+//| fig-width: 4
+//| fig-align: center
+digraph G {
+    layout=neato;
+    graph [margin=0.1, pad=0];
+    node [fontname="Times-Italic", fontsize=18, shape=plaintext];
+    edge [arrowsize=0.6];
+
+    A [pos="0,2.4!"];
+    B [pos="1.8,2.4!"];
+    C [pos="1.8,1.2!"];
+    F [pos="1.8,0!"];
+
+    D [pos="3.6,2.4!"];
+    E [pos="3.6,1.2!"];
+    G [pos="3.6,0!"];
+
+    A -> B;
+    A -> C;
+    C -> B;
+    B -> D;
+    B -> E;
+    C -> E;
+    E -> D;
+    F -> C;
+    E -> G;
+    G -> F;
+}
+```
+   a) $0$
+   b) $1$
+   c) $2$
+   d) $3$
+   e) $4$
+
+7. Se você adicionar um novo arco direcionado a um dígrafo, o número de componentes conexos... (escolha todas as opções que se aplicam). Responda considerando componentes fortemente conexos e também considerando componentes fracamente conexos.
+
+   a) pode ou não permanecer o mesmo (dependendo de $G$ e da aresta em questão)
+   b) pode ser reduzido em exatamente 1 unidade
+   c) pode aumentar
+   d) pode ser reduzido em mais de 1 unidade
+
+8. Se rodarmos o algoritmo BFS básico para simplesmente imprimir os nodos alcançáveis a partir de um dado vértice $v$ de um grafo simples $G$, mas utilizarmos a **matriz de adjacência** para representar $G$ (ao invés de listas), como fica a complexidade assintótica de BFS ($m$ = número de arestas, $n$ = número de nodos)?
+
+   a) $\Theta(m+n)$
+   b) $\Theta(m+n\log n)$
+   c) $\Theta(n^2)$
+   d) $\Theta(m \times n)$
+   e) $\Theta(m)$
+
+9. Considere o algoritmo de Kahn para ordenamento topológico (baseado na identificação dos vértices de grau de entrada 0). Seria possível partir das ideias dele para projetar um algoritmo que identifique todos os nós que **não fazem parte de nenhum ciclo do grafo**? Se sim, descreva o algoritmo e analise seu custo computacional (assintoticamente). Se não for possível, justifique.
+
+10. Seja $G=(V,E)$ um grafo conectado não-direcionado sem custos. Seja $d(u,v)$ o comprimento do caminho mais curto entre $u\in V$ e $v\in V$. O diâmetro de $G$ é o maior caminho mais curto entre quaisquer dois vértices, $\max_{u,v \in V} d(u,v)$. Apresente um algoritmo que retorna o diâmetro do grafo. O tempo de execução de seu algoritmo deve ser $\mathcal{O}(n^3)$ para um grafo com $n$ vértices.
+
+---
 
 # Prova 2
 
+*Em breve.*

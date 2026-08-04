@@ -45,7 +45,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <th style="width:9%">Local</th>
   <th>Assunto</th>
   <th style="width:7%;text-align:center;">Slides</th>
-  <th style="width:22%">Materiais</th>
+  <th style="width:30%">Materiais</th>
 </tr>
 </thead>
 <tbody>
@@ -380,3 +380,8 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 | Cor | [*Introduction to Algorithms*](https://sabi.ufrgs.br/F/Y6D3MQLXCEIM8U732B2C3UD5TDVKHP1SSEY9FGS98TXC74SRJJ-21706?func=full-set-set&set_number=005316&set_entry=000004&format=999) | Cormen et al. |
 | EP | [*Introdução à Teoria dos Grafos*](https://www.inf.ufrgs.br/~prestes/Courses/Graph%20Theory/Livro/LivroGrafos.pdf) | Edson Prestes |
 | DW | [*Introduction to Graph Theory*](https://sabi.ufrgs.br/F/7P3QHFESH3EVAIPKBILALH24EEFU13HS1XNIMFHGXGAFHTS48I-48799?func=find-b&request=douglas+west+graph&find_code=WRD&adjacent=N&x=0&y=0&filter_code_2=WLN&filter_request_2=&filter_code_3=WYR&filter_request_3=&filter_code_4=WYR&filter_request_4=) | Douglas West |
+
+<br>
+
+<p class="fs-5"><a href="https://music.youtube.com/playlist?list=PLkVgGju5ugMFcRvgUiK2wQmbyDuWK2tE6&si=K56cFIEl__HIlx65" target="_blank"><i class="bi bi-music-note-list me-1"></i>Playlist da Turma no YouTube Music - 2026/1</a></p>
+

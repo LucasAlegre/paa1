@@ -6,7 +6,7 @@ institute: |
   Universidade Federal do Rio Grande do Sul  <br>
   Instituto de Informática <br> Departamento de Informática Teórica  
   <br><br><br>
-  <span style="display:inline-block; max-width:60%; font-size:0.55em;">Estes slides utilizam conteúdo adaptado da bibliografia da disciplina e também de notas de aula e slides prévios dos professores Bruno Grisci, Rodrigo Machado, André Grahl Pereira, Lucas Nunes Alegre, Marcus Ritt e Luciana Buriol.</span>
+  <span style="display:inline-block; max-width:50%; font-size:0.5em; color: #757575;">Estes slides utilizam conteúdo adaptado da bibliografia da disciplina e também de notas de aula e slides prévios dos professores Bruno Grisci, Rodrigo Machado e André Grahl.</span>
 date: ""
 lang: pt-BR
 

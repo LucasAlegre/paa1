@@ -39,12 +39,6 @@ filters:
 ---
 
 
-## Programa
-
-- Apresentação da disciplina
-- Exemplos motivacionais
-
-
 # Apresentação da Disciplina
 
 ## Dados Gerais
@@ -353,7 +347,7 @@ pagar um valor usando o **menor número de moedas**.
 ## Problema do Troco (Coin Changing)
 
 > [**Objetivo.**]{.label-def} Dadas denominações de moedas (ex.: $\{1, 5, 10, 25, 100\}$),
-pagar um valor usando o **menor número de moedas**.
+pagar um dado valor usando o **menor número de moedas**.
 
 . . .
 
@@ -370,6 +364,22 @@ Repetidamente escolha a **maior** moeda que **não excede** o valor restante.
 
 - 34\textcent: pegue 25, depois 5, depois 1,1,1,1.
 - 2,89: escolha sempre a maior moeda possível e continue no restante.
+
+## Escrevendo Pseudocódigo
+
+- Não existe um formato universal rígido de pseudocódigo.
+- O objetivo principal é a **clareza**: permitir que qualquer pessoa compreenda a lógica e possa implementá-la em qualquer linguagem.
+
+. . .
+
+<br>
+
+[**Elementos Essenciais & Boas Práticas**]{.label-def}
+
+- **Nome claro:** identificador descritivo para o algoritmo (ex.: `CashiersAlgorithm`).
+- **Entrada (Input):** quais são os dados que o algoritmo recebe e suas precondições.
+- **Saída (Output):** o que o algoritmo produz ou retorna ao final.
+- **Nível de abstração:** foco no fluxo lógico e controle, sem se prender a detalhes sintáticos de linguagens específicas.
 
 ## Algoritmo do Caixa: Pseudocódigo
 
@@ -420,7 +430,7 @@ Repetidamente escolha a **maior** moeda que **não excede** o valor restante.
 
 . . .
 
-**Resposta curta: não.**
+**Resposta curta: [não]{.alert}.**
 
 **Contraexemplo (selo/“postage”):**
 denominações $1, 10, 21, 34, 70, 100, 350, 1225, 1500$.

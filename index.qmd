@@ -360,7 +360,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <!-- Semana 17 -->
 <tr class="row-exame">
   <td class="wk"></td>
-  <td>qui. 03/dez.</td>
+  <td>qui. 08/dez.</td>
   <td>Lab 103</td>
   <td><strong>EXAME</strong></td>
   <td></td>

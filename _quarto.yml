@@ -3,7 +3,7 @@ project:
   output-dir: docs
 
 website:
-  title: "Projeto e Análise de Algoritmos I"
+  title: "Projeto e Análise de Algoritmos I - INF UFRGS"
   favicon: favicon.ico
   navbar:
     left:

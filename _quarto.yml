@@ -1,6 +1,10 @@
 project:
   type: website
   output-dir: docs
+  render:
+    - "*.qmd"
+    - "aulas/*.qmd"
+    - "!aulas-projeto-e-analise-de-algoritmos/"
 
 website:
   title: "Projeto e Análise de Algoritmos I - INF UFRGS"

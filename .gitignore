@@ -7,3 +7,6 @@
 .DS_Store
 
 .aulas-projeto-e-analise-de-algoritmos/*
+aulas-projeto-e-analise-de-algoritmos/
+**/*.quarto_ipynb_*
+/site_libs/

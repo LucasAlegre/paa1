@@ -365,21 +365,6 @@ Repetidamente escolha a **maior** moeda que **não excede** o valor restante.
 - 34\textcent: pegue 25, depois 5, depois 1,1,1,1.
 - 2,89: escolha sempre a maior moeda possível e continue no restante.
 
-## Escrevendo Pseudocódigo
-
-- Não existe um formato universal rígido de pseudocódigo.
-- O objetivo principal é a **clareza**: permitir que qualquer pessoa compreenda a lógica e possa implementá-la em qualquer linguagem.
-
-. . .
-
-<br>
-
-[**Elementos Essenciais & Boas Práticas**]{.label-def}
-
-- **Nome claro:** identificador descritivo para o algoritmo (ex.: `CashiersAlgorithm`).
-- **Entrada (Input):** quais são os dados que o algoritmo recebe e suas precondições.
-- **Saída (Output):** o que o algoritmo produz ou retorna ao final.
-- **Nível de abstração:** foco no fluxo lógico e controle, sem se prender a detalhes sintáticos de linguagens específicas.
 
 ## Algoritmo do Caixa: Pseudocódigo
 
@@ -406,6 +391,22 @@ Repetidamente escolha a **maior** moeda que **não excede** o valor restante.
 \end{algorithmic}
 ```
 
+## Escrevendo Pseudocódigo
+
+- Não existe um formato universal rígido de pseudocódigo.
+- O objetivo principal é a **clareza**: permitir que qualquer pessoa compreenda a lógica e possa implementá-la em qualquer linguagem.
+
+. . .
+
+<br>
+
+[**Elementos Essenciais & Boas Práticas**]{.label-def}
+
+- **Nome claro:** identificador descritivo para o algoritmo (ex.: `CashiersAlgorithm`).
+- **Entrada (Input):** quais são os dados que o algoritmo recebe e suas precondições.
+- **Saída (Output):** o que o algoritmo produz ou retorna ao final.
+- **Nível de abstração:** foco no fluxo lógico e controle, sem se prender a detalhes sintáticos de linguagens específicas.
+
 ## O algoritmo do caixa é ótimo?
 
 > [**Pergunta.**]{.label-qstn} O algoritmo do caixa é ótimo para as moedas dos EUA $\{1,5,10,25,100\}$?
@@ -426,7 +427,7 @@ Repetidamente escolha a **maior** moeda que **não excede** o valor restante.
 
 *Discussão:* (A) é falsa em geral; (B) também é falsa; (C) é a correta nesse caso.
 
-## O guloso é ótimo para qualquer sistema de moedas?
+## O algoritmo guloso é ótimo para qualquer sistema de moedas?
 
 . . .
 
@@ -506,6 +507,30 @@ $$
 - Suponha, por contradição, que exista solução ótima com menos de $x$ dólares.
 - Então o restante em $\{1,5,10,25\}$ precisa somar $\ge 100$\textcent, isto é, $P + 5N + 10D + 25Q \ge 100$, contradizendo o limite $\le 99$.
 - Argumentos análogos justificam as escolhas gulosas para quarters, dimes e nickels.
+
+## Para que conjuntos de moedas o algoritmo guloso é ótimo?
+
+> [**Teorema.**]{.label-thm} Quando cada moeda é um **múltiplo inteiro da moeda imediatamente menor** e $c_1 = 1$, o algoritmo do caixa é **ótimo**.
+
+[**Prova.**]{.label-prf}
+Suponha um sistema de moedas $c_1, c_2, ..., c_n$. onde $c_1=1$ e cada moeda $c_{i+1} = c_i \cdot k_i$ para algum inteiro $k_i \ge 2$.
+
+:::{.incremental}
+- Logo, nenhuma solução ótima pode usar $\ge k_i$ moedas de cada tipo $c_i$, pois, se usasse, poderíamos trocar $k_i$ moedas de tipo $c_i$ por uma única moeda de tipo $c_{i+1}$, o que resultaria em um número menor de moedas, contradizendo a suposição de que a solução é ótima.
+
+- Portanto, em uma solução ótima, a quantidade máxima permitida de qualquer moeda $c_i$ é sempre $k_i-1$.
+
+- Essa é uma condição **suficiente**, não necessária, para que o algoritmo guloso seja ótimo. Não existe uma única propriedade matemática simples e fechada que defina todos os sistemas de moedas canônicos.
+:::
+
+## Conjuntos de Moedas Não Canônicos e Programação Dinâmica
+
+- Em 2005, David Pearson publicou um algoritmo que consegue verificar se qualquer conjunto de moedas é canônico em tempo polinomial $O(n^3)$.
+
+- Para sistemas de moedas não canônicos, existe algoritmo ótimo que utiliza programação dinâmica (PAA II):
+
+[Algoritmo de Programação Dinâmica](https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa2/troco.py)
+
 
 # Implementação do Algoritmo do Caixa (Python)
 

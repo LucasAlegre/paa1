@@ -383,5 +383,6 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 
 <br>
 
+<p class="fs-5"><a href="https://music.youtube.com/playlist?list=PLZvvFu6nV4AM&si=l2D8sNCJFJrOhgvu" target="_blank"><i class="bi bi-music-note-list me-1"></i>Playlist da Turma no YouTube Music - 2026/2</a></p>
 <p class="fs-5"><a href="https://music.youtube.com/playlist?list=PLkVgGju5ugMFcRvgUiK2wQmbyDuWK2tE6&si=K56cFIEl__HIlx65" target="_blank"><i class="bi bi-music-note-list me-1"></i>Playlist da Turma no YouTube Music - 2026/1</a></p>
 

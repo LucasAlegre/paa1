@@ -4,6 +4,8 @@
 /docs/
 *_files/
 *.html
+!_footer.html
+!aulas/pseudocode-reveal.html
 .DS_Store
 
 .aulas-projeto-e-analise-de-algoritmos/*

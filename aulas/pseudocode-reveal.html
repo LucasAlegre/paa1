@@ -1,0 +1,163 @@
+<style>
+/* ── Pseudocode line interaction for RevealJS ─────────────────────────── */
+
+/* hide "procedure" / "function" keyword — keep only the name + params   */
+.ps-keyword:has(~ .ps-funcname),
+.ps-line:has(.ps-funcname) .ps-keyword {
+  display: none !important;
+}
+
+/* ── Border: top+bottom rule (CLRS style) when used without \begin{algorithm} */
+.pseudocode-container:not(:has(.ps-algorithm)) .ps-root {
+  border-top: 2px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  padding: 0.35em 0.1em;
+}
+
+/* ── Size-control wrapper classes ─────────────────────────────────────── *
+ *  Usage in the slide:                                                    *
+ *    ::: {.pc-xs}                                                         *
+ *    ```pseudocode                                                         *
+ *    ...                                                                   *
+ *    ```                                                                   *
+ *    :::                                                                   *
+ *                                                                          *
+ *  Or use an inline style directly on the slide block:                    *
+ *    ::: {style="font-size: 0.7em"}                                       *
+ * ──────────────────────────────────────────────────────────────────────── */
+.pc-xs .ps-root { font-size: 0.60em; }
+.pc-sm .ps-root { font-size: 0.75em; }
+.pc-md .ps-root { font-size: 0.90em; }
+.pc-lg .ps-root { font-size: 1.15em; }
+
+/* make every content line hoverable/clickable */
+.ps-algorithmic .ps-line {
+  cursor: pointer;
+  border-left: 3px solid transparent;
+  border-radius: 2px;
+  padding-left: 2px;
+  padding-right: 4px;
+  transition: background-color 0.12s ease, border-left-color 0.12s ease;
+}
+
+.ps-algorithmic .ps-line:hover {
+  background-color: rgba(66, 133, 244, 0.10);
+}
+
+/* manually highlighted line (click or L key) */
+.ps-algorithmic .ps-line.ps-line-active {
+  background-color: rgba(255, 214, 0, 0.42) !important;
+  border-left-color: #e6a800 !important;
+}
+
+/* ── Step-through mode (.step-through wrapper) ────────────────────────── */
+/* dim already-passed lines; current fragment gets the yellow highlight   */
+.step-through .ps-algorithmic .ps-line.fragment        { opacity: 0.30; }
+.step-through .ps-algorithmic .ps-line.fragment.visible { opacity: 1;   }
+.step-through .ps-algorithmic .ps-line.fragment.current-fragment {
+  opacity: 1;
+  background-color: rgba(255, 214, 0, 0.42);
+  border-left-color: #e6a800;
+}
+</style>
+
+<script>
+/* ── Pseudocode interactive highlighting for RevealJS ─────────────────── *
+ *                                                                          *
+ *  CLICK    a line  →  toggle amber highlight                              *
+ *  L key            →  move highlight to NEXT line in current slide       *
+ *  Shift+L key      →  move highlight to PREVIOUS line                    *
+ *  Slide change     →  clear highlight automatically                      *
+ *                                                                          *
+ *  .step-through wrapper → converts lines to RevealJS fragments           *
+ *  (advance with arrow keys or presenter remote, just like code blocks)   *
+ * ──────────────────────────────────────────────────────────────────────── */
+(function () {
+  "use strict";
+
+  var active = null; /* currently highlighted .ps-line element */
+
+  /* ── helpers ─────────────────────────────────────────────────────────── */
+  function activate(line) {
+    if (active) active.classList.remove("ps-line-active");
+    active = line || null;
+    if (active) active.classList.add("ps-line-active");
+  }
+
+  function linesInCurrentSlide() {
+    var slide =
+      document.querySelector(".reveal .slides section.present:not(.stack)") ||
+      document.querySelector(".reveal .slides section.present");
+    if (!slide) return [];
+    return Array.from(slide.querySelectorAll(".ps-algorithmic .ps-line"));
+  }
+
+  /* ── click to toggle highlight ───────────────────────────────────────── */
+  document.addEventListener("click", function (e) {
+    var line = e.target.closest(".ps-algorithmic .ps-line");
+    if (!line) {
+      /* click outside pseudocode block → clear */
+      if (active && !e.target.closest(".ps-root")) activate(null);
+      return;
+    }
+    activate(active === line ? null : line);
+  });
+
+  /* ── L / Shift+L keyboard stepping ──────────────────────────────────── */
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "l" && e.key !== "L") return;
+    if (e.ctrlKey || e.metaKey || e.altKey) return;
+    if (e.target.tagName === "INPUT" || e.target.tagName === "TEXTAREA") return;
+
+    var lines = linesInCurrentSlide();
+    if (!lines.length) return;
+
+    var idx = active ? lines.indexOf(active) : -1;
+
+    if (e.shiftKey) {
+      /* backward: Shift+L */
+      idx = idx <= 0 ? -1 : idx - 1;
+    } else {
+      /* forward: L */
+      idx = Math.min(idx + 1, lines.length - 1);
+    }
+
+    activate(idx >= 0 ? lines[idx] : null);
+    e.preventDefault();
+    e.stopPropagation();
+  });
+
+  /* ── fragment-based step-through (.step-through containers) ─────────── */
+  function enableStepThrough() {
+    document
+      .querySelectorAll(".step-through .ps-algorithmic .ps-line")
+      .forEach(function (line) {
+        line.classList.add("fragment");
+      });
+    if (typeof Reveal !== "undefined" && typeof Reveal.sync === "function") {
+      Reveal.sync();
+    }
+  }
+
+  /* ── clear highlight on slide change ────────────────────────────────── */
+  function onSlideChanged() {
+    activate(null);
+  }
+
+  /* ── bootstrap: wait for Reveal to be ready ─────────────────────────── */
+  function bootstrap() {
+    if (typeof Reveal === "undefined") return;
+    if (Reveal.isReady()) {
+      enableStepThrough();
+      Reveal.on("slidechanged", onSlideChanged);
+    } else {
+      Reveal.on("ready", function () {
+        enableStepThrough();
+        Reveal.on("slidechanged", onSlideChanged);
+      });
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", bootstrap);
+})();
+</script>

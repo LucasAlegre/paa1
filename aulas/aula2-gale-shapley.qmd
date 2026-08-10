@@ -115,12 +115,12 @@ filters:
 
 > [**Def.**]{.label-def} Dado um emparelhamento perfeito $S$, um hospital $h$ e uma estudante $e$ são um **par instável** se:
 >
-> - $h$ prefere $e$ a seu parceiro atual; e
-> - $e$ prefere $h$ a seu parceiro atual.
+> - $h$ prefere $e$ à sua opção atual; e
+> - $e$ prefere $h$ à sua opção atual.
 
 . . .
 
-> [**Obs.**]{.label-rmk} Um par instável $(h, e)$ pode melhorar seus parceiros com uma ação conjunta.
+> [**Obs.**]{.label-rmk} Um par instável $(h, e)$ pode melhorar suas opções com uma ação conjunta.
 
 [Exemplo:]{.label-exmp}
 
@@ -186,17 +186,17 @@ filters:
 - A–C, B–D $\Rightarrow$ A–B instável
 - A–D, B–C $\Rightarrow$ A–C instável
 
-**Conclusão:** Não existe emparelhamento perfeito que seja estável neste exemplo.
-
 . . .
 
-**P:** Como encontrar um emparelhamento estável?
+- Não existe emparelhamento perfeito que seja estável neste exemplo.
+- **Algoritmo de Irving** encontra emparelhamento estável (quando existe): [https://www.youtube.com/watch?v=5QLxAp8mRKo](https://www.youtube.com/watch?v=5QLxAp8mRKo)
+
 
 # Algoritmo Gale-Shapley
 
 ## Algoritmo Gale-Shapley
 
-Algoritmo intuitivo que **garante** encontrar um emparelhamento estável.
+Algoritmo intuitivo que **garantidamente** encontra um emparelhamento estável.
 
 ```pseudocode
 #| html-line-number: true
@@ -303,7 +303,9 @@ O que mostrar?
     - $e$ rejeitou $h$ (imediatamente ou depois).
     - $e$ prefere seu par atual a $h$.
     - $(h, e)$ é estável.
-- Em ambos os casos, o par $(h, e)$ é estável. $\blacksquare$
+- Em ambos os casos, o par $(h, e)$ é estável. 
+
+$\blacksquare$
 
 ## Algoritmo Gale-Shapley
 
@@ -382,7 +384,7 @@ O que mostrar?
 ::: {.incremental}
 
 * Uma estudante, ao receber uma proposta, nunca mais volta a ficar livre.
-* O algoritmo termina no exato momento em que o último estudante livre é comprometida.
+* O algoritmo termina no exato momento em que o último estudante livre é comprometido.
 * No pior caso, antes dessa última proposta, os outros $(n-1)$ estudantes já receberam propostas de todos os $n$ hospitais.
 * Isso totaliza $n(n-1)$ propostas feitas a essas estudantes.
 * A proposta seguinte é feita à estudante restante e encerra o algoritmo.
@@ -423,11 +425,11 @@ O que mostrar?
 
 ## Entendendo a Solução
 
-**P.** A ordem em que os hospitais são selecionados para propor muda o resultado do algoritmo?
+**P.** A **ordem** em que os hospitais são selecionados para propor muda o resultado do algoritmo?
 
 . . .
 
-> [**Def.**]{.label-def} Uma estudante $e$ é uma **parceiro viável** para um hospital $h$ se existe algum emparelhamento estável com o par $(h, e)$.
+> [**Def.**]{.label-def} Uma estudante $e$ é uma **opção viável** para um hospital $h$ se existe algum emparelhamento estável com o par $(h, e)$.
 
 . . .
 
@@ -441,11 +443,11 @@ O que mostrar?
 
 ## Entendendo a Solução
 
-> [**Def.**]{.label-def} Uma estudante $e$ é uma **parceiro viável** para um hospital $h$ se existe algum emparelhamento estável com o par $(h, e)$.
+> [**Def.**]{.label-def} Uma estudante $e$ é uma **opção viável** para um hospital $h$ se existe algum emparelhamento estável com o par $(h, e)$.
 
 . . .
 
-**Atribuição Hospital-Ótima:** Todo hospital recebe o melhor parceiro viável.
+**Atribuição Hospital-Ótima:** Todo hospital recebe a melhor opção viável.
 
 - É um emparelhamento perfeito?
 - É um emparelhamento estável?
@@ -458,81 +460,206 @@ O que mostrar?
 
 ## Otimalidade para Hospitais
 
-> [**Afirmação.**]{.label-thm} O algoritmo G-S é **hospital-ótimo**: cada hospital recebe sua **melhor parceiro viável**.
+> [**Afirmação.**]{.label-thm} O algoritmo G-S é **hospital-ótimo**: cada hospital recebe sua **melhor opção viável**.
 
 > [**Prova.**]{.label-prf} Por **contradição**.
 
-**[Hipótese]** Suponha que algum hospital não termina com suo melhor parceiro viável.
+**[Hipótese]** Suponha que algum hospital não termina com sua melhor opção viável.
 
-- Como os hospitais propõem em ordem decrescente de preferência, algum hospital foi **rejeitado** por um parceiro viável.
-- Seja $h$ o **primeiro** hospital rejeitado por um parceiro viável, e $e = \text{best}(h)$ esso parceiro.
-  - *(Até esse momento, nenhum outro hospital foi rejeitado por uma viável.)*
+- Como os hospitais propõem em ordem decrescente de preferência, algum hospital foi **rejeitado** por uma opção viável.
+- Seja $h$ o **primeiro** hospital rejeitado por uma opção viável, e $e = \text{best}(h)$ essa opção.
+  - *(Até esse momento, nenhum outro hospital foi rejeitado por uma opção viável.)*
 - Quando $e$ rejeita $h$, ela se compromete com outro pretendente $h'$ — logo $e$ **prefere $h'$ a $h$**.
 
 
-## Otimalidade para Hospitais — Estrutura da Contradição
+## Visualizando a Contradição — Passo 1
 
 :::: {.columns}
-::: {.column width="50%"}
-::: {.incremental}
-**[Construção]** $e$ é viável para $h$, logo **por definição** existe emparelhamento estável $S'$ com $(h, e)$.
-
-- Seja $e'$ o parceiro de $h'$ em $S'$ (com $e' \neq e$).
-- **Em $E$:** quando $h'$ propôs a $e$, ainda não havia sido rejeitado por nenhuma viável — pois $h$ foi o **primeiro**!
-- $e'$ é viável para $h'$ (estão em $S'$). Se $h'$ tivesse proposto a $e'$ antes e $e'$ o rejeitasse → $h'$ seria o primeiro rejeitado, não $h$ — **contradição**!
-- Logo $h'$ ainda não propôs a $e'$ ⟹ $h'$ **prefere $e$ a $e'$**.
-- Temos: $h'$ prefere $e$ a $e'$ **e** $e$ prefere $h'$ a $h$ ⟹ $(h', e)$ **bloqueia** $S'$. $\blacksquare$
+::: {.column width="55%"}
+- $h$ propõe a $e$ em ordem de preferência.
+- $e$ aceita a proposta.
+- Forma-se o emparelhamento provisório **$h$–$e$**.
 :::
-:::
-::: {.column width="50%"}
+::: {.column width="45%"}
 
 ```{=html}
-<div style="font-size:0.72em; margin-top:0.2em;">
+<div style="text-align: center;">
+<svg viewBox="0 0 400 240" style="width: 100%; height: auto; font-family: system-ui, sans-serif;" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow1" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3949ab" />
+    </marker>
+  </defs>
+  <!-- Nodes -->
+  <circle cx="60" cy="50" r="24" fill="#c8e6c9" stroke="#388e3c" stroke-width="2.5"/>
+  <text x="60" y="56" font-size="18" font-weight="bold" font-style="italic" fill="#1b5e20" text-anchor="middle">h</text>
 
-  <!-- Execução E -->
-  <div style="background:#f0f4ff; border:1.5px solid #3949ab; border-radius:8px; padding:0.5em 0.8em; margin-bottom:0.5em;">
-    <div style="font-weight:bold; color:#3949ab; margin-bottom:0.4em; text-align:center;">Execução <i>E</i> do G-S</div>
-    <div style="display:flex; align-items:center; justify-content:center; gap:0.5em; flex-wrap:wrap;">
-      <div style="background:#c8e6c9; border:1.5px solid #388e3c; border-radius:6px; padding:0.3em 0.7em; font-weight:bold;"><i>h</i></div>
-      <div style="color:#c62828; font-size:1.3em; font-weight:bold;">&#8603;</div>
-      <div style="background:#fff9c4; border:1.5px solid #f9a825; border-radius:6px; padding:0.3em 0.7em; font-weight:bold;"><i>e</i></div>
-      <div style="color:#388e3c; font-size:1.3em; font-weight:bold;">&#8594;</div>
-      <div style="background:#ffcdd2; border:1.5px solid #c62828; border-radius:6px; padding:0.3em 0.7em; font-weight:bold;"><i>h</i>&#8242;</div>
-    </div>
-    <div style="text-align:center; color:#555; margin-top:0.3em; font-size:0.85em;"><i>e</i> rejeita <i>h</i> e prefere <i>h</i>&#8242;</div>
-  </div>
+  <circle cx="60" cy="190" r="24" fill="#ffcdd2" stroke="#c62828" stroke-width="2.5"/>
+  <text x="60" y="196" font-size="18" font-weight="bold" font-style="italic" fill="#b71c1c" text-anchor="middle">h'</text>
 
-  <!-- Estável S' -->
-  <div style="background:#f3e5f5; border:1.5px solid #6a1b9a; border-radius:8px; padding:0.5em 0.8em; margin-bottom:0.5em;">
-    <div style="font-weight:bold; color:#6a1b9a; margin-bottom:0.4em; text-align:center;">Emparelhamento estável <i>S</i>&#8242;</div>
-    <div style="display:flex; justify-content:center; gap:1.2em;">
-      <div style="display:flex; align-items:center; gap:0.3em;">
-        <div style="background:#c8e6c9; border:1.5px solid #388e3c; border-radius:6px; padding:0.3em 0.6em; font-weight:bold;"><i>h</i></div>
-        <span style="font-size:1.1em;">&#8596;</span>
-        <div style="background:#fff9c4; border:1.5px solid #f9a825; border-radius:6px; padding:0.3em 0.6em; font-weight:bold;"><i>e</i></div>
-      </div>
-      <div style="display:flex; align-items:center; gap:0.3em;">
-        <div style="background:#ffcdd2; border:1.5px solid #c62828; border-radius:6px; padding:0.3em 0.6em; font-weight:bold;"><i>h</i>&#8242;</div>
-        <span style="font-size:1.1em;">&#8596;</span>
-        <div style="background:#e1bee7; border:1.5px solid #6a1b9a; border-radius:6px; padding:0.3em 0.6em; font-weight:bold;"><i>e</i>&#8242;</div>
-      </div>
-    </div>
-  </div>
+  <circle cx="340" cy="50" r="24" fill="#fff9c4" stroke="#f9a825" stroke-width="2.5"/>
+  <text x="340" y="56" font-size="18" font-weight="bold" font-style="italic" fill="#f57f17" text-anchor="middle">e</text>
 
-  <!-- Contradição -->
-  <div style="background:#fbe9e7; border:2px solid #bf360c; border-radius:8px; padding:0.5em 0.8em; text-align:center;">
-    <div><b><i>h</i>&#8242; prefere <i>e</i> a <i>e</i>&#8242;</b></div>
-    <div><b><i>e</i> prefere <i>h</i>&#8242; a <i>h</i></b></div>
-    <div style="color:#bf360c; margin-top:0.3em;">&#10233; (<i>h</i>&#8242;, <i>e</i>) bloqueia <i>S</i>&#8242; — contradição!</div>
-  </div>
+  <circle cx="340" cy="190" r="24" fill="#e1bee7" stroke="#8e24aa" stroke-width="2.5"/>
+  <text x="340" y="196" font-size="18" font-weight="bold" font-style="italic" fill="#4a148c" text-anchor="middle">e'</text>
 
+  <!-- Proposta h -> e -->
+  <line x1="84" y1="50" x2="316" y2="50" stroke="#3949ab" stroke-width="3" marker-end="url(#arrow1)" />
+  <rect x="155" y="36" width="90" height="24" rx="5" fill="#e8eaf6" stroke="#3949ab" stroke-width="1.5"/>
+  <text x="200" y="52" font-size="13" font-weight="bold" fill="#283593" text-anchor="middle">propõe</text>
+</svg>
 </div>
 ```
 
 :::
 ::::
 
-> **Conclusão:** Todo hospital termina com suo melhor parceiro viável no algoritmo G–S.
+
+## Visualizando a Contradição — Passo 2
+
+:::: {.columns}
+::: {.column width="55%"}
+- **1ª Rejeição:** $h$ é o primeiro hospital rejeitado por uma opção viável ($e$).
+- $e$ recebe proposta de $h'$ e **rejeita $h$** porque **prefere $h'$ a $h$**.
+:::
+::: {.column width="45%"}
+
+```{=html}
+<div style="text-align: center;">
+<svg viewBox="0 0 400 240" style="width: 100%; height: auto; font-family: system-ui, sans-serif;" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#3949ab" />
+    </marker>
+    <marker id="arrow-red2" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#d32f2f" />
+    </marker>
+  </defs>
+  <!-- Nodes -->
+  <circle cx="60" cy="50" r="24" fill="#c8e6c9" stroke="#388e3c" stroke-width="2.5"/>
+  <text x="60" y="56" font-size="18" font-weight="bold" font-style="italic" fill="#1b5e20" text-anchor="middle">h</text>
+
+  <circle cx="60" cy="190" r="24" fill="#ffcdd2" stroke="#c62828" stroke-width="2.5"/>
+  <text x="60" y="196" font-size="18" font-weight="bold" font-style="italic" fill="#b71c1c" text-anchor="middle">h'</text>
+
+  <circle cx="340" cy="50" r="24" fill="#fff9c4" stroke="#f9a825" stroke-width="2.5"/>
+  <text x="340" y="56" font-size="18" font-weight="bold" font-style="italic" fill="#f57f17" text-anchor="middle">e</text>
+
+  <circle cx="340" cy="190" r="24" fill="#e1bee7" stroke="#8e24aa" stroke-width="2.5"/>
+  <text x="340" y="196" font-size="18" font-weight="bold" font-style="italic" fill="#4a148c" text-anchor="middle">e'</text>
+
+  <!-- h' propõe a e (h' -> e) -->
+  <line x1="80" y1="175" x2="320" y2="65" stroke="#3949ab" stroke-width="3" marker-end="url(#arrow2)" />
+  <rect x="155" y="106" width="90" height="24" rx="5" fill="#e8eaf6" stroke="#3949ab" stroke-width="1.5"/>
+  <text x="200" y="122" font-size="13" font-weight="bold" fill="#283593" text-anchor="middle">propõe</text>
+
+  <!-- Rejeição h-e -->
+  <path d="M 320,40 Q 200,10 80,40" fill="none" stroke="#d32f2f" stroke-width="2" stroke-dasharray="6,4" marker-end="url(#arrow-red2)"/>
+  <rect x="150" y="5" width="100" height="22" rx="4" fill="#ffebee" stroke="#d32f2f" stroke-width="1"/>
+  <text x="200" y="20" font-size="12" font-weight="bold" fill="#c62828" text-anchor="middle">rejeita h</text>
+</svg>
+</div>
+```
+
+:::
+::::
+
+
+## Visualizando a Contradição — Passo 3
+
+:::: {.columns}
+::: {.column width="55%"}
+- Como $e$ é uma **opção viável** para $h$, **por definição** DEVE existir algum emparelhamento estável $S'$ no qual o par $(h,e)$ está junto.
+- Em $S'$, o hospital $h'$ precisa estar pareado com outra opção $e' \neq e$.
+:::
+::: {.column width="45%"}
+
+```{=html}
+<div style="text-align: center;">
+<svg viewBox="0 0 400 240" style="width: 100%; height: auto; font-family: system-ui, sans-serif;" xmlns="http://www.w3.org/2000/svg">
+  <!-- Nodes -->
+  <circle cx="60" cy="50" r="24" fill="#c8e6c9" stroke="#388e3c" stroke-width="2.5"/>
+  <text x="60" y="56" font-size="18" font-weight="bold" font-style="italic" fill="#1b5e20" text-anchor="middle">h</text>
+
+  <circle cx="60" cy="190" r="24" fill="#ffcdd2" stroke="#c62828" stroke-width="2.5"/>
+  <text x="60" y="196" font-size="18" font-weight="bold" font-style="italic" fill="#b71c1c" text-anchor="middle">h'</text>
+
+  <circle cx="340" cy="50" r="24" fill="#fff9c4" stroke="#f9a825" stroke-width="2.5"/>
+  <text x="340" y="56" font-size="18" font-weight="bold" font-style="italic" fill="#f57f17" text-anchor="middle">e</text>
+
+  <circle cx="340" cy="190" r="24" fill="#e1bee7" stroke="#8e24aa" stroke-width="2.5"/>
+  <text x="340" y="196" font-size="18" font-weight="bold" font-style="italic" fill="#4a148c" text-anchor="middle">e'</text>
+
+  <!-- Estado em E: h' - e -->
+  <line x1="80" y1="175" x2="320" y2="65" stroke="#388e3c" stroke-width="3" />
+
+  <!-- Supor (h,e) em S' -->
+  <path d="M 84,50 Q 200,15 316,50" fill="none" stroke="#6a1b9a" stroke-width="2.5" />
+  <rect x="130" y="10" width="140" height="22" rx="4" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1"/>
+  <text x="200" y="25" font-size="12" font-weight="bold" fill="#4a148c" text-anchor="middle">(h,e) ∈ S' (def. viável)</text>
+
+  <!-- h'--e' em S' -->
+  <line x1="84" y1="190" x2="316" y2="190" stroke="#6a1b9a" stroke-width="2.5" stroke-dasharray="6,4" />
+  <rect x="150" y="178" width="100" height="22" rx="4" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1"/>
+  <text x="200" y="193" font-size="12" font-weight="bold" fill="#4a148c" text-anchor="middle">(h', e') ∈ S'</text>
+</svg>
+</div>
+```
+
+:::
+::::
+
+
+## Visualizando a Contradição — Passo 4
+
+:::: {.columns}
+::: {.column width="55%"}
+- Em $S'$, temos $(h,e)$ e $(h',e')$.
+- $e$ prefere $h'$ a $h$ (rejeitou $h$ por $h'$ na execução $E$).
+- $h'$ prefere $e$ a $e'$ (pois $h$ foi o 1º a ser rejeitado por uma opção viável, logo $h'$ ainda não fora rejeitado por $e'$).
+
+> **Conclusão:** $(h',e)$ é um [par instável]{.red} e $S'$ não é estável, [contradição]{.red}! $\blacksquare$
+
+:::
+::: {.column width="45%"}
+
+```{=html}
+<div style="text-align: center;">
+<svg viewBox="0 0 400 240" style="width: 100%; height: auto; font-family: system-ui, sans-serif;" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrow-purple" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#bf360c" />
+    </marker>
+  </defs>
+  <!-- Nodes -->
+  <circle cx="60" cy="50" r="24" fill="#c8e6c9" stroke="#388e3c" stroke-width="2.5"/>
+  <text x="60" y="56" font-size="18" font-weight="bold" font-style="italic" fill="#1b5e20" text-anchor="middle">h</text>
+
+  <circle cx="60" cy="190" r="24" fill="#ffcdd2" stroke="#c62828" stroke-width="2.5"/>
+  <text x="60" y="196" font-size="18" font-weight="bold" font-style="italic" fill="#b71c1c" text-anchor="middle">h'</text>
+
+  <circle cx="340" cy="50" r="24" fill="#fff9c4" stroke="#f9a825" stroke-width="2.5"/>
+  <text x="340" y="56" font-size="18" font-weight="bold" font-style="italic" fill="#f57f17" text-anchor="middle">e</text>
+
+  <circle cx="340" cy="190" r="24" fill="#e1bee7" stroke="#8e24aa" stroke-width="2.5"/>
+  <text x="340" y="196" font-size="18" font-weight="bold" font-style="italic" fill="#4a148c" text-anchor="middle">e'</text>
+
+  <!-- Pareamentos em S' (tracejados) -->
+  <line x1="84" y1="50" x2="316" y2="50" stroke="#757575" stroke-width="2" stroke-dasharray="5,4" />
+  <line x1="84" y1="190" x2="316" y2="190" stroke="#757575" stroke-width="2" stroke-dasharray="5,4" />
+
+  <!-- Conexão bloqueante (h', e) -->
+  <path d="M 80,175 Q 200,130 320,65" fill="none" stroke="#bf360c" stroke-width="3.5" marker-end="url(#arrow-purple)"/>
+  
+  <rect x="100" y="90" width="200" height="42" rx="6" fill="#fbe9e7" stroke="#bf360c" stroke-width="1.5"/>
+  <text x="200" y="107" font-size="11" font-weight="bold" fill="#bf360c" text-anchor="middle">e: h' ≻ h  |  h': e ≻ e'</text>
+  <text x="200" y="123" font-size="12" font-weight="bold" fill="#bf360c" text-anchor="middle">  (h', e) impede que S' seja estável</text>
+</svg>
+</div>
+```
+
+:::
+::::
 
 
 ## Entendendo a Solução
@@ -541,18 +668,18 @@ O que mostrar?
 
 . . .
 
-**Pessimalidade para Estudantes:** Cada estudante recebe o pior parceiro viável.
+**Pessimalidade para Estudantes:** Cada estudante recebe a [pior]{.red} opção viável.
 
 ## Pessimalidade para Estudantes
 
 > [**Afirmação.**]{.label-thm} O algoritmo G-S é **estudante-péssimo**.
 
-> [**Prova.**]{.label-prf} Por contradição. Suponha que o hospital $h$ é atribuído a $e$ em $S^*$, mas $h$ não é o pior parceiro viável de $e$.
+> [**Prova.**]{.label-prf} Por contradição. Suponha que o hospital $h$ é atribuído a $e$ em $S^*$, mas $h$ não é a pior opção viável de $e$.
 
 ::: {.incremental}
 - Então existe um emparelhamento estável $S'$ em que $e$ é pareado com um hospital $h'$, de quem $e$ gosta menos do que $h$.
 - $\Rightarrow$ $e$ prefere $h$ a $h'$.
-- Seja $e' \neq e$ o parceiro de $h$ em $S'$. Por otimalidade para hospitais, $e$ é o melhor parceiro viável para $h$ (foram pareados em $S^*$).
+- Seja $e' \neq e$ a opção de $h$ em $S'$. Por otimalidade para hospitais, $e$ é a melhor opção viável para $h$ (foram pareados em $S^*$).
 - $\Rightarrow$ $h$ prefere $e$ a $e'$.
 - Então, $(h, e)$ é um par **instável** em $S'$, uma **contradição**. $\blacksquare$
 :::

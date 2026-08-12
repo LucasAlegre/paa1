@@ -289,7 +289,7 @@ O que mostrar?
 
 . . .
 
-> [**Prova.**]{.label-prf} $S$ é perfeito. Suponha para o efeito de contradição que o par $(h, e) \in S$ é instável.
+> [**Prova.**]{.label-prf} $S$ é perfeito. Suponha para o efeito de contradição que o par $(h, e) \notin S$ é instável.
 
 . . .
 

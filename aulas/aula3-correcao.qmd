@@ -1,6 +1,6 @@
 ---
 title: "Projeto e Análise de Algoritmos I"
-subtitle: "Aula 03 - Correção de Algoritmos. Invariantes"
+subtitle: "Aula 03 - Correção de Algoritmos e Invariantes"
 author: "Lucas Nunes Alegre"
 institute: |
   Universidade Federal do Rio Grande do Sul  <br>
@@ -45,7 +45,6 @@ filters:
 - Princípio da Invariante
 - Algoritmos Iterativos de Ordenação
 - Algoritmos Recursivos de Ordenação
-- Cálculo do Maior Divisor Comum
 
 # Correção de Algoritmos
 
@@ -64,7 +63,7 @@ Uma demonstração de correção convincente será impossível enquanto o algori
 
 ## Introdução
 
-> [**Def.**]{.label-def} Um *algoritmo* é qualquer *procedimento computacional bem definido* que recebe um conjunto de valores como **entrada** e produz um conjunto de valores como **saída**.
+> [**Def.**]{.label-def} Um **algoritmo** é qualquer *procedimento computacional bem definido* que recebe um conjunto de valores como **entrada** e produz um conjunto de valores como **saída**.
 
 . . .
 
@@ -72,9 +71,9 @@ Uma demonstração de correção convincente será impossível enquanto o algori
 
 . . .
 
-> [**Def.**]{.label-def} Um algoritmo [resolve um problema]{style="color: red;"} se para toda entrada: <br>
-> - Ele [pára]{style="color: red;"}. <br>
-> - Retorna a saída [correta]{style="color: red;"}.
+> [**Def.**]{.label-def} Um algoritmo [resolve um problema]{.red} se para toda entrada: <br>
+> - Ele [pára]{.red}. <br>
+> - Retorna a saída [correta]{.red}.
 
 . . .
 
@@ -82,12 +81,44 @@ Uma demonstração de correção convincente será impossível enquanto o algori
 
 > [**P.**]{.label-qstn} Um algoritmo que não pára é útil? Um algoritmo incorreto é útil?
 
+## Problemas e Instâncias
+
+> [**Problema.**]{.label-def} Especificação **abstrata e genérica** da relação entre um conjunto de entradas válidas e as saídas desejadas.
+
+. . .
+
+> [**Instância.**]{.label-def} Um **caso concreto** ou entrada específica (com dados fixos) que satisfaz as restrições do problema.
+
+. . .
+
+:::: columns
+::: {.column width="50%"}
+[**Exemplo de Problema:**]{.label-def}  
+**Ordenação de Vetores**
+
+- **Entrada:** Sequência de $n$ números $\langle a_1, a_2, \dots, a_n \rangle$.
+- **Objetivo:** Permutação $\langle a_1', a_2', \dots, a_n' \rangle$ tal que $a_1' \le a_2' \le \dots \le a_n'$.
+:::
+
+::: {.column width="50%"}
+[**Exemplo de Instância:**]{.label-exmp}  
+**Uma entrada específica**
+
+- **Entrada:** $\langle 31, 41, 59, 26, 41, 58 \rangle$
+- **Solução:** $\langle 26, 31, 41, 41, 58, 59 \rangle$
+:::
+::::
+
+. . .
+
+> [**Obs.**]{.label-rmk} Um algoritmo correto deve produzir a solução esperada para **todas** as instâncias possíveis do problema.
+
 ## Correção de Algoritmos {.scrollable .live-code-slide}
 
 ::: {.incremental}
 - Como discutido, um *algoritmo* é uma sequência de passos para a resolução de um *problema* ou *cálculo* de uma quantidade.
 - Um *algoritmo* está **correto** quando a sua respectiva saída corresponde à solução ou quantidade esperada para **todas as possíveis entradas**.
-- Exemplo de [algoritmo (incorreto)]{style="color: red;"} para calcular números primos
+- Exemplo de [algoritmo (incorreto)]{.red} para calcular números primos
 $$f(n) = n^2 + n + 41$$
 (gera números primos somente enquanto $n < 40$)
 - Antes de pensarmos no *custo do algoritmo*, é importante confirmar que ele *realmente* resolve o problema!
@@ -107,7 +138,7 @@ f(1), f(2), f(39), f(40) # 1681 é divisível por 41
 ::: {.incremental}
 - Determinar a **correção** de algoritmos/programas pode depender muito da descrição do mesmo e de seu estilo.
 - Uma primeira forma de aferir correção é **testar** o algoritmo para diversas entradas.
-- Contudo, testes podem aferir a [presença de erros]{style="color: red;"}, mas não a [ausência]{style="color: red;"} dos mesmos (a menos que cubram todas as possíveis entradas - o que normalmente é impossível por questão de infinitude)
+- Contudo, testes podem aferir a [presença de erros]{.red}, mas não a [ausência]{.red} dos mesmos (a menos que cubram todas as possíveis entradas - o que normalmente é impossível por questão de infinitude)
 - Dessa forma, **provas** de correção são necessárias para garantir que algoritmos estejam corretos em relação ao problema que visam resolver.
 :::
 
@@ -147,7 +178,7 @@ Além da resposta do algoritmo estar correta, é também necessário estipular a
 
 <br>
 
-> [**Objetivo.**]{.label-def} Encontrar a permutação $\langle a_1',a_2', \dots, a_k' \rangle$ em que $a_1' \leq a_2' \leq \dots \leq a_k'$.
+> [**Objetivo.**]{.label-def} Encontrar uma permutação $\langle a_1',a_2', \dots, a_k' \rangle$ em que $a_1' \leq a_2' \leq \dots \leq a_k'$.
 
 . . .
 
@@ -212,28 +243,35 @@ Funciona da forma que um humano organiza uma mão jogando cartas:
 
 ## Corretude
 
-> [**Def.**]{.label-def} Uma execução de um algoritmo é uma [sequência]{style="color: red;"} de estados com a propriedade de que:
-
-- Tem um estado inicial; e
-- Se $q$ e $r$ são estados consecutivos na [sequência]{style="color: red;"}, então $q \longrightarrow r$.
-
-. . .
-
-> [**Def.**]{.label-def} Um estado é [alcançável]{style="color: red;"} se aparece em alguma execução.
+> [**Def.**]{.label-def} Uma execução de um algoritmo é uma [sequência]{.red} de estados com a propriedade de que:
+> 
+> - Tem um estado inicial; e
+> - Se $q$ e $r$ são estados consecutivos na [sequência]{.red}, então $q \longrightarrow r$.
 
 . . .
 
-> [**Def.**]{.label-def} Uma [invariante]{style="color: red;"} é uma propriedade $\textcolor{#2e7d32}{P}$ para estados.
-
-- Tal que se $\textcolor{#2e7d32}{P}(q)$, o estado $q$ possui a propriedade $\textcolor{#2e7d32}{P}$; e
-- $q \longrightarrow r$; então
-- $\textcolor{#2e7d32}{P}(r)$, o estado $r$ possui a propriedade $\textcolor{#2e7d32}{P}$.
+> [**Def.**]{.label-def} Um estado é [alcançável]{.red} se aparece em alguma execução.
 
 . . .
+
+> [**Def.**]{.label-def} Uma [invariante]{.red} é uma propriedade $\textcolor{#2e7d32}{P}$ para estados:
+> 
+> - Tal que se $\textcolor{#2e7d32}{P}(q)$, o estado $q$ possui a propriedade $\textcolor{#2e7d32}{P}$; e
+> - $q \longrightarrow r$; então
+> - $\textcolor{#2e7d32}{P}(r)$, o estado $r$ possui a propriedade $\textcolor{#2e7d32}{P}$.
+
+
+## Princípio da Invariante
+
+> [**Def.**]{.label-def} Uma [invariante]{.red} é uma propriedade $\textcolor{#2e7d32}{P}$ para estados:
+> 
+> - Tal que se $\textcolor{#2e7d32}{P}(q)$, o estado $q$ possui a propriedade $\textcolor{#2e7d32}{P}$; e
+> - $q \longrightarrow r$; então
+> - $\textcolor{#2e7d32}{P}(r)$, o estado $r$ possui a propriedade $\textcolor{#2e7d32}{P}$.
 
 > [**Princípio da Invariante.**]{.label-thm} Se o estado inicial possui a invariante, então **todos os estados alcançáveis possuem a invariante**.
 
-## Princípio da Invariante {.t}
+## Princípio da Invariante
 
 <br>
 
@@ -261,6 +299,41 @@ Funciona da forma que um humano organiza uma mão jogando cartas:
 . . .
 
 **Item 5.** Conclui que o algoritmo resolve o problema.
+
+## Busca Linear - Invariante {.small}
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Busca-Linear}{$A, n, x$}
+  \For{$i \gets 1$ \To $n$}
+    \If{$A[i] = x$}
+      \Return $i$
+    \EndIf
+  \EndFor
+  \Return \textsc{Não-Encontrado}
+\EndProcedure
+\end{algorithmic}
+```
+
+. . .
+
+> [**Invariante do Laço.**]{.label-def} No início de cada iteração do laço `For`, se $x$ está presente no vetor $A$, então $x$ está presente no subvetor $A[i \dots n]$.
+
+. . .
+
+[**Terminação e Corretude.**]{.label-thm}
+
+- **Se $A[i] = x$:** O algoritmo retorna o índice $i$ imediatamente (correto). 
+- **Se $i = n + 1$ (fim do laço):** Considere a **contrapositiva** do invariante: 
+- $\text{“Se } x \text{ não está em } A[i \dots n] \implies x \text{ não está em } A\text{”}$
+- Para $i = n + 1$, o subvetor $A[n+1 \dots n]$ é **vazio**.
+- Como $x$ não pode estar em um subvetor vazio $\implies x$ não está em $A$.
+- Logo, retornar **Não-Encontrado** está correto. $\blacksquare$
+
+# Invariantes: Algoritmos de Ordenação Iterativos
 
 ## Corretude: InsertionSort
 
@@ -304,7 +377,7 @@ $\blacksquare$
 
 . . .
 
-[**Prova.**]{.label-prf} Pelo **Lema 2**, sabemos que o algoritmo termina depois de $n$ iterações. Pelo **Teorema 1** sabemos que toda subsequência alcançada pelo algoritmo está ordenada, como na iteração $n+1$ a subsequência corresponde a todo o vetor, então podemos concluir que o algoritmo resolve o problema.
+[**Prova.**]{.label-prf} Pelo **Lema 2**, sabemos que o algoritmo termina depois de $n$ iterações. Pelo **Lema 1** sabemos que toda subsequência alcançada pelo algoritmo está ordenada, como na iteração $n+1$ a subsequência corresponde a todo o vetor, então podemos concluir que o algoritmo resolve o problema.
 
 $\blacksquare$
 
@@ -455,6 +528,9 @@ Qual é o invariante do laço no algoritmo a seguir?
 \end{algorithmic}
 ```
 
+## {data-background-iframe="https://visualgo.net/en/sorting" data-background-interactive="true" .hide-header}
+
+
 ## SelectionSort: Correção e Terminação
 
 Qual a intuição por trás da construção do **SelectionSort?**
@@ -520,15 +596,15 @@ e esses elementos estão **ordenados**.
 
 ## MergeSort
 
-**MergeSort** é um dos mais famosos e eficientes algoritmos de ordenação baseado em comparações.
+- **MergeSort** é um dos mais famosos e eficientes algoritmos de ordenação baseado em comparações.
 
 <br>
 
-A sua ideia fundamental é uma rotina que une **duas listas ordenadas** em uma **lista maior ordenada** (merge).
+- A sua ideia fundamental é uma rotina que une **duas listas ordenadas** em uma **lista maior ordenada** (merge).
 
 <br>
 
-O algoritmo divide a entrada ao meio até chegar ao caso base (vetor de tamanho 1 -- trivialmente ordenado), e após recombina os vetores ordenados.
+- O algoritmo divide a entrada ao meio até chegar ao caso base (vetor de tamanho 1 -- trivialmente ordenado), e após recombina os vetores ordenados.
 
 ## MergeSort: Ideia Principal
 
@@ -551,11 +627,13 @@ O algoritmo divide a entrada ao meio até chegar ao caso base (vetor de tamanho 
 
 <br>
 
-No pseudocódigo acima, as rotinas $\text{FirstHalf}$ e $\text{SecondHalf}$ extraem a primeira e segunda metade do vetor, respectivamente, e $\text{Merge}$ une dois vetores ordenados em um único vetor ordenado.
+- No pseudocódigo acima, as rotinas $\text{FirstHalf}$ e $\text{SecondHalf}$ extraem a primeira e segunda metade do vetor, respectivamente, e $\text{Merge}$ une dois vetores ordenados em um único vetor ordenado.
 
 <br>
 
-Implementações eficientes de **MergeSort** requerem o uso de um vetor auxiliar e manipulação de índices (para que os cortes tenham custo constante).
+- Implementações eficientes de **MergeSort** requerem o uso de um vetor auxiliar e manipulação de índices (para que os cortes tenham custo constante).
+
+## {data-background-iframe="https://visualgo.net/en/sorting" data-background-interactive="true" .hide-header}
 
 ## MergeSort: Main (Eficiente)
 
@@ -579,7 +657,7 @@ Implementações eficientes de **MergeSort** requerem o uso de um vetor auxiliar
 
 > [**Obs.**]{.label-rmk} $\textit{start}$ e $\textit{end}$ representam os índices de início e fim da parte do vetor a ser ordenado. Para ordenar o vetor inteiro, chame $\text{MergeSort}(A, 1, \text{length}(A))$.
 
-## MergeSort: Merge (Eficiente)
+## MergeSort: Merge (Eficiente) {.tiny}
 
 :::: columns
 ::: {.column width="48%"}
@@ -680,6 +758,9 @@ Para determinar a correção do **MergeSort** utilizamos **indução estrutural 
 - Similarmente ao **MergeSort**, implementações eficientes de **QuickSort** requerem a minimização da movimentação de dados por meio do uso de índices e reaproveitamento do espaço do próprio vetor sendo ordenado.
 :::
 
+## {data-background-iframe="https://visualgo.net/en/sorting" data-background-interactive="true" .hide-header}
+
+
 ## QuickSort: Main (Eficiente)
 
 ```pseudocode
@@ -744,8 +825,22 @@ Tal qual no caso do **MergeSort**, utilizamos **indução** para demonstrar a co
 
 Determine:
 
-1. argumentos para a correção do QuickSort
-2. argumentos para a terminação do QuickSort
+1. Argumentos para a correção do QuickSort
+2. Argumentos para a terminação do QuickSort
+
+# Ferramentas de Verificação
+
+## Ferramentas de Verificação
+
+A **verificação formal de software** utiliza invariantes de laço, pré/pós-condições e Lógica de Hoare para provar matematicamente que programas atendem a suas especificações:
+
+::: {.incremental}
+- **[Dafny](https://dafny.org/):** Linguagem desenvolvida pela *Microsoft Research* voltada para verificação formal. Exige anotações de invariantes (`invariant`) e pré/pós-condições (`requires`/`ensures`), provando a corretude de algoritmos automaticamente via Z3.
+- **[Frama-C / ACSL](https://frama-c.com/):** Plataforma para análise e verificação formal de programas C. Utiliza anotações ACSL (`loop invariant`) para comprovação matemática de propriedades e ausência de *bugs*.
+- **[SPARK / Ada](https://www.adacore.com/about-spark):** Conjunto de ferramentas de verificação para Ada, utilizado em sistemas críticos (aeroespacial, ferroviário e médico) para provar matematicamente a corretude usando invariantes.
+- **[KeY](https://www.key-project.org/):** Sistema de verificação dedutiva para Java que provê verificação baseada em invariantes especificados em JML (*Java Modeling Language*).
+- **[CBMC](https://www.cprover.org/cbmc/):** *Bounded Model Checker* para C/C++ que analisa e verifica automaticamente invariantes de laço, asserções e segurança de memória.
+:::
 
 #
 

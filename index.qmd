@@ -84,7 +84,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td class="wk">3</td>
   <td>qui. 13/ago.</td>
   <td>Sala 113</td>
-  <td class="t-red">Correção: Introdução à Provas de Correção, Invariantes. Algoritmos de ordenamento.</td>
+  <td class="t-red">Correção de Algoritmos, Invariantes e Algoritmos de ordenamento.</td>
   <td style="text-align:center;"><a href="aulas/aula3-correcao.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">

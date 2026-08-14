@@ -7,6 +7,14 @@
   display: none !important;
 }
 
+/* Hide line number and reset indent on procedure/function header line */
+.ps-line:has(.ps-funcname) .ps-linenum {
+  display: none !important;
+}
+.ps-line:has(.ps-funcname) {
+  text-indent: 0 !important;
+}
+
 /* ── Border: top+bottom rule (CLRS style) when used without \begin{algorithm} */
 .pseudocode-container:not(:has(.ps-algorithm)) .ps-root {
   border-top: 2px solid currentColor;
@@ -62,15 +70,12 @@
 </style>
 
 <script>
-/* ── Pseudocode interactive highlighting for RevealJS ─────────────────── *
+/* ── Pseudocode & KaTeX Math Enhancements for RevealJS ────────────────── *
  *                                                                          *
  *  CLICK    a line  →  toggle amber highlight                              *
  *  L key            →  move highlight to NEXT line in current slide       *
  *  Shift+L key      →  move highlight to PREVIOUS line                    *
- *  Slide change     →  clear highlight automatically                      *
- *                                                                          *
- *  .step-through wrapper → converts lines to RevealJS fragments           *
- *  (advance with arrow keys or presenter remote, just like code blocks)   *
+ *  Slide change     →  clear highlight & re-apply math colors             *
  * ──────────────────────────────────────────────────────────────────────── */
 (function () {
   "use strict";
@@ -89,7 +94,63 @@
       document.querySelector(".reveal .slides section.present:not(.stack)") ||
       document.querySelector(".reveal .slides section.present");
     if (!slide) return [];
-    return Array.from(slide.querySelectorAll(".ps-algorithmic .ps-line"));
+    return Array.from(slide.querySelectorAll(".ps-algorithmic .ps-line:not(:has(.ps-funcname))"));
+  }
+
+  function fixLineNumbers() {
+    document.querySelectorAll(".ps-algorithmic").forEach(function (alg) {
+      var headerNum = alg.querySelector(".ps-line:has(.ps-funcname) .ps-linenum");
+      if (headerNum) {
+        headerNum.remove();
+      }
+      var headerLine = alg.querySelector(".ps-line:has(.ps-funcname)");
+      if (headerLine) {
+        headerLine.style.textIndent = "0px";
+      }
+
+      var punc = ":";
+      var container = alg.closest(".pseudocode-container");
+      if (container && container.dataset && container.dataset.lineNumberPunc) {
+        punc = container.dataset.lineNumberPunc;
+      }
+
+      var lineNums = alg.querySelectorAll(".ps-line:not(:has(.ps-funcname)) .ps-linenum");
+      lineNums.forEach(function (span, idx) {
+        span.textContent = (idx + 1) + punc;
+      });
+    });
+  }
+
+  function colorizeMath() {
+    document.querySelectorAll(".katex-html").forEach(function (math) {
+      // 1. Asymptotic symbols O, \Theta, \Omega -> Black
+      math.querySelectorAll(".mord").forEach(function (el) {
+        var txt = el.textContent.trim();
+        if (txt === "O" || txt === "Θ" || txt === "Ω") {
+          el.style.color = "#000000";
+          el.style.fontWeight = "700";
+        }
+      });
+
+      // 2. Math variables (only .mathnormal, and NEVER inside \text{...})
+      math.querySelectorAll(".mord.mathnormal").forEach(function (el) {
+        if (el.closest(".text") || el.classList.contains("text")) return;
+
+        var txt = el.textContent.trim();
+        if (txt === "i") {
+          el.style.color = "#15803d"; // Green for index i
+          el.style.fontWeight = "600";
+        } else if (txt === "j") {
+          el.style.color = "#1d4ed8"; // Dark Blue for index j
+          el.style.fontWeight = "600";
+        }
+      });
+    });
+  }
+
+  function refreshAll() {
+    fixLineNumbers();
+    colorizeMath();
   }
 
   /* ── click to toggle highlight ───────────────────────────────────────── */
@@ -139,25 +200,34 @@
     }
   }
 
-  /* ── clear highlight on slide change ────────────────────────────────── */
+  /* ── clear highlight & refresh math colors on slide change ──────────── */
   function onSlideChanged() {
     activate(null);
+    refreshAll();
   }
 
   /* ── bootstrap: wait for Reveal to be ready ─────────────────────────── */
   function bootstrap() {
+    refreshAll();
     if (typeof Reveal === "undefined") return;
     if (Reveal.isReady()) {
       enableStepThrough();
+      refreshAll();
       Reveal.on("slidechanged", onSlideChanged);
     } else {
       Reveal.on("ready", function () {
         enableStepThrough();
+        refreshAll();
         Reveal.on("slidechanged", onSlideChanged);
       });
     }
   }
 
-  document.addEventListener("DOMContentLoaded", bootstrap);
+  document.addEventListener("DOMContentLoaded", function() {
+    bootstrap();
+    setTimeout(refreshAll, 0);
+    setTimeout(refreshAll, 100);
+    setTimeout(refreshAll, 500);
+  });
 })();
 </script>

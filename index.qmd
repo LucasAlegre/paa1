@@ -105,6 +105,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>
     <ul class="list-unstyled mb-0">
       <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>AI1 (2), KT (2)</a></li>
+      <li><a href="https://www.desmos.com/calculator/v245fzedch?lang=pt-BR"><i class="bi bi-display me-1"></i>10 Classes de Complexidade</a></li>
     </ul>
   </td>
 </tr>

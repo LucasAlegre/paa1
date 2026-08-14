@@ -62,9 +62,6 @@ filters:
 
 - Interesse próprio força a atribuição e previne acordos unilaterais.
 
-. . .
-
-**Exemplo:** Empresas e estudantes.
 
 ## Problema de Emparelhamento Estável
 

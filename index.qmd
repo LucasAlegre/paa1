@@ -100,7 +100,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td class="wk">4</td>
   <td>ter. 18/ago.</td>
   <td>Sala 113</td>
-  <td class="t-red">Notação Assintótica I.</td>
+  <td class="t-red">Complexidade de Algoritmos e Notação Assintótica I.</td>
   <td style="text-align:center;"><a href="aulas/aula4-notacao-assintotica.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
@@ -114,10 +114,11 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>qui. 20/ago.</td>
   <td>Sala 113</td>
   <td class="t-red">Notação Assintótica II.</td>
-  <td></td>
+  <td style="text-align:center;"><a href="aulas/aula5-notacao-assintotica2.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>AI1 (2), KT (2)</a></li>
+      <li><a href="https://www.youtube.com/watch?v=__vX2sjlpXU"><i class="bi bi-youtube me-1"></i>Big-O em 5 minutos.</a></li>
     </ul>
   </td>
 </tr>

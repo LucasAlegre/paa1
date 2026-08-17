@@ -1300,31 +1300,31 @@ $T(n)$ [não]{.red} é $O(n)$.
 > [**Def.**]{.label-def} $T(n)$ é $O(f(n))$ se e somente se existe uma constante $\textcolor{red}{c} > 0$ e um $\textcolor{#2e7d32}{n_0}$ tal que $T(n) \leq \textcolor{red}{c} \cdot f(n)$ para todo $n \geq \textcolor{#2e7d32}{n_0}$.
 
 
-> [**Afirmação.**]{.label-thm} Se $T(n) = a_k n^k + \dots + a_1 n^1 + a_0$ então $T(n) = O(n^k)$.
+> [**Afirmação.**]{.label-thm} Se $T(n) = a_{\textcolor{orange}{k}} n^{\textcolor{orange}{k}} + \dots + a_1 n^1 + a_0$ então $T(n) = O(n^{\textcolor{orange}{k}})$.
 
 . . .
 
-> [**Prova.**]{.label-prf} Escolha $\textcolor{#2e7d32}{n_0}=1$ e $\textcolor{red}{c}=|a_k|+\dots+|a_1|+|a_0|$.
+> [**Prova.**]{.label-prf} Escolha $\textcolor{#2e7d32}{n_0}=1$ e $\textcolor{red}{c}=|a_{\textcolor{orange}{k}}|+\dots+|a_1|+|a_0|$.
 
 . . .
 
-Nós temos que mostrar que $\forall n \geq \textcolor{#2e7d32}{n_0}, T(n) \leq \textcolor{red}{c} \cdot n^k$.
+Nós temos que mostrar que $\forall n \geq \textcolor{#2e7d32}{n_0}, T(n) \leq \textcolor{red}{c} \cdot n^{\textcolor{orange}{k}}$.
 
 . . .
 
-$T(n) \leq |a_k|n^k+\dots+|a_1|n^1+|a_0|$.
+$T(n) \leq |a_{\textcolor{orange}{k}}|n^{\textcolor{orange}{k}}+\dots+|a_1|n^1+|a_0|n^{0}$.
 
 . . .
 
-$T(n) \leq |a_k|n^k+\dots+|a_1|n^k+|a_0|n^k$.
+$T(n) \leq |a_{\textcolor{orange}{k}}|n^{\textcolor{orange}{k}}+\dots+|a_1|n^{\textcolor{orange}{k}}+|a_0|n^{\textcolor{orange}{k}}$.
 
 . . .
 
-$T(n) \leq (|a_k| + \dots + |a_1| + |a_0|)n^k$.
+$T(n) \leq (|a_{\textcolor{orange}{k}}| + \dots + |a_1| + |a_0|)n^{\textcolor{orange}{k}}$.
 
 . . .
 
-$T(n) \leq \textcolor{red}{c} \cdot n^k$ $\blacksquare$
+$T(n) \leq \textcolor{red}{c} \cdot n^{\textcolor{orange}{k}}$ $\blacksquare$
 
 <https://www.geogebra.org/classic/dhycydkx>
 

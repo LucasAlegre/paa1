@@ -218,7 +218,7 @@ Algoritmo intuitivo que **garantidamente** encontra um emparelhamento estável.
         \EndIf
     \EndIf
 \EndWhile
-\State \Return $S$
+\Return $S$
 \EndProcedure
 \end{algorithmic}
 ```

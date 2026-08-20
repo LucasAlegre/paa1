@@ -12,6 +12,7 @@ Nesta página, você encontrará materiais e recursos para apoiar a implementaç
 ## Materiais
 
 - [De C para Python](https://colab.research.google.com/drive/1NTX2_Xdrp_uBE72-WmnId2fL5lTmG1Ha?usp=sharing)
+- [Introdução à Programação em Python (Prof. Juliano Wickboldt)](https://www.youtube.com/watch?v=0edQC4qSAbU&list=PLmpmbdMLo9UBVK50Pq9-YOzdRS9n1rrgv&index=33)
 
 ## Prática de Algoritmos (Juízes Online)
 

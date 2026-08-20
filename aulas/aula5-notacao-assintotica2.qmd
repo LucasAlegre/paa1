@@ -284,7 +284,7 @@ filters:
 
 ## Notação Big $O$ -- Limitante Superior
 
-> [**Obs.**]{.label-rmk} Seja $T(n)$ uma função em $n=1, 2, 3, \dots$ (em geral o pior tempo de execução de um algoritmo).
+> [**Def.**]{.label-def} Seja $T(n)$ uma função em $n=1, 2, 3, \dots$ (em geral o pior tempo de execução de um algoritmo).
 
 . . .
 
@@ -375,9 +375,13 @@ $T(n)$ é $O(n^2)$, $O(n^3)$, $\dots$
 \end{algorithmic}
 ```
 
-$T(n) = (n-1)(n-1)(1+5) = 6n^2 - 12n + 6$
-
-<br>
+:::{.incremental}
+- Laço externo executa $O(n)$ vezes.
+- Para cada iteração do laço externo, o laço interno executa $O(n)$ vezes.
+- Então, o total de execuções do laço interno é $O(n^2)$ ($n \cdot n = n^2$).
+- Cada iteração do laço interno custa $O(1)$.
+- Logo, Ordenação por Bubble Sort é $\mathcal{O}(n^2)$.
+:::
 
 . . .
 
@@ -385,17 +389,12 @@ $T(n)$ é $O(n^2)$: $\textcolor{red}{c} = 6$ e $\textcolor{#2e7d32}{n_0} = 0$, $
 
 . . .
 
-$T(n)$ é $O(n^3)$, $O(n^4)$, $\dots$
+$T(n)$ é $O(n^3)$, nem $O(n^4)$, $\dots$
 
 . . .
 
-$T(n)$ [não]{.red} é $O(n)$.
+$T(n)$ [não]{.red} é $O(n)$: <https://www.geogebra.org/classic/h2f2scrd>
 
-<br>
-
-. . .
-
-<https://www.geogebra.org/classic/h2f2scrd>
 
 ## Notação Big $O$: Polinômios
 
@@ -1449,7 +1448,6 @@ $\textcolor{blue}{f}(n) = \omega(\textcolor{orange}{g}(n)) \iff \lim_{n\to\infty
 
 > [**Obs.**]{.label-rmk} A base da exponencial importa.
 
-<br>
 
 > [**Afirmação.**]{.label-thm} Para $\textcolor{blue}{r} > \textcolor{orange}{s}$, $\textcolor{blue}{r}^n \neq \Theta(\textcolor{orange}{s}^n)$.
 
@@ -1526,7 +1524,7 @@ $A$ é um vetor ordenado de tamanho $n$.
     \ElsIf{$A[m] > T$}
       \State $R \gets m - 1$
     \Else
-      \State \Return $m$
+      \Return $m$
     \EndIf
   \EndWhile
   \Return \textsc{Não-Encontrado}
@@ -1552,17 +1550,6 @@ $$n \;\to\; \frac{n}{2} \;\to\; \frac{n}{4} \;\to\; \frac{n}{8} \;\to\; \dots \;
 
 $$\frac{n}{2^{\textcolor{orange}{k}}} = 1 \;\;\;\Rightarrow\;\;\; \textcolor{orange}{k} = \log_2 n.$$
 
-## Sublinear -- $O(\sqrt{n})$
-
-*Grover's algorithm*
-
-- **O que é?** Algoritmo quântico de busca não estruturada, criado por Lov Grover em 1996.
-- **Ideia principal:** Dado um domínio de tamanho $N$, encontra (com alta probabilidade) a entrada que leva a um valor de saída desejado usando apenas $O(\sqrt{N})$ avaliações da função.
-- **Comparação com computação clássica:** O problema análogo exige $O(N)$ avaliações.
-
-<https://www.youtube.com/watch?v=RQWpF2Gb-gU>
-
-<https://www.youtube.com/watch?v=Dlsa9EBKDGI>
 
 ## Linear -- $O(n)$
 
@@ -1676,7 +1663,7 @@ $$\frac{n}{2^{\textcolor{orange}{k}}} = 1 \;\;\;\Rightarrow\;\;\; \textcolor{ora
         \EndIf
     \EndIf
 \EndWhile
-\State \Return $S$
+\Return $S$
 \EndProcedure
 \end{algorithmic}
 ```
@@ -1705,7 +1692,7 @@ $$\frac{n}{2^{\textcolor{orange}{k}}} = 1 \;\;\;\Rightarrow\;\;\; \textcolor{ora
           \EndIf
         \EndFor
         \If{$\neg encontrouComum$}
-          \State \Return \textbf{true}
+          \Return \textbf{true}
         \EndIf
       \EndIf
     \EndFor
@@ -1719,15 +1706,25 @@ $$\frac{n}{2^{\textcolor{orange}{k}}} = 1 \;\;\;\Rightarrow\;\;\; \textcolor{ora
 
 ## Exponenciais
 
-Encontrar o conjunto independente máximo de um grafo: $O(2^n)$
+- Encontrar o conjunto independente máximo de um grafo: $O(2^n)$
 
 ::: {style="text-align: center;"}
 ![](images/independentset.png){width="75%"}
 :::
 
-Encontrar uma solução exata para o problema do caixeiro-viajante: $O(n!)$
+- Encontrar uma solução exata para o problema do caixeiro-viajante: $O(n!)$
 
 <https://en.wikipedia.org/wiki/Travelling_salesman_problem#/media/File:Bruteforce.gif>
+
+## Prêmio Millennium
+
+Encontrar um **algoritmo polinomial** para o problema do caixeiro-viajante vale **1 milhão de dólares!**
+
+```{=html}
+<iframe width="100%" height="100%" src="https://pt.wikipedia.org/wiki/Problemas_do_Pr%C3%A9mio_Millennium
+" title="Prêmio Millennium"></iframe>
+```
+
 
 #
 

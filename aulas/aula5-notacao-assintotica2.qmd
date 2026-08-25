@@ -389,7 +389,7 @@ $T(n)$ é $O(n^2)$: $\textcolor{red}{c} = 6$ e $\textcolor{#2e7d32}{n_0} = 0$, $
 
 . . .
 
-$T(n)$ é $O(n^3)$, nem $O(n^4)$, $\dots$
+$T(n)$ é $O(n^3)$, $O(n^4)$, $\dots$
 
 . . .
 
@@ -1231,12 +1231,15 @@ $\textcolor{blue}{f}(n) = \omega(\textcolor{orange}{g}(n)) \iff \lim_{n\to\infty
 
 . . .
 
-> [**Prova.**]{.label-prf}
+> [**Prova.**]{.label-prf} É dado que:
 > 
 ::: {.incremental}
-- É dado que $\textcolor{blue}{f}(n) \leq c' \textcolor{orange}{g}(n)$ **para todo** $n \geq n_0'$ e $\textcolor{orange}{g}(n) \leq c'' \textcolor{#0284c7}{h}(n)$ **para todo** $n \geq n_0''$.
-- Considere $n_0 = \max(n_0', n_0'')$, então nós temos que $\textcolor{blue}{f}(n) \leq c' \textcolor{orange}{g}(n) \leq c' c'' \textcolor{#0284c7}{h}(n)$.
-- Logo, $\textcolor{blue}{f}(n) \leq c' c'' \textcolor{#0284c7}{h}(n)$ e $\textcolor{blue}{f}(n) = O(\textcolor{#0284c7}{h}(n))$. $\blacksquare$
+- $\textcolor{blue}{f}(n) \leq c' \textcolor{orange}{g}(n)$ **para todo** $n \geq n_0'$ e 
+- $\textcolor{orange}{g}(n) \leq c'' \textcolor{#0284c7}{h}(n)$ **para todo** $n \geq n_0''$.
+- Considere $n_0 = \max(n_0', n_0'')$, então nós temos que 
+- $\textcolor{blue}{f}(n) \leq c' \textcolor{orange}{g}(n) \leq c' c'' \textcolor{#0284c7}{h}(n)$.
+- Logo, $\textcolor{blue}{f}(n) \leq c' c'' \textcolor{#0284c7}{h}(n)$ e 
+- $\textcolor{blue}{f}(n) = O(\textcolor{#0284c7}{h}(n))$. $\blacksquare$
 :::
 
 ## Transitividade
@@ -1289,7 +1292,8 @@ $\textcolor{blue}{f}(n) = \omega(\textcolor{orange}{g}(n)) \iff \lim_{n\to\infty
 > 
 ::: {.incremental}
 - $\textcolor{blue}{f}(n) = O(\textcolor{orange}{g}(n)) \iff \exists \textcolor{red}{c} > 0, \textcolor{#2e7d32}{n_0} \geq 0$ tal que $\textcolor{blue}{f}(n) \leq \textcolor{red}{c} \cdot \textcolor{orange}{g}(n)$ **para todo** $n \geq \textcolor{#2e7d32}{n_0}$.
-- Dividindo por $\textcolor{red}{c}$: $\textcolor{orange}{g}(n) \geq \frac{1}{\textcolor{red}{c}} \cdot \textcolor{blue}{f}(n)$ **para todo** $n \geq \textcolor{#2e7d32}{n_0}$.
+- Dividindo por $\textcolor{red}{c}$: 
+- $\textcolor{orange}{g}(n) \geq \frac{1}{\textcolor{red}{c}} \cdot \textcolor{blue}{f}(n)$ **para todo** $n \geq \textcolor{#2e7d32}{n_0}$.
 - Escolhendo $c' = \frac{1}{\textcolor{red}{c}} > 0$, temos por definição que $\textcolor{orange}{g}(n) = \Omega(\textcolor{blue}{f}(n))$. $\blacksquare$
 :::
 
@@ -1301,11 +1305,13 @@ $\textcolor{blue}{f}(n) = \omega(\textcolor{orange}{g}(n)) \iff \lim_{n\to\infty
 
 . . .
 
-> [**Prova.**]{.label-prf}
+> [**Prova.**]{.label-prf} É dado que:
 > 
 ::: {.incremental}
-- É dado que $\textcolor{blue}{f}(n) \leq c' \textcolor{#0284c7}{h}(n)$ **para todo** $n \geq n_0'$ e $\textcolor{orange}{g}(n) \leq c'' \textcolor{#0284c7}{h}(n)$ **para todo** $n \geq n_0''$.
-- Considere $n_0 = \max(n_0', n_0'')$, então nós temos que $\textcolor{blue}{f}(n) + \textcolor{orange}{g}(n) \leq c' \textcolor{#0284c7}{h}(n) + c'' \textcolor{#0284c7}{h}(n) = (c' + c'') \textcolor{#0284c7}{h}(n)$.
+- $\textcolor{blue}{f}(n) \leq c' \textcolor{#0284c7}{h}(n)$ **para todo** $n \geq n_0'$ e 
+- $\textcolor{orange}{g}(n) \leq c'' \textcolor{#0284c7}{h}(n)$ **para todo** $n \geq n_0''$.
+- Considere $n_0 = \max(n_0', n_0'')$, então nós temos que
+- $\textcolor{blue}{f}(n) + \textcolor{orange}{g}(n) \leq c' \textcolor{#0284c7}{h}(n) + c'' \textcolor{#0284c7}{h}(n) = (c' + c'') \textcolor{#0284c7}{h}(n)$.
 - Logo, $\textcolor{blue}{f}(n) + \textcolor{orange}{g}(n) = O(\textcolor{#0284c7}{h}(n))$. $\blacksquare$
 :::
 
@@ -1332,8 +1338,10 @@ $\textcolor{blue}{f}(n) = \omega(\textcolor{orange}{g}(n)) \iff \lim_{n\to\infty
 > [**Prova.**]{.label-prf}
 > 
 ::: {.incremental}
-- $\textcolor{blue}{f}(n) + \textcolor{orange}{g}(n) = \Omega(\textcolor{blue}{f}(n))$ já que $\textcolor{blue}{f}(n) + \textcolor{orange}{g}(n) \geq \textcolor{blue}{f}(n)$.
-- Já que $\textcolor{orange}{g}(n) = O(\textcolor{blue}{f}(n))$ e $\textcolor{blue}{f}(n) = O(\textcolor{blue}{f}(n))$, então $\textcolor{blue}{f}(n) + \textcolor{orange}{g}(n) = O(\textcolor{blue}{f}(n))$.
+- Temos que $\textcolor{blue}{f}(n) + \textcolor{orange}{g}(n) \geq \textcolor{blue}{f}(n)$,
+- Logo, $\textcolor{blue}{f}(n) + \textcolor{orange}{g}(n) = \Omega(\textcolor{blue}{f}(n))$.
+- Já que $\textcolor{orange}{g}(n) = O(\textcolor{blue}{f}(n))$ e $\textcolor{blue}{f}(n) = O(\textcolor{blue}{f}(n))$, então 
+- $\textcolor{blue}{f}(n) + \textcolor{orange}{g}(n) = O(\textcolor{blue}{f}(n))$.
 - Logo, $\textcolor{blue}{f}(n) + \textcolor{orange}{g}(n) = \Theta(\textcolor{blue}{f}(n))$. $\blacksquare$
 :::
 

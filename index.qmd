@@ -84,7 +84,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td class="wk">3</td>
   <td>qui. 13/ago.</td>
   <td>Sala 113</td>
-  <td class="t-red">Correção de Algoritmos, Invariantes e Algoritmos de ordenamento.</td>
+  <td class="t-red">Correção de Algoritmos. Invariantes. Algoritmos de ordenamento.</td>
   <td style="text-align:center;"><a href="aulas/aula3-correcao.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
@@ -100,7 +100,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td class="wk">4</td>
   <td>ter. 18/ago.</td>
   <td>Sala 113</td>
-  <td class="t-red">Complexidade de Algoritmos e Notação Assintótica I.</td>
+  <td class="t-red">Complexidade de Algoritmos. Notação Assintótica I.</td>
   <td style="text-align:center;"><a href="aulas/aula4-notacao-assintotica.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
@@ -127,8 +127,8 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td class="wk">6</td>
   <td>ter. 25/ago.</td>
   <td>Sala 113</td>
-  <td class="t-blue">Teoria dos Grafos: definições, representação, graus.</td>
-  <td></td>
+  <td class="t-blue">Teoria dos Grafos: Definições, Representação, Graus.</td>
+  <td style="text-align:center;"><a href="aulas/aula6-grafos.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>EP (1.1–1.3)</a></li>
@@ -139,8 +139,8 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td class="wk">7</td>
   <td>qui. 27/ago.</td>
   <td>Sala 113</td>
-  <td class="t-blue">Teoria dos Grafos: isomorfismo, famílias de grafos, conectividade.</td>
-  <td></td>
+  <td class="t-blue">Teoria dos Grafos: Isomorfismo, Famílias de Grafos, Conectividade.</td>
+  <td style="text-align:center;"><a href="aulas/aula7-grafos.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>EP (1.4, 1.6, 2.1, 3.1, 3.2)</a></li>

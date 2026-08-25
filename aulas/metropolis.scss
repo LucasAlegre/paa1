@@ -163,12 +163,20 @@ $colors: (
   font-weight: 500;
 }
 
-// ── Math — High-contrast, semantic color scheme ────────────────────────────
+// ── Math — magenta (matching \everymath{\color{magenta!80!black}}) ──────────
 .reveal .katex,
 .reveal mjx-container {
-  color: #1e3a8a; // Dark royal blue base math
+  color: #b5006b;
 }
-.reveal .katex-display { overflow-x: auto; }
+.reveal .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
 
 
 // ── Colored labels ──────────────────────────────────────────────────────────

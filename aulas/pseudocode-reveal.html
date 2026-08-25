@@ -148,9 +148,18 @@
     });
   }
 
+  function resizeAllCytoscape() {
+    document.querySelectorAll("div").forEach(function (el) {
+      if (el._cyreg && el._cyreg.cy && el.offsetWidth > 0) {
+        el._cyreg.cy.resize();
+      }
+    });
+  }
+
   function refreshAll() {
     fixLineNumbers();
     colorizeMath();
+    resizeAllCytoscape();
   }
 
   /* ── click to toggle highlight ───────────────────────────────────────── */
@@ -204,6 +213,8 @@
   function onSlideChanged() {
     activate(null);
     refreshAll();
+    setTimeout(refreshAll, 50);
+    setTimeout(refreshAll, 150);
   }
 
   /* ── bootstrap: wait for Reveal to be ready ─────────────────────────── */
@@ -214,11 +225,15 @@
       enableStepThrough();
       refreshAll();
       Reveal.on("slidechanged", onSlideChanged);
+      Reveal.on("fragmentshown", onSlideChanged);
+      Reveal.on("fragmenthidden", onSlideChanged);
     } else {
       Reveal.on("ready", function () {
         enableStepThrough();
         refreshAll();
         Reveal.on("slidechanged", onSlideChanged);
+        Reveal.on("fragmentshown", onSlideChanged);
+        Reveal.on("fragmenthidden", onSlideChanged);
       });
     }
   }
@@ -227,7 +242,8 @@
     bootstrap();
     setTimeout(refreshAll, 0);
     setTimeout(refreshAll, 100);
-    setTimeout(refreshAll, 500);
+    setTimeout(refreshAll, 300);
+    setTimeout(refreshAll, 600);
   });
 })();
 </script>

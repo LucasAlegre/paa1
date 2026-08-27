@@ -1,6 +1,6 @@
 ---
 title: "Projeto e Análise de Algoritmos I"
-subtitle: "Aula 07 - Isomorfismo, Famílias de Grafos e Conectividade"
+subtitle: "Aula 07 - Operações sobre Grafos, Isomorfismo, Famílias de Grafos, Conectividade, Pseudografos"
 author: "Lucas Nunes Alegre"
 institute: |
   Universidade Federal do Rio Grande do Sul  <br>
@@ -40,7 +40,515 @@ filters:
   - leovan/pseudocode
 ---
 
-# Isomorfismo, Topologias Comuns
+# Operações Sobre Grafos
+
+## Operações sobre Grafos
+
+Grafos podem ser manipulados de diversas formas:
+
+- Complemento, união, interseção, união disjunta
+- Deleção de aresta/vértice
+- Soma, multiplicação
+
+. . .
+
+*A seguir, veremos algumas dessas operações.*
+
+
+## Complemento de Grafos
+
+> [**Definição:**]{.label-def} O **complemento** $\overline{G}$ de um grafo simples $G = (V,E)$ é definido por:
+>
+> $$ \overline{(V,E)} = (V, \{ e \mid e \in 2^V \land |e| = 2 \land e \notin E \} ) $$
+
+. . .
+
+[**Exemplo:**]{.label-exmp}
+
+```{=html}
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin: 15px 0;">
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <span style="font-weight: bold; font-size: 1.25em;"><i>G</i> =</span>
+    <div id="grafo-op-comp-g" style="width: 140px; height: 140px; position: relative;"></div>
+  </div>
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <span style="font-weight: bold; font-size: 1.25em;"><span style="text-decoration: overline;"><i>G</i></span> =</span>
+    <div id="grafo-op-comp-gbar" style="width: 140px; height: 140px; position: relative;"></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const opStyle = [
+    {
+      selector: "node",
+      style: {
+        label: "data(id)",
+        width: 28,
+        height: 28,
+        "background-color": "#23373b",
+        color: "#ffffff",
+        "font-size": 14,
+        "font-weight": "bold",
+        "text-valign": "center",
+        "text-halign": "center",
+        "border-width": 2,
+        "border-color": "#152224"
+      }
+    },
+    {
+      selector: "edge",
+      style: {
+        width: 2.2,
+        "line-color": "#555555",
+        "curve-style": "straight"
+      }
+    }
+  ];
+
+  const g = document.getElementById("grafo-op-comp-g");
+  if (g && typeof cytoscape !== "undefined") {
+    cytoscape({
+      container: g,
+      elements: [
+        { data: { id: "1" }, position: { x: 35, y: 35 } },
+        { data: { id: "2" }, position: { x: 105, y: 35 } },
+        { data: { id: "3" }, position: { x: 35, y: 105 } },
+        { data: { id: "4" }, position: { x: 105, y: 105 } },
+        { data: { source: "1", target: "2" } },
+        { data: { source: "1", target: "3" } }
+      ],
+      style: opStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
+    });
+  }
+
+  const gbar = document.getElementById("grafo-op-comp-gbar");
+  if (gbar && typeof cytoscape !== "undefined") {
+    cytoscape({
+      container: gbar,
+      elements: [
+        { data: { id: "1" }, position: { x: 35, y: 35 } },
+        { data: { id: "2" }, position: { x: 105, y: 35 } },
+        { data: { id: "3" }, position: { x: 35, y: 105 } },
+        { data: { id: "4" }, position: { x: 105, y: 105 } },
+        { data: { source: "1", target: "4" } },
+        { data: { source: "2", target: "3" } },
+        { data: { source: "2", target: "4" } },
+        { data: { source: "3", target: "4" } }
+      ],
+      style: opStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
+    });
+  }
+})();
+</script>
+```
+
+
+## União de Grafos
+
+> [**Definição:**]{.label-def} A **união** $G_1 \cup G_2$ de dois grafos $G_1 = (V_1, E_1)$ e $G_2 = (V_2, E_2)$ é dada por:
+>
+> $$ (V_1, E_1) \cup (V_2, E_2) = (V_1 \cup V_2, E_1 \cup E_2) $$
+
+. . .
+
+[**Exemplo:**]{.label-exmp}
+
+```{=html}
+<div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin: 10px 0;">
+  <div id="grafo-op-union-g1" style="width: 110px; height: 120px; position: relative;"></div>
+  <div style="font-weight: bold; font-size: 1.5em;">∪</div>
+  <div id="grafo-op-union-g2" style="width: 155px; height: 120px; position: relative;"></div>
+  <div style="font-weight: bold; font-size: 1.5em;">=</div>
+  <div id="grafo-op-union-res" style="width: 155px; height: 120px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const opStyle = [
+    {
+      selector: "node",
+      style: {
+        label: "data(id)",
+        width: 26,
+        height: 26,
+        "background-color": "#23373b",
+        color: "#ffffff",
+        "font-size": 13,
+        "font-weight": "bold",
+        "text-valign": "center",
+        "text-halign": "center",
+        "border-width": 2,
+        "border-color": "#152224"
+      }
+    },
+    {
+      selector: "edge",
+      style: {
+        width: 2.2,
+        "line-color": "#555555",
+        "curve-style": "straight"
+      }
+    }
+  ];
+
+  const g1 = document.getElementById("grafo-op-union-g1");
+  if (g1 && typeof cytoscape !== "undefined") {
+    cytoscape({
+      container: g1,
+      elements: [
+        { data: { id: "1" }, position: { x: 25, y: 30 } },
+        { data: { id: "2" }, position: { x: 85, y: 30 } },
+        { data: { id: "3" }, position: { x: 25, y: 90 } },
+        { data: { id: "4" }, position: { x: 85, y: 90 } },
+        { data: { source: "1", target: "2" } },
+        { data: { source: "1", target: "3" } }
+      ],
+      style: opStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
+    });
+  }
+
+  const g2 = document.getElementById("grafo-op-union-g2");
+  if (g2 && typeof cytoscape !== "undefined") {
+    cytoscape({
+      container: g2,
+      elements: [
+        { data: { id: "1" }, position: { x: 25, y: 30 } },
+        { data: { id: "2" }, position: { x: 85, y: 30 } },
+        { data: { id: "5" }, position: { x: 135, y: 30 } },
+        { data: { id: "4" }, position: { x: 85, y: 90 } },
+        { data: { source: "1", target: "2" } },
+        { data: { source: "2", target: "4" } },
+        { data: { source: "2", target: "5" } }
+      ],
+      style: opStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
+    });
+  }
+
+  const gRes = document.getElementById("grafo-op-union-res");
+  if (gRes && typeof cytoscape !== "undefined") {
+    cytoscape({
+      container: gRes,
+      elements: [
+        { data: { id: "1" }, position: { x: 25, y: 30 } },
+        { data: { id: "2" }, position: { x: 85, y: 30 } },
+        { data: { id: "5" }, position: { x: 135, y: 30 } },
+        { data: { id: "3" }, position: { x: 25, y: 90 } },
+        { data: { id: "4" }, position: { x: 85, y: 90 } },
+        { data: { source: "1", target: "2" } },
+        { data: { source: "1", target: "3" } },
+        { data: { source: "2", target: "4" } },
+        { data: { source: "2", target: "5" } }
+      ],
+      style: opStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
+    });
+  }
+})();
+</script>
+```
+
+
+## Interseção de Grafos
+
+> [**Definição:**]{.label-def} A **interseção** $G_1 \cap G_2$ de dois grafos $G_1 = (V_1, E_1)$ e $G_2 = (V_2, E_2)$ é dada por:
+>
+> $$ (V_1, E_1) \cap (V_2, E_2) = (V_1 \cap V_2, E_1 \cap E_2) $$
+
+. . .
+
+[**Exemplo:**]{.label-exmp}
+
+```{=html}
+<div style="display: flex; justify-content: center; align-items: center; gap: 15px; margin: 10px 0;">
+  <div id="grafo-op-inter-g1" style="width: 110px; height: 120px; position: relative;"></div>
+  <div style="font-weight: bold; font-size: 1.5em;">∩</div>
+  <div id="grafo-op-inter-g2" style="width: 155px; height: 120px; position: relative;"></div>
+  <div style="font-weight: bold; font-size: 1.5em;">=</div>
+  <div id="grafo-op-inter-res" style="width: 110px; height: 120px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const opStyle = [
+    {
+      selector: "node",
+      style: {
+        label: "data(id)",
+        width: 26,
+        height: 26,
+        "background-color": "#23373b",
+        color: "#ffffff",
+        "font-size": 13,
+        "font-weight": "bold",
+        "text-valign": "center",
+        "text-halign": "center",
+        "border-width": 2,
+        "border-color": "#152224"
+      }
+    },
+    {
+      selector: "edge",
+      style: {
+        width: 2.2,
+        "line-color": "#555555",
+        "curve-style": "straight"
+      }
+    }
+  ];
+
+  const g1 = document.getElementById("grafo-op-inter-g1");
+  if (g1 && typeof cytoscape !== "undefined") {
+    cytoscape({
+      container: g1,
+      elements: [
+        { data: { id: "1" }, position: { x: 25, y: 30 } },
+        { data: { id: "2" }, position: { x: 85, y: 30 } },
+        { data: { id: "3" }, position: { x: 25, y: 90 } },
+        { data: { id: "4" }, position: { x: 85, y: 90 } },
+        { data: { source: "1", target: "2" } },
+        { data: { source: "1", target: "3" } }
+      ],
+      style: opStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
+    });
+  }
+
+  const g2 = document.getElementById("grafo-op-inter-g2");
+  if (g2 && typeof cytoscape !== "undefined") {
+    cytoscape({
+      container: g2,
+      elements: [
+        { data: { id: "1" }, position: { x: 25, y: 30 } },
+        { data: { id: "2" }, position: { x: 85, y: 30 } },
+        { data: { id: "5" }, position: { x: 135, y: 30 } },
+        { data: { id: "4" }, position: { x: 85, y: 90 } },
+        { data: { source: "1", target: "2" } },
+        { data: { source: "2", target: "4" } },
+        { data: { source: "2", target: "5" } }
+      ],
+      style: opStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
+    });
+  }
+
+  const gRes = document.getElementById("grafo-op-inter-res");
+  if (gRes && typeof cytoscape !== "undefined") {
+    cytoscape({
+      container: gRes,
+      elements: [
+        { data: { id: "1" }, position: { x: 25, y: 30 } },
+        { data: { id: "2" }, position: { x: 85, y: 30 } },
+        { data: { id: "4" }, position: { x: 85, y: 90 } },
+        { data: { source: "1", target: "2" } }
+      ],
+      style: opStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
+    });
+  }
+})();
+</script>
+```
+
+
+## Remoção de Aresta
+
+> [**Definição:**]{.label-def} A **remoção de uma aresta** $e = \{a,b\}$ de um grafo $G = (V,E)$ produz o grafo $G - e$:
+>
+> $$ (V,E) - \{a,b\} = (V, E \setminus \{\{a,b\}\}) $$
+
+. . .
+
+[**Exemplo:**]{.label-exmp}
+
+```{=html}
+<div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin: 15px 0;">
+  <div id="grafo-op-del-edge-g" style="width: 140px; height: 130px; position: relative;"></div>
+  <div style="font-weight: bold; font-size: 1.3em;">− {1, 2} =</div>
+  <div id="grafo-op-del-edge-res" style="width: 140px; height: 130px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const opStyle = [
+    {
+      selector: "node",
+      style: {
+        label: "data(id)",
+        width: 28,
+        height: 28,
+        "background-color": "#23373b",
+        color: "#ffffff",
+        "font-size": 14,
+        "font-weight": "bold",
+        "text-valign": "center",
+        "text-halign": "center",
+        "border-width": 2,
+        "border-color": "#152224"
+      }
+    },
+    {
+      selector: "edge",
+      style: {
+        width: 2.2,
+        "line-color": "#555555",
+        "curve-style": "straight"
+      }
+    }
+  ];
+
+  const g = document.getElementById("grafo-op-del-edge-g");
+  if (g && typeof cytoscape !== "undefined") {
+    cytoscape({
+      container: g,
+      elements: [
+        { data: { id: "1" }, position: { x: 35, y: 30 } },
+        { data: { id: "2" }, position: { x: 105, y: 30 } },
+        { data: { id: "3" }, position: { x: 35, y: 100 } },
+        { data: { id: "4" }, position: { x: 105, y: 100 } },
+        { data: { source: "1", target: "2" } },
+        { data: { source: "1", target: "3" } }
+      ],
+      style: opStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
+    });
+  }
+
+  const gRes = document.getElementById("grafo-op-del-edge-res");
+  if (gRes && typeof cytoscape !== "undefined") {
+    cytoscape({
+      container: gRes,
+      elements: [
+        { data: { id: "1" }, position: { x: 35, y: 30 } },
+        { data: { id: "2" }, position: { x: 105, y: 30 } },
+        { data: { id: "3" }, position: { x: 35, y: 100 } },
+        { data: { id: "4" }, position: { x: 105, y: 100 } },
+        { data: { source: "1", target: "3" } }
+      ],
+      style: opStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
+    });
+  }
+})();
+</script>
+```
+
+
+## Remoção de Vértice
+
+> [**Definição:**]{.label-def} A **remoção de um vértice** $v$ de um grafo $G = (V,E)$ produz o grafo $G - v$:
+>
+> $$ (V,E) - v = (V \setminus \{v\}, \ E \setminus \{ e \in E \mid v \in e \}) $$
+
+. . .
+
+[**Exemplo:**]{.label-exmp}
+
+```{=html}
+<div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin: 15px 0;">
+  <div id="grafo-op-del-node-g" style="width: 140px; height: 130px; position: relative;"></div>
+  <div style="font-weight: bold; font-size: 1.3em;">− 1 =</div>
+  <div id="grafo-op-del-node-res" style="width: 140px; height: 130px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const opStyle = [
+    {
+      selector: "node",
+      style: {
+        label: "data(id)",
+        width: 28,
+        height: 28,
+        "background-color": "#23373b",
+        color: "#ffffff",
+        "font-size": 14,
+        "font-weight": "bold",
+        "text-valign": "center",
+        "text-halign": "center",
+        "border-width": 2,
+        "border-color": "#152224"
+      }
+    },
+    {
+      selector: "edge",
+      style: {
+        width: 2.2,
+        "line-color": "#555555",
+        "curve-style": "straight"
+      }
+    }
+  ];
+
+  const g = document.getElementById("grafo-op-del-node-g");
+  if (g && typeof cytoscape !== "undefined") {
+    cytoscape({
+      container: g,
+      elements: [
+        { data: { id: "1" }, position: { x: 35, y: 30 } },
+        { data: { id: "2" }, position: { x: 105, y: 30 } },
+        { data: { id: "3" }, position: { x: 35, y: 100 } },
+        { data: { id: "4" }, position: { x: 105, y: 100 } },
+        { data: { source: "1", target: "2" } },
+        { data: { source: "1", target: "3" } },
+        { data: { source: "2", target: "4" } }
+      ],
+      style: opStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
+    });
+  }
+
+  const gRes = document.getElementById("grafo-op-del-node-res");
+  if (gRes && typeof cytoscape !== "undefined") {
+    cytoscape({
+      container: gRes,
+      elements: [
+        { data: { id: "2" }, position: { x: 105, y: 30 } },
+        { data: { id: "3" }, position: { x: 35, y: 100 } },
+        { data: { id: "4" }, position: { x: 105, y: 100 } },
+        { data: { source: "2", target: "4" } }
+      ],
+      style: opStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
+    });
+  }
+})();
+</script>
+```
+
+. . .
+
+> [**Nota:**]{.label-rmk} Todas as arestas incidentes ao nó deletado também são removidas.
+
+# Isomorfismo
 
 ## Isomorfismo
 
@@ -58,7 +566,7 @@ filters:
 A existência de algum isomorfismo entre dois grafos significa que eles têm exatamente **a mesma forma**, apesar de poderem ter nomes de nodos e arestas distintos, ou serem desenhados de formas diferentes.
 
 
-## Isomorfismo (2)
+## Grafos Isomorfos
 
 > [**Definição:**]{.label-def} Dois grafos $G$ e $G'$ são **isomorfos**, denotado $G \cong G'$, sss existe um isomorfismo entre eles.
 
@@ -188,8 +696,9 @@ A existência de algum isomorfismo entre dois grafos significa que eles têm exa
 
 ## Isomorfismo: Exemplo
 
-Os dois grafos abaixo, apesar de aparentemente possuírem formatos distintos, são na verdade **isomorfos**.
+- Os dois grafos abaixo, apesar de aparentemente possuírem formatos distintos, são na verdade **isomorfos**.
 
+```{=html}
 <div style="display: flex; justify-content: center; align-items: center; gap: 60px; margin: 15px 0;">
   <div id="grafo-petersen-1" style="width: 300px; height: 260px; position: relative;"></div>
   <div id="grafo-petersen-2" style="width: 300px; height: 260px; position: relative;"></div>
@@ -306,6 +815,7 @@ Os dois grafos abaixo, apesar de aparentemente possuírem formatos distintos, s�
   }
 })();
 </script>
+```
 
 > [**Nota:**]{.label-rmk} Esse grafo é chamado **grafo de Petersen**.
 
@@ -329,16 +839,13 @@ Os dois grafos abaixo, apesar de aparentemente possuírem formatos distintos, s�
 
 . . .
 
-- Identificadores químicos como **SMILES** e **InChI** usam uma etapa de **canonização de grafos**.
-
-. . .
-
 - Em **automação de projeto eletrônico**, o isomorfismo é usado na etapa **Layout Versus Schematic (LVS)**, para verificar se o circuito projetado corresponde ao circuito esquemático.
 
 
 ## Isomorfismo: Complexidade
 
-- O problema está em **NP**.
+> [Def.]{.label-def} O **problema do isomorfismo de grafos** é o problema de decidir se dois grafos são isomorfos.
+  
 - Não se sabe se ele pode ser resolvido em **tempo polinomial**.
 - Também não se sabe se ele é **NP-completo**.
 - Por isso, é um candidato à classe **NP-intermediário**.
@@ -352,7 +859,7 @@ Os dois grafos abaixo, apesar de aparentemente possuírem formatos distintos, s�
 
 > [**Questão em aberto:**]{.alert}
 >
-> **O problema do isomorfismo de grafos pode ser resolvido em tempo polinomial?**
+> O problema do isomorfismo de grafos pode ser resolvido em **tempo polinomial**?
 
 
 ## Isomorfismo: Algoritmos
@@ -365,8 +872,6 @@ Os dois grafos abaixo, apesar de aparentemente possuírem formatos distintos, s�
 - Antes disso, o melhor algoritmo teórico conhecido tinha tempo $2^{O(\sqrt{n}\log n)}$.
 - Na prática, existem algoritmos eficientes para muitos casos, mas com [tempo exponencial no pior caso]{.red}.
 
-<br>
-
 . . .
 
 > [**Mensagem principal:**]{.label-def} O problema de isomorfismo de grafos teve avanços teóricos importantes, mas ainda não se conhece um algoritmo em **tempo polinomial**.
@@ -376,8 +881,8 @@ Os dois grafos abaixo, apesar de aparentemente possuírem formatos distintos, s�
 
 Podemos enxergar grafos de duas formas:
 
-- **Concreta:** nomes dos nodos e arestas importam, assim como topologia (formato das interconexões).
-- **Abstrata:** somente topologia importa.
+- **Concreta:** **nomes** dos nodos e arestas importam, assim como topologia (formato das interconexões).
+- **Abstrata:** **somente topologia** importa.
 
 <br>
 
@@ -403,9 +908,9 @@ $$
 
 ## Subgrafo a Menos de Isomorfismo
 
-Habitualmente estamos interessados em grafos abstratos, e não nas representações concretas. 
+- Habitualmente estamos interessados em grafos abstratos, e não nas representações concretas. 
 
-Podemos estender conceitos como **subgrafo** para o caso abstrato.
+- Podemos estender conceitos como **subgrafo** para o caso abstrato.
 
 <br>
 
@@ -419,30 +924,31 @@ Podemos estender conceitos como **subgrafo** para o caso abstrato.
 
 [**Exemplo:**]{.label-exmp}
 
-<div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 15px;">
-  <div style="text-align: center;">
-    <div id="grafo-subg-g" style="width: 120px; height: 120px; position: relative;"></div>
-    <div style="font-weight: bold;">$G$</div>
+```{=html}
+<div style="display: flex; justify-content: center; align-items: center; gap: 24px; margin: 15px 0;">
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="grafo-subg-g" style="width: 140px; height: 128px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 4px;">G</div>
   </div>
 
-  <div style="font-size: 2em; font-weight: bold; color: #555;">$\cong$</div>
+  <div style="font-size: 2em; font-weight: bold; color: #555; margin-bottom: 24px;">≅</div>
 
-  <div style="text-align: center;">
-    <div id="grafo-subg-h" style="width: 120px; height: 120px; position: relative;"></div>
-    <div style="font-weight: bold;">$H$</div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="grafo-subg-h" style="width: 140px; height: 128px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 4px;">H</div>
   </div>
 
-  <div style="font-size: 2em; font-weight: bold; color: #555;">$\subseteq$</div>
+  <div style="font-size: 2em; font-weight: bold; color: #555; margin-bottom: 24px;">⊆</div>
 
-  <div style="text-align: center;">
-    <div id="grafo-subg-gp" style="width: 120px; height: 120px; position: relative;"></div>
-    <div style="font-weight: bold;">$G'$</div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="grafo-subg-gp" style="width: 140px; height: 128px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 4px;">G'</div>
   </div>
 </div>
 
 <script>
 (() => {
-  const subStyle = [
+  const graphStyle = [
     {
       selector: "node",
       style: {
@@ -469,73 +975,59 @@ Podemos estender conceitos como **subgrafo** para o caso abstrato.
     }
   ];
 
-  const sg = document.getElementById("grafo-subg-g");
-  if (sg && typeof cytoscape !== "undefined") {
-    cytoscape({
-      container: sg,
-      elements: [
-        { data: { id: "1", label: "1" }, position: { x: 30, y: 30 } },
-        { data: { id: "2", label: "2" }, position: { x: 90, y: 30 } },
-        { data: { id: "3", label: "3" }, position: { x: 30, y: 90 } },
-        { data: { source: "1", target: "2" } },
-        { data: { source: "1", target: "3" } },
-        { data: { source: "2", target: "3" } }
-      ],
-      style: subStyle,
-      layout: { name: "preset" },
-      userZoomingEnabled: false, userPanningEnabled: false
-    });
+  const graphs = [
+    {
+      id: "grafo-subg-g",
+      nodes: [["1", "1", 38, 30], ["2", "2", 102, 30], ["3", "3", 38, 94]],
+      edges: [["1", "2"], ["1", "3"], ["2", "3"]]
+    },
+    {
+      id: "grafo-subg-h",
+      nodes: [["a", "a", 38, 30], ["b", "b", 102, 30], ["c", "c", 38, 94]],
+      edges: [["a", "b"], ["a", "c"], ["b", "c"]]
+    },
+    {
+      id: "grafo-subg-gp",
+      nodes: [["a", "a", 38, 30], ["b", "b", 102, 30], ["c", "c", 38, 94], ["d", "d", 102, 94]],
+      edges: [["a", "b"], ["a", "c"], ["a", "d"], ["b", "c"], ["b", "d"], ["c", "d"]]
+    }
+  ];
+
+  function makeElements(graph) {
+    const nodes = graph.nodes.map(([id, label, x, y]) => ({
+      data: { id, label },
+      position: { x, y },
+      grabbable: true
+    }));
+    const edges = graph.edges.map(([source, target]) => ({
+      data: { source, target }
+    }));
+    return [...nodes, ...edges];
   }
 
-  const sh = document.getElementById("grafo-subg-h");
-  if (sh && typeof cytoscape !== "undefined") {
+  graphs.forEach((graph) => {
+    const container = document.getElementById(graph.id);
+    if (!container || typeof cytoscape === "undefined") return;
     cytoscape({
-      container: sh,
-      elements: [
-        { data: { id: "a", label: "a" }, position: { x: 30, y: 30 } },
-        { data: { id: "b", label: "b" }, position: { x: 90, y: 30 } },
-        { data: { id: "c", label: "c" }, position: { x: 30, y: 90 } },
-        { data: { source: "a", target: "b" } },
-        { data: { source: "a", target: "c" } },
-        { data: { source: "b", target: "c" } }
-      ],
-      style: subStyle,
+      container,
+      elements: makeElements(graph),
+      style: graphStyle,
       layout: { name: "preset" },
-      userZoomingEnabled: false, userPanningEnabled: false
+      userZoomingEnabled: false,
+      userPanningEnabled: false
     });
-  }
-
-  const sgp = document.getElementById("grafo-subg-gp");
-  if (sgp && typeof cytoscape !== "undefined") {
-    cytoscape({
-      container: sgp,
-      elements: [
-        { data: { id: "a", label: "a" }, position: { x: 30, y: 30 } },
-        { data: { id: "b", label: "b" }, position: { x: 90, y: 30 } },
-        { data: { id: "c", label: "c" }, position: { x: 30, y: 90 } },
-        { data: { id: "d", label: "d" }, position: { x: 90, y: 90 } },
-        { data: { source: "a", target: "b" } },
-        { data: { source: "a", target: "c" } },
-        { data: { source: "a", target: "d" } },
-        { data: { source: "b", target: "c" } },
-        { data: { source: "b", target: "d" } },
-        { data: { source: "c", target: "d" } }
-      ],
-      style: subStyle,
-      layout: { name: "preset" },
-      userZoomingEnabled: false, userPanningEnabled: false
-    });
-  }
+  });
 })();
 </script>
+```
 
 # Famílias de Grafos
 
 ## Famílias Comuns de Grafos Simples
 
-Algumas formas para grafos representam padrões comuns, e portanto recebem nomes especiais (normalmente parametrizados pelo número de vértices).
+- Algumas formas para grafos representam **padrões comuns**, e portanto recebem nomes especiais (normalmente parametrizados pelo número de vértices).
 
-Veremos os seguintes **formatos** de grafo:
+- Veremos os seguintes **formatos** de grafo:
 
 :::: columns
 ::: {.column width="48%"}
@@ -554,33 +1046,74 @@ Veremos os seguintes **formatos** de grafo:
 
 <br>
 
-> [**Nota:**]{.label-rmk} Cada topologia com um dado número de nodos representa um grafo abstrato distinto.
+> [**Nota:**]{.label-rmk} Cada **topologia** com um dado número de nodos representa um **grafo abstrato distinto**.
 
 
 ## Grafos Nulos e Completos
 
 **Grafo nulo:** $N_n$ (sem arestas)
 
-<div style="display: flex; justify-content: space-around; align-items: center; margin: 10px 0;">
-  <div style="text-align: center;"><div id="fam-n1" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$N_1$</span></div>
-  <div style="text-align: center;"><div id="fam-n2" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$N_2$</span></div>
-  <div style="text-align: center;"><div id="fam-n3" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$N_3$</span></div>
-  <div style="text-align: center;"><div id="fam-n4" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$N_4$</span></div>
-  <div style="text-align: center;"><div id="fam-n5" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$N_5$</span></div>
-  <div style="text-align: center;"><div id="fam-n6" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$N_6$</span></div>
+```{=html}
+<div style="display: flex; justify-content: center; align-items: flex-end; gap: 8px; margin: 4px 0 8px;">
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-n1" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">N₁</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-n2" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">N₂</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-n3" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">N₃</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-n4" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">N₄</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-n5" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">N₅</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-n6" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">N₆</div>
+  </div>
 </div>
+```
+
+<br>
 
 . . .
 
 **Grafo completo:** $K_n$ (todas as arestas possíveis)
 
-<div style="display: flex; justify-content: space-around; align-items: center; margin: 10px 0;">
-  <div style="text-align: center;"><div id="fam-k1" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$K_1$</span></div>
-  <div style="text-align: center;"><div id="fam-k2" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$K_2$</span></div>
-  <div style="text-align: center;"><div id="fam-k3" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$K_3$</span></div>
-  <div style="text-align: center;"><div id="fam-k4" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$K_4$</span></div>
-  <div style="text-align: center;"><div id="fam-k5" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$K_5$</span></div>
-  <div style="text-align: center;"><div id="fam-k6" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$K_6$</span></div>
+```{=html}
+<div style="display: flex; justify-content: center; align-items: flex-end; gap: 8px; margin: 4px 0 8px;">
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-k1" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">K₁</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-k2" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">K₂</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-k3" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">K₃</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-k4" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">K₄</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-k5" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">K₅</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-k6" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">K₆</div>
+  </div>
 </div>
 
 <script>
@@ -589,24 +1122,26 @@ Veremos os seguintes **formatos** de grafo:
     {
       selector: "node",
       style: {
-        width: 10,
-        height: 10,
-        "background-color": "#23373b"
+        width: 20,
+        height: 20,
+        "background-color": "#23373b",
+        "border-width": 2.5,
+        "border-color": "#152224"
       }
     },
     {
       selector: "edge",
       style: {
-        width: 1.5,
+        width: 2.2,
         "line-color": "#555555",
         "curve-style": "straight"
       }
     }
   ];
 
-  function getPoly(n, r = 22, cx = 40, cy = 30) {
+  function getPoly(n, r = 36, cx = 60, cy = 52.5) {
     if (n === 1) return [{ data: { id: "0" }, position: { x: cx, y: cy } }];
-    if (n === 2) return [{ data: { id: "0" }, position: { x: cx - 18, y: cy } }, { data: { id: "1" }, position: { x: cx + 18, y: cy } }];
+    if (n === 2) return [{ data: { id: "0" }, position: { x: cx - 30, y: cy } }, { data: { id: "1" }, position: { x: cx + 30, y: cy } }];
     const res = [];
     for (let i = 0; i < n; i++) {
       const angle = (2 * Math.PI * i / n) - (Math.PI / 2);
@@ -634,7 +1169,8 @@ Veremos os seguintes **formatos** de grafo:
         elements: getPoly(n),
         style: miniStyle,
         layout: { name: "preset" },
-        userZoomingEnabled: false, userPanningEnabled: false
+        userZoomingEnabled: false,
+        userPanningEnabled: false
       });
     }
   }
@@ -648,12 +1184,14 @@ Veremos os seguintes **formatos** de grafo:
         elements: [...getPoly(n), ...getCompleteEdges(n)],
         style: miniStyle,
         layout: { name: "preset" },
-        userZoomingEnabled: false, userPanningEnabled: false
+        userZoomingEnabled: false,
+        userPanningEnabled: false
       });
     }
   }
 })();
 </script>
+```
 
 *Curiosidade:* $K$ vem da palavra *"komplett"* em alemão.
 
@@ -662,25 +1200,63 @@ Veremos os seguintes **formatos** de grafo:
 
 **Grafo caminho:** $P_n$ (*path*)
 
-<div style="display: flex; justify-content: space-around; align-items: center; margin: 10px 0;">
-  <div style="text-align: center;"><div id="fam-p1" style="width: 90px; height: 50px;"></div><span style="font-weight:bold;">$P_1$</span></div>
-  <div style="text-align: center;"><div id="fam-p2" style="width: 90px; height: 50px;"></div><span style="font-weight:bold;">$P_2$</span></div>
-  <div style="text-align: center;"><div id="fam-p3" style="width: 90px; height: 50px;"></div><span style="font-weight:bold;">$P_3$</span></div>
-  <div style="text-align: center;"><div id="fam-p4" style="width: 90px; height: 50px;"></div><span style="font-weight:bold;">$P_4$</span></div>
-  <div style="text-align: center;"><div id="fam-p5" style="width: 90px; height: 50px;"></div><span style="font-weight:bold;">$P_5$</span></div>
+```{=html}
+<div style="display: flex; justify-content: center; align-items: flex-end; gap: 8px; margin: 4px 0 8px;">
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-p1" style="width: 145px; height: 85px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">P₁</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-p2" style="width: 145px; height: 85px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">P₂</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-p3" style="width: 145px; height: 85px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">P₃</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-p4" style="width: 145px; height: 85px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">P₄</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-p5" style="width: 145px; height: 85px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">P₅</div>
+  </div>
 </div>
+```
+
+<br>
 
 . . .
 
 **Grafo ciclo:** $C_n$ (para $n \geq 3$)
 
-<div style="display: flex; justify-content: space-around; align-items: center; margin: 10px 0;">
-  <div style="text-align: center;"><div id="fam-c3" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$C_3$</span></div>
-  <div style="text-align: center;"><div id="fam-c4" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$C_4$</span></div>
-  <div style="text-align: center;"><div id="fam-c5" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$C_5$</span></div>
-  <div style="text-align: center;"><div id="fam-c6" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$C_6$</span></div>
-  <div style="text-align: center;"><div id="fam-c7" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$C_7$</span></div>
-  <div style="text-align: center;"><div id="fam-c8" style="width: 80px; height: 60px;"></div><span style="font-weight:bold;">$C_8$</span></div>
+```{=html}
+<div style="display: flex; justify-content: center; align-items: flex-end; gap: 8px; margin: 4px 0 8px;">
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-c3" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">C₃</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-c4" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">C₄</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-c5" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">C₅</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-c6" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">C₆</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-c7" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">C₇</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-c8" style="width: 120px; height: 105px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">C₈</div>
+  </div>
 </div>
 
 <script>
@@ -689,15 +1265,17 @@ Veremos os seguintes **formatos** de grafo:
     {
       selector: "node",
       style: {
-        width: 10,
-        height: 10,
-        "background-color": "#23373b"
+        width: 20,
+        height: 20,
+        "background-color": "#23373b",
+        "border-width": 2.5,
+        "border-color": "#152224"
       }
     },
     {
       selector: "edge",
       style: {
-        width: 1.5,
+        width: 2.2,
         "line-color": "#555555",
         "curve-style": "straight"
       }
@@ -710,10 +1288,11 @@ Veremos os seguintes **formatos** de grafo:
     if (el && typeof cytoscape !== "undefined") {
       const nodes = [];
       const edges = [];
-      const step = n === 1 ? 0 : 70 / (n - 1);
-      const startX = 10;
+      const step = n === 1 ? 0 : 105 / (n - 1);
+      const startX = 20;
       for (let i = 0; i < n; i++) {
-        nodes.push({ data: { id: "" + i }, position: { x: startX + i * step, y: 25 } });
+        const x = n === 1 ? 72.5 : startX + i * step;
+        nodes.push({ data: { id: "" + i }, position: { x, y: 42.5 } });
         if (i > 0) edges.push({ data: { source: "" + (i - 1), target: "" + i } });
       }
       cytoscape({
@@ -721,13 +1300,14 @@ Veremos os seguintes **formatos** de grafo:
         elements: [...nodes, ...edges],
         style: miniStyle,
         layout: { name: "preset" },
-        userZoomingEnabled: false, userPanningEnabled: false
+        userZoomingEnabled: false,
+        userPanningEnabled: false
       });
     }
   }
 
   // Cycles
-  function getCycle(n, r = 22, cx = 40, cy = 30) {
+  function getCycle(n, r = 36, cx = 60, cy = 52.5) {
     const nodes = [];
     const edges = [];
     for (let i = 0; i < n; i++) {
@@ -746,39 +1326,86 @@ Veremos os seguintes **formatos** de grafo:
         elements: getCycle(n),
         style: miniStyle,
         layout: { name: "preset" },
-        userZoomingEnabled: false, userPanningEnabled: false
+        userZoomingEnabled: false,
+        userPanningEnabled: false
       });
     }
   }
 })();
 </script>
+```
 
 
 ## Grafos Estrela e Roda
 
 **Grafo estrela:** $S_n$ (*star*)
 
-<div style="display: flex; justify-content: space-around; align-items: center; margin: 10px 0;">
-  <div style="text-align: center;"><div id="fam-s1" style="width: 75px; height: 60px;"></div><span style="font-weight:bold;">$S_1$</span></div>
-  <div style="text-align: center;"><div id="fam-s2" style="width: 75px; height: 60px;"></div><span style="font-weight:bold;">$S_2$</span></div>
-  <div style="text-align: center;"><div id="fam-s3" style="width: 75px; height: 60px;"></div><span style="font-weight:bold;">$S_3$</span></div>
-  <div style="text-align: center;"><div id="fam-s4" style="width: 75px; height: 60px;"></div><span style="font-weight:bold;">$S_4$</span></div>
-  <div style="text-align: center;"><div id="fam-s5" style="width: 75px; height: 60px;"></div><span style="font-weight:bold;">$S_5$</span></div>
-  <div style="text-align: center;"><div id="fam-s6" style="width: 75px; height: 60px;"></div><span style="font-weight:bold;">$S_6$</span></div>
-  <div style="text-align: center;"><div id="fam-s7" style="width: 75px; height: 60px;"></div><span style="font-weight:bold;">$S_7$</span></div>
+```{=html}
+<div style="display: flex; justify-content: center; align-items: flex-end; gap: 6px; margin: 4px 0 8px;">
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-s1" style="width: 105px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">S₁</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-s2" style="width: 105px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">S₂</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-s3" style="width: 105px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">S₃</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-s4" style="width: 105px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">S₄</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-s5" style="width: 105px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">S₅</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-s6" style="width: 105px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">S₆</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-s7" style="width: 105px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">S₇</div>
+  </div>
 </div>
+```
+
+<br>
 
 . . .
 
+
 **Grafo roda:** $W_n$ (*wheel*, $n \geq 4$)
 
-<div style="display: flex; justify-content: space-around; align-items: center; margin: 10px 0;">
-  <div style="text-align: center;"><div id="fam-w4" style="width: 80px; height: 65px;"></div><span style="font-weight:bold;">$W_4$</span></div>
-  <div style="text-align: center;"><div id="fam-w5" style="width: 80px; height: 65px;"></div><span style="font-weight:bold;">$W_5$</span></div>
-  <div style="text-align: center;"><div id="fam-w6" style="width: 80px; height: 65px;"></div><span style="font-weight:bold;">$W_6$</span></div>
-  <div style="text-align: center;"><div id="fam-w7" style="width: 80px; height: 65px;"></div><span style="font-weight:bold;">$W_7$</span></div>
-  <div style="text-align: center;"><div id="fam-w8" style="width: 80px; height: 65px;"></div><span style="font-weight:bold;">$W_8$</span></div>
-  <div style="text-align: center;"><div id="fam-w9" style="width: 80px; height: 65px;"></div><span style="font-weight:bold;">$W_9$</span></div>
+```{=html}
+<div style="display: flex; justify-content: center; align-items: flex-end; gap: 8px; margin: 4px 0 8px;">
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-w4" style="width: 120px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">W₄</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-w5" style="width: 120px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">W₅</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-w6" style="width: 120px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">W₆</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-w7" style="width: 120px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">W₇</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-w8" style="width: 120px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">W₈</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-w9" style="width: 120px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">W₉</div>
+  </div>
 </div>
 
 <script>
@@ -787,21 +1414,24 @@ Veremos os seguintes **formatos** de grafo:
     {
       selector: "node",
       style: {
-        width: 10,
-        height: 10,
-        "background-color": "#23373b"
+        width: 20,
+        height: 20,
+        "background-color": "#23373b",
+        "border-width": 2.5,
+        "border-color": "#152224"
       }
     },
     {
       selector: "node.center",
       style: {
-        "background-color": "#eb811b"
+        "background-color": "#eb811b",
+        "border-color": "#b85d08"
       }
     },
     {
       selector: "edge",
       style: {
-        width: 1.5,
+        width: 2.2,
         "line-color": "#555555",
         "curve-style": "straight"
       }
@@ -812,7 +1442,7 @@ Veremos os seguintes **formatos** de grafo:
   for (let n = 1; n <= 7; n++) {
     const el = document.getElementById("fam-s" + n);
     if (el && typeof cytoscape !== "undefined") {
-      const cx = 37, cy = 30, r = 20;
+      const cx = 52.5, cy = 50, r = 33;
       const nodes = [{ data: { id: "c" }, classes: n > 1 ? "center" : "", position: { x: cx, y: cy } }];
       const edges = [];
       const k = n - 1;
@@ -826,7 +1456,8 @@ Veremos os seguintes **formatos** de grafo:
         elements: [...nodes, ...edges],
         style: starWheelStyle,
         layout: { name: "preset" },
-        userZoomingEnabled: false, userPanningEnabled: false
+        userZoomingEnabled: false,
+        userPanningEnabled: false
       });
     }
   }
@@ -835,7 +1466,7 @@ Veremos os seguintes **formatos** de grafo:
   for (let n = 4; n <= 9; n++) {
     const el = document.getElementById("fam-w" + n);
     if (el && typeof cytoscape !== "undefined") {
-      const cx = 40, cy = 32, r = 22;
+      const cx = 60, cy = 50, r = 33;
       const nodes = [{ data: { id: "c" }, classes: "center", position: { x: cx, y: cy } }];
       const edges = [];
       const k = n - 1;
@@ -850,39 +1481,62 @@ Veremos os seguintes **formatos** de grafo:
         elements: [...nodes, ...edges],
         style: starWheelStyle,
         layout: { name: "preset" },
-        userZoomingEnabled: false, userPanningEnabled: false
+        userZoomingEnabled: false,
+        userPanningEnabled: false
       });
     }
   }
 })();
 </script>
+```
 
 
 ## Grafos Grade e k-Cubo
 
 **Grafo grade:** $G_{m,n}$ ($m$ linhas, $n$ colunas)
 
-<div style="display: flex; justify-content: center; align-items: center; gap: 50px; margin: 10px 0 20px 0;">
+```{=html}
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin: 4px 0 10px;">
   <div style="display: flex; align-items: center; gap: 10px;">
-    <span style="font-weight: bold;">$G_{1,3} =$</span>
-    <div id="fam-grid-13" style="width: 140px; height: 50px; position: relative;"></div>
+    <span style="font-weight: bold;">G₁,₃ =</span>
+    <div id="fam-grid-13" style="width: 180px; height: 85px; position: relative;"></div>
   </div>
   <div style="display: flex; align-items: center; gap: 10px;">
-    <span style="font-weight: bold;">$G_{3,4} =$</span>
-    <div id="fam-grid-34" style="width: 200px; height: 130px; position: relative;"></div>
+    <span style="font-weight: bold;">G₃,₄ =</span>
+    <div id="fam-grid-34" style="width: 230px; height: 130px; position: relative;"></div>
   </div>
 </div>
+```
+
+<br>
 
 . . .
 
+
 **Grafo $k$-cubo:** $Q_k$
 
-<div style="display: flex; justify-content: space-around; align-items: center; margin: 10px 0;">
-  <div style="text-align: center;"><div id="fam-q0" style="width: 70px; height: 65px;"></div><span style="font-weight:bold;">$Q_0$</span></div>
-  <div style="text-align: center;"><div id="fam-q1" style="width: 75px; height: 65px;"></div><span style="font-weight:bold;">$Q_1$</span></div>
-  <div style="text-align: center;"><div id="fam-q2" style="width: 80px; height: 65px;"></div><span style="font-weight:bold;">$Q_2$</span></div>
-  <div style="text-align: center;"><div id="fam-q3" style="width: 95px; height: 75px;"></div><span style="font-weight:bold;">$Q_3$</span></div>
-  <div style="text-align: center;"><div id="fam-q4" style="width: 120px; height: 75px;"></div><span style="font-weight:bold;">$Q_4$</span></div>
+```{=html}
+<div style="display: flex; justify-content: center; align-items: flex-end; gap: 10px; margin: 4px 0 8px;">
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-q0" style="width: 100px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">Q₀</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-q1" style="width: 100px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">Q₁</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-q2" style="width: 100px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">Q₂</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-q3" style="width: 130px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">Q₃</div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div id="fam-q4" style="width: 170px; height: 100px; position: relative;"></div>
+    <div style="font-weight: bold; margin-top: 2px;">Q₄</div>
+  </div>
 </div>
 
 <script>
@@ -891,15 +1545,17 @@ Veremos os seguintes **formatos** de grafo:
     {
       selector: "node",
       style: {
-        width: 11,
-        height: 11,
-        "background-color": "#23373b"
+        width: 18,
+        height: 18,
+        "background-color": "#23373b",
+        "border-width": 2.5,
+        "border-color": "#152224"
       }
     },
     {
       selector: "edge",
       style: {
-        width: 1.8,
+        width: 2.2,
         "line-color": "#555555",
         "curve-style": "straight"
       }
@@ -908,7 +1564,8 @@ Veremos os seguintes **formatos** de grafo:
       selector: "edge.hyper",
       style: {
         "line-color": "#c40000",
-        width: 2
+        width: 2.2,
+        "curve-style": "straight"
       }
     }
   ];
@@ -919,15 +1576,16 @@ Veremos os seguintes **formatos** de grafo:
     cytoscape({
       container: g13,
       elements: [
-        { data: { id: "n1" }, position: { x: 20, y: 25 } },
-        { data: { id: "n2" }, position: { x: 70, y: 25 } },
-        { data: { id: "n3" }, position: { x: 120, y: 25 } },
+        { data: { id: "n1" }, position: { x: 30, y: 42.5 } },
+        { data: { id: "n2" }, position: { x: 90, y: 42.5 } },
+        { data: { id: "n3" }, position: { x: 150, y: 42.5 } },
         { data: { source: "n1", target: "n2" } },
         { data: { source: "n2", target: "n3" } }
       ],
       style: gridCubeStyle,
       layout: { name: "preset" },
-      userZoomingEnabled: false, userPanningEnabled: false
+      userZoomingEnabled: false,
+      userPanningEnabled: false
     });
   }
 
@@ -940,7 +1598,7 @@ Veremos os seguintes **formatos** de grafo:
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         const id = `${r}_${c}`;
-        nodes.push({ data: { id }, position: { x: 20 + c * 50, y: 20 + r * 45 } });
+        nodes.push({ data: { id }, position: { x: 22 + c * 56, y: 20 + r * 45 } });
         if (c > 0) edges.push({ data: { source: `${r}_${c-1}`, target: id } });
         if (r > 0) edges.push({ data: { source: `${r-1}_${c}`, target: id } });
       }
@@ -950,7 +1608,8 @@ Veremos os seguintes **formatos** de grafo:
       elements: [...nodes, ...edges],
       style: gridCubeStyle,
       layout: { name: "preset" },
-      userZoomingEnabled: false, userPanningEnabled: false
+      userZoomingEnabled: false,
+      userPanningEnabled: false
     });
   }
 
@@ -959,9 +1618,11 @@ Veremos os seguintes **formatos** de grafo:
   if (q0 && typeof cytoscape !== "undefined") {
     cytoscape({
       container: q0,
-      elements: [{ data: { id: "0" }, position: { x: 35, y: 32 } }],
-      style: gridCubeStyle, layout: { name: "preset" },
-      userZoomingEnabled: false, userPanningEnabled: false
+      elements: [{ data: { id: "0" }, position: { x: 50, y: 50 } }],
+      style: gridCubeStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
     });
   }
 
@@ -971,12 +1632,14 @@ Veremos os seguintes **formatos** de grafo:
     cytoscape({
       container: q1,
       elements: [
-        { data: { id: "0" }, position: { x: 18, y: 32 } },
-        { data: { id: "1" }, position: { x: 57, y: 32 } },
+        { data: { id: "0" }, position: { x: 24, y: 50 } },
+        { data: { id: "1" }, position: { x: 76, y: 50 } },
         { data: { source: "0", target: "1" } }
       ],
-      style: gridCubeStyle, layout: { name: "preset" },
-      userZoomingEnabled: false, userPanningEnabled: false
+      style: gridCubeStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
     });
   }
 
@@ -986,17 +1649,19 @@ Veremos os seguintes **formatos** de grafo:
     cytoscape({
       container: q2,
       elements: [
-        { data: { id: "00" }, position: { x: 20, y: 15 } },
-        { data: { id: "01" }, position: { x: 60, y: 15 } },
-        { data: { id: "10" }, position: { x: 20, y: 50 } },
-        { data: { id: "11" }, position: { x: 60, y: 50 } },
+        { data: { id: "00" }, position: { x: 24, y: 24 } },
+        { data: { id: "01" }, position: { x: 76, y: 24 } },
+        { data: { id: "10" }, position: { x: 24, y: 76 } },
+        { data: { id: "11" }, position: { x: 76, y: 76 } },
         { data: { source: "00", target: "01" } },
         { data: { source: "00", target: "10" } },
         { data: { source: "01", target: "11" } },
         { data: { source: "10", target: "11" } }
       ],
-      style: gridCubeStyle, layout: { name: "preset" },
-      userZoomingEnabled: false, userPanningEnabled: false
+      style: gridCubeStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
     });
   }
 
@@ -1006,14 +1671,14 @@ Veremos os seguintes **formatos** de grafo:
     cytoscape({
       container: q3,
       elements: [
-        { data: { id: "a" }, position: { x: 18, y: 25 } },
-        { data: { id: "b" }, position: { x: 55, y: 25 } },
-        { data: { id: "c" }, position: { x: 18, y: 62 } },
-        { data: { id: "d" }, position: { x: 55, y: 62 } },
-        { data: { id: "e" }, position: { x: 38, y: 12 } },
-        { data: { id: "f" }, position: { x: 75, y: 12 } },
-        { data: { id: "g" }, position: { x: 38, y: 49 } },
-        { data: { id: "h" }, position: { x: 75, y: 49 } },
+        { data: { id: "a" }, position: { x: 26, y: 33 } },
+        { data: { id: "b" }, position: { x: 80, y: 33 } },
+        { data: { id: "c" }, position: { x: 26, y: 83 } },
+        { data: { id: "d" }, position: { x: 80, y: 83 } },
+        { data: { id: "e" }, position: { x: 50, y: 17 } },
+        { data: { id: "f" }, position: { x: 104, y: 17 } },
+        { data: { id: "g" }, position: { x: 50, y: 67 } },
+        { data: { id: "h" }, position: { x: 104, y: 67 } },
         // Front square
         { data: { source: "a", target: "b" } },
         { data: { source: "b", target: "d" } },
@@ -1030,8 +1695,10 @@ Veremos os seguintes **formatos** de grafo:
         { data: { source: "c", target: "g" } },
         { data: { source: "d", target: "h" } }
       ],
-      style: gridCubeStyle, layout: { name: "preset" },
-      userZoomingEnabled: false, userPanningEnabled: false
+      style: gridCubeStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
     });
   }
 
@@ -1039,24 +1706,24 @@ Veremos os seguintes **formatos** de grafo:
   const q4 = document.getElementById("fam-q4");
   if (q4 && typeof cytoscape !== "undefined") {
     const leftNodes = [
-      { data: { id: "l_a" }, position: { x: 12, y: 22 } },
-      { data: { id: "l_b" }, position: { x: 42, y: 22 } },
-      { data: { id: "l_c" }, position: { x: 12, y: 52 } },
-      { data: { id: "l_d" }, position: { x: 42, y: 52 } },
-      { data: { id: "l_e" }, position: { x: 24, y: 10 } },
-      { data: { id: "l_f" }, position: { x: 54, y: 10 } },
-      { data: { id: "l_g" }, position: { x: 24, y: 40 } },
-      { data: { id: "l_h" }, position: { x: 54, y: 40 } }
+      { data: { id: "l_a" }, position: { x: 16, y: 33 } },
+      { data: { id: "l_b" }, position: { x: 56, y: 33 } },
+      { data: { id: "l_c" }, position: { x: 16, y: 75 } },
+      { data: { id: "l_d" }, position: { x: 56, y: 75 } },
+      { data: { id: "l_e" }, position: { x: 32, y: 17 } },
+      { data: { id: "l_f" }, position: { x: 72, y: 17 } },
+      { data: { id: "l_g" }, position: { x: 32, y: 59 } },
+      { data: { id: "l_h" }, position: { x: 72, y: 59 } }
     ];
     const rightNodes = [
-      { data: { id: "r_a" }, position: { x: 68, y: 22 } },
-      { data: { id: "r_b" }, position: { x: 98, y: 22 } },
-      { data: { id: "r_c" }, position: { x: 68, y: 52 } },
-      { data: { id: "r_d" }, position: { x: 98, y: 52 } },
-      { data: { id: "r_e" }, position: { x: 80, y: 10 } },
-      { data: { id: "r_f" }, position: { x: 110, y: 10 } },
-      { data: { id: "r_g" }, position: { x: 80, y: 40 } },
-      { data: { id: "r_h" }, position: { x: 110, y: 40 } }
+      { data: { id: "r_a" }, position: { x: 98, y: 33 } },
+      { data: { id: "r_b" }, position: { x: 138, y: 33 } },
+      { data: { id: "r_c" }, position: { x: 98, y: 75 } },
+      { data: { id: "r_d" }, position: { x: 138, y: 75 } },
+      { data: { id: "r_e" }, position: { x: 114, y: 17 } },
+      { data: { id: "r_f" }, position: { x: 154, y: 17 } },
+      { data: { id: "r_g" }, position: { x: 114, y: 59 } },
+      { data: { id: "r_h" }, position: { x: 154, y: 59 } }
     ];
 
     const cubeEdges = (prefix) => [
@@ -1082,12 +1749,15 @@ Veremos os seguintes **formatos** de grafo:
     cytoscape({
       container: q4,
       elements: [...leftNodes, ...rightNodes, ...cubeEdges("l"), ...cubeEdges("r"), ...crossEdges],
-      style: gridCubeStyle, layout: { name: "preset" },
-      userZoomingEnabled: false, userPanningEnabled: false
+      style: gridCubeStyle,
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false
     });
   }
 })();
 </script>
+```
 
 > [**Nota:**]{.label-rmk} Ao contrário das outras famílias, onde $n$ representa o número de vértices, $k$ representa as dimensões do cubo.
 
@@ -1125,25 +1795,23 @@ Veremos os seguintes **formatos** de grafo:
 > $$ p(x,y) = v_0, e_1, v_1, e_2, v_2, \ldots, e_n, v_n $$
 > de vértices e arestas no qual:
 >
-> - $x = v_0$ e $y = v_n$
-> - há ao menos uma aresta
-> - toda aresta está situada entre dois nodos sobre os quais incide
-
-<br>
+> - $x = v_0$ e $y = v_n$;
+> - há **ao menos uma aresta**; e
+> - toda aresta $e_i$ conecta os vértices adjacentes $v_{i-1}$ e $v_i$.
 
 . . .
 
 > [**Definição:**]{.label-def} O **tamanho** do passeio, denotado $|p|$, é a quantidade de arestas presentes (contando repetições).
 
-<br>
-
+:::{.small}
 > [**Nota:**]{.label-rmk} No caso de grafos simples o passeio é determinado unicamente pelos vértices, portanto podemos escrever simplesmente $p(v_1,v_n) = v_1, v_2, \ldots, v_n$. Outros tipos de grafos requerem que se **nomeie** explicitamente as arestas.
-
+:::
 
 ## Passeio: Exemplo
 
-Grafo exemplo (arestas nomeadas):
+- Grafo exemplo (arestas nomeadas):
 
+```{=html}
 <div style="display: flex; justify-content: center; margin: 10px 0;">
   <div id="grafo-passeio-ex" style="width: 440px; height: 180px; position: relative;"></div>
 </div>
@@ -1202,14 +1870,16 @@ Grafo exemplo (arestas nomeadas):
       }
     ],
     layout: { name: "preset" },
-    userZoomingEnabled: false, userPanningEnabled: false
+    userZoomingEnabled: false,
+    userPanningEnabled: false
   });
 })();
 </script>
+```
 
 . . .
 
-Exemplos de passeios:
+[Exemplos de passeios:]{.label-exmp}
 
 - $p_1(A,B) = A, 1, B \qquad \implies |p_1| = 1$
 - $p_2(A,E) = A, 1, B, 2, E \qquad \implies |p_2| = 2$
@@ -1220,26 +1890,26 @@ Exemplos de passeios:
 
 :::: columns
 ::: {.column width="60%"}
-> [**Definição:**]{.label-def} Um passeio $p(x,y)$ é **fechado** quando $x = y$.
+> [**Def.**]{.label-def} Um passeio $p(x,y)$ é **fechado** quando $x = y$.
 
-> [**Definição:**]{.label-def} Uma **trilha** (*trail*) é um **passeio sem arestas repetidas**.
+> [**Def.**]{.label-def} Uma **trilha** (*trail*) é um **passeio sem arestas repetidas**.
 
-> [**Definição:**]{.label-def} Um **caminho** (*path*) é uma **trilha** $p(x,y)$ sem nodos repetidos (com exceção de $x$ e $y$, que podem ser iguais).
+> [**Def.**]{.label-def} Um **caminho** (*path*) é uma **trilha** $p(x,y)$ sem nodos repetidos (com exceção de $x$ e $y$, que podem ser iguais).
 
-> [**Definição:**]{.label-def} Nomes especiais para alguns passeios:
+> [**Def.**]{.label-def} Nomes especiais para alguns passeios:
 >
 > - **circuito** (*circuit*): trilha fechada
 > - **ciclo** (*cycle*): caminho fechado
-> - **laço** (*loop*): caminho fechado de tamanho 1
+> - **laço** (*loop*): caminho fechado de tamanho $1$
 :::
 ::: {.column width="40%"}
-
 ```{mermaid}
-%%| fig-width: 4
+%%| fig-width: 3.2
+%%{init: {'themeVariables': { 'fontSize': '26px' }}}%%
 graph TD
   A([Passeio])
   B([Trilha])
-  C(["Passeio\nFechado"])
+  C(["Passeio Fechado"])
   D([Caminho])
   E([Circuito])
   F([Ciclo])
@@ -1254,20 +1924,14 @@ graph TD
   E --> F
   F --> G
 
-  style A fill:#23373b,color:#fafafa,stroke:none
-  style B fill:#23373b,color:#fafafa,stroke:none
-  style C fill:#23373b,color:#fafafa,stroke:none
-  style D fill:#23373b,color:#fafafa,stroke:none
-  style E fill:#23373b,color:#fafafa,stroke:none
-  style F fill:#23373b,color:#fafafa,stroke:none
-  style G fill:#23373b,color:#fafafa,stroke:none
+  classDef default fill:#23373b,color:#fafafa,stroke:none,font-size:26px;
 ```
 
 :::
 ::::
 
 
-## Propriedades de Passeios
+## Propriedades de Passeios {.small}
 
 > [**Lema:**]{.label-lem} De todo passeio $p(x,y)$ podemos extrair um caminho $c(x,y)$.
 
@@ -1279,19 +1943,20 @@ graph TD
 
 . . .
 
+:::{.incremental}
 - **Base:** Se $n = 1$, então $p(x,y) = x, y$, que já é um caminho.
 - **Passo de Indução:** Seja $p(x,y)$ um passeio de tamanho $n$. Podemos escrevê-lo como $p = p'(x,v), y$, onde $p'(x,v)$ é um sub-passeio de tamanho $n-1$. Como $|p'| = n-1 < n$, pela hipótese indutiva existe um caminho $c'(x,v)$.
   - Se $y \notin (c' - \{x\})$, então a sequência $c = c', y$ não possui vértices repetidos, logo é um caminho de $x$ até $y$.
   - Se $y \in (c' - \{x\})$, então existe uma primeira ocorrência de $y$ em $c'$. Escrevendo $c' = x, \ldots, y, \ldots, v$, o prefixo de $c'$ até essa primeira ocorrência de $y$ define um caminho de $x$ até $y$. $\blacksquare$
-
+:::
 
 # Conectividade
 
 ## Conectividade de Nós
 
-Podemos estender a noção de adjacência (nodos ligados por arestas) para **conectividade** (nodos ligados por rotas).
+- Podemos estender a noção de adjacência (nodos ligados por arestas) para **conectividade** (nodos ligados por rotas).
 
-<br>
+. . .
 
 > [**Definição:**]{.label-def} Dois nós $a$ e $b$ estão **conectados** (denotado $a \leftrightsquigarrow b$) sss:
 >
@@ -1300,13 +1965,11 @@ Podemos estender a noção de adjacência (nodos ligados por arestas) para **con
 
 . . .
 
-<br>
 
 > [**Definição:**]{.label-def} A **relação de conectividade** determina que dois vértices estão relacionados sss estão conectados.
 
 . . .
 
-<br>
 
 > [**Lema:**]{.label-lem} Em grafos simples, a relação de conectividade é uma **relação de equivalência** sobre o conjunto de vértices.
 
@@ -1352,6 +2015,7 @@ Seja $G = (V,E)$ um grafo simples.
 
 [**Exemplo:**]{.label-exmp}
 
+```{=html}
 <div style="display: flex; justify-content: center; margin: 10px 0;">
   <div id="grafo-conn-dist-ex" style="width: 440px; height: 170px; position: relative;"></div>
 </div>
@@ -1403,10 +2067,12 @@ Seja $G = (V,E)$ um grafo simples.
       }
     ],
     layout: { name: "preset" },
-    userZoomingEnabled: false, userPanningEnabled: false
+    userZoomingEnabled: false,
+    userPanningEnabled: false
   });
 })();
 </script>
+```
 
 . . .
 
@@ -1428,18 +2094,15 @@ Seja $G = (V,E)$ um grafo simples.
 :::
 ::::
 
+# Componentes Conexos
 
 ## Grafos Conexos e Desconexos
 
 > [**Definição:**]{.label-def} Um grafo é **conexo** quando temos $a \leftrightsquigarrow b$ para todos os vértices $a$ e $b$.
 
-<br>
-
 . . .
 
 > [**Definição:**]{.label-def} Um grafo é **desconexo** quando existem dois vértices $a$ e $b$ tais que $a \not\leftrightsquigarrow b$.
-
-<br>
 
 . . .
 
@@ -1450,9 +2113,74 @@ Seja $G = (V,E)$ um grafo simples.
 
 . . .
 
-<br>
+> Em outras palavras, um **componente conexo** é um subgrafo conexo [maximal]{.red}.
 
-Em outras palavras, um **componente conexo** é um subgrafo conexo **maximal**.
+## Componentes Conexos: Exercício
+
+[**Exercício:**]{.label-excs} Para o grafo abaixo, determine todos os componentes conexos.
+
+```{=html}
+<div style="display: flex; justify-content: center; margin: 10px 0 15px;">
+  <div id="grafo-comp-conn-ex" style="width: 320px; height: 160px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const container = document.getElementById("grafo-comp-conn-ex");
+  if (!container || typeof cytoscape === "undefined") return;
+
+  cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A" }, position: { x: 50, y: 35 } },
+      { data: { id: "B" }, position: { x: 160, y: 35 } },
+      { data: { id: "C" }, position: { x: 270, y: 35 } },
+      { data: { id: "D" }, position: { x: 50, y: 125 } },
+      { data: { id: "E" }, position: { x: 160, y: 125 } },
+      { data: { id: "F" }, position: { x: 270, y: 125 } },
+      { data: { source: "A", target: "B" } },
+      { data: { source: "B", target: "E" } },
+      { data: { source: "D", target: "B" } },
+      { data: { source: "D", target: "E" } },
+      { data: { source: "E", target: "F" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)",
+          width: 32,
+          height: 32,
+          "background-color": "#23373b",
+          color: "#ffffff",
+          "font-size": 15,
+          "font-weight": "bold",
+          "text-valign": "center",
+          "text-halign": "center",
+          "border-width": 2,
+          "border-color": "#152224"
+        }
+      },
+      {
+        selector: "edge",
+        style: {
+          width: 2.2,
+          "line-color": "#555555",
+          "curve-style": "straight"
+        }
+      }
+    ],
+    layout: { name: "preset" },
+    userZoomingEnabled: false,
+    userPanningEnabled: false
+  });
+})();
+</script>
+```
+
+. . .
+
+> [**Resposta:**]{.label-ansr} Os subgrafos induzidos pelos conjuntos de vértices $\{C\}$ e $\{A, B, D, E, F\}$.
 
 
 # Pseudografos
@@ -1502,6 +2230,7 @@ $$
 :::
 ::::
 
+```{=html}
 <script>
 (() => {
   const container = document.getElementById("grafo-pseudog-ex");
@@ -1556,293 +2285,14 @@ $$
       }
     ],
     layout: { name: "preset" },
-    userZoomingEnabled: false, userPanningEnabled: false
+    userZoomingEnabled: false,
+    userPanningEnabled: false
   });
 })();
 </script>
+```
 
 > [**Nota:**]{.label-rmk} Ao contrário de grafos simples, pseudografos admitem arestas paralelas e laços. Multigrafos admitem arestas paralelas mas não admitem laços.
-
-
-## Pseudografos: Incidência e Grau de Nodos
-
-Em grafos gerais, laços são registrados na matriz de incidência com o número 2 ao invés de 1.
-
-[**Exemplo:**]{.label-exmp}
-
-:::: columns
-::: {.column width="38%"}
-<div id="grafo-pseudog-inc" style="width: 240px; height: 190px; position: relative;"></div>
-:::
-::: {.column width="62%"}
-$$
-\begin{array}{c|cccc}
-  & A & B & C & D \\ 
- \hline
-1 & 1 & 0 & 1 & 0 \\ 
-2 & 1 & 0 & 1 & 0 \\ 
-3 & 1 & 1 & 0 & 0 \\ 
-4 & 0 & 0 & 0 & 2
-\end{array} 
-$$
-:::
-::::
-
-<script>
-(() => {
-  const container = document.getElementById("grafo-pseudog-inc");
-  if (!container || typeof cytoscape === "undefined") return;
-  cytoscape({
-    container,
-    elements: [
-      { data: { id: "A", label: "A" }, position: { x: 50, y: 45 } },
-      { data: { id: "B", label: "B" }, position: { x: 180, y: 45 } },
-      { data: { id: "C", label: "C" }, position: { x: 50, y: 145 } },
-      { data: { id: "D", label: "D" }, position: { x: 180, y: 145 } },
-
-      { data: { id: "e1", label: "1", source: "A", target: "C" } },
-      { data: { id: "e2", label: "2", source: "A", target: "C" } },
-      { data: { id: "e3", label: "3", source: "A", target: "B" } },
-      { data: { id: "e4", label: "4", source: "D", target: "D" } }
-    ],
-    style: [
-      {
-        selector: "node",
-        style: {
-          label: "data(label)",
-          width: 30,
-          height: 30,
-          "background-color": "#23373b",
-          color: "#ffffff",
-          "font-size": 14,
-          "font-weight": "bold",
-          "text-valign": "center",
-          "text-halign": "center",
-          "border-width": 2,
-          "border-color": "#152224"
-        }
-      },
-      {
-        selector: "edge",
-        style: {
-          label: "data(label)",
-          color: "#c40000",
-          "font-size": 13,
-          "font-weight": "bold",
-          "text-background-color": "#ffffff",
-          "text-background-opacity": 0.85,
-          "text-background-padding": 2,
-          width: 2.5,
-          "line-color": "#555555",
-          "curve-style": "bezier",
-          "control-point-step-size": 35,
-          "loop-direction": "0deg",
-          "loop-sweep": "90deg"
-        }
-      }
-    ],
-    layout: { name: "preset" },
-    userZoomingEnabled: false, userPanningEnabled: false
-  });
-})();
-</script>
-
-> [**Nota:**]{.label-rmk} A matriz de incidência deixa de ser representação da relação de incidência, pois permite valores diferentes de 0 e 1.
-
-No cálculo do grau de um nodo em um pseudografo, laços pesam 2.
-
-[**Exemplo:**]{.label-exmp} $\deg(D) = 2$
-
-
-## Pseudografos: Adjacência
-
-Na matriz de adjacência de vértices, registramos na posição $(i,j)$ a quantidade de arestas entre o $i$-ésimo e o $j$-ésimo vértices. 
-
-[**Exemplo:**]{.label-exmp}
-
-:::: columns
-::: {.column width="38%"}
-<div id="grafo-pseudog-adj" style="width: 240px; height: 190px; position: relative;"></div>
-:::
-::: {.column width="62%"}
-$$
-\begin{array}{c|cccc}
-  & A & B & C & D \\ 
- \hline
-A & 0 & 1 & 2 & 0 \\ 
-B & 1 & 0 & 0 & 0 \\ 
-C & 2 & 0 & 0 & 0 \\ 
-D & 0 & 0 & 0 & 1
-\end{array} 
-$$
-:::
-::::
-
-<script>
-(() => {
-  const container = document.getElementById("grafo-pseudog-adj");
-  if (!container || typeof cytoscape === "undefined") return;
-  cytoscape({
-    container,
-    elements: [
-      { data: { id: "A", label: "A" }, position: { x: 50, y: 45 } },
-      { data: { id: "B", label: "B" }, position: { x: 180, y: 45 } },
-      { data: { id: "C", label: "C" }, position: { x: 50, y: 145 } },
-      { data: { id: "D", label: "D" }, position: { x: 180, y: 145 } },
-
-      { data: { id: "e1", label: "1", source: "A", target: "C" } },
-      { data: { id: "e2", label: "2", source: "A", target: "C" } },
-      { data: { id: "e3", label: "3", source: "A", target: "B" } },
-      { data: { id: "e4", label: "4", source: "D", target: "D" } }
-    ],
-    style: [
-      {
-        selector: "node",
-        style: {
-          label: "data(label)",
-          width: 30,
-          height: 30,
-          "background-color": "#23373b",
-          color: "#ffffff",
-          "font-size": 14,
-          "font-weight": "bold",
-          "text-valign": "center",
-          "text-halign": "center",
-          "border-width": 2,
-          "border-color": "#152224"
-        }
-      },
-      {
-        selector: "edge",
-        style: {
-          label: "data(label)",
-          color: "#c40000",
-          "font-size": 13,
-          "font-weight": "bold",
-          "text-background-color": "#ffffff",
-          "text-background-opacity": 0.85,
-          "text-background-padding": 2,
-          width: 2.5,
-          "line-color": "#555555",
-          "curve-style": "bezier",
-          "control-point-step-size": 35,
-          "loop-direction": "0deg",
-          "loop-sweep": "90deg"
-        }
-      }
-    ],
-    layout: { name: "preset" },
-    userZoomingEnabled: false, userPanningEnabled: false
-  });
-})();
-</script>
-
-> [**Nota:**]{.label-rmk} Sobre matriz e relação de adjacência em grafos gerais:
->
-> - A matriz deixa de ser uma simples representação da relação, pois a primeira possui mais informação (quantidade de arestas paralelas) que a segunda (que só indica existência ou não de aresta).
-> - Ambas (matriz e relação) são simétricas, porém não são irreflexivas (a diagonal principal pode ser não-nula).
-
-
-## Pseudografos: Passeios e Conectividade
-
-Conceitos como passeio, trilhas, etc. são os mesmos em grafos simples e pseudografos.
-
-> [**Nota:**]{.label-rmk} No caso de passeios em pseudografos, devemos obrigatoriamente nomear as arestas.
-
-[**Exemplo:**]{.label-exmp}
-
-:::: columns
-::: {.column width="38%"}
-<div style="display: flex; flex-direction: column; gap: 15px; align-items: center;">
-  <div style="display: flex; align-items: center; gap: 10px;">
-    <span style="font-weight: bold;">$G_1 =$</span>
-    <div id="grafo-pseudog-walk-g1" style="width: 170px; height: 60px; position: relative;"></div>
-  </div>
-  <div style="display: flex; align-items: center; gap: 10px;">
-    <span style="font-weight: bold;">$G_2 =$</span>
-    <div id="grafo-pseudog-walk-g2" style="width: 170px; height: 75px; position: relative;"></div>
-  </div>
-</div>
-:::
-::: {.column width="62%"}
-- Em $G_1$, não existe caminho fechado iniciando em $A$. O passeio $A,1,B,1,A$ **não é trilha**.
-- Em $G_2$, existe caminho fechado iniciando em $A$. O passeio $A,1,B,2,A$ **é trilha e caminho**.
-:::
-::::
-
-<script>
-(() => {
-  const walkStyle = [
-    {
-      selector: "node",
-      style: {
-        label: "data(label)",
-        width: 28,
-        height: 28,
-        "background-color": "#23373b",
-        color: "#ffffff",
-        "font-size": 13,
-        "font-weight": "bold",
-        "text-valign": "center",
-        "text-halign": "center",
-        "border-width": 2,
-        "border-color": "#152224"
-      }
-    },
-    {
-      selector: "edge",
-      style: {
-        label: "data(label)",
-        color: "#c40000",
-        "font-size": 13,
-        "font-weight": "bold",
-        "text-background-color": "#ffffff",
-        "text-background-opacity": 0.85,
-        "text-background-padding": 2,
-        width: 2.5,
-        "line-color": "#555555",
-        "curve-style": "bezier",
-        "control-point-step-size": 28
-      }
-    }
-  ];
-
-  const w1 = document.getElementById("grafo-pseudog-walk-g1");
-  if (w1 && typeof cytoscape !== "undefined") {
-    cytoscape({
-      container: w1,
-      elements: [
-        { data: { id: "A", label: "A" }, position: { x: 30, y: 30 } },
-        { data: { id: "B", label: "B" }, position: { x: 140, y: 30 } },
-        { data: { id: "e1", label: "1", source: "A", target: "B" } }
-      ],
-      style: walkStyle,
-      layout: { name: "preset" },
-      userZoomingEnabled: false, userPanningEnabled: false
-    });
-  }
-
-  const w2 = document.getElementById("grafo-pseudog-walk-g2");
-  if (w2 && typeof cytoscape !== "undefined") {
-    cytoscape({
-      container: w2,
-      elements: [
-        { data: { id: "A", label: "A" }, position: { x: 30, y: 37 } },
-        { data: { id: "B", label: "B" }, position: { x: 140, y: 37 } },
-        { data: { id: "e1", label: "1", source: "A", target: "B" } },
-        { data: { id: "e2", label: "2", source: "A", target: "B" } }
-      ],
-      style: walkStyle,
-      layout: { name: "preset" },
-      userZoomingEnabled: false, userPanningEnabled: false
-    });
-  }
-})();
-</script>
-
-<br>
-
-Conceitos relacionados à conectividade (cliques, conjuntos independentes, componentes maximais) se mantêm os mesmos.
 
 
 ## Pseudografos: Ciclos
@@ -1857,14 +2307,17 @@ Em pseudografos há mais possibilidades de haver ciclos do que em grafos simples
 
 [**Exemplo:**]{.label-exmp} (pseudografos cíclicos)
 
-<div style="display: flex; justify-content: space-around; align-items: center; margin-top: 15px;">
-  <div style="text-align: center;">
-    <div style="font-weight: bold; margin-bottom: 8px;">Ciclo de tamanho 2:</div>
-    <div id="grafo-ciclo-2" style="width: 200px; height: 90px; position: relative; margin: 0 auto;"></div>
+<br>
+
+```{=html}
+<div style="display: flex; justify-content: center; align-items: flex-end; gap: 50px; margin: 10px 0;">
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold; margin-bottom: 6px;">Ciclo de tamanho 2:</div>
+    <div id="grafo-ciclo-2" style="width: 250px; height: 130px; position: relative;"></div>
   </div>
-  <div style="text-align: center;">
-    <div style="font-weight: bold; margin-bottom: 8px;">Ciclo de tamanho 1:</div>
-    <div id="grafo-ciclo-1" style="width: 150px; height: 90px; position: relative; margin: 0 auto;"></div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold; margin-bottom: 6px;">Ciclo de tamanho 1:</div>
+    <div id="grafo-ciclo-1" style="width: 180px; height: 130px; position: relative;"></div>
   </div>
 </div>
 
@@ -1875,11 +2328,11 @@ Em pseudografos há mais possibilidades de haver ciclos do que em grafos simples
       selector: "node",
       style: {
         label: "data(label)",
-        width: 30,
-        height: 30,
+        width: 32,
+        height: 32,
         "background-color": "#23373b",
         color: "#ffffff",
-        "font-size": 14,
+        "font-size": 15,
         "font-weight": "bold",
         "text-valign": "center",
         "text-halign": "center",
@@ -1890,12 +2343,12 @@ Em pseudografos há mais possibilidades de haver ciclos do que em grafos simples
     {
       selector: "edge",
       style: {
-        width: 2.5,
+        width: 2.2,
         "line-color": "#555555",
         "curve-style": "bezier",
-        "control-point-step-size": 32,
-        "loop-direction": "180deg",
-        "loop-sweep": "90deg"
+        "control-point-step-size": 36,
+        "loop-direction": "-90deg",
+        "loop-sweep": "-60deg"
       }
     }
   ];
@@ -1905,14 +2358,15 @@ Em pseudografos há mais possibilidades de haver ciclos do que em grafos simples
     cytoscape({
       container: c2,
       elements: [
-        { data: { id: "A", label: "A" }, position: { x: 45, y: 45 } },
-        { data: { id: "B", label: "B" }, position: { x: 155, y: 45 } },
+        { data: { id: "A", label: "A" }, position: { x: 55, y: 65 } },
+        { data: { id: "B", label: "B" }, position: { x: 195, y: 65 } },
         { data: { source: "A", target: "B" } },
         { data: { source: "A", target: "B" } }
       ],
       style: cycleStyle,
       layout: { name: "preset" },
-      userZoomingEnabled: false, userPanningEnabled: false
+      userZoomingEnabled: false,
+      userPanningEnabled: false
     });
   }
 
@@ -1921,16 +2375,18 @@ Em pseudografos há mais possibilidades de haver ciclos do que em grafos simples
     cytoscape({
       container: c1,
       elements: [
-        { data: { id: "A", label: "A" }, position: { x: 75, y: 45 } },
+        { data: { id: "A", label: "A" }, position: { x: 90, y: 75 } },
         { data: { source: "A", target: "A" } }
       ],
       style: cycleStyle,
       layout: { name: "preset" },
-      userZoomingEnabled: false, userPanningEnabled: false
+      userZoomingEnabled: false,
+      userPanningEnabled: false
     });
   }
 })();
 </script>
+```
 
 #
 

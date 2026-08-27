@@ -131,6 +131,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td style="text-align:center;"><a href="aulas/aula6-grafos.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
+      <li><a href="https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/graph_example.ipynb"><i class="bi bi-file-earmark-code me-1"></i>Representações de Grafos em Python</a></li>
       <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>EP (1.1–1.3)</a></li>
     </ul>
   </td>
@@ -139,7 +140,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td class="wk">7</td>
   <td>qui. 27/ago.</td>
   <td>Sala 113</td>
-  <td class="t-blue">Teoria dos Grafos: Isomorfismo, Famílias de Grafos, Conectividade.</td>
+  <td class="t-blue">Teoria dos Grafos: Operações sobre Grafos, Isomorfismo, Famílias de Grafos, Conectividade, Pseudografos.</td>
   <td style="text-align:center;"><a href="aulas/aula7-grafos.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
@@ -160,7 +161,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td class="wk">9</td>
   <td>qui. 03/set.</td>
   <td>Sala 113</td>
-  <td class="t-blue">Operações sobre Grafos, Dígrafos, Árvores. Grafos Bipartidos. Cliques.</td>
+  <td class="t-blue">Ciclos. Cliques. Conjuntons Independentes. Árvores. Grafos Bipartidos e k-partidos. Dígrafos.</td>
   <td></td>
   <td></td>
 </tr>

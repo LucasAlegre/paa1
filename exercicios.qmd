@@ -142,6 +142,13 @@ Exercícios organizados por tópico. Use o menu lateral para navegar entre os t�
    ```
 
 5. Considere $v$ como sendo um vetor ordenado de tamanho $N$. Desenvolva um algoritmo que determine se $x$ está ou não em $v$ que, garantidamente, possua custo assintótico estritamente menor que $O(N)$; isto é, $o(N)$ (ó pequeno).
+   
+6. Para cada um dos itens abaixo, use a ferramenta GeoGebra para encontrar valores de $c$ e $n_0$: [https://www.geogebra.org/classic/vbuhdgxu](https://www.geogebra.org/classic/vbuhdgxu)
+
+   a) $(n+1)^5 = O(n^5)$
+   b) $2^{(n-1)} = \Omega(2^n)$
+   c) $7n^2 = \Omega(n \log n)$
+   d) $12n^2 + 6n + 4 = \Theta(n^2)$
 
 ---
 

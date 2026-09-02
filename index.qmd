@@ -163,7 +163,11 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>Sala 113</td>
   <td class="t-blue">Cliques. Conjuntos Independentes. Árvores. Grafos Bipartidos e k-partidos. Dígrafos.</td>
   <td style="text-align:center;"><a href="aulas/aula9-grafos.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
-  <td></td>
+  <td>
+    <ul class="list-unstyled mb-0">
+      <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>EP (2.2, 4.1, 4.2, 6.1, 6.2)</a></li>
+    </ul>
+  </td>
 </tr>
 <!-- Semana 6 -->
 <tr>

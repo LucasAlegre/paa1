@@ -1,0 +1,2015 @@
+---
+title: "Projeto e Análise de Algoritmos I"
+subtitle: "Aula 09 - Cliques. Conjuntos Independentes. Árvores. Grafos Bipartidos e k-Partidos. Dígrafos."
+author: "Lucas Nunes Alegre"
+institute: |
+  Universidade Federal do Rio Grande do Sul  <br>
+  Instituto de Informática <br> Departamento de Informática Teórica  
+  <br><br><br>
+  <span style="display:inline-block; max-width:50%; font-size:0.5em; color: #757575;">Estes slides utilizam conteúdo adaptado da bibliografia da disciplina e também de notas de aula e slides prévios dos professores Bruno Grisci, Rodrigo Machado, André Grahl Pereira, Lucas Nunes Alegre, Marcus Ritt e Luciana Buriol.</span>
+date: ""
+lang: pt-BR
+
+format:
+  live-revealjs:
+    theme: [default, metropolis.scss]
+    slide-number: true
+    progress: true
+    transition: fade
+    width: 1024
+    height: 768
+    margin: 0.1
+    html-math-method: katex
+    title-slide-attributes:
+      data-background-color: "#ffffff"
+    center: false
+    highlight-style: github
+    fig-align: center
+    embed-resources: false
+    preview-links: true
+    include-in-header:
+      - text: |
+          <script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+          <script>
+          window.setupCyResize = function(cy, container, padding) {
+            const pad = padding !== undefined ? padding : 18;
+            const fitGraph = () => {
+              if (!cy || !container) return;
+              cy.resize();
+              cy.fit(undefined, pad);
+            };
+            if (typeof Reveal !== 'undefined') {
+              Reveal.on('slidechanged', event => {
+                if (container.closest('section') === event.currentSlide) {
+                  setTimeout(fitGraph, 10);
+                }
+              });
+              Reveal.on('ready', event => {
+                if (container.closest('section') === event.currentSlide) {
+                  setTimeout(fitGraph, 10);
+                }
+              });
+            }
+            if (typeof ResizeObserver !== 'undefined') {
+              new ResizeObserver(fitGraph).observe(container);
+            }
+            setTimeout(fitGraph, 50);
+            setTimeout(fitGraph, 200);
+          };
+          </script>
+      - pseudocode-reveal.html
+    chalkboard:
+      theme: whiteboard
+      boardmarker-width: 5
+      buttons: false
+
+filters:
+  - leovan/pseudocode
+---
+
+# Cliques e Conjuntos Independentes
+
+## Cliques
+
+> [**Definição:**]{.label-def} Um **clique** de $G$ é um subgrafo induzido $H \subseteq G$ tal que $H \cong K_n$ (para algum $n \geq 1$).
+
+. . .
+
+> [**Definição:**]{.label-def} Um clique de $G$ é [maximal]{.red} sss não está contido propriamente em nenhum outro clique de $G$.
+
+. . .
+
+[**Exercício:**]{.label-excs} Para o grafo abaixo, determine os componentes conexos, os cliques e os cliques maximais:
+
+```{=html}
+<div style="display: flex; justify-content: center; margin: 10px 0;">
+  <div id="grafo-cliques-ex" style="width: 360px; height: 180px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const container = document.getElementById("grafo-cliques-ex");
+  if (!container || typeof cytoscape === "undefined") return;
+
+  const cy = cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A" }, position: { x: 45, y: 35 } },
+      { data: { id: "B" }, position: { x: 160, y: 35 } },
+      { data: { id: "C" }, position: { x: 275, y: 35 } },
+      { data: { id: "D" }, position: { x: 45, y: 125 } },
+      { data: { id: "E" }, position: { x: 160, y: 125 } },
+      { data: { id: "F" }, position: { x: 275, y: 125 } },
+      { data: { source: "A", target: "B" } },
+      { data: { source: "B", target: "E" } },
+      { data: { source: "D", target: "B" } },
+      { data: { source: "D", target: "E" } },
+      { data: { source: "E", target: "F" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)",
+          width: 42,
+          height: 42,
+          "background-color": "#23373b",
+          color: "#ffffff",
+          "font-size": 18,
+          "font-weight": "bold",
+          "text-valign": "center",
+          "text-halign": "center",
+          "border-width": 2.5,
+          "border-color": "#152224"
+        }
+      },
+      { selector: "edge", style: { width: 3.5, "line-color": "#555555", "curve-style": "straight" } }
+    ],
+    layout: { name: "preset", fit: true, padding: 18 },
+    userZoomingEnabled: false,
+    userPanningEnabled: false,
+    boxSelectionEnabled: false,
+    autoungrabify: false
+  });
+  window.setupCyResize && window.setupCyResize(cy, container, 18);
+})();
+</script>
+```
+
+## Cliques: Exemplo
+
+:::: columns
+::: {.column width="38%"}
+
+```{=html}
+<div style="display: flex; justify-content: center; margin-top: 15px;">
+  <div id="grafo-cliques-sol" style="width: 100%; max-width: 290px; height: 190px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const container = document.getElementById("grafo-cliques-sol");
+  if (!container || typeof cytoscape === "undefined") return;
+
+  const cy = cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A" }, position: { x: 40, y: 35 } },
+      { data: { id: "B" }, position: { x: 140, y: 35 } },
+      { data: { id: "C" }, position: { x: 240, y: 35 } },
+      { data: { id: "D" }, position: { x: 40, y: 130 } },
+      { data: { id: "E" }, position: { x: 140, y: 130 } },
+      { data: { id: "F" }, position: { x: 240, y: 130 } },
+      { data: { source: "A", target: "B" } },
+      { data: { source: "B", target: "E" } },
+      { data: { source: "D", target: "B" } },
+      { data: { source: "D", target: "E" } },
+      { data: { source: "E", target: "F" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)",
+          width: 40,
+          height: 40,
+          "background-color": "#23373b",
+          color: "#ffffff",
+          "font-size": 18,
+          "font-weight": "bold",
+          "text-valign": "center",
+          "text-halign": "center",
+          "border-width": 2.5,
+          "border-color": "#152224"
+        }
+      },
+      {
+        selector: "edge",
+        style: {
+          width: 3.5,
+          "line-color": "#555555",
+          "curve-style": "straight"
+        }
+      }
+    ],
+    layout: { name: "preset", fit: true, padding: 18 },
+    userZoomingEnabled: false,
+    userPanningEnabled: false,
+    boxSelectionEnabled: false,
+    autoungrabify: false
+  });
+  window.setupCyResize && window.setupCyResize(cy, container, 18);
+})();
+</script>
+```
+
+:::
+::: {.column width="62%" .incremental}
+
+- **Componentes conexos:**
+  - $\{C\}$ e $\{A, B, D, E, F\}$
+
+
+- **Cliques de $G$:**
+  - Tamanho 1 ($K_1$): $\{A\}, \{B\}, \{C\}, \{D\}, \{E\}, \{F\}$
+  - Tamanho 2 ($K_2$): $\{A,B\}, \{B,D\}, \{B,E\}, \{D,E\}, \{E,F\}$
+  - Tamanho 3 ($K_3$): $\{B,D,E\}$
+
+- **Cliques Maximais:**
+  - $\{C\}$
+  - $\{A,B\}$
+  - $\{E,F\}$
+  - $\{B,D,E\}$ *(clique máximo de $G$)*
+
+:::
+::::
+
+## Conjuntos Independentes
+
+> [**Definição:**]{.label-def} Um **conjunto independente** de $G = (V,E)$ é um subconjunto de $V$ onde nenhum par de vértices é adjacente.
+
+. . .
+
+> [**Definição:**]{.label-def} Um conjunto independente de $G$ é [maximal]{.red} se não pudermos adicionar nenhum vértice a ele sem introduzir uma aresta.
+
+. . .
+
+[**Exercício:**]{.label-excs} Para o grafo abaixo, determine os conjuntos independentes e os conjuntos independentes maximais:
+
+```{=html}
+<div style="display: flex; justify-content: center; margin: 10px 0;">
+  <div id="grafo-indep-ex" style="width: 360px; height: 180px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const container = document.getElementById("grafo-indep-ex");
+  if (!container || typeof cytoscape === "undefined") return;
+
+  const cy = cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A" }, position: { x: 45, y: 35 } },
+      { data: { id: "B" }, position: { x: 160, y: 35 } },
+      { data: { id: "C" }, position: { x: 275, y: 35 } },
+      { data: { id: "D" }, position: { x: 45, y: 125 } },
+      { data: { id: "E" }, position: { x: 160, y: 125 } },
+      { data: { id: "F" }, position: { x: 275, y: 125 } },
+      { data: { source: "A", target: "B" } },
+      { data: { source: "B", target: "E" } },
+      { data: { source: "D", target: "B" } },
+      { data: { source: "D", target: "E" } },
+      { data: { source: "E", target: "F" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)",
+          width: 42,
+          height: 42,
+          "background-color": "#23373b",
+          color: "#ffffff",
+          "font-size": 18,
+          "font-weight": "bold",
+          "text-valign": "center",
+          "text-halign": "center",
+          "border-width": 2.5,
+          "border-color": "#152224"
+        }
+      },
+      { selector: "edge", style: { width: 3.5, "line-color": "#555555", "curve-style": "straight" } }
+    ],
+    layout: { name: "preset", fit: true, padding: 18 },
+    userZoomingEnabled: false,
+    userPanningEnabled: false,
+    boxSelectionEnabled: false,
+    autoungrabify: false
+  });
+  window.setupCyResize && window.setupCyResize(cy, container, 18);
+})();
+</script>
+```
+## Conjuntos Independentes: Exemplo
+
+:::: columns
+::: {.column width="35%"}
+
+```{=html}
+<div style="display: flex; justify-content: center; margin-top: 15px;">
+  <div id="grafo-indep-sol" style="width: 100%; max-width: 290px; height: 190px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const container = document.getElementById("grafo-indep-sol");
+  if (!container || typeof cytoscape === "undefined") return;
+
+  const cy = cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A" }, position: { x: 40, y: 35 } },
+      { data: { id: "B" }, position: { x: 140, y: 35 } },
+      { data: { id: "C" }, position: { x: 240, y: 35 } },
+      { data: { id: "D" }, position: { x: 40, y: 130 } },
+      { data: { id: "E" }, position: { x: 140, y: 130 } },
+      { data: { id: "F" }, position: { x: 240, y: 130 } },
+      { data: { source: "A", target: "B" } },
+      { data: { source: "B", target: "E" } },
+      { data: { source: "D", target: "B" } },
+      { data: { source: "D", target: "E" } },
+      { data: { source: "E", target: "F" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)",
+          width: 40,
+          height: 40,
+          "background-color": "#23373b",
+          color: "#ffffff",
+          "font-size": 18,
+          "font-weight": "bold",
+          "text-valign": "center",
+          "text-halign": "center",
+          "border-width": 2.5,
+          "border-color": "#152224"
+        }
+      },
+      {
+        selector: "edge",
+        style: {
+          width: 3.5,
+          "line-color": "#555555",
+          "curve-style": "straight"
+        }
+      }
+    ],
+    layout: { name: "preset", fit: true, padding: 18 },
+    userZoomingEnabled: false,
+    userPanningEnabled: false,
+    boxSelectionEnabled: false,
+    autoungrabify: false
+  });
+  window.setupCyResize && window.setupCyResize(cy, container, 18);
+})();
+</script>
+```
+
+:::
+::: {.column width="65%" .incremental}
+
+- **Conjuntos Independentes (exemplos):**
+  - Tamanho 1: $\{A\}, \{B\}, \{C\}, \{D\}, \{E\}, \{F\}$
+  - Tamanho 2: $\{A,C\}, \{A,D\}, \{A,E\}, \{A,F\}, \{B,C\}, \{B,F\}, \dots$
+  - Tamanho 3: $\{A,C,D\}, \{A,C,E\}, \{A,C,F\}, \{B,C,F\}, \{A,D,F\}, \dots$
+  - Tamanho 4: $\{A, C, D, F\}$
+
+
+- **Conjuntos Independentes Maximais:**
+  - $\{A, C, E\}$
+  - $\{B, C, F\}$
+  - $\{A, C, D, F\}$ *(conjunto independente máximo, $\alpha(G) = 4$)*
+:::
+::::
+> [**Nota:**]{.label-rmk} Como $C$ é isolado, todo conjunto independente maximal de $G$ obrigatoriamente contém $C$.
+
+# Árvores e Florestas
+
+## Grafos Cíclicos e Acíclicos
+
+> [**Definição:**]{.label-def} Um grafo $G$ é **cíclico** sss existe um subgrafo $G' \subseteq G$ tal que $G' \cong C_k$ (para algum $k \geq 3$).
+
+. . .
+
+> [**Definição:**]{.label-def} Um grafo é **acíclico** se não for cíclico.
+
+. . .
+
+[**Exemplo:**]{.label-exmp}
+
+:::: columns
+::: {.column width="50%"}
+**Grafo Cíclico ($G_1$):**
+
+```{=html}
+<div id="grafo-cyc-g1" style="width: 100%; max-width: 290px; height: 180px; position: relative; margin-top: 5px;"></div>
+```
+
+:::
+::: {.column width="50%"}
+**Grafo Acíclico ($G_2$):**
+
+```{=html}
+<div id="grafo-cyc-g2" style="width: 100%; max-width: 290px; height: 180px; position: relative; margin-top: 5px;"></div>
+```
+
+:::
+::::
+
+```{=html}
+<script>
+(() => {
+  const gStyle = [
+    {
+      selector: "node",
+      style: {
+        label: "data(id)",
+        width: 40,
+        height: 40,
+        "background-color": "#23373b",
+        color: "#ffffff",
+        "font-size": 18,
+        "font-weight": "bold",
+        "text-valign": "center",
+        "text-halign": "center",
+        "border-width": 2.5,
+        "border-color": "#152224"
+      }
+    },
+    { selector: "edge", style: { width: 3.5, "line-color": "#555555", "curve-style": "straight" } }
+  ];
+
+  const g1 = document.getElementById("grafo-cyc-g1");
+  if (g1 && typeof cytoscape !== "undefined") {
+    const cy1 = cytoscape({
+      container: g1,
+      elements: [
+        { data: { id: "A" }, position: { x: 40, y: 35 } },
+        { data: { id: "B" }, position: { x: 135, y: 35 } },
+        { data: { id: "C" }, position: { x: 230, y: 35 } },
+        { data: { id: "D" }, position: { x: 40, y: 125 } },
+        { data: { id: "E" }, position: { x: 135, y: 125 } },
+        { data: { id: "F" }, position: { x: 230, y: 125 } },
+        { data: { source: "A", target: "B" } },
+        { data: { source: "B", target: "E" } },
+        { data: { source: "D", target: "B" } },
+        { data: { source: "D", target: "E" } },
+        { data: { source: "E", target: "F" } }
+      ],
+      style: gStyle,
+      layout: { name: "preset", fit: true, padding: 18 },
+      userZoomingEnabled: false,
+      userPanningEnabled: false,
+      boxSelectionEnabled: false,
+      autoungrabify: false
+    });
+    window.setupCyResize && window.setupCyResize(cy1, g1, 18);
+  }
+
+  const g2 = document.getElementById("grafo-cyc-g2");
+  if (g2 && typeof cytoscape !== "undefined") {
+    const cy2 = cytoscape({
+      container: g2,
+      elements: [
+        { data: { id: "A" }, position: { x: 40, y: 35 } },
+        { data: { id: "B" }, position: { x: 135, y: 35 } },
+        { data: { id: "C" }, position: { x: 230, y: 35 } },
+        { data: { id: "D" }, position: { x: 40, y: 125 } },
+        { data: { id: "E" }, position: { x: 135, y: 125 } },
+        { data: { id: "F" }, position: { x: 230, y: 125 } },
+        { data: { source: "A", target: "B" } },
+        { data: { source: "B", target: "E" } },
+        { data: { source: "D", target: "E" } },
+        { data: { source: "E", target: "F" } }
+      ],
+      style: gStyle,
+      layout: { name: "preset", fit: true, padding: 18 },
+      userZoomingEnabled: false,
+      userPanningEnabled: false,
+      boxSelectionEnabled: false,
+      autoungrabify: false
+    });
+    window.setupCyResize && window.setupCyResize(cy2, g2, 18);
+  }
+})();
+</script>
+```
+
+
+## Árvores e Florestas
+
+> [**Definição:**]{.label-def} Um grafo simples é chamado **floresta** se é [acíclico]{.red}.
+
+[**Exemplo:**]{.label-exmp}
+
+```{=html}
+<div style="display: flex; justify-content: center; margin: 10px 0;">
+  <div id="grafo-floresta-ex" style="width: 480px; height: 160px; position: relative;"></div>
+</div>
+```
+
+. . .
+
+> [**Definição:**]{.label-def} Um grafo simples é chamado **árvore** se é [conexo]{.red} e [acíclico]{.red}.
+
+[**Exemplo:**]{.label-exmp}
+
+```{=html}
+<div style="display: flex; justify-content: center; margin: 10px 0;">
+  <div id="grafo-arvore-ex" style="width: 360px; height: 160px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const gStyle = [
+    {
+      selector: "node",
+      style: {
+        width: 32,
+        height: 32,
+        "background-color": "#2e7d32",
+        "border-width": 2.5,
+        "border-color": "#1b5e20"
+      }
+    },
+    { selector: "edge", style: { width: 3.5, "line-color": "#555555", "curve-style": "straight" } }
+  ];
+
+  const flor = document.getElementById("grafo-floresta-ex");
+  if (flor && typeof cytoscape !== "undefined") {
+    const cyFlor = cytoscape({
+      container: flor,
+      elements: [
+        { data: { id: "1" }, position: { x: 35, y: 35 } },
+        { data: { id: "2" }, position: { x: 115, y: 35 } },
+        { data: { id: "3" }, position: { x: 35, y: 100 } },
+        { data: { id: "4" }, position: { x: 115, y: 100 } },
+        { data: { id: "5" }, position: { x: 200, y: 35 } },
+        { data: { id: "6" }, position: { x: 285, y: 35 } },
+        { data: { id: "7" }, position: { x: 370, y: 35 } },
+        { data: { id: "8" }, position: { x: 200, y: 100 } },
+        { data: { id: "9" }, position: { x: 285, y: 100 } },
+        { data: { id: "10" }, position: { x: 370, y: 100 } },
+        { data: { source: "1", target: "2" } },
+        { data: { source: "1", target: "3" } },
+        { data: { source: "5", target: "8" } },
+        { data: { source: "6", target: "7" } },
+        { data: { source: "8", target: "9" } },
+        { data: { source: "9", target: "10" } }
+      ],
+      style: gStyle,
+      layout: { name: "preset", fit: true, padding: 18 },
+      userZoomingEnabled: false,
+      userPanningEnabled: false,
+      boxSelectionEnabled: false,
+      autoungrabify: false
+    });
+    window.setupCyResize && window.setupCyResize(cyFlor, flor, 18);
+  }
+
+  const arv = document.getElementById("grafo-arvore-ex");
+  if (arv && typeof cytoscape !== "undefined") {
+    const cyArv = cytoscape({
+      container: arv,
+      elements: [
+        { data: { id: "1" }, position: { x: 40, y: 35 } },
+        { data: { id: "2" }, position: { x: 145, y: 35 } },
+        { data: { id: "3" }, position: { x: 250, y: 35 } },
+        { data: { id: "4" }, position: { x: 40, y: 100 } },
+        { data: { id: "5" }, position: { x: 145, y: 100 } },
+        { data: { id: "6" }, position: { x: 250, y: 100 } },
+        { data: { source: "1", target: "2" } },
+        { data: { source: "1", target: "4" } },
+        { data: { source: "2", target: "5" } },
+        { data: { source: "3", target: "6" } },
+        { data: { source: "5", target: "6" } }
+      ],
+      style: gStyle,
+      layout: { name: "preset", fit: true, padding: 18 },
+      userZoomingEnabled: false,
+      userPanningEnabled: false,
+      boxSelectionEnabled: false,
+      autoungrabify: false
+    });
+    window.setupCyResize && window.setupCyResize(cyArv, arv, 18);
+  }
+})();
+</script>
+```
+
+
+## Árvores Enraizadas
+
+> [**Definição:**]{.label-def} Uma **árvore enraizada** é uma tupla $(G,v)$ onde $G = (V,E)$ é uma *árvore* e $v \in V$ é um nó especial chamado **raiz**.
+
+[**Exemplo:**]{.label-exmp}
+
+```{=html}
+<div style="display: flex; justify-content: center; gap: 40px; margin: 10px 0;">
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold; margin-bottom: 4px;">Raiz no vértice superior central:</div>
+    <div id="grafo-arv-enr-1" style="width: 300px; height: 150px; position: relative;"></div>
+  </div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold; margin-bottom: 4px;">Raiz no vértice inferior direito:</div>
+    <div id="grafo-arv-enr-2" style="width: 300px; height: 150px; position: relative;"></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  function makeStyle(rootId) {
+    return [
+      {
+        selector: "node",
+        style: {
+          width: 32,
+          height: 32,
+          "background-color": "#2e7d32",
+          "border-width": 2.5,
+          "border-color": "#1b5e20"
+        }
+      },
+      {
+        selector: `node[id = "${rootId}"]`,
+        style: {
+          width: 38,
+          height: 38,
+          "background-color": "#d4006e",
+          "border-color": "#880044",
+          "border-width": 3.5
+        }
+      },
+      { selector: "edge", style: { width: 3.5, "line-color": "#555555", "curve-style": "straight" } }
+    ];
+  }
+
+  const el = [
+    { data: { id: "1" }, position: { x: 35, y: 35 } },
+    { data: { id: "2" }, position: { x: 135, y: 35 } },
+    { data: { id: "3" }, position: { x: 235, y: 35 } },
+    { data: { id: "4" }, position: { x: 35, y: 100 } },
+    { data: { id: "5" }, position: { x: 135, y: 100 } },
+    { data: { id: "6" }, position: { x: 235, y: 100 } },
+    { data: { source: "1", target: "2" } },
+    { data: { source: "1", target: "4" } },
+    { data: { source: "2", target: "5" } },
+    { data: { source: "3", target: "6" } },
+    { data: { source: "5", target: "6" } }
+  ];
+
+  const c1 = document.getElementById("grafo-arv-enr-1");
+  if (c1 && typeof cytoscape !== "undefined") {
+    const cy1 = cytoscape({
+      container: c1,
+      elements: el,
+      style: makeStyle("2"),
+      layout: { name: "preset", fit: true, padding: 18 },
+      userZoomingEnabled: false,
+      userPanningEnabled: false,
+      boxSelectionEnabled: false,
+      autoungrabify: false
+    });
+    window.setupCyResize && window.setupCyResize(cy1, c1, 18);
+  }
+
+  const c2 = document.getElementById("grafo-arv-enr-2");
+  if (c2 && typeof cytoscape !== "undefined") {
+    const cy2 = cytoscape({
+      container: c2,
+      elements: el,
+      style: makeStyle("6"),
+      layout: { name: "preset", fit: true, padding: 18 },
+      userZoomingEnabled: false,
+      userPanningEnabled: false,
+      boxSelectionEnabled: false,
+      autoungrabify: false
+    });
+    window.setupCyResize && window.setupCyResize(cy2, c2, 18);
+  }
+})();
+</script>
+```
+
+. . .
+
+> [**Nota:**]{.label-rmk} Distintas escolhas de raiz caracterizam diferentes *árvores enraizadas*.
+
+
+## Caracterização de Árvores
+
+> [Def.]{.label-def} As quatro definições abaixo são equivalentes e determinam que um grafo $G=(V,E)$ com $n$ vértices é uma **árvore**:
+>
+> 1. $G$ é conexo e acíclico
+> 2. $G$ é conexo e possui $n-1$ arestas
+> 3. $G$ possui $n-1$ arestas e não há ciclos
+> 4. Para dois vértices $a,b \in V$, há um **único caminho** $c(a,b)$ os conectando
+
+. . .
+
+- Definições distintas porém equivalentes para exatamente o mesmo conceito são denominadas **caracterizações**.
+
+. . .
+
+> [**Demonstração:**]{.label-prf}
+>
+> :::: columns
+> ::: {.column width="50%"}
+> - $(1) \Rightarrow (2) \land (3)$
+> - $(2) \Rightarrow (1) \land (3)$
+> - $(3) \Rightarrow (1) \land (2)$
+> :::
+> ::: {.column width="50%"}
+> - $(1) \Rightarrow (4)$
+> - $(4) \Rightarrow (1)$
+> :::
+> ::::
+
+
+
+# Grafos Bipartidos e k-Partidos
+
+## Grafos Bipartidos
+
+> [Def.]{.label-def} Um grafo simples $G = (V,E)$ é **bipartido** sss $V = V_1 \cup V_2$ onde:
+>
+> - $V_1 \cap V_2 = \varnothing$ (conjuntos disjuntos)
+> - $V_1$ e $V_2$ são ambos **conjuntos independentes** de vértices de $G$ (não há arestas internas a $V_1$ ou a $V_2$)
+
+. . .
+
+**Intuição:** toda aresta conecta um vértice de $V_1$ a um vértice de $V_2$.
+
+[**Exemplo:**]{.label-exmp}
+
+:::: columns
+::: {.column width="45%"}
+
+```{=html}
+<div style="display: flex; justify-content: center; margin-top: 5px;">
+  <div id="grafo-bipart-ex" style="width: 100%; max-width: 290px; height: 180px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const container = document.getElementById("grafo-bipart-ex");
+  if (!container || typeof cytoscape === "undefined") return;
+
+  const cy = cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A" }, position: { x: 35, y: 35 } },
+      { data: { id: "B" }, position: { x: 125, y: 35 } },
+      { data: { id: "C" }, position: { x: 215, y: 35 } },
+      { data: { id: "D" }, position: { x: 35, y: 125 } },
+      { data: { id: "E" }, position: { x: 125, y: 125 } },
+      { data: { id: "F" }, position: { x: 215, y: 125 } },
+      { data: { source: "A", target: "D" } },
+      { data: { source: "B", target: "E" } },
+      { data: { source: "D", target: "B" } },
+      { data: { source: "D", target: "C" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)",
+          width: 40,
+          height: 40,
+          "background-color": "#1565c0",
+          color: "#ffffff",
+          "font-size": 18,
+          "font-weight": "bold",
+          "text-valign": "center",
+          "text-halign": "center",
+          "border-width": 2.5,
+          "border-color": "#0d47a1"
+        }
+      },
+      {
+        selector: "node[id = 'D'], node[id = 'E'], node[id = 'F']",
+        style: {
+          "background-color": "#c40000",
+          "border-color": "#800000"
+        }
+      },
+      { selector: "edge", style: { width: 3.5, "line-color": "#555555", "curve-style": "straight" } }
+    ],
+    layout: { name: "preset", fit: true, padding: 18 },
+    userZoomingEnabled: false,
+    userPanningEnabled: false,
+    boxSelectionEnabled: false,
+    autoungrabify: false
+  });
+  window.setupCyResize && window.setupCyResize(cy, container, 18);
+})();
+</script>
+```
+
+:::
+::: {.column width="55%"}
+
+$$
+\begin{aligned}
+V &= \{A,B,C,D,E,F\} \\
+V_1 &= \{A,B,C\} \quad \text{(azul)} \\
+V_2 &= \{D,E,F\} \quad \text{(vermelho)}
+\end{aligned}
+$$
+
+:::
+::::
+
+
+## Grafos Bipartidos Completos
+
+> [**Definição:**]{.label-def} Um grafo bipartido é **bipartido completo** quando possui todas as arestas possíveis entre $V_1$ e $V_2$.
+
+. . .
+
+> [**Notação:**]{.label-notn} $K_{m,n}$ (onde $m = |V_1|$ e $n = |V_2|$ são as cardinalidades das partes).
+
+. . .
+
+[**Exemplo:**]{.label-exmp} $K_{2,3}$
+
+```{=html}
+<div style="display: flex; justify-content: center; margin-5px 0;">
+  <div id="grafo-bipart-comp-k23" style="width: 320px; height: 180px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const container = document.getElementById("grafo-bipart-comp-k23");
+  if (!container || typeof cytoscape === "undefined") return;
+
+  const cy = cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "u1" }, position: { x: 80, y: 35 } },
+      { data: { id: "u2" }, position: { x: 200, y: 35 } },
+      { data: { id: "v1" }, position: { x: 40, y: 125 } },
+      { data: { id: "v2" }, position: { x: 140, y: 125 } },
+      { data: { id: "v3" }, position: { x: 240, y: 125 } },
+      { data: { source: "u1", target: "v1" } },
+      { data: { source: "u1", target: "v2" } },
+      { data: { source: "u1", target: "v3" } },
+      { data: { source: "u2", target: "v1" } },
+      { data: { source: "u2", target: "v2" } },
+      { data: { source: "u2", target: "v3" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          width: 36,
+          height: 36,
+          "background-color": "#1565c0",
+          "border-width": 2.5,
+          "border-color": "#0d47a1"
+        }
+      },
+      {
+        selector: "node[id ^= 'v']",
+        style: {
+          "background-color": "#c40000",
+          "border-color": "#800000"
+        }
+      },
+      { selector: "edge", style: { width: 3.5, "line-color": "#555555", "curve-style": "straight" } }
+    ],
+    layout: { name: "preset", fit: true, padding: 18 },
+    userZoomingEnabled: false,
+    userPanningEnabled: false,
+    boxSelectionEnabled: false,
+    autoungrabify: false
+  });
+  window.setupCyResize && window.setupCyResize(cy, container, 18);
+})();
+</script>
+```
+
+
+## Grafos k-Partidos
+
+> [Def.]{.label-def} Um grafo simples $G = (V,E)$ é **$k$-partido** sss $V = V_1 \cup V_2 \cup \dots \cup V_k$ onde:
+>
+> - $V_1, \dots, V_k$ são todos mutuamente disjuntos par a par ($V_i \cap V_j = \varnothing$ para $i \neq j$)
+> - $V_1, \dots, V_k$ são todos **conjuntos independentes** de vértices de $G$
+
+. . .
+
+**Intuição:** extensão da noção de grafo bipartido para $k$ classes de vértices.
+
+[**Exemplo:**]{.label-exmp} (Grafo Tripartido)
+
+:::: columns
+::: {.column width="45%"}
+
+```{=html}
+<div style="display: flex; justify-content: center; margin-top: 5px;">
+  <div id="grafo-tripart-ex" style="width: 100%; max-width: 290px; height: 180px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const container = document.getElementById("grafo-tripart-ex");
+  if (!container || typeof cytoscape === "undefined") return;
+
+  const cy = cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A" }, position: { x: 35, y: 35 } },
+      { data: { id: "B" }, position: { x: 125, y: 50 } },
+      { data: { id: "C" }, position: { x: 215, y: 35 } },
+      { data: { id: "D" }, position: { x: 35, y: 125 } },
+      { data: { id: "E" }, position: { x: 125, y: 125 } },
+      { data: { id: "F" }, position: { x: 215, y: 125 } },
+      { data: { source: "A", target: "D" } },
+      { data: { source: "A", target: "C" } },
+      { data: { source: "B", target: "E" } },
+      { data: { source: "D", target: "B" } },
+      { data: { source: "D", target: "C" } },
+      { data: { source: "E", target: "F" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)",
+          width: 40,
+          height: 40,
+          "background-color": "#1565c0",
+          color: "#ffffff",
+          "font-size": 18,
+          "font-weight": "bold",
+          "text-valign": "center",
+          "text-halign": "center",
+          "border-width": 2.5,
+          "border-color": "#0d47a1"
+        }
+      },
+      {
+        selector: "node[id = 'D'], node[id = 'E']",
+        style: { "background-color": "#c40000", "border-color": "#800000" }
+      },
+      {
+        selector: "node[id = 'C'], node[id = 'F']",
+        style: { "background-color": "#2e7d32", "border-color": "#1b5e20" }
+      },
+      {
+        selector: "edge",
+        style: {
+          width: 3.5,
+          "line-color": "#555555",
+          "curve-style": "straight"
+        }
+      },
+      {
+        selector: "edge[source = 'A'][target = 'C']",
+        style: {
+          "curve-style": "bezier",
+          "control-point-step-size": 38
+        }
+      }
+    ],
+    layout: { name: "preset", fit: true, padding: 18 },
+    userZoomingEnabled: false,
+    userPanningEnabled: false,
+    boxSelectionEnabled: false,
+    autoungrabify: false
+  });
+  window.setupCyResize && window.setupCyResize(cy, container, 18);
+})();
+</script>
+```
+
+:::
+::: {.column width="55%"}
+
+$$
+\begin{aligned}
+V &= \{A,B,C,D,E,F\} \\
+V_1 &= \{A,B\} \quad \text{(azul)} \\
+V_2 &= \{D,E\} \quad \text{(vermelho)} \\
+V_3 &= \{C,F\} \quad \text{(verde)}
+\end{aligned}
+$$
+
+:::
+::::
+
+
+## Grafos Bipartidos: Exercício
+
+[**Exercício:**]{.label-excs} Verifique se os grafos com as seguintes topologias são bipartidos ou não:
+
+:::: columns
+::: {.column width="50%"}
+
+- Grafo Nulo ($N_n$)
+- Grafo Completo ($K_n$)
+- Grafo Caminho ($P_n$)
+- Grafo Ciclo ($C_n$)
+
+:::
+::: {.column width="50%"}
+
+- Grafo Grade ($G_{m,n}$)
+- Grafo Estrela ($S_n$)
+- Grafo Roda ($W_n$)
+- Hipercubo ($Q_k$)
+
+:::
+::::
+
+
+## Caracterização de Grafos Bipartidos
+
+> [**Lema:**]{.label-lem} Todo **passeio fechado** $p$ de **tamanho ímpar** contém um **ciclo** $c$ de **tamanho ímpar**.
+
+. . .
+
+[**Demonstração:**]{.label-prf} Por indução no tamanho de $p$, $n=|p|$:
+
+ - **Caso base:** Tamanho 3 em grafos simples. O próprio passeio $p$ é um ciclo ímpar $c$.
+
+ - **Passo indutivo:** Pela hipótese indutiva, a propriedade vale para todo passeio fechado $p'$ com $|p'| < |p|$. Duas possibilidades para $p$:
+ - Se $p$ não contém repetição de vértices (além do início e fim), então $p$ é diretamente o ciclo ímpar $c$. 
+ - Se $p$ contém repetição de um vértice $v$, então $v$ divide $p$ em dois subpasseios fechados $q$ e $q'$. Como $|p| = |q| + |q'|$ é ímpar, um dos subpasseios (digamos $q$) tem tamanho ímpar com $|q| < |p|$. Pela hipótese indutiva, $q$ contém um ciclo ímpar. $\blacksquare$
+
+
+## Demonstração do Lema: Visualização
+
+```{=html}
+<div style="display: flex; justify-content: center; margin: 0 auto 10px auto;">
+  <div id="grafo-prova-lema" style="width: 320px; height: 180px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const container = document.getElementById("grafo-prova-lema");
+  if (!container || typeof cytoscape === "undefined") return;
+
+  cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "u", label: "u" }, position: { x: 45, y: 90 } },
+      { data: { id: "x1", label: "x₁" }, position: { x: 120, y: 30 } },
+      { data: { id: "x2", label: "x₂" }, position: { x: 120, y: 150 } },
+      { data: { id: "v", label: "v" }, position: { x: 195, y: 90 } },
+      { data: { id: "w1", label: "w₁" }, position: { x: 275, y: 35 } },
+      { data: { id: "w2", label: "w₂" }, position: { x: 275, y: 145 } },
+      // q' (azul: u -> x1 -> v -> x2 -> u, tamanho 4)
+      { data: { id: "e1", label: "1", source: "u", target: "x1" }, classes: "blue-step" },
+      { data: { id: "e2", label: "2", source: "x1", target: "v" }, classes: "blue-step" },
+      // q (vermelho: v -> w1 -> w2 -> v, tamanho 3)
+      { data: { id: "e3", label: "3", source: "v", target: "w1" }, classes: "red-step" },
+      { data: { id: "e4", label: "4", source: "w1", target: "w2" }, classes: "red-step" },
+      { data: { id: "e5", label: "5", source: "w2", target: "v" }, classes: "red-step" },
+      // q' continua (azul)
+      { data: { id: "e6", label: "6", source: "v", target: "x2" }, classes: "blue-step" },
+      { data: { id: "e7", label: "7", source: "x2", target: "u" }, classes: "blue-step" }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(label)",
+          width: 38,
+          height: 38,
+          "background-color": "#23373b",
+          color: "#ffffff",
+          "font-size": 17,
+          "font-weight": "bold",
+          "text-valign": "center",
+          "text-halign": "center",
+          "border-width": 2.5,
+          "border-color": "#152224"
+        }
+      },
+      {
+        selector: "node[id = 'u']",
+        style: {
+          "background-color": "#2e7d32",
+          "border-color": "#1b5e20"
+        }
+      },
+      {
+        selector: "node[id = 'v']",
+        style: {
+          "background-color": "#d4006e",
+          "border-color": "#880044",
+          width: 44,
+          height: 44,
+          "font-size": 19
+        }
+      },
+      {
+        selector: "edge",
+        style: {
+          label: "data(label)",
+          "font-size": 18,
+          "font-weight": "bold",
+          "text-background-color": "#ffffff",
+          "text-background-opacity": 0.95,
+          "text-background-padding": 3,
+          width: 3.5,
+          "curve-style": "straight",
+          "target-arrow-shape": "triangle",
+          "arrow-scale": 1.25
+        }
+      },
+      {
+        selector: "edge.blue-step",
+        style: {
+          "line-color": "#1565c0",
+          "target-arrow-color": "#1565c0",
+          color: "#1565c0"
+        }
+      },
+      {
+        selector: "edge.red-step",
+        style: {
+          "line-color": "#c40000",
+          "target-arrow-color": "#c40000",
+          color: "#c40000"
+        }
+      }
+    ],
+    layout: { name: "preset" },
+    userZoomingEnabled: false,
+    userPanningEnabled: false,
+    boxSelectionEnabled: false,
+    autoungrabify: false
+  });
+})();
+</script>
+```
+
+- **Passeio original $p$ ($u \to u$):** $|p| = 7$ (ímpar)
+
+- **Divisão no vértice repetido [$v$]{style="color:#d4006e; font-weight:bold;"}:**
+  - [Subpasseio $q'$ (azul):]{style="color:#1565c0; font-weight:bold;"} $(u, x_1, v, x_2, u)$, $|q'| = 4$ (par)
+  - [Subpasseio $q$ (vermelho):]{style="color:#c40000; font-weight:bold;"} $(v, w_1, w_2, v)$, $|q| = 3$ (ímpar)
+
+- **Propriedade da paridade:** $|p| = |q'| + |q| = \text{ímpar} \implies \text{um deles é ímpar}$
+
+- **Redução indutiva:** Como $|q| = 3 < |p|$ é ímpar, pela H.I. ele contém um **ciclo ímpar** (no exemplo, o próprio triângulo $v, w_1, w_2, v$).
+
+
+## Caracterização de Grafos Bipartidos
+
+> [**Teorema:**]{.label-thm} *(König, 1936)* Um grafo é **bipartido** sss **não contém nenhum ciclo de tamanho ímpar**.
+
+. . .
+
+[**Demonstração:**]{.label-prf} $(\Rightarrow)$ (Suponha que $G$ é bipartido.)
+
+:::{.incremental}
+ - Se $G$ é bipartido, $V = V_1 \cup V_2$ onde $V_1$ e $V_2$ são independentes. 
+ - Todo passeio necessariamente alterna entre vértices de $V_1$ e $V_2$. 
+ - Logo, para retornar ao vértice inicial, todo passeio fechado precisa ter número par de arestas. 
+ - Portanto, $G$ não contém ciclos de tamanho ímpar.
+:::
+
+## Caracterização de Grafos Bipartidos
+
+> [**Teorema:**]{.label-thm} *(König, 1936)* Um grafo é **bipartido** sss **não contém nenhum ciclo de tamanho ímpar**.
+
+. . .
+
+[**Demonstração:**]{.label-prf}  $(\Leftarrow)$ (Suponha que $G$ não contenha ciclos de tamanho ímpar.)
+
+:::{.incremental}
+- Seja $H$ um componente conexo de $G$ e fixe $u \in V(H)$. Classificamos os vértices de $H$ em:
+ $$ X = \{ v \in V(H) \mid d(u,v) \text{ é par} \}, \qquad Y = \{ v \in V(H) \mid d(u,v) \text{ é ímpar} \} $$
+
+- Se houvesse aresta $\{a,b\}$ interna a $X$ (ou a $Y$), os menores caminhos de $u$ até $a$ e de $u$ até $b$ formariam, junto com $\{a,b\}$, um passeio fechado de tamanho ímpar $u \dots a - b \dots u$.
+- Pelo lema anterior, haveria um ciclo ímpar (contradição). 
+- Portanto, $X$ e $Y$ são conjuntos independentes e $X \cup Y = V(H)$. $\blacksquare$
+:::
+
+# Dígrafos
+
+## Dígrafos
+
+> [**Definição:**]{.label-def} Um **dígrafo** (ou grafo dirigido) é uma tripla $(V, E, conn)$ onde:
+>
+> - $V$ é um conjunto de vértices
+> - $E$ é um conjunto de arestas
+> - $conn: E \to V \times V$ associa cada aresta $e$ a um par ordenado $(a,b)$ de vértices incidentes, onde:
+>   - $a$ representa a **origem** de $e$. Notação: $src(e) = a$.
+>   - $b$ representa o **destino** de $e$. Notação: $tgt(e) = b$.
+
+. . .
+
+Desenhamos uma aresta $e$ na qual $conn(e) = (a,b)$ como uma seta de $a$ para $b$:
+
+$$ a \xrightarrow{\ \ e\ \ } b $$
+
+
+## Dígrafos: Exemplo
+
+[**Exemplo:**]{.label-exmp}
+
+:::: columns
+::: {.column width="40%"}
+
+```{=html}
+<div style="display: flex; justify-content: center; margin-top: 10px;">
+  <div id="grafo-digrafo-ex1" style="width: 100%; max-width: 270px; height: 240px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const container = document.getElementById("grafo-digrafo-ex1");
+  if (!container || typeof cytoscape === "undefined") return;
+
+  const cy = cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A", label: "A" }, position: { x: 50, y: 45 } },
+      { data: { id: "B", label: "B" }, position: { x: 180, y: 45 } },
+      { data: { id: "C", label: "C" }, position: { x: 50, y: 175 } },
+      { data: { id: "D", label: "D" }, position: { x: 180, y: 175 } },
+      { data: { id: "e1", label: "1", source: "A", target: "C" } },
+      { data: { id: "e2", label: "2", source: "C", target: "A" } },
+      { data: { id: "e3", label: "3", source: "B", target: "A" } },
+      { data: { id: "e4", label: "4", source: "D", target: "B" } },
+      { data: { id: "e5", label: "5", source: "D", target: "B" } },
+      { data: { id: "e6", label: "6", source: "D", target: "D" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(label)",
+          width: 42,
+          height: 42,
+          "background-color": "#23373b",
+          color: "#ffffff",
+          "font-size": 18,
+          "font-weight": "bold",
+          "text-valign": "center",
+          "text-halign": "center",
+          "border-width": 2.5,
+          "border-color": "#152224"
+        }
+      },
+      {
+        selector: "edge",
+        style: {
+          label: "data(label)",
+          color: "#c40000",
+          "font-size": 18,
+          "font-weight": "bold",
+          "text-background-color": "#ffffff",
+          "text-background-opacity": 0.9,
+          "text-background-padding": 3,
+          width: 3.5,
+          "line-color": "#555555",
+          "target-arrow-color": "#555555",
+          "target-arrow-shape": "triangle",
+          "arrow-scale": 1.35,
+          "curve-style": "bezier",
+          "control-point-step-size": 36,
+          "loop-direction": "0deg",
+          "loop-sweep": "90deg"
+        }
+      }
+    ],
+    layout: { name: "preset", fit: true, padding: 18 },
+    userZoomingEnabled: false,
+    userPanningEnabled: false,
+    boxSelectionEnabled: false,
+    autoungrabify: false
+  });
+  window.setupCyResize && window.setupCyResize(cy, container, 18);
+})();
+</script>
+```
+
+:::
+::: {.column width="60%"}
+
+$$
+\begin{aligned}
+V &= \{ A, B, C, D \} \\
+E &= \{ 1, 2, 3, 4, 5, 6 \} \\
+conn &= \begin{cases}
+1 \mapsto (A,C) \\
+2 \mapsto (C,A) \\
+3 \mapsto (B,A) \\
+4 \mapsto (D,B) \\
+5 \mapsto (D,B) \\
+6 \mapsto (D,D)
+\end{cases}
+\end{aligned}
+$$
+
+:::
+::::
+
+. . .
+
+> [**Nota:**]{.label-rmk} Dígrafos não impõem restrições sobre os pares de nodos, permitindo laços e múltiplas arestas.
+
+
+## Dígrafos: Matriz de Incidência
+
+Preenchimento da **matriz de incidência** de um dígrafo:
+
+- Uma aresta $A \to B$ registra $1$ no nodo $A$ e $-1$ no nodo $B$ (nodos distintos)
+- Um laço $A \to A$ registra $2$ no nodo $A$
+
+[**Exemplo:**]{.label-exmp}
+
+:::: columns
+::: {.column width="45%"}
+
+```{=html}
+<div style="display: flex; justify-content: center; margin-top: 15px;">
+  <div id="grafo-digrafo-incid" style="width: 220px; height: 210px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const container = document.getElementById("grafo-digrafo-incid");
+  if (!container || typeof cytoscape === "undefined") return;
+
+  cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A", label: "A" }, position: { x: 45, y: 40 } },
+      { data: { id: "B", label: "B" }, position: { x: 155, y: 40 } },
+      { data: { id: "C", label: "C" }, position: { x: 45, y: 150 } },
+      { data: { id: "D", label: "D" }, position: { x: 155, y: 150 } },
+      { data: { id: "e1", label: "1", source: "A", target: "C" } },
+      { data: { id: "e2", label: "2", source: "C", target: "A" } },
+      { data: { id: "e3", label: "3", source: "B", target: "A" } },
+      { data: { id: "e4", label: "4", source: "D", target: "B" } },
+      { data: { id: "e5", label: "5", source: "D", target: "B" } },
+      { data: { id: "e6", label: "6", source: "D", target: "D" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(label)",
+          width: 40,
+          height: 40,
+          "background-color": "#23373b",
+          color: "#ffffff",
+          "font-size": 18,
+          "font-weight": "bold",
+          "text-valign": "center",
+          "text-halign": "center",
+          "border-width": 2.5,
+          "border-color": "#152224"
+        }
+      },
+      {
+        selector: "edge",
+        style: {
+          label: "data(label)",
+          color: "#c40000",
+          "font-size": 18,
+          "font-weight": "bold",
+          "text-background-color": "#ffffff",
+          "text-background-opacity": 0.9,
+          "text-background-padding": 3,
+          width: 3.5,
+          "line-color": "#555555",
+          "target-arrow-color": "#555555",
+          "target-arrow-shape": "triangle",
+          "arrow-scale": 1.35,
+          "curve-style": "bezier",
+          "control-point-step-size": 36,
+          "loop-direction": "0deg",
+          "loop-sweep": "90deg"
+        }
+      }
+    ],
+    layout: { name: "preset" },
+    userZoomingEnabled: false,
+    userPanningEnabled: false,
+    boxSelectionEnabled: false,
+    autoungrabify: false
+  });
+})();
+</script>
+```
+
+:::
+::: {.column width="55%" .small}
+
+| | $A$ | $B$ | $C$ | $D$ |
+|:-:|:---:|:---:|:---:|:---:|
+| **1** | $1$ | $0$ | $-1$ | $0$ |
+| **2** | $-1$ | $0$ | $1$ | $0$ |
+| **3** | $-1$ | $1$ | $0$ | $0$ |
+| **4** | $0$ | $-1$ | $0$ | $1$ |
+| **5** | $0$ | $-1$ | $0$ | $1$ |
+| **6** | $0$ | $0$ | $0$ | $2$ |
+
+:::
+::::
+
+. . .
+
+> [**Nota:**]{.label-rmk} Varia de autor associar $(1/-1)$ ou $(-1/1)$ à origem/destino das setas. Nesta disciplina usaremos $(1/-1)$.
+
+
+## Dígrafos: Matriz de Adjacência
+
+Preenchimento da matriz de adjacência de um dígrafo:
+
+- A posição $(A,B)$ registra a quantidade de arestas de $A$ para $B$.
+
+[**Exemplo:**]{.label-exmp}
+
+:::: columns
+::: {.column width="45%"}
+
+```{=html}
+<div style="display: flex; justify-content: center; margin-top: 15px;">
+  <div id="grafo-digrafo-adj" style="width: 220px; height: 210px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const container = document.getElementById("grafo-digrafo-adj");
+  if (!container || typeof cytoscape === "undefined") return;
+
+  cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A", label: "A" }, position: { x: 45, y: 40 } },
+      { data: { id: "B", label: "B" }, position: { x: 155, y: 40 } },
+      { data: { id: "C", label: "C" }, position: { x: 45, y: 150 } },
+      { data: { id: "D", label: "D" }, position: { x: 155, y: 150 } },
+      { data: { id: "e1", label: "1", source: "A", target: "C" } },
+      { data: { id: "e2", label: "2", source: "C", target: "A" } },
+      { data: { id: "e3", label: "3", source: "B", target: "A" } },
+      { data: { id: "e4", label: "4", source: "D", target: "B" } },
+      { data: { id: "e5", label: "5", source: "D", target: "B" } },
+      { data: { id: "e6", label: "6", source: "D", target: "D" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(label)",
+          width: 40,
+          height: 40,
+          "background-color": "#23373b",
+          color: "#ffffff",
+          "font-size": 18,
+          "font-weight": "bold",
+          "text-valign": "center",
+          "text-halign": "center",
+          "border-width": 2.5,
+          "border-color": "#152224"
+        }
+      },
+      {
+        selector: "edge",
+        style: {
+          label: "data(label)",
+          color: "#c40000",
+          "font-size": 18,
+          "font-weight": "bold",
+          "text-background-color": "#ffffff",
+          "text-background-opacity": 0.9,
+          "text-background-padding": 3,
+          width: 3.5,
+          "line-color": "#555555",
+          "target-arrow-color": "#555555",
+          "target-arrow-shape": "triangle",
+          "arrow-scale": 1.35,
+          "curve-style": "bezier",
+          "control-point-step-size": 36,
+          "loop-direction": "0deg",
+          "loop-sweep": "90deg"
+        }
+      }
+    ],
+    layout: { name: "preset" },
+    userZoomingEnabled: false,
+    userPanningEnabled: false,
+    boxSelectionEnabled: false,
+    autoungrabify: false
+  });
+})();
+</script>
+```
+
+:::
+::: {.column width="55%"}
+
+| | $A$ | $B$ | $C$ | $D$ |
+|:-:|:---:|:---:|:---:|:---:|
+| **A** | $0$ | $0$ | $1$ | $0$ |
+| **B** | $1$ | $0$ | $0$ | $0$ |
+| **C** | $1$ | $0$ | $0$ | $0$ |
+| **D** | $0$ | $2$ | $0$ | $1$ |
+
+:::
+::::
+
+. . .
+
+> [**Nota:**]{.label-rmk} A matriz de adjacência não possui nenhuma restrição de simetria (apenas que todos os valores sejam inteiros não-negativos).
+
+
+## Dígrafos: Graus
+
+> [**Definição:**]{.label-def} Cada vértice $v$ em um dígrafo $(V,E,conn)$ possui dois graus:
+>
+> - **Grau de entrada** $deg^-(v)$:
+>   $$ deg^-(v) = |\{ e \mid e \in E \land tgt(e) = v \}| $$
+>   *(número de arestas com destino $v$)*
+>
+> - **Grau de saída** $deg^+(v)$:
+>   $$ deg^+(v) = |\{ e \mid e \in E \land src(e) = v \}| $$
+>   *(número de arestas com origem $v$)*
+
+. . .
+
+> [**Lema:**]{.label-lem} Em todo dígrafo $D = (V,E,conn)$:
+>
+> $$ \sum_{v \in V} deg^-(v) = \sum_{v \in V} deg^+(v) = |E| $$
+
+
+## Dígrafos: Passeios e Ciclos
+
+Noções relativas a passeios em dígrafos são as mesmas que em pseudografos, levando-se em consideração a **direcionalidade**.
+
+. . .
+
+> [**Nota:**]{.label-rmk} A diferença entre um dígrafo **cíclico** e **acíclico** pode ser somente a [direcionalidade]{.red} das setas.
+
+[**Exemplo:**]{.label-exmp}
+
+```{=html}
+<div style="display: flex; justify-content: center; align-items: center; gap: 40px; margin: 15px 0;">
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold; margin-bottom: 6px;">Acíclico (DAG):</div>
+    <div id="grafo-dag-ex" style="width: 190px; height: 150px; position: relative;"></div>
+  </div>
+  <div style="font-weight: bold; font-size: 1.3em;">vs</div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold; margin-bottom: 6px;">Cíclico:</div>
+    <div id="grafo-ciclico-ex" style="width: 190px; height: 150px; position: relative;"></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const dStyle = [
+    {
+      selector: "node",
+      style: {
+        label: "data(id)",
+        width: 40,
+        height: 40,
+        "background-color": "#23373b",
+        color: "#ffffff",
+        "font-size": 18,
+        "font-weight": "bold",
+        "text-valign": "center",
+        "text-halign": "center",
+        "border-width": 2.5,
+        "border-color": "#152224"
+      }
+    },
+    {
+      selector: "edge",
+      style: {
+        width: 3.5,
+        "line-color": "#555555",
+        "target-arrow-color": "#555555",
+        "target-arrow-shape": "triangle",
+        "arrow-scale": 1.35,
+        "curve-style": "straight"
+      }
+    }
+  ];
+
+  const dag = document.getElementById("grafo-dag-ex");
+  if (dag && typeof cytoscape !== "undefined") {
+    const cyDag = cytoscape({
+      container: dag,
+      elements: [
+        { data: { id: "A" }, position: { x: 40, y: 35 } },
+        { data: { id: "B" }, position: { x: 145, y: 35 } },
+        { data: { id: "C" }, position: { x: 40, y: 110 } },
+        { data: { source: "A", target: "B" } },
+        { data: { source: "A", target: "C" } },
+        { data: { source: "B", target: "C" } }
+      ],
+      style: dStyle,
+      layout: { name: "preset", fit: true, padding: 18 },
+      userZoomingEnabled: false,
+      userPanningEnabled: false,
+      boxSelectionEnabled: false,
+      autoungrabify: false
+    });
+    window.setupCyResize && window.setupCyResize(cyDag, dag, 18);
+  }
+
+  const cyc = document.getElementById("grafo-ciclico-ex");
+  if (cyc && typeof cytoscape !== "undefined") {
+    const cyCyc = cytoscape({
+      container: cyc,
+      elements: [
+        { data: { id: "A" }, position: { x: 40, y: 35 } },
+        { data: { id: "B" }, position: { x: 145, y: 35 } },
+        { data: { id: "C" }, position: { x: 40, y: 110 } },
+        { data: { source: "A", target: "B" } },
+        { data: { source: "B", target: "C" } },
+        { data: { source: "C", target: "A" } }
+      ],
+      style: dStyle,
+      layout: { name: "preset", fit: true, padding: 18 },
+      userZoomingEnabled: false,
+      userPanningEnabled: false,
+      boxSelectionEnabled: false,
+      autoungrabify: false
+    });
+    window.setupCyResize && window.setupCyResize(cyCyc, cyc, 18);
+  }
+})();
+</script>
+```
+
+**Grafos direcionados acíclicos** (GDAs ou DAGs, *Directed Acyclic Graphs*) são amplamente utilizados para descrever conjuntos de tarefas e suas dependências (*workflow*).
+
+
+## Dígrafos: Conectividade
+
+> [**Definição:**]{.label-def} O **grafo subjacente** de um dígrafo é o pseudografo obtido ao ignorarmos a direcionalidade das arestas.
+
+[**Exemplo:**]{.label-exmp}
+
+```{=html}
+<div style="display: flex; justify-content: center; align-items: center; gap: 30px; margin: 10px 0;">
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold; margin-bottom: 4px;">Dígrafo:</div>
+    <div id="grafo-conn-dir" style="width: 200px; height: 190px; position: relative;"></div>
+  </div>
+  <div style="font-weight: bold; font-size: 2.2em; color: #23373b; padding: 0 10px;">&rArr;</div>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    <div style="font-weight: bold; margin-bottom: 4px;">Grafo Subjacente:</div>
+    <div id="grafo-conn-undir" style="width: 200px; height: 190px; position: relative;"></div>
+  </div>
+</div>
+
+<script>
+(() => {
+  const gDir = document.getElementById("grafo-conn-dir");
+  if (gDir && typeof cytoscape !== "undefined") {
+    cytoscape({
+      container: gDir,
+      elements: [
+        { data: { id: "A" }, position: { x: 35, y: 35 } },
+        { data: { id: "B" }, position: { x: 145, y: 35 } },
+        { data: { id: "C" }, position: { x: 35, y: 140 } },
+        { data: { id: "D" }, position: { x: 145, y: 140 } },
+        { data: { id: "e1", label: "1", source: "A", target: "C" } },
+        { data: { id: "e2", label: "2", source: "C", target: "A" } },
+        { data: { id: "e3", label: "3", source: "B", target: "A" } },
+        { data: { id: "e4", label: "4", source: "D", target: "B" } },
+        { data: { id: "e5", label: "5", source: "D", target: "B" } },
+        { data: { id: "e6", label: "6", source: "D", target: "D" } }
+      ],
+      style: [
+        {
+          selector: "node",
+          style: {
+            label: "data(id)",
+            width: 38,
+            height: 38,
+            "background-color": "#23373b",
+            color: "#ffffff",
+            "font-size": 17,
+            "font-weight": "bold",
+            "text-valign": "center",
+            "text-halign": "center",
+            "border-width": 2.5,
+            "border-color": "#152224"
+          }
+        },
+        {
+          selector: "edge",
+          style: {
+            label: "data(label)",
+            color: "#c40000",
+            "font-size": 18,
+            "font-weight": "bold",
+            "text-background-color": "#ffffff",
+            "text-background-opacity": 0.9,
+            "text-background-padding": 3,
+            width: 3.5,
+            "line-color": "#555555",
+            "target-arrow-color": "#555555",
+            "target-arrow-shape": "triangle",
+            "arrow-scale": 1.3,
+            "curve-style": "bezier",
+            "control-point-step-size": 30,
+            "loop-direction": "0deg",
+            "loop-sweep": "90deg"
+          }
+        }
+      ],
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false,
+      boxSelectionEnabled: false,
+      autoungrabify: false
+    });
+  }
+
+  const gUndir = document.getElementById("grafo-conn-undir");
+  if (gUndir && typeof cytoscape !== "undefined") {
+    cytoscape({
+      container: gUndir,
+      elements: [
+        { data: { id: "A" }, position: { x: 35, y: 35 } },
+        { data: { id: "B" }, position: { x: 145, y: 35 } },
+        { data: { id: "C" }, position: { x: 35, y: 140 } },
+        { data: { id: "D" }, position: { x: 145, y: 140 } },
+        { data: { id: "e1", label: "1", source: "A", target: "C" } },
+        { data: { id: "e2", label: "2", source: "C", target: "A" } },
+        { data: { id: "e3", label: "3", source: "B", target: "A" } },
+        { data: { id: "e4", label: "4", source: "D", target: "B" } },
+        { data: { id: "e5", label: "5", source: "D", target: "B" } },
+        { data: { id: "e6", label: "6", source: "D", target: "D" } }
+      ],
+      style: [
+        {
+          selector: "node",
+          style: {
+            label: "data(id)",
+            width: 38,
+            height: 38,
+            "background-color": "#23373b",
+            color: "#ffffff",
+            "font-size": 17,
+            "font-weight": "bold",
+            "text-valign": "center",
+            "text-halign": "center",
+            "border-width": 2.5,
+            "border-color": "#152224"
+          }
+        },
+        {
+          selector: "edge",
+          style: {
+            label: "data(label)",
+            color: "#c40000",
+            "font-size": 18,
+            "font-weight": "bold",
+            "text-background-color": "#ffffff",
+            "text-background-opacity": 0.9,
+            "text-background-padding": 3,
+            width: 3.5,
+            "line-color": "#555555",
+            "curve-style": "bezier",
+            "control-point-step-size": 30,
+            "loop-direction": "0deg",
+            "loop-sweep": "90deg"
+          }
+        }
+      ],
+      layout: { name: "preset" },
+      userZoomingEnabled: false,
+      userPanningEnabled: false,
+      boxSelectionEnabled: false,
+      autoungrabify: false
+    });
+  }
+})();
+</script>
+```
+
+. . .
+
+> [**Definição:**]{.label-def} Um dígrafo é **fracamente conexo** quando seu [grafo subjacente é conexo]{.red}.
+
+. . .
+
+> [**Definição:**]{.label-def} Um dígrafo é **fortemente conexo** se [entre qualquer par ordenado de nodos existe um caminho direcionado]{.red}.
+
+
+# Grafos e Dígrafos Valorados
+
+## Grafos e Dígrafos Valorados
+
+Existem muitos cenários onde é interessante **anotar vértices ou arestas de um grafo (ou dígrafo) com valores**:
+
+[**Exemplo:**]{.label-exmp}
+
+- Definir custo (distância, tempo, capacidade, etc.) em arestas
+- Associar custo ou recompensa a cada vértice
+- Determinar o tipo de uma determinada transição
+
+. . .
+
+Tipos de valores:
+
+- **Discretos** (alfabeto finito): rótulos ou etiquetas
+- **Numéricos** ($\mathbb{N}$, $\mathbb{R}$, \ldots): pesos
+
+A associação é formalizada por **funções de valoração**.
+
+
+## Dígrafos Valorados
+
+> [**Definição:**]{.label-def} Um **dígrafo com pesos nas arestas** é uma tupla $(V, E, conn, w)$ onde:
+>
+> - $(V, E, conn)$ é um dígrafo
+> - $w : E \to \mathbb{R}$ é uma função que associa a cada aresta um número real.
+
+. . .
+
+> [**Nota:**]{.label-rmk} Pode-se definir grafos e dígrafos com pesos em vértices de forma similar, através de uma função $w_V : V \to \mathbb{R}$.
+
+
+## Dígrafos Valorados: Distância
+
+> [**Definição:**]{.label-def} O **peso de um passeio** em um grafo com pesos nas arestas é a soma dos pesos de todas as arestas do passeio.
+
+. . .
+
+> [**Definição:**]{.label-def} A **distância** entre dois vértices $a$ e $b$, denotada $d(a,b)$, é definida por:
+>
+> $$ d : V \times V \to \mathbb{R} \cup \{\infty, -\infty\} $$
+>
+> ::: {style="font-size: 0.82em;"}
+> $$
+> d(a,b) = \begin{cases}
+> 0 & \text{se } a = b \text{ (sem ciclo negativo em } a\text{)} \\
+> \text{menor peso de passeio de } a \text{ a } b \\
+> -\infty & \text{se há passeios sem limite inferior} \\
+> \infty & \text{se não há passeio de } a \text{ para } b
+> \end{cases}
+> $$
+> :::
+
+
+## Dígrafos Valorados: Exemplo
+
+[**Exemplo:**]{.label-exmp}
+
+:::: columns
+::: {.column width="45%"}
+
+```{=html}
+<div style="display: flex; justify-content: center; margin-top: 10px;">
+  <div id="grafo-val-ex" style="width: 250px; height: 190px; position: relative;"></div>
+</div>
+
+<script>
+(() => {
+  const container = document.getElementById("grafo-val-ex");
+  if (!container || typeof cytoscape === "undefined") return;
+
+  cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A" }, position: { x: 35, y: 35 } },
+      { data: { id: "B" }, position: { x: 135, y: 35 } },
+      { data: { id: "C" }, position: { x: 35, y: 145 } },
+      { data: { id: "D" }, position: { x: 135, y: 145 } },
+      { data: { id: "E" }, position: { x: 205, y: 90 } },
+      { data: { id: "a1", label: "7", source: "A", target: "B" } },
+      { data: { id: "a2", label: "5", source: "A", target: "C" } },
+      { data: { id: "a3", label: "1", source: "B", target: "D" } },
+      { data: { id: "a4", label: "1", source: "B", target: "E" } },
+      { data: { id: "a5", label: "2", source: "C", target: "C" } },
+      { data: { id: "a6", label: "3", source: "C", target: "D" } },
+      { data: { id: "a7", label: "2", source: "D", target: "B" } },
+      { data: { id: "a8", label: "6", source: "D", target: "E" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)",
+          width: 38,
+          height: 38,
+          "background-color": "#23373b",
+          color: "#ffffff",
+          "font-size": 17,
+          "font-weight": "bold",
+          "text-valign": "center",
+          "text-halign": "center",
+          "border-width": 2.5,
+          "border-color": "#152224"
+        }
+      },
+      {
+        selector: "edge",
+        style: {
+          label: "data(label)",
+          color: "#c40000",
+          "font-size": 18,
+          "font-weight": "bold",
+          "text-background-color": "#ffffff",
+          "text-background-opacity": 0.95,
+          "text-background-padding": 3,
+          width: 3.5,
+          "line-color": "#555555",
+          "target-arrow-color": "#555555",
+          "target-arrow-shape": "triangle",
+          "arrow-scale": 1.3,
+          "curve-style": "bezier",
+          "control-point-step-size": 34,
+          "loop-direction": "180deg",
+          "loop-sweep": "90deg"
+        }
+      }
+    ],
+    layout: { name: "preset" },
+    userZoomingEnabled: false,
+    userPanningEnabled: false,
+    boxSelectionEnabled: false,
+    autoungrabify: false
+  });
+})();
+</script>
+```
+
+:::
+::: {.column width="55%"}
+
+$$
+\begin{aligned}
+V &= \{ A, B, C, D, E \} \\
+E &= \{ a_1, a_2, a_3, a_4, a_5, a_6, a_7, a_8 \}
+\end{aligned}
+$$
+
+$$
+\begin{array}{rll}
+conn: & a_1 \mapsto (A,B), & a_2 \mapsto (A,C) \\
+      & a_3 \mapsto (B,D), & a_4 \mapsto (B,E) \\
+      & a_5 \mapsto (C,C), & a_6 \mapsto (C,D) \\
+      & a_7 \mapsto (D,B), & a_8 \mapsto (D,E)
+\end{array}
+$$
+
+:::
+::::
+
+. . .
+
+> [**Nota:**]{.label-rmk} É comum omitir os identificadores internos das arestas na representação gráfica e apresentar diretamente seus pesos.
+
+# Dígrafos em Python
+
+## Dígrafos Valorados em Python
+
+Representamos dígrafos com pesos nas arestas através de um **dicionário de listas de tuplas** `(destino, peso)`:
+
+```python
+# {origem: [(destino, peso)]}
+g = {
+    'A': [('B', 7), ('C', 5)],
+    'B': [('D', 1), ('E', 1)],
+    'C': [('C', 2), ('D', 3)],
+    'D': [('B', 2), ('E', 6)],
+    'E': []
+}
+```
+
+. . .
+
+> [**Nota:**]{.label-rmk} Vértices sem arestas de saída (como `'E'`) são mapeados para a lista vazia `[]` para constarem explicitamente em $V(G)$.
+
+
+## Operações em Python
+
+Iteração e manipulação com **listas de tuplas**:
+
+```pyodide
+g = {
+    'A': [('B', 7), ('C', 5)],
+    'B': [('D', 1), ('E', 1)],
+    'C': [('C', 2), ('D', 3)],
+    'D': [('B', 2), ('E', 6)],
+    'E': []
+}
+
+# Obter o grau de saída deg⁺(u) em O(1):
+deg_out_A = len(g['A'])  # 2
+
+# Iterar sobre os sucessores (vizinhos de saída) e seus pesos:
+for vizinho, peso in g['A']:
+    print(f"A -> {vizinho} com peso {peso}")
+
+# Buscar o peso de uma aresta específica (u, v):
+for vizinho, peso in g['A']:
+    if vizinho == 'B':
+        print(f"Aresta (A, B) tem peso {peso}")
+```
+
+#
+
+::: {style="text-align: center; margin-top: 15vh;"}
+[?]{style="font-size: 5em; color: #d10000; font-weight: 700;"}
+:::

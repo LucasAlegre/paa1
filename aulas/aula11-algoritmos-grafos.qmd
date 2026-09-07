@@ -1,0 +1,1081 @@
+---
+title: "Projeto e Análise de Algoritmos I"
+subtitle: "Aula 11 - Aplicações de Busca em Grafos"
+author: "Lucas Nunes Alegre"
+institute: |
+  Universidade Federal do Rio Grande do Sul  <br>
+  Instituto de Informática <br> Departamento de Informática Teórica  
+  <br><br><br>
+  <span style="display:inline-block; max-width:50%; font-size:0.5em; color: #757575;">Estes slides utilizam conteúdo adaptado da bibliografia da disciplina e também de notas de aula e slides prévios dos professores Bruno Grisci, Rodrigo Machado, André Grahl Pereira, Lucas Nunes Alegre, Marcus Ritt e Luciana Buriol.</span>
+date: ""
+lang: pt-BR
+
+format:
+  live-revealjs:
+    theme: [default, metropolis.scss]
+    slide-number: true
+    progress: true
+    transition: fade
+    width: 1024
+    height: 768
+    margin: 0.1
+    html-math-method: katex
+    title-slide-attributes:
+      data-background-color: "#ffffff"
+    center: false
+    highlight-style: github
+    fig-align: center
+    embed-resources: false
+    preview-links: true
+    include-in-header:
+      - text: |
+          <script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+          <script>
+          window.setupCyResize = function(cy, container, padding) {
+            const pad = padding !== undefined ? padding : 18;
+            const fitGraph = () => {
+              if (!cy || !container) return;
+              cy.resize();
+              cy.fit(undefined, pad);
+            };
+            if (typeof Reveal !== 'undefined') {
+              Reveal.on('slidechanged', event => {
+                if (container.closest('section') === event.currentSlide) {
+                  setTimeout(fitGraph, 10);
+                }
+              });
+              Reveal.on('ready', event => {
+                if (container.closest('section') === event.currentSlide) {
+                  setTimeout(fitGraph, 10);
+                }
+              });
+            }
+            if (typeof ResizeObserver !== 'undefined') {
+              new ResizeObserver(fitGraph).observe(container);
+            }
+            setTimeout(fitGraph, 50);
+            setTimeout(fitGraph, 200);
+          };
+          </script>
+      - pseudocode-reveal.html
+    chalkboard:
+      theme: whiteboard
+      boardmarker-width: 5
+      buttons: false
+
+filters:
+  - leovan/pseudocode
+---
+
+# Aplicações de Busca em Grafos Simples e Dígrafos
+
+## Busca em Grafos: Aplicações
+
+Diversos problemas elementares em **grafos simples** e **dígrafos** podem ser **eficientemente** resolvidos utilizando buscas (**DFS** ou **BFS**).
+
+Exemplos:
+
+- Geração da **árvore** associada à busca 
+- Cálculo de **distância**  
+- Cálculo de **rota** entre nós
+- Determinar **componentes conexos** em grafos simples
+- Determinar se um grafo simples é **bipartido**
+- Determinar **ordenamento topológico** em dígrafos acíclicos
+- Determinar **componentes fortemente conexos** em dígrafos
+- Determinar a existência de **ciclos**  
+
+
+# Árvore de Busca
+
+## Árvore Associada à Busca
+
+> [Árvore de Busca.]{.label-def} Dada uma busca (DFS ou BFS) em $G$ a partir de um nó $v$, construir uma **árvore** associada a essa busca onde **cada nó aponta para o elemento que o alcançou** diretamente.
+
+:::: columns
+::: {.column width="33%"}
+**Dígrafo $g_1$:**
+<div id="grafo-arvore-busca-original" style="width: 100%; height: 260px; position: relative;"></div>
+<script>
+(() => {
+  const container = document.getElementById("grafo-arvore-busca-original");
+  if (!container || typeof cytoscape === 'undefined') return;
+  const cy = cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A" }, position: { x: 200, y: 25 } },
+      { data: { id: "C" }, position: { x: 40, y: 105 } },
+      { data: { id: "E" }, position: { x: 150, y: 105 } },
+      { data: { id: "B" }, position: { x: 260, y: 105 } },
+      { data: { id: "D" }, position: { x: 100, y: 185 } },
+      { data: { id: "F" }, position: { x: 210, y: 185 } },
+      { data: { id: "G" }, position: { x: 210, y: 260 } },
+      { data: { source: "A", target: "B" } },
+      { data: { source: "A", target: "E" } },
+      { data: { source: "B", target: "E" } },
+      { data: { source: "B", target: "F" } },
+      { data: { source: "C", target: "D" } },
+      { data: { source: "E", target: "C" } },
+      { data: { source: "E", target: "F" } },
+      { data: { source: "F", target: "D" } },
+      { data: { source: "F", target: "G" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)",
+          width: 36, height: 36,
+          "background-color": "#23373b", color: "#ffffff",
+          "font-size": 16, "font-weight": "bold",
+          "text-valign": "center", "text-halign": "center",
+          "border-width": 2.5, "border-color": "#152224"
+        }
+      },
+      {
+        selector: "edge",
+        style: {
+          width: 3,
+          "line-color": "#555555",
+          "target-arrow-color": "#555555",
+          "target-arrow-shape": "triangle",
+          "arrow-scale": 1.2,
+          "curve-style": "bezier"
+        }
+      }
+    ],
+    layout: { name: "preset", fit: true, padding: 15 },
+    userZoomingEnabled: false, userPanningEnabled: false, boxSelectionEnabled: false, autoungrabify: false
+  });
+  window.setupCyResize && window.setupCyResize(cy, container, 15);
+})();
+</script>
+:::
+
+::: {.column width="27%"}
+`dfs_iter(g1, 'A')`:
+
+```text
+A
+E
+F
+G
+D
+C
+B
+```
+:::
+
+::: {.column width="40%"}
+**Árvore de busca:**
+<div id="grafo-arvore-busca-result" style="width: 100%; height: 260px; position: relative;"></div>
+<script>
+(() => {
+  const container = document.getElementById("grafo-arvore-busca-result");
+  if (!container || typeof cytoscape === 'undefined') return;
+  const cy = cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A" }, position: { x: 200, y: 25 } },
+      { data: { id: "C" }, position: { x: 40, y: 105 } },
+      { data: { id: "E" }, position: { x: 150, y: 105 } },
+      { data: { id: "B" }, position: { x: 260, y: 105 } },
+      { data: { id: "D" }, position: { x: 100, y: 185 } },
+      { data: { id: "F" }, position: { x: 210, y: 185 } },
+      { data: { id: "G" }, position: { x: 210, y: 260 } },
+      { data: { source: "B", target: "A" } },
+      { data: { source: "E", target: "A" } },
+      { data: { source: "C", target: "E" } },
+      { data: { source: "F", target: "E" } },
+      { data: { source: "D", target: "F" } },
+      { data: { source: "G", target: "F" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)",
+          width: 36, height: 36,
+          "background-color": "#23373b", color: "#ffffff",
+          "font-size": 16, "font-weight": "bold",
+          "text-valign": "center", "text-halign": "center",
+          "border-width": 2.5, "border-color": "#152224"
+        }
+      },
+      {
+        selector: "edge",
+        style: {
+          width: 3.5,
+          "line-color": "#dc2626",
+          "target-arrow-color": "#dc2626",
+          "target-arrow-shape": "triangle",
+          "arrow-scale": 1.25,
+          "curve-style": "bezier"
+        }
+      }
+    ],
+    layout: { name: "preset", fit: true, padding: 15 },
+    userZoomingEnabled: false, userPanningEnabled: false, boxSelectionEnabled: false, autoungrabify: false
+  });
+  window.setupCyResize && window.setupCyResize(cy, container, 15);
+})();
+</script>
+:::
+::::
+
+- Isso é facilmente implementado com um dicionário auxiliar `parent`, preenchido ao inserirmos um nó na estrutura. 
+- A raiz da árvore é o nó de origem.
+
+## Árvore de Busca (DFS Iterativa)
+
+```pyodide
+def dfs_iter_tree(g, v):
+    parent = {i : i for i in g.keys()}  # arvore de antecessor
+    visited = {i : False for i in g.keys()}  # vetor de visitados
+
+    p = [v]
+    visited[v] = True
+
+    while len(p) > 0:
+        h = p.pop(0)
+        for i in g[h]:
+            if not visited[i]:
+                p.insert(0, i)
+                parent[i] = h  # marca h como antecessor de i
+                visited[i] = True
+
+    return parent  # devolve a arvore
+
+# Grafo g1 do slide anterior:
+g1 = {
+    'A': ['B', 'E'],
+    'B': ['E', 'F'],
+    'C': ['D'],
+    'D': [],
+    'E': ['C', 'F'],
+    'F': ['D', 'G'],
+    'G': []
+}
+
+print(dfs_iter_tree(g1, 'A'))
+```
+
+# Cálculo de Distância em Grafo Não-Valorado
+
+## Cálculo de Distância
+
+> [Cálculo de Distância.]{.label-def} Dado um grafo simples ou dígrafo $G$ e um nodo $v$, determinar um **vetor de distâncias** de $v$ para todos os nodos de $G$.
+
+. . .
+
+**BFS** já fornece a distância:
+
+- Se um dado nodo $x$ é alcançável a partir de $v$, ele vai aparecer em algum dos níveis: o **nível é a respectiva distância**.
+- Se não for alcançável, a distância é [infinita]{style="color: #d10000; font-weight: bold;"}.
+
+. . .
+
+**Implementação:**
+
+- Inicia-se um vetor com valor 0 em $v$ (e **infinito** nos demais nodos)
+- Ao inserir um nodo na lista, atribui a este a distância do nodo pai (que o inseriu) + 1.
+
+. . .
+
+> [**Observações:**]{.label-rmk}
+>
+> - DFS **não pode ser utilizada** para cálculo de distância. [Por quê?]{style="color: #d10000; font-weight: bold;"}
+> - Assumimos que $G$ **não possui pesos nas arestas**.
+
+## Distância em Grafos e Dígrafos
+
+```pyodide
+from collections import deque
+
+def distancia_bfs(g, v):
+    dist = {i: -1 for i in g.keys()}  # distancias (-1 = infinito)
+    dist[v] = 0  # inicializa distancia da origem
+
+    visited = {i: False for i in g.keys()}
+    visited[v] = True
+
+    queue = deque([v])
+    while len(queue) > 0:
+        h = queue.popleft()
+        for i in g[h]:
+            if not visited[i]:
+                queue.append(i)
+                dist[i] = dist[h] + 1  # determina dist[i]
+                visited[i] = True
+
+    return dist  # devolve o vetor de distancias
+
+# Grafo g1:
+g1 = {
+    'A': ['B', 'E'],
+    'B': ['E', 'F'],
+    'C': ['D'],
+    'D': [],
+    'E': ['C', 'F'],
+    'F': ['D', 'G'],
+    'G': []
+}
+
+print("Distâncias a partir de 'A':")
+print(distancia_bfs(g1, 'A'))
+```
+
+## Outras Variações de Rota e Distância
+
+> [Conectividade.]{.label-def} Dado um grafo simples ou dígrafo $G$ e dois nodos $a$ e $b$, determinar se $a$ está **conectado** a $b$.
+
+**Solução:** Iniciar busca (DFS ou BFS) em $a$, comparando o nodo atual com $b$. Se achar, retorna `True`. Se a busca terminar sem achar $b$, retorna `False`.
+
+. . .
+
+> [Rota entre Nodos.]{.label-def} Dado um grafo simples ou dígrafo $G$ e dois nodos $a$ e $b$, **determinar uma rota** iniciando em $a$ e terminando em $b$.
+
+**Solução:** Iniciar busca (DFS ou BFS) em $a$ produzindo a **árvore de busca**. Ao achar $b$, a rota entre $a$ e $b$ é a inversão do caminho de $b$ até $a$ na árvore de busca.
+
+. . .
+
+> [Rota com Menor Número de Arestas.]{.label-def} Dado um grafo simples ou dígrafo $G$ e dois nodos $a$ e $b$, determinar uma rota com o menor número de arestas entre $a$ e $b$.
+
+**Solução:** Como no caso de rota, porém utilizando *exclusivamente* **BFS**.
+
+# Componentes Conexos
+
+## Aplicação: Flood Fill (Paint)
+
+:::: columns
+::: {.column width="60%"}
+- Uma aplicação prática comum baseada em detecção de componentes conexos é a ferramenta "balde de tinta" ou **Flood Fill**.
+- No modelo de grafos para esse problema:
+  - **Nodos:** os pixels de uma imagem.
+  - **Arestas:** conectam pixels adjacentes que possuem a **mesma cor**.
+  - **Componente Conexo:** corresponde a uma determinada região/área da imagem de cor homogênea contígua.
+- O algoritmo busca a partir de um vértice e recolore toda a região percorrida.
+:::
+
+::: {.column width="40%"}
+![](https://upload.wikimedia.org/wikipedia/commons/7/7e/Recursive_Flood_Fill_4_%28aka%29.gif){fig-align="center" width="100%"}
+:::
+::::
+
+## Componentes Conexos em Grafos Simples (UCC)
+
+> [Componentes Conexos (UCC).]{.label-def} Dado um grafo simples $G$, determinar o número de **componentes conexos** e quais os nós contidos em cada um (*Undirected Connected Components*).
+
+. . .
+
+- Como as arestas em *grafos simples* são **bidirecionais**, basta iniciar em um nó $a$ e coletar todos os nós alcançáveis a partir dele para obter o componente conexo que contém $a$.
+- Podemos usar um *vetor de componentes* para marcar a qual componente cada nodo pertence.
+- Para calcular **todos** os componentes de um grafo:
+  - Escolhemos um nó arbitrário e por meio de busca determinamos o componente ao qual pertence.
+  - Após, escolhemos outro nó e repetimos até que todos os nós do grafo tenham sido percorridos.
+
+## Componentes Conexos em Grafos Simples (UCC)
+
+```pyodide
+def dfs(grafo, v, visitados, c_id, componentes):
+    visitados[v] = True
+    componentes[c_id].append(v)
+
+    for vizinho in grafo[v]:
+        if not visitados[vizinho]:
+            dfs(grafo, vizinho, visitados, c_id, componentes)
+
+def componentes_conexos(grafo):
+    visitados = {v: False for v in grafo}
+    componentes = {}  # Mapeia id do componente para nodos
+    c_id = 0  # Começamos preenchendo o componente 0
+
+    for vertice in grafo:
+        if not visitados[vertice]:
+            componentes[c_id] = []  # Inicia novo componente
+            dfs(grafo, vertice, visitados, c_id, componentes)
+            c_id += 1  # Incrementa número de componentes
+
+    return componentes
+
+# Exemplo com grafo simples:
+g_exemplo = {
+    1: [2], 2: [1],
+    3: [4], 4: [3, 5], 5: [4],
+    6: []
+}
+print("Componentes conexos:")
+print(componentes_conexos(g_exemplo))
+```
+
+## Componentes Conexos em Grafos: Exemplo
+
+:::: columns
+::: {.column width="45%"}
+<div id="grafo-g2-componentes" style="width: 100%; height: 260px; position: relative;"></div>
+<script>
+(() => {
+  const container = document.getElementById("grafo-g2-componentes");
+  if (!container || typeof cytoscape === 'undefined') return;
+  const cy = cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A" }, position: { x: 50, y: 60 }, classes: "c0" },
+      { data: { id: "B" }, position: { x: 160, y: 60 }, classes: "c0" },
+      { data: { id: "C" }, position: { x: 270, y: 60 }, classes: "c1" },
+      { data: { id: "G" }, position: { x: 380, y: 60 }, classes: "c2" },
+      { data: { id: "D" }, position: { x: 50, y: 180 }, classes: "c0" },
+      { data: { id: "E" }, position: { x: 160, y: 180 }, classes: "c0" },
+      { data: { id: "F" }, position: { x: 270, y: 180 }, classes: "c0" },
+      { data: { id: "H" }, position: { x: 380, y: 180 }, classes: "c2" },
+      { data: { source: "A", target: "B" }, classes: "c0" },
+      { data: { source: "B", target: "D" }, classes: "c0" },
+      { data: { source: "B", target: "E" }, classes: "c0" },
+      { data: { source: "D", target: "E" }, classes: "c0" },
+      { data: { source: "E", target: "F" }, classes: "c0" },
+      { data: { source: "G", target: "H" }, classes: "c2" }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)",
+          width: 38, height: 38,
+          color: "#ffffff",
+          "font-size": 16, "font-weight": "bold",
+          "text-valign": "center", "text-halign": "center",
+          "border-width": 2.5
+        }
+      },
+      {
+        selector: "node.c0",
+        style: { "background-color": "#1565c0", "border-color": "#0d47a1" }
+      },
+      {
+        selector: "node.c1",
+        style: { "background-color": "#e65100", "border-color": "#bf360c" }
+      },
+      {
+        selector: "node.c2",
+        style: { "background-color": "#2e7d32", "border-color": "#1b5e20" }
+      },
+      {
+        selector: "edge",
+        style: {
+          width: 3.5,
+          "curve-style": "bezier"
+        }
+      },
+      {
+        selector: "edge.c0",
+        style: { "line-color": "#1565c0" }
+      },
+      {
+        selector: "edge.c2",
+        style: { "line-color": "#2e7d32" }
+      }
+    ],
+    layout: { name: "preset", fit: true, padding: 15 },
+    userZoomingEnabled: false, userPanningEnabled: false, boxSelectionEnabled: false, autoungrabify: false
+  });
+  window.setupCyResize && window.setupCyResize(cy, container, 15);
+})();
+</script>
+:::
+
+::: {.column width="55%"}
+```pyodide
+# Grafo G2 ilustrado ao lado:
+g2 = {
+    'A': ['B'],
+    'B': ['A', 'D', 'E'],
+    'C': [],
+    'D': ['B', 'E'],
+    'E': ['B', 'D', 'F'],
+    'F': ['E'],
+    'G': ['H'],
+    'H': ['G'],
+}
+
+def dfs(grafo, v, visitados, c_id, componentes):
+    visitados[v] = True
+    componentes[c_id].append(v)
+    for vizinho in grafo[v]:
+        if not visitados[vizinho]:
+            dfs(grafo, vizinho, visitados, c_id, componentes)
+
+def componentes_conexos(grafo):
+    visitados = {v: False for v in grafo}
+    componentes = {}
+    c_id = 0
+    for vertice in grafo:
+        if not visitados[vertice]:
+            componentes[c_id] = []
+            dfs(grafo, vertice, visitados, c_id, componentes)
+            c_id += 1
+    return componentes
+
+print(componentes_conexos(g2))
+```
+:::
+::::
+
+# Teste de Bipartição
+
+## Teste de Bipartição
+
+> [Teste de Bipartição.]{.label-def} Dado um grafo simples $G$, determinar se $G$ é **bipartido** (isto é, se seus vértices podem ser particionados em dois conjuntos independentes $V_1$ e $V_2$, ou equivalentemente, se **não possui ciclos ímpares**).
+
+Conforme visto, um grafo é bipartido se e somente se não possuir ciclos ímpares. Esta caracterização nos fornece um algoritmo bastante eficiente baseado em **coloração de nodos** e BFS para testar bipartição.
+
+. . .
+
+- Defina um vetor `cor` que associa **true** (cor 1) ou **false** (cor 0) a cada nodo. 
+
+. . .
+
+- Para cada componente do grafo, escolha um nodo e pinte com cor 1. Inicie uma busca em largura na qual todos os nodos alcançáveis a partir de um dado nodo precisam ser pintados com a cor oposta.
+
+. . .
+
+- Se em algum momento detectarmos que um nodo já pintado possui cor idêntica àquela do nodo atual (vizinho com a mesma cor), retornamos **falso** (detecção de ciclo ímpar). Se conseguirmos concluir a coloração de todos os nodos, retornamos **true**.
+
+## Teste de Bipartição: Código
+
+```pyodide
+from collections import deque
+
+def componente_bipartido(g, v, cor, visited):
+    queue = deque([v])
+    cor[v] = 1  # atribui cor 1 a v
+    visited[v] = True  # marca v como visitado
+    while len(queue) > 0:
+        i = queue.popleft()
+        for j in g[i]:
+            if visited[j] and cor[i] == cor[j]:
+                return False  # achou ciclo ímpar
+            elif not visited[j]:
+                queue.append(j)
+                visited[j] = True
+                cor[j] = 1 - cor[i]  # atribui cor inversa
+    return True
+
+def bipartite(g):
+    cor = {}  # vetor de cores (1 e 0)
+    visited = {i: False for i in g.keys()}
+    for x in g.keys():  # escolhe um nodo x por componente
+        if not visited[x]:
+            if not componente_bipartido(g, x, cor, visited):
+                return False  # achou ciclo ímpar
+
+    return True  # não há ciclo ímpar
+
+# Grafo bipartido (ciclo par C4):
+g_bipartido = {1: [2, 4], 2: [1, 3], 3: [2, 4], 4: [1, 3]}
+print("g_bipartido é bipartido?", bipartite(g_bipartido))
+
+# Grafo não bipartido (triângulo C3 - ciclo ímpar):
+g_nao_bipartido = {1: [2, 3], 2: [1, 3], 3: [1, 2]}
+print("g_nao_bipartido é bipartido?", bipartite(g_nao_bipartido))
+```
+
+# Ordenamento Topológico
+
+## Ordenamento Topológico
+
+> [Ordenamento Topológico.]{.label-def} Dado um dígrafo acíclico (DAG) $G = (V, E)$, encontrar uma sequência linear $v_1, v_2, \ldots, v_n$ contendo todos os vértices de $V$ tal que, para toda aresta direcionada $(v_i, v_j) \in E$, o vértice origem $v_i$ precede o vértice destino $v_j$ na sequência (isto é, $i < j$).
+
+**Exemplo:**
+
+:::: columns
+::: {.column width="55%"}
+<div id="grafo-g5-toposort" style="width: 100%; height: 260px; position: relative;"></div>
+<script>
+(() => {
+  const container = document.getElementById("grafo-g5-toposort");
+  if (!container || typeof cytoscape === 'undefined') return;
+  const cy = cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A" }, position: { x: 50, y: 50 } },
+      { data: { id: "B" }, position: { x: 160, y: 50 } },
+      { data: { id: "C" }, position: { x: 270, y: 50 } },
+      { data: { id: "D" }, position: { x: 380, y: 50 } },
+      { data: { id: "G" }, position: { x: 50, y: 150 } },
+      { data: { id: "H" }, position: { x: 160, y: 150 } },
+      { data: { id: "F" }, position: { x: 270, y: 150 } },
+      { data: { id: "E" }, position: { x: 380, y: 150 } },
+      { data: { id: "I" }, position: { x: 160, y: 240 } },
+      { data: { source: "A", target: "B" } },
+      { data: { source: "B", target: "C" } },
+      { data: { source: "B", target: "F" } },
+      { data: { source: "C", target: "D" } },
+      { data: { source: "D", target: "E" } },
+      { data: { source: "G", target: "H" } },
+      { data: { source: "G", target: "I" } },
+      { data: { source: "H", target: "F" } },
+      { data: { source: "H", target: "I" } },
+      { data: { source: "F", target: "E" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)",
+          width: 36, height: 36,
+          "background-color": "#23373b", color: "#ffffff",
+          "font-size": 16, "font-weight": "bold",
+          "text-valign": "center", "text-halign": "center",
+          "border-width": 2.5, "border-color": "#152224"
+        }
+      },
+      {
+        selector: "edge",
+        style: {
+          width: 3,
+          "line-color": "#555555",
+          "target-arrow-color": "#555555",
+          "target-arrow-shape": "triangle",
+          "arrow-scale": 1.2,
+          "curve-style": "bezier"
+        }
+      }
+    ],
+    layout: { name: "preset", fit: true, padding: 15 },
+    userZoomingEnabled: false, userPanningEnabled: false, boxSelectionEnabled: false, autoungrabify: false
+  });
+  window.setupCyResize && window.setupCyResize(cy, container, 15);
+})();
+</script>
+:::
+
+::: {.column width="45%"}
+Alguns possíveis ordenamentos topológicos para $G_5$:
+
+- $A, G, B, H, I, C, D, F, E$
+- $G, H, I, A, B, F, C, D, E$
+:::
+::::
+
+## Algoritmo de Kahn para Ordenamento Topológico
+
+**Algoritmo de Kahn (1962)** para ordenamento topológico:
+
+- Um nodo de **grau de entrada zero** é seguro para iniciar o ordenamento
+- Ao remover ele do grafo (e suas arestas de saída), podem-se **gerar novos nodos de grau zero**
+- Podemos pré-calcular o grau de entrada de todos os nós (armazenando em um vetor `inDeg`) e iniciar uma lista $q$ contendo nodos de grau zero a serem processados 
+- Removemos um nodo $x$ de $q$ e colocamos no final do ordenamento gerado
+- Após, decrementamos o grau de todos os nós alcançáveis por $x$: se o grau de um deles chegar a zero, o inserimos em $q$. Repita até esgotar $q$.
+
+## Algoritmo de Kahn para Ordenamento Topológico: Código
+
+```pyodide
+from collections import deque
+
+def toposortKahn(g):
+    inDeg = {i: 0 for i in g.keys()}  # graus de entrada
+
+    for i in g.keys():  # para todo nodo i
+        for j in g[i]:  # para todo j vizinho de i
+            inDeg[j] += 1  # +1 ao grau de entrada de j
+
+    q = deque([])  # lista de nodos fonte (source)
+    l = []  # lista de saida (ordenamento)
+    for i in g.keys():
+        if inDeg[i] == 0:
+            q.append(i)  # inicializa q com nodos de grau 0
+
+    while len(q) > 0:
+        h = q.popleft()  # extrai h de q
+        l.append(h)  # insere h em l
+        for i in g[h]:  # para todos vizinho i de h
+            inDeg[i] -= 1  # decrementa grau de i
+            if inDeg[i] == 0:  # se grau chega a zero
+                q.append(i)  # insere na lista de nodos fonte
+
+    return l  # retorna a lista de nodos
+
+# Dígrafo acíclico G5 (do slide anterior):
+g5 = {
+    'A': ['B'],
+    'B': ['C', 'F'],
+    'C': ['D'],
+    'D': ['E'],
+    'E': [],
+    'F': ['E'],
+    'G': ['H', 'I'],
+    'H': ['F', 'I'],
+    'I': []
+}
+print("Ordenamento topológico (Kahn):")
+print(toposortKahn(g5))
+```
+
+## Ordenamento Topológico com DFS
+
+**Busca em profundidade (DFS)** também pode ser utilizada para determinar **ordenamento topológico**.
+
+- **Inserção no Topo:**
+  - Um nodo $v$ só é inserido na lista `pos` após o retorno de todas as chamadas recursivas de DFS geradas por ele.
+  - Ao usar `pos.insert(0, v)`, garantimos que as dependências apareçam antes de seus sucessores na lista final.
+
+- **Garantia de Cobertura:**
+  - O laço principal percorre todos os nodos do grafo, garantindo que mesmo componentes desconexas sejam processadas.
+
+- **Resultado:**
+  - A lista final é uma ordenação linear onde, para toda aresta $(u \to v)$, o nodo $u$ precede $v$.
+
+## Ordenamento Topológico (DFS, Lista de Nodos)
+
+```pyodide
+def toposort(g):
+    pos = []  # lista de nodos
+    visited = {i: False for i in g.keys()}
+
+    def dfsTOPO(g, v, pos, visited):
+        visited[v] = True
+        for i in g[v]:
+            if not visited[i]:  # navega a partir de v
+                dfsTOPO(g, i, pos, visited)
+        pos.insert(0, v)  # insere v no topo da lista
+
+    for i in g.keys():
+        if not visited[i]:  # inicia ordenamento
+            dfsTOPO(g, i, pos, visited)
+
+    return pos  # retorna a lista de nodos em ordem
+
+# Dígrafo acíclico G5:
+g5 = {
+    'A': ['B'],
+    'B': ['C', 'F'],
+    'C': ['D'],
+    'D': ['E'],
+    'E': [],
+    'F': ['E'],
+    'G': ['H', 'I'],
+    'H': ['F', 'I'],
+    'I': []
+}
+print("Ordenamento topológico (DFS):")
+print(toposort(g5))
+```
+
+# Componentes Fortemente Conexos
+
+## Componentes Fortemente Conexos (SCC)
+
+> [Componentes Fortemente Conexos (SCC).]{.label-def} Dado um dígrafo $G = (V, E)$, decompor $V$ em **componentes fortemente conexos** (*Strongly Connected Components*), onde cada componente é um subdígrafo conexo maximal no qual todo par de vértices é mutuamente alcançável.
+
+Diferentemente de grafos simples, por conta da direcionalidade dos arcos, pode haver mais de um componente mesmo que o dígrafo pareça estar "em um único pedaço".
+
+:::: columns
+::: {.column width="55%"}
+<div id="grafo-scc-1" style="width: 100%; height: 280px; position: relative;"></div>
+<script>
+(() => {
+  const container = document.getElementById("grafo-scc-1");
+  if (!container || typeof cytoscape === 'undefined') return;
+  const cy = cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "6" }, position: { x: 310, y: 40 }, classes: "scc3" },
+      { data: { id: "3" }, position: { x: 70, y: 110 }, classes: "scc1" },
+      { data: { id: "11" }, position: { x: 190, y: 110 }, classes: "scc2" },
+      { data: { id: "8" }, position: { x: 310, y: 110 }, classes: "scc3" },
+      { data: { id: "10" }, position: { x: 430, y: 110 }, classes: "scc3" },
+      { data: { id: "1" }, position: { x: 70, y: 190 }, classes: "scc1" },
+      { data: { id: "5" }, position: { x: 190, y: 190 }, classes: "scc1" },
+      { data: { id: "9" }, position: { x: 310, y: 190 }, classes: "scc4" },
+      { data: { id: "2" }, position: { x: 430, y: 190 }, classes: "scc4" },
+      { data: { id: "7" }, position: { x: 310, y: 270 }, classes: "scc4" },
+      { data: { id: "4" }, position: { x: 430, y: 270 }, classes: "scc4" },
+      
+      { data: { source: "1", target: "3" } },
+      { data: { source: "3", target: "11" } },
+      { data: { source: "3", target: "5" } },
+      { data: { source: "5", target: "1" } },
+      { data: { source: "5", target: "9" } },
+      { data: { source: "5", target: "7" } },
+      { data: { source: "11", target: "6" } },
+      { data: { source: "11", target: "8" } },
+      { data: { source: "6", target: "10" } },
+      { data: { source: "10", target: "8" } },
+      { data: { source: "8", target: "6" } },
+      { data: { source: "9", target: "8" } },
+      { data: { source: "9", target: "2" } },
+      { data: { source: "9", target: "4" } },
+      { data: { source: "2", target: "10" } },
+      { data: { source: "2", target: "4" } },
+      { data: { source: "4", target: "7" } },
+      { data: { source: "7", target: "9" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)",
+          width: 36, height: 36,
+          color: "#ffffff",
+          "font-size": 16, "font-weight": "bold",
+          "text-valign": "center", "text-halign": "center",
+          "border-width": 2.5
+        }
+      },
+      { selector: "node.scc1", style: { "background-color": "#1565c0", "border-color": "#0d47a1" } },
+      { selector: "node.scc2", style: { "background-color": "#e65100", "border-color": "#bf360c" } },
+      { selector: "node.scc3", style: { "background-color": "#2e7d32", "border-color": "#1b5e20" } },
+      { selector: "node.scc4", style: { "background-color": "#7b1fa2", "border-color": "#4a148c" } },
+      {
+        selector: "edge",
+        style: {
+          width: 2.8,
+          "line-color": "#555555",
+          "target-arrow-color": "#555555",
+          "target-arrow-shape": "triangle",
+          "arrow-scale": 1.2,
+          "curve-style": "bezier"
+        }
+      }
+    ],
+    layout: { name: "preset", fit: true, padding: 15 },
+    userZoomingEnabled: false, userPanningEnabled: false, boxSelectionEnabled: false, autoungrabify: false
+  });
+  window.setupCyResize && window.setupCyResize(cy, container, 15);
+})();
+</script>
+:::
+
+::: {.column width="45%"}
+Componentes fortemente conexos (nodos):
+
+- [[1, 3, 5]]{style="color: #1565c0; font-weight: bold;"}
+- [[11]]{style="color: #e65100; font-weight: bold;"}
+- [[6, 8, 10]]{style="color: #2e7d32; font-weight: bold;"}
+- [[2, 4, 7, 9]]{style="color: #7b1fa2; font-weight: bold;"}
+:::
+::::
+
+## Componentes Fortemente Conexos (SCC) (Cont.)
+
+<div style="display: flex; justify-content: center; margin-bottom: 10px;">
+<div id="grafo-scc-2" style="width: 520px; height: 190px; position: relative;"></div>
+</div>
+<script>
+(() => {
+  const container = document.getElementById("grafo-scc-2");
+  if (!container || typeof cytoscape === 'undefined') return;
+  const cy = cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "6" }, position: { x: 310, y: 40 }, classes: "scc3" },
+      { data: { id: "3" }, position: { x: 70, y: 110 }, classes: "scc1" },
+      { data: { id: "11" }, position: { x: 190, y: 110 }, classes: "scc2" },
+      { data: { id: "8" }, position: { x: 310, y: 110 }, classes: "scc3" },
+      { data: { id: "10" }, position: { x: 430, y: 110 }, classes: "scc3" },
+      { data: { id: "1" }, position: { x: 70, y: 190 }, classes: "scc1" },
+      { data: { id: "5" }, position: { x: 190, y: 190 }, classes: "scc1" },
+      { data: { id: "9" }, position: { x: 310, y: 190 }, classes: "scc4" },
+      { data: { id: "2" }, position: { x: 430, y: 190 }, classes: "scc4" },
+      { data: { id: "7" }, position: { x: 310, y: 270 }, classes: "scc4" },
+      { data: { id: "4" }, position: { x: 430, y: 270 }, classes: "scc4" },
+      
+      { data: { source: "1", target: "3" } },
+      { data: { source: "3", target: "11" } },
+      { data: { source: "3", target: "5" } },
+      { data: { source: "5", target: "1" } },
+      { data: { source: "5", target: "9" } },
+      { data: { source: "5", target: "7" } },
+      { data: { source: "11", target: "6" } },
+      { data: { source: "11", target: "8" } },
+      { data: { source: "6", target: "10" } },
+      { data: { source: "10", target: "8" } },
+      { data: { source: "8", target: "6" } },
+      { data: { source: "9", target: "8" } },
+      { data: { source: "9", target: "2" } },
+      { data: { source: "9", target: "4" } },
+      { data: { source: "2", target: "10" } },
+      { data: { source: "2", target: "4" } },
+      { data: { source: "4", target: "7" } },
+      { data: { source: "7", target: "9" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)",
+          width: 36, height: 36,
+          color: "#ffffff",
+          "font-size": 16, "font-weight": "bold",
+          "text-valign": "center", "text-halign": "center",
+          "border-width": 2.5
+        }
+      },
+      { selector: "node.scc1", style: { "background-color": "#1565c0", "border-color": "#0d47a1" } },
+      { selector: "node.scc2", style: { "background-color": "#e65100", "border-color": "#bf360c" } },
+      { selector: "node.scc3", style: { "background-color": "#2e7d32", "border-color": "#1b5e20" } },
+      { selector: "node.scc4", style: { "background-color": "#7b1fa2", "border-color": "#4a148c" } },
+      {
+        selector: "edge",
+        style: {
+          width: 2.8,
+          "line-color": "#555555",
+          "target-arrow-color": "#555555",
+          "target-arrow-shape": "triangle",
+          "arrow-scale": 1.2,
+          "curve-style": "bezier"
+        }
+      }
+    ],
+    layout: { name: "preset", fit: true, padding: 15 },
+    userZoomingEnabled: false, userPanningEnabled: false, boxSelectionEnabled: false, autoungrabify: false
+  });
+  window.setupCyResize && window.setupCyResize(cy, container, 15);
+})();
+</script>
+
+Componentes: [[1, 3, 5]]{style="color: #1565c0; font-weight: bold;"}, [[11]]{style="color: #e65100; font-weight: bold;"}, [[6, 8, 10]]{style="color: #2e7d32; font-weight: bold;"}, [[2, 4, 7, 9]]{style="color: #7b1fa2; font-weight: bold;"}
+
+::: {.incremental}
+- Uma busca a partir de um nodo qualquer pode nos dar **mais do que o SCC que o contém** (por conta da direcionalidade)
+- Iniciando em 11 obtemos [11, 6, 8, 10], em 10 obtemos [6, 8, 10], e em 1 obtemos todos os nodos
+- Se comprimíssemos cada SCC em um único nodo, o grafo obtido dos componentes seria **acíclico**. [**Por quê?**]{.label-qstn}
+- Se iniciarmos uma busca em um componente sumidouro (*sink*), i.e., um componente com grau de saída igual a 0, obtemos somente os nodos deste (e de mais nenhum outro componente)
+- [**Pergunta:**]{.label-qstn} Mas como identificamos os nodos de um sumidouro?
+:::
+
+## Algoritmo de Kosaraju-Shamir (SCC)
+
+**Kosaraju** (e **Shamir**, independentemente) descobriram que, ao rodar **ordenamento topológico** sobre um dígrafo arbitrário (não necessariamente acíclico), temos que o primeiro nodo do ordenamento obrigatoriamente pertence a um componente fonte (*source*).
+
+. . .
+
+- Porém, observe que precisamos de um nodo do sumidouro, não da fonte!
+
+. . .
+
+> **Solução:** `toposort` sobre o **grafo reverso** ($G^R$)! Isso gera uma sequência de nodos que pode ser usada para guiar uma busca por componentes no grafo original que nunca inclui mais do que o componente atual de cada nodo.
+
+## Algoritmo de Kosaraju-Shamir (SCC)
+
+```pyodide
+def rev(g):
+    """Retorna o grafo reverso gR com as arestas invertidas."""
+    gR = {i: [] for i in g.keys()}
+    for u in g:
+        for v in g[u]:
+            gR[v].append(u)
+    return gR
+
+def toposort(g):
+    pos = []
+    visited = {i: False for i in g.keys()}
+    def dfsTOPO(v):
+        visited[v] = True
+        for u in g[v]:
+            if not visited[u]:
+                dfsTOPO(u)
+        pos.insert(0, v)
+    for i in g.keys():
+        if not visited[i]:
+            dfsTOPO(i)
+    return pos
+
+def strongComponents(g):
+    gR = rev(g)  # reverte o grafo  
+    order = toposort(gR)  # calcula ordem de busca por gR
+    comp = {}  # vetor de componentes
+    atual = 1  # componente inicial
+    visited = {i: False for i in g.keys()}
+
+    def dfsSCC(g, v, comp, atual, visited):
+        visited[v] = True
+        comp[v] = atual  # registra o componente atual
+        for i in g[v]:
+            if not visited[i]:
+                dfsSCC(g, i, comp, atual, visited)
+
+    for i in order:  # na ordem adequada calculada via gR
+        if not visited[i]:  # busca o componente de i
+            dfsSCC(g, i, comp, atual, visited)
+            atual += 1  # incrementa componente
+
+    return comp  # retorna vetor de componentes
+
+# Dígrafo de 11 vértices dos slides anteriores:
+g_scc = {
+    1: [3],
+    2: [4, 10],
+    3: [5, 11],
+    4: [7],
+    5: [1, 7, 9],
+    6: [10],
+    7: [9],
+    8: [6],
+    9: [2, 4, 8],
+    10: [8],
+    11: [6, 8]
+}
+
+print("Componentes fortemente conexos (Kosaraju):")
+print(strongComponents(g_scc))
+```
+
+# Detecção de Ciclos
+
+## Detecção de Ciclos
+
+> [Detecção de Ciclos.]{.label-def} Dado um grafo simples, pseudografo ou dígrafo $G$, determinar a **existência de ciclos** (se $G$ contém pelo menos um ciclo).
+
+<br>
+
+Há diferenças importantes entre os modelos com arcos unidirecionais ou bidirecionais:
+
+- Em um **grafo simples**, os menores ciclos são **triângulos**;
+- Em um **dígrafo**, um **loop** ou **um par de arcos de ida e volta** configuram ciclo;
+- Em um **pseudografo**, um **loop** ou **arestas paralelas** configuram ciclo.
+
+## Detecção de Ciclos em Grafos Simples (DFS)
+
+**Ideia principal:** Para cada componente conexo (nó ainda não visitado), iniciamos uma **busca em profundidade (DFS)** e mantemos o **nó pai** de cada vértice.
+
+<br>
+
+- Como o grafo é não-direcionado, cada aresta aparece duas vezes (uma em cada direção). Assim, ao explorar um vértice, devemos ignorar a aresta que leva de volta ao seu pai.
+
+<br>
+
+- Durante a busca, se encontrarmos um vizinho já visitado **que não seja o pai do vértice atual**, então detectamos um ciclo.
+
+<br>
+
+- Repita o processo para todos os vértices ainda não visitados (componentes conexos).
+
+
+## Detecção de Ciclos em Dígrafos (Kahn)
+
+**Ideia principal:** Rodar o algoritmo de ordenamento topológico de Kahn sobre o dígrafo (baseado em graus de entrada).
+
+<br>
+
+- Se houver ciclos, isso impede que os nós do ciclo em questão obtenham **grau de entrada 0** e possam ser inseridos na solução.
+
+<br>
+
+- Isto é, o algoritmo vai listar um ordenamento com **menos vértices** do que o total de vértices do grafo **se o grafo contém algum ciclo**.
+
+# Conclusão
+
+## Moral da Aula
+
+> Podemos usar **DFS** e **BFS** para resolver diversos problemas em grafos simples e dígrafos de forma eficiente.
+> 
+> <br>
+> 
+> **Complexidade Linear:** $\Theta(|V| + |E|)$
+
+#
+
+::: {style="text-align: center; margin-top: 15vh;"}
+[?]{style="font-size: 5em; color: #d10000; font-weight: 700;"}
+:::
+

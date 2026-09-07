@@ -660,24 +660,125 @@ G
 :::
 ::::
 
+## Custo de Operações em Python: `dict`
+
+| Operação | Custo |
+|:---|:---|
+| `k in d` | $O(1)$ em média, $O(n)$ no pior caso |
+| `d[k]` | $O(1)$ em média, $O(n)$ no pior caso |
+| `d[k] = v` | $O(1)$ em média, $O(n)$ no pior caso |
+| `del d[k]` | $O(1)$ em média, $O(n)$ no pior caso |
+| Iteração / cópia | $O(n)$ |
+
+<br>
+
+::: {style="text-align: right; font-size: 0.6em;"}
+Fonte: [https://wiki.python.org/moin/TimeComplexity](https://wiki.python.org/moin/TimeComplexity)
+:::
+
+## Custo de Operações em Python: `list`
+
+| Operação | Custo |
+|:---|:---|
+| `l[i]`, `l[i] = x`, `len(l)` | $O(1)$ |
+| `append(x)`, `pop()` no fim | $O(1)$ amortizado |
+| `x in l`, iteração | $O(n)$ |
+| `insert(i, x)`, `pop(i)`, `del l[i]` | $O(n)$ |
+| `l[i:j]` | $O(k)$ |
+
+<br>
+
+::: {style="text-align: right; font-size: 0.6em;"}
+Fonte: [https://wiki.python.org/moin/TimeComplexity](https://wiki.python.org/moin/TimeComplexity)
+:::
+
+## Custo de Operações em Python: `collections.deque`
+
+| Operação | Custo |
+|:---|:---|
+| `append(x)`, `appendleft(x)` | $O(1)$ |
+| `pop()`, `popleft()` | $O(1)$ |
+| `len(d)` | $O(1)$ |
+| `extend(t)`, `extendleft(t)`, `rotate(k)` | $O(k)$ |
+| `remove(x)` | $O(n)$ |
+
+<br>
+
+::: {style="text-align: right; font-size: 0.6em;"}
+Fonte: [https://wiki.python.org/moin/TimeComplexity](https://wiki.python.org/moin/TimeComplexity)
+:::
+
 
 ## Árvore Associada à Busca
 
-Dada uma busca (DFS ou BFS) em $G$ a partir de um nó $v$, podemos construir uma **árvore** associada a essa busca, onde cada nó aponta para o elemento que o descobriu (seu antecessor direto). 
+
+## Árvore Associada à Busca
+
+> [Árvore de Busca.]{.label-def} Dada uma busca (DFS ou BFS) em $G$ a partir de um nó $v$, construir uma **árvore** associada a essa busca onde **cada nó aponta para o elemento que o alcançou** diretamente.
 
 :::: columns
 ::: {.column width="33%"}
-**Dígrafo de Exemplo:**
-```{=html}
-<div style="display: flex; justify-content: center;">
-  <div id="grafo-arvore-busca-original" style="width: 100%; height: 250px; position: relative;"></div>
-</div>
-<script>window.renderG1 && window.renderG1("grafo-arvore-busca-original");</script>
-```
+**Dígrafo $g_1$:**
+<div id="grafo-arvore-busca-original" style="width: 100%; height: 260px; position: relative;"></div>
+<script>
+(() => {
+  const container = document.getElementById("grafo-arvore-busca-original");
+  if (!container || typeof cytoscape === 'undefined') return;
+  const cy = cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A" }, position: { x: 200, y: 25 } },
+      { data: { id: "C" }, position: { x: 40, y: 105 } },
+      { data: { id: "E" }, position: { x: 150, y: 105 } },
+      { data: { id: "B" }, position: { x: 260, y: 105 } },
+      { data: { id: "D" }, position: { x: 100, y: 185 } },
+      { data: { id: "F" }, position: { x: 210, y: 185 } },
+      { data: { id: "G" }, position: { x: 210, y: 260 } },
+      { data: { source: "A", target: "B" } },
+      { data: { source: "A", target: "E" } },
+      { data: { source: "B", target: "E" } },
+      { data: { source: "B", target: "F" } },
+      { data: { source: "C", target: "D" } },
+      { data: { source: "E", target: "C" } },
+      { data: { source: "E", target: "F" } },
+      { data: { source: "F", target: "D" } },
+      { data: { source: "F", target: "G" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)",
+          width: 36, height: 36,
+          "background-color": "#23373b", color: "#ffffff",
+          "font-size": 16, "font-weight": "bold",
+          "text-valign": "center", "text-halign": "center",
+          "border-width": 2.5, "border-color": "#152224"
+        }
+      },
+      {
+        selector: "edge",
+        style: {
+          width: 3,
+          "line-color": "#555555",
+          "target-arrow-color": "#555555",
+          "target-arrow-shape": "triangle",
+          "arrow-scale": 1.2,
+          "curve-style": "bezier"
+        }
+      }
+    ],
+    layout: { name: "preset", fit: true, padding: 15 },
+    userZoomingEnabled: false, userPanningEnabled: false, boxSelectionEnabled: false, autoungrabify: false
+  });
+  window.setupCyResize && window.setupCyResize(cy, container, 15);
+})();
+</script>
 :::
 
-::: {.column width="33%"}
-**Saída `dfs_iter_tree(g1, 'A')`:**
+::: {.column width="27%"}
+`dfs_iter(g1, 'A')`:
+
 ```text
 A
 E
@@ -689,79 +790,60 @@ B
 ```
 :::
 
-::: {.column width="33%"}
-**Árvore de Busca:**
-```{=html}
-<div style="display: flex; justify-content: center;">
-  <div id="grafo-arvore-busca-vermelha" style="width: 100%; height: 250px; position: relative;"></div>
-</div>
+::: {.column width="40%"}
+**Árvore de busca:**
+<div id="grafo-arvore-busca-result" style="width: 100%; height: 260px; position: relative;"></div>
 <script>
-  (() => {
-    const container = document.getElementById("grafo-arvore-busca-vermelha");
-    if (!container || typeof cytoscape === 'undefined') return;
-
-    const cy = cytoscape({
-      container: container,
-      elements: [
-        { data: { id: "A" }, position: { x: 260, y: 20 } },
-        { data: { id: "C" }, position: { x: 60, y: 100 } },
-        { data: { id: "E" }, position: { x: 200, y: 100 } },
-        { data: { id: "B" }, position: { x: 340, y: 100 } },
-        { data: { id: "D" }, position: { x: 140, y: 180 } },
-        { data: { id: "F" }, position: { x: 280, y: 180 } },
-        { data: { id: "G" }, position: { x: 280, y: 260 } },
-        
-        { data: { id: "e1", source: "A", target: "B" }, classes: "tree" },
-        { data: { id: "e2", source: "A", target: "E" }, classes: "tree" },
-        { data: { id: "e3", source: "B", target: "E" } },
-        { data: { id: "e4", source: "B", target: "F" } },
-        { data: { id: "e5", source: "C", target: "D" } },
-        { data: { id: "e6", source: "E", target: "C" }, classes: "tree" },
-        { data: { id: "e7", source: "E", target: "F" }, classes: "tree" },
-        { data: { id: "e8", source: "F", target: "D" }, classes: "tree" },
-        { data: { id: "e9", source: "F", target: "G" }, classes: "tree" }
-      ],
-      style: [
-        {
-          selector: "node",
-          style: {
-            label: "data(id)",
-            width: 40, height: 40,
-            "background-color": "#23373b", color: "#ffffff",
-            "font-size": 18, "font-weight": "bold",
-            "text-valign": "center", "text-halign": "center",
-            "border-width": 2.5, "border-color": "#152224"
-          }
-        },
-        {
-          selector: "edge",
-          style: {
-            width: 3.5,
-            "line-color": "#cbd5e1",
-            "target-arrow-color": "#cbd5e1",
-            "target-arrow-shape": "triangle",
-            "arrow-scale": 1.25,
-            "curve-style": "bezier",
-            "control-point-step-size": 30
-          }
-        },
-        {
-          selector: "edge.tree",
-          style: {
-            "line-color": "#dc2626",
-            "target-arrow-color": "#dc2626",
-            width: 4.5
-          }
+(() => {
+  const container = document.getElementById("grafo-arvore-busca-result");
+  if (!container || typeof cytoscape === 'undefined') return;
+  const cy = cytoscape({
+    container: container,
+    elements: [
+      { data: { id: "A" }, position: { x: 200, y: 25 } },
+      { data: { id: "C" }, position: { x: 40, y: 105 } },
+      { data: { id: "E" }, position: { x: 150, y: 105 } },
+      { data: { id: "B" }, position: { x: 260, y: 105 } },
+      { data: { id: "D" }, position: { x: 100, y: 185 } },
+      { data: { id: "F" }, position: { x: 210, y: 185 } },
+      { data: { id: "G" }, position: { x: 210, y: 260 } },
+      { data: { source: "B", target: "A" } },
+      { data: { source: "E", target: "A" } },
+      { data: { source: "C", target: "E" } },
+      { data: { source: "F", target: "E" } },
+      { data: { source: "D", target: "F" } },
+      { data: { source: "G", target: "F" } }
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          label: "data(id)",
+          width: 36, height: 36,
+          "background-color": "#23373b", color: "#ffffff",
+          "font-size": 16, "font-weight": "bold",
+          "text-valign": "center", "text-halign": "center",
+          "border-width": 2.5, "border-color": "#152224"
         }
-      ],
-      layout: { name: "preset", fit: true, padding: 18 },
-      userZoomingEnabled: false, userPanningEnabled: false,
-      boxSelectionEnabled: false, autoungrabify: false
-    });
-    window.setupCyResize && window.setupCyResize(cy, container, 18);
-  })();
+      },
+      {
+        selector: "edge",
+        style: {
+          width: 3.5,
+          "line-color": "#dc2626",
+          "target-arrow-color": "#dc2626",
+          "target-arrow-shape": "triangle",
+          "arrow-scale": 1.25,
+          "curve-style": "bezier"
+        }
+      }
+    ],
+    layout: { name: "preset", fit: true, padding: 15 },
+    userZoomingEnabled: false, userPanningEnabled: false, boxSelectionEnabled: false, autoungrabify: false
+  });
+  window.setupCyResize && window.setupCyResize(cy, container, 15);
+})();
 </script>
-```
 :::
 ::::
 

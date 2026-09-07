@@ -1934,9 +1934,6 @@ A associação é formalizada por **funções de valoração**.
 </script>
 ```
 
-:::
-::: {.column width="55%"}
-
 $$
 \begin{aligned}
 V &= \{ A, B, C, D, E \} \\
@@ -1944,12 +1941,32 @@ E &= \{ a_1, a_2, a_3, a_4, a_5, a_6, a_7, a_8 \}
 \end{aligned}
 $$
 
+:::
+::: {.column width="50%"}
+
 $$
-\begin{array}{rll}
-conn: & a_1 \mapsto (A,B), & a_2 \mapsto (A,C) \\
-      & a_3 \mapsto (B,D), & a_4 \mapsto (B,E) \\
-      & a_5 \mapsto (C,C), & a_6 \mapsto (C,D) \\
-      & a_7 \mapsto (D,B), & a_8 \mapsto (D,E)
+\begin{array}{l}
+conn: \\
+a_1 \mapsto (A,B) \\
+a_2 \mapsto (A,C) \\
+a_3 \mapsto (B,D) \\
+a_4 \mapsto (B,E) \\
+a_5 \mapsto (C,C) \\
+a_6 \mapsto (C,D) \\
+a_7 \mapsto (D,B) \\
+a_8 \mapsto (D,E)
+\end{array}
+\qquad
+\begin{array}{l}
+w: \\
+a_1 \mapsto 7 \\
+a_2 \mapsto 5 \\
+a_3 \mapsto 1 \\
+a_4 \mapsto 1 \\
+a_5 \mapsto 2 \\
+a_6 \mapsto 3 \\
+a_7 \mapsto 2 \\
+a_8 \mapsto 6
 \end{array}
 $$
 

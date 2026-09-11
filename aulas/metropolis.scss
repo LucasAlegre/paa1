@@ -12,7 +12,7 @@ $m-blue:     #2e75b6;
 $m-accent:   #2e75b6;
 $m-text:     #23373b;
 
-$font-family-sans-serif: "Gill Sans Nova", "Gill Sans MT", "Gill Sans", "Trebuchet MS", Arial, sans-serif !default;
+$font-family-sans-serif: "Lexend", "Gill Sans Nova", "Gill Sans MT", "Gill Sans", "Trebuchet MS", Arial, sans-serif !default;
 $presentation-font-size-root: 28px !default;
 
 $body-bg:   $m-bg !default;
@@ -20,7 +20,7 @@ $body-color: $m-text !default;
 $link-color: $m-accent !default;
 
 $presentation-heading-color:       $m-dark !default;
-$presentation-heading-font:        "Gill Sans Nova", "Gill Sans MT", "Gill Sans", "Trebuchet MS", Arial, sans-serif !default;
+$presentation-heading-font:        "Lexend", "Gill Sans Nova", "Gill Sans MT", "Gill Sans", "Trebuchet MS", Arial, sans-serif !default;
 $presentation-heading-font-weight: 500 !default;
 $presentation-heading-line-height: 1.25 !default;
 $presentation-heading-letter-spacing: 0.02em !default;
@@ -48,6 +48,8 @@ $colors: (
 }
 
 /*-- scss:rules --*/
+
+@import url('https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap');
 
 // ── Title slide — matches Beamer metropolis \maketitle layout ──────────────
 // Light background, centered text, red title and blue separator rule.

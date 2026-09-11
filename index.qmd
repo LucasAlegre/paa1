@@ -191,6 +191,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td style="text-align:center;"><a href="aulas/aula11-algoritmos-grafos.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
+      <li class="mb-1"><a href="aulas/toposort.html"><i class="bi bi-display me-1"></i>Simulador Ordenação Topológica</a></li>
       <li class="mb-1"><a href="https://www.youtube.com/watch?v=cIBFEhD77b4"><i class="bi bi-youtube me-1"></i>Topological Sort (Kahn's Algorithm)</a></li>
       <li class="mb-1"><a href="https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/graph_search.ipynb"><i class="bi bi-file-earmark-code me-1"></i>Código Buscas em Grafos (Python)</a></li>
       <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>KT (Seção 3)</a></li>

@@ -1,0 +1,1114 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)https://www.inf.ufrgs.br/~fmschwartzhaupt/paa1/toposort_simulator.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Topological Sort Simulator</title>
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f4f6f8;
+  --panel: #ffffff;
+  --panel-2: #f8fafc;
+  --border: #d7dce3;
+  --text: #1d2733;
+  --muted: #697586;
+  --accent: #4f5ec7;
+  --accent-soft: #eceefe;
+  --hint: #c98500;
+  --hint-soft: #fff1c2;
+  --active: #a65b08;
+  --active-soft: #ffe7ca;
+  --done: #14794a;
+  --done-soft: #e0f4e9;
+  --danger: #b72f34;
+  --danger-soft: #fde4e5;
+  --edge: #748194;
+  --edge-done: #3378ad;
+  --removed: 0.12;
+  --shadow: 0 4px 16px rgba(16, 24, 40, 0.06);
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow: hidden;
+}
+button, input { font: inherit; }
+button { color: inherit; }
+.app {
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr);
+  gap: 10px;
+  padding: 10px;
+}
+.toolbar {
+  display: grid;
+  grid-template-columns: minmax(570px, 1.55fr) minmax(420px, 1fr);
+  gap: 10px;
+}
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+}
+.controls-panel {
+  min-height: 78px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.control-group {
+  display: flex;
+  align-items: end;
+  gap: 7px;
+}
+.field {
+  display: grid;
+  gap: 3px;
+  min-width: 82px;
+}
+.field.seed { min-width: 108px; }
+.field label, .small-label {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 700;
+}
+input[type="number"], input[type="text"] {
+  width: 100%;
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0 8px;
+  background: var(--panel-2);
+  color: var(--text);
+  outline: none;
+}
+input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(79, 94, 199, 0.12); }
+.btn {
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel-2);
+  padding: 0 11px;
+  cursor: pointer;
+  font-weight: 650;
+}
+.btn:hover:not(:disabled) { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: white; }
+.btn:disabled { opacity: 0.42; cursor: default; }
+.toggle-wrap {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 650;
+}
+.switch { position: relative; width: 40px; height: 22px; flex: 0 0 auto; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider-switch {
+  position: absolute;
+  inset: 0;
+  border-radius: 99px;
+  background: var(--border);
+  cursor: pointer;
+  transition: 140ms ease;
+}
+.slider-switch::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 3px;
+  top: 3px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 3px rgba(0,0,0,.22);
+  transition: 140ms ease;
+}
+.switch input:checked + .slider-switch { background: var(--accent); }
+.switch input:checked + .slider-switch::after { transform: translateX(18px); }
+.algorithm-panel {
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.segmented {
+  display: inline-grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 3px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 9px;
+}
+.segmented button {
+  height: 30px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--muted);
+  padding: 0 14px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.segmented button.selected {
+  color: var(--text);
+  background: var(--panel);
+  box-shadow: 0 1px 4px rgba(0,0,0,.10);
+}
+.actions { display: flex; align-items: center; gap: 7px; }
+.order-panel {
+  min-height: 58px;
+  padding: 8px 12px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+.section-title {
+  font-size: 11px;
+  color: var(--muted);
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  white-space: nowrap;
+}
+.order-vector {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  align-items: center;
+  justify-self: center;
+  gap: 4px;
+}
+.order-bracket {
+  font-size: 28px;
+  font-weight: 300;
+  color: var(--muted);
+  line-height: 1;
+  text-align: center;
+}
+.order-slot {
+  min-width: 0;
+  height: 32px;
+  border-radius: 7px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  font-weight: 750;
+  overflow: hidden;
+}
+.order-slot.filled { border-color: #89bea3; background: var(--done-soft); }
+.order-slot.blank { color: var(--muted); font-weight: 500; }
+.main {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 260px;
+  gap: 10px;
+}
+.graph-panel {
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+}
+.graph-head {
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+.graph-head strong { font-size: 13px; }
+.graph-meta { color: var(--muted); }
+#graph {
+  display: block;
+  width: 100%;
+  height: calc(100% - 38px);
+  user-select: none;
+  touch-action: none;
+}
+.edge {
+  stroke: var(--edge);
+  stroke-width: 2.1;
+  opacity: .82;
+  transition: opacity 130ms ease, stroke 130ms ease, stroke-width 130ms ease;
+}
+.edge.explored { stroke: var(--edge-done); stroke-width: 2.8; opacity: .95; }
+.edge.hint { stroke: var(--hint); stroke-width: 3.8; opacity: 1; filter: drop-shadow(0 0 3px rgba(201, 133, 0, .32)); }
+.edge.cycle-edge { stroke: var(--danger); stroke-width: 3.8; opacity: 1; }
+.edge.removed { opacity: .07; }
+.edge-hit { stroke: transparent; stroke-width: 18; cursor: pointer; }
+.edge-hit.disabled { cursor: default; pointer-events: none; }
+.node { cursor: pointer; transition: opacity 130ms ease; }
+.node circle {
+  fill: var(--panel);
+  stroke: var(--edge);
+  stroke-width: 2.3;
+  transition: fill 130ms ease, stroke 130ms ease, stroke-width 130ms ease, filter 130ms ease;
+}
+.node text {
+  fill: var(--text);
+  font-size: 15px;
+  font-weight: 750;
+  text-anchor: middle;
+  dominant-baseline: central;
+  pointer-events: none;
+}
+.node.hint circle { fill: var(--hint-soft); stroke: var(--hint); stroke-width: 3.7; filter: drop-shadow(0 0 5px rgba(201, 133, 0, .28)); }
+.node.active circle { fill: var(--active-soft); stroke: var(--active); stroke-width: 3; }
+.node.current circle { stroke: var(--accent); stroke-width: 4; filter: drop-shadow(0 0 5px rgba(79, 94, 199, .28)); }
+.node.finished circle { fill: var(--done-soft); stroke: var(--done); }
+.node.removed { opacity: var(--removed); pointer-events: none; }
+.node.invalid { animation: shake 150ms linear 2; }
+@keyframes shake { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+.state-panel { min-height: 0; padding: 12px; }
+.state-grid { display: grid; gap: 9px; margin-top: 10px; }
+.state-row {
+  display: grid;
+  grid-template-columns: 86px minmax(0, 1fr);
+  gap: 8px;
+  font-size: 13px;
+  align-items: baseline;
+}
+.state-row .key { color: var(--muted); }
+.state-row .value { font-weight: 650; overflow-wrap: anywhere; }
+.result {
+  margin-top: 12px;
+  min-height: 36px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  display: none;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+.result.success { display: flex; background: var(--done-soft); border-color: #9bceb2; color: #0d653d; }
+.result.danger { display: flex; background: var(--danger-soft); border-color: #e6a5a8; color: #98272c; }
+.error {
+  font-size: 12px;
+  color: var(--danger);
+  min-height: 16px;
+  flex-basis: 100%;
+  margin-top: -5px;
+}
+@media (max-width: 980px) {
+  body { overflow: auto; }
+  .app { height: auto; min-height: 100vh; }
+  .toolbar, .main { grid-template-columns: 1fr; }
+  .graph-panel { height: 62vh; }
+  .order-panel { grid-template-columns: 1fr; gap: 6px; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="toolbar">
+    <section class="panel controls-panel">
+      <div class="control-group">
+        <div class="field seed">
+          <label for="seedInput">Seed</label>
+          <input id="seedInput" type="text" value="76" autocomplete="off">
+        </div>
+        <button id="randomSeedButton" class="btn" type="button">Random seed</button>
+      </div>
+      <div class="field">
+        <label for="verticesInput">Vertices</label>
+        <input id="verticesInput" type="number" min="3" max="24" value="12">
+      </div>
+      <div class="field">
+        <label for="edgesInput">Edges</label>
+        <input id="edgesInput" type="number" min="11" max="21" value="18">
+      </div>
+      <div class="toggle-wrap">
+        <label class="switch">
+          <input id="cyclicInput" type="checkbox">
+          <span class="slider-switch"></span>
+        </label>
+        <span>Cyclic</span>
+      </div>
+      <button id="generateButton" class="btn primary" type="button">Generate graph</button>
+      <div id="generatorError" class="error"></div>
+    </section>
+
+    <section class="panel algorithm-panel">
+      <div>
+        <div class="small-label" style="margin-bottom:4px">Algorithm</div>
+        <div class="segmented" role="group" aria-label="Algorithm">
+          <button id="kahnButton" class="selected" type="button">Kahn</button>
+          <button id="dfsButton" type="button">DFS toposort</button>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="toggle-wrap" style="margin-right:3px">
+          <label class="switch">
+            <input id="hintsInput" type="checkbox" checked="">
+            <span class="slider-switch"></span>
+          </label>
+          <span>Hints</span>
+        </div>
+        <button id="undoButton" class="btn" type="button" disabled="">Undo</button>
+        <button id="restartButton" class="btn" type="button">Restart</button>
+      </div>
+    </section>
+  </div>
+
+  <section class="panel order-panel">
+    <div class="section-title">Ordering vector</div>
+    <div id="orderVector" class="order-vector" style="max-width: 556px; grid-template-columns: 22px repeat(12, minmax(0px, 1fr)) 22px;"><span class="order-bracket">[</span><span class="order-slot blank">·</span><span class="order-slot blank">·</span><span class="order-slot blank">·</span><span class="order-slot blank">·</span><span class="order-slot blank">·</span><span class="order-slot blank">·</span><span class="order-slot blank">·</span><span class="order-slot blank">·</span><span class="order-slot blank">·</span><span class="order-slot blank">·</span><span class="order-slot blank">·</span><span class="order-slot blank">·</span><span class="order-bracket">]</span></div>
+  </section>
+
+  <main class="main">
+    <section class="panel graph-panel">
+      <div class="graph-head">
+        <strong>Graph</strong>
+        <span id="graphMeta" class="graph-meta">12 vertices · 18 edges · DAG · seed 76</span>
+      </div>
+      <svg id="graph" viewBox="0 0 900 650" preserveAspectRatio="xMidYMid meet" aria-label="Directed graph"><defs><marker id="arrowDefault" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse" markerUnits="strokeWidth"><path d="M 0 0 L 10 5 L 0 10 z" style="fill:var(--edge)"></path></marker><marker id="arrowExplored" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse" markerUnits="strokeWidth"><path d="M 0 0 L 10 5 L 0 10 z" style="fill:var(--edge-done)"></path></marker><marker id="arrowHint" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse" markerUnits="strokeWidth"><path d="M 0 0 L 10 5 L 0 10 z" style="fill:var(--hint)"></path></marker><marker id="arrowDanger" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse" markerUnits="strokeWidth"><path d="M 0 0 L 10 5 L 0 10 z" style="fill:var(--danger)"></path></marker></defs><g><line x1="605.9049600432788" y1="360.87251414201774" x2="704.6032307947362" y2="413.00019457359747" class="edge" marker-end="url(#arrowDefault)"></line><line x1="605.9049600432788" y1="360.87251414201774" x2="704.6032307947362" y2="413.00019457359747" class="edge-hit disabled"></line><line x1="607.5778179513255" y1="342.4649648947521" x2="738.445818174732" y2="301.3143299991213" class="edge" marker-end="url(#arrowDefault)"></line><line x1="607.5778179513255" y1="342.4649648947521" x2="738.445818174732" y2="301.3143299991213" class="edge-hit disabled"></line><line x1="672.7646042630498" y1="526.289981416893" x2="715.4050699419053" y2="449.23380976901757" class="edge" marker-end="url(#arrowDefault)"></line><line x1="672.7646042630498" y1="526.289981416893" x2="715.4050699419053" y2="449.23380976901757" class="edge-hit disabled"></line><line x1="149.98085581616425" y1="217.6291460781465" x2="193.78074470533954" y2="122.3052736025253" class="edge" marker-end="url(#arrowDefault)"></line><line x1="149.98085581616425" y1="217.6291460781465" x2="193.78074470533954" y2="122.3052736025253" class="edge-hit disabled"></line><line x1="375.6796064066047" y1="527.8158240604747" x2="198.80752181123148" y2="450.29711581304485" class="edge" marker-end="url(#arrowDefault)"></line><line x1="375.6796064066047" y1="527.8158240604747" x2="198.80752181123148" y2="450.29711581304485" class="edge-hit disabled"></line><line x1="480.79902175262225" y1="103.13078814890899" x2="232.04866797809876" y2="98.29592571864322" class="edge" marker-end="url(#arrowDefault)"></line><line x1="480.79902175262225" y1="103.13078814890899" x2="232.04866797809876" y2="98.29592571864322" class="edge-hit disabled"></line><line x1="163.95982761619567" y1="239.27259962757321" x2="325.8295626955881" y2="238.16255551982326" class="edge" marker-end="url(#arrowDefault)"></line><line x1="163.95982761619567" y1="239.27259962757321" x2="325.8295626955881" y2="238.16255551982326" class="edge-hit disabled"></line><line x1="761.254828512123" y1="131.92704147425042" x2="763.7091220628088" y2="266.21981348296765" class="edge" marker-end="url(#arrowDefault)"></line><line x1="761.254828512123" y1="131.92704147425042" x2="763.7091220628088" y2="266.21981348296765" class="edge-hit disabled"></line><line x1="143.99581520835903" y1="263.09548330605156" x2="169.53847039395555" y2="412.8433199963657" class="edge" marker-end="url(#arrowDefault)"></line><line x1="143.99581520835903" y1="263.09548330605156" x2="169.53847039395555" y2="412.8433199963657" class="edge-hit disabled"></line><line x1="560.9293513323262" y1="353.09396143757647" x2="413.82900234941644" y2="374.334237692761" class="edge" marker-end="url(#arrowDefault)"></line><line x1="560.9293513323262" y1="353.09396143757647" x2="413.82900234941644" y2="374.334237692761" class="edge-hit disabled"></line><line x1="364.0410711233036" y1="384.82627063609135" x2="200.02652703863947" y2="431.99629649006647" class="edge" marker-end="url(#arrowDefault)"></line><line x1="364.0410711233036" y1="384.82627063609135" x2="200.02652703863947" y2="431.99629649006647" class="edge-hit disabled"></line><line x1="160.8877438321729" y1="251.18647446450197" x2="363.5628717348517" y2="364.9748770944734" class="edge" marker-end="url(#arrowDefault)"></line><line x1="160.8877438321729" y1="251.18647446450197" x2="363.5628717348517" y2="364.9748770944734" class="edge-hit disabled"></line><line x1="637.1610005844195" y1="546.3935980516789" x2="424.64231091638345" y2="538.4573607596925" class="edge" marker-end="url(#arrowDefault)"></line><line x1="637.1610005844195" y1="546.3935980516789" x2="424.64231091638345" y2="538.4573607596925" class="edge-hit disabled"></line><line x1="528.7910518162232" y1="104.00338610523589" x2="733.8201526682603" y2="107.47406502329163" class="edge" marker-end="url(#arrowDefault)"></line><line x1="528.7910518162232" y1="104.00338610523589" x2="733.8201526682603" y2="107.47406502329163" class="edge-hit disabled"></line><line x1="512.2055712761296" y1="126.42426489253424" x2="576.3455375923332" y2="323.9836256002192" class="edge" marker-end="url(#arrowDefault)"></line><line x1="512.2055712761296" y1="126.42426489253424" x2="576.3455375923332" y2="323.9836256002192" class="edge-hit disabled"></line><line x1="567.7470601462425" y1="366.66920844935106" x2="416.71405501492126" y2="518.3190331826565" class="edge" marker-end="url(#arrowDefault)"></line><line x1="567.7470601462425" y1="366.66920844935106" x2="416.71405501492126" y2="518.3190331826565" class="edge-hit disabled"></line><line x1="757.9500793792981" y1="316.38656892026535" x2="735.511885406625" y2="399.54199184021127" class="edge" marker-end="url(#arrowDefault)"></line><line x1="757.9500793792981" y1="316.38656892026535" x2="735.511885406625" y2="399.54199184021127" class="edge-hit disabled"></line><line x1="358.528167852492" y1="261.2908903648062" x2="380.69449763097145" y2="351.9651618346572" class="edge" marker-end="url(#arrowDefault)"></line><line x1="358.528167852492" y1="261.2908903648062" x2="380.69449763097145" y2="351.9651618346572" class="edge-hit disabled"></line></g><g><g class="node" transform="translate(352.8289278507233 237.97740363711492)"><circle r="23"></circle><text x="0" y="1">A</text></g><g class="node hint" transform="translate(661.1442834308742 547.2892229212262)"><circle r="23"></circle><text x="0" y="1">B</text></g><g class="node" transform="translate(760.816285097152 107.93104848222808)"><circle r="23"></circle><text x="0" y="1">C</text></g><g class="node" transform="translate(174.07832159027458 439.45891225194555)"><circle r="23"></circle><text x="0" y="1">D</text></g><g class="node" transform="translate(584.6830044136196 349.6640976948663)"><circle r="23"></circle><text x="0" y="1">E</text></g><g class="node hint" transform="translate(504.7944896572083 103.59717858618126)"><circle r="23"></circle><text x="0" y="1">F</text></g><g class="node" transform="translate(205.05376658543943 97.77123647671192)"><circle r="23"></circle><text x="0" y="1">G</text></g><g class="node" transform="translate(397.66111771412193 537.4497827814519)"><circle r="23"></circle><text x="0" y="1">H</text></g><g class="node" transform="translate(764.2024834046512 293.2153055989928)"><circle r="23"></circle><text x="0" y="1">I</text></g><g class="node hint" transform="translate(139.96039192274213 239.43717907886952)"><circle r="23"></circle><text x="0" y="1">J</text></g><g class="node" transform="translate(728.4779308781028 425.60966307664285)"><circle r="23"></circle><text x="0" y="1">K</text></g><g class="node" transform="translate(387.1061426329613 378.1928344033099)"><circle r="23"></circle><text x="0" y="1">L</text></g></g></svg>
+    </section>
+
+    <section class="panel state-panel">
+      <div class="section-title">Execution state</div>
+      <div id="stateGrid" class="state-grid"><div class="state-row"><div class="key">Remaining</div><div class="value">12</div></div><div class="state-row"><div class="key">Available</div><div class="value">B, F, J</div></div></div>
+      <div id="resultBox" class="result"></div>
+    </section>
+  </main>
+</div>
+
+<script>
+const SVG_NS = "http://www.w3.org/2000/svg";
+const graphSvg = document.getElementById("graph");
+const seedInput = document.getElementById("seedInput");
+const verticesInput = document.getElementById("verticesInput");
+const edgesInput = document.getElementById("edgesInput");
+const cyclicInput = document.getElementById("cyclicInput");
+const generateButton = document.getElementById("generateButton");
+const randomSeedButton = document.getElementById("randomSeedButton");
+const generatorError = document.getElementById("generatorError");
+const kahnButton = document.getElementById("kahnButton");
+const dfsButton = document.getElementById("dfsButton");
+const hintsInput = document.getElementById("hintsInput");
+const undoButton = document.getElementById("undoButton");
+const restartButton = document.getElementById("restartButton");
+const orderVector = document.getElementById("orderVector");
+const stateGrid = document.getElementById("stateGrid");
+const resultBox = document.getElementById("resultBox");
+const graphMeta = document.getElementById("graphMeta");
+
+let graph = null;
+let algorithm = "kahn";
+let history = [];
+let kahnState = null;
+let dfsState = null;
+let transientInvalidNode = null;
+
+function vertexLabel(index) {
+  return String.fromCharCode(65 + index);
+}
+
+function seedToUint32(seed) {
+  let hash = 2166136261;
+  for (const character of String(seed)) {
+    hash ^= character.charCodeAt(0);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+}
+
+function mulberry32(seed) {
+  let value = seed >>> 0;
+  return function () {
+    value = (value + 0x6D2B79F5) >>> 0;
+    let mixed = value;
+    mixed = Math.imul(mixed ^ (mixed >>> 15), mixed | 1);
+    mixed ^= mixed + Math.imul(mixed ^ (mixed >>> 7), mixed | 61);
+    return ((mixed ^ (mixed >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+function shuffle(array, random) {
+  const result = [...array];
+  for (let index = result.length - 1; index > 0; --index) {
+    const selected = Math.floor(random() * (index + 1));
+    [result[index], result[selected]] = [result[selected], result[index]];
+  }
+  return result;
+}
+
+function squaredDistance(first, second) {
+  const dx = first.x - second.x;
+  const dy = first.y - second.y;
+  return dx * dx + dy * dy;
+}
+
+function generatePointSet(count, random) {
+  const points = [];
+  const marginX = 0.07;
+  const marginY = 0.08;
+  for (let index = 0; index < count; ++index) {
+    let best = null;
+    let bestDistance = -1;
+    const candidateCount = index === 0 ? 1 : 48;
+    for (let candidateIndex = 0; candidateIndex < candidateCount; ++candidateIndex) {
+      const candidate = {
+        x: marginX + random() * (1 - 2 * marginX),
+        y: marginY + random() * (1 - 2 * marginY)
+      };
+      const nearestDistance = points.length === 0 ? Infinity : Math.min(...points.map(point => squaredDistance(candidate, point)));
+      if (nearestDistance > bestDistance) {
+        best = candidate;
+        bestDistance = nearestDistance;
+      }
+    }
+    points.push(best);
+  }
+  return points;
+}
+
+function triangleMinimumAngleDegrees(first, second, third) {
+  const scaled = [first, second, third].map(point => ({ x: point.x * 784, y: point.y * 554 }));
+  let minimum = 180;
+  for (let index = 0; index < 3; ++index) {
+    const center = scaled[index];
+    const left = scaled[(index + 1) % 3];
+    const right = scaled[(index + 2) % 3];
+    const firstX = left.x - center.x;
+    const firstY = left.y - center.y;
+    const secondX = right.x - center.x;
+    const secondY = right.y - center.y;
+    const denominator = Math.hypot(firstX, firstY) * Math.hypot(secondX, secondY);
+    if (denominator === 0) return 0;
+    const cosine = Math.max(-1, Math.min(1, (firstX * secondX + firstY * secondY) / denominator));
+    minimum = Math.min(minimum, Math.acos(cosine) * 180 / Math.PI);
+  }
+  return minimum;
+}
+
+function layoutMinimumAngle(points) {
+  const triangles = delaunayTriangles(points);
+  if (triangles.length === 0) return 180;
+  return Math.min(...triangles.map(triangle => triangleMinimumAngleDegrees(points[triangle.a], points[triangle.b], points[triangle.c])));
+}
+
+function generateWellSpacedPoints(count, random) {
+  const maximumAttempts = 48;
+  const targetMinimumAngle = 24;
+  let bestPoints = null;
+  let bestMinimumAngle = -1;
+  for (let attempt = 0; attempt < maximumAttempts; ++attempt) {
+    const points = generatePointSet(count, random);
+    const minimumAngle = layoutMinimumAngle(points);
+    if (minimumAngle > bestMinimumAngle) {
+      bestPoints = points;
+      bestMinimumAngle = minimumAngle;
+    }
+    if (minimumAngle >= targetMinimumAngle) break;
+  }
+  return bestPoints;
+}
+
+function triangleCircumcircle(first, second, third) {
+  const determinant = 2 * (first.x * (second.y - third.y) + second.x * (third.y - first.y) + third.x * (first.y - second.y));
+  if (Math.abs(determinant) < 1e-12) return null;
+  const firstNorm = first.x * first.x + first.y * first.y;
+  const secondNorm = second.x * second.x + second.y * second.y;
+  const thirdNorm = third.x * third.x + third.y * third.y;
+  const x = (firstNorm * (second.y - third.y) + secondNorm * (third.y - first.y) + thirdNorm * (first.y - second.y)) / determinant;
+  const y = (firstNorm * (third.x - second.x) + secondNorm * (first.x - third.x) + thirdNorm * (second.x - first.x)) / determinant;
+  return { x, y, radiusSquared: (x - first.x) ** 2 + (y - first.y) ** 2 };
+}
+
+function delaunayTriangles(points) {
+  const augmented = [...points, { x: -8, y: -6 }, { x: 9, y: -6 }, { x: 0.5, y: 10 }];
+  const superStart = points.length;
+  let triangles = [{ a: superStart, b: superStart + 1, c: superStart + 2 }];
+
+  for (let pointIndex = 0; pointIndex < points.length; ++pointIndex) {
+    const point = augmented[pointIndex];
+    const bad = [];
+    for (const triangle of triangles) {
+      const circle = triangleCircumcircle(augmented[triangle.a], augmented[triangle.b], augmented[triangle.c]);
+      if (circle && squaredDistance(point, circle) <= circle.radiusSquared + 1e-10) bad.push(triangle);
+    }
+
+    const boundaryCounts = new Map();
+    for (const triangle of bad) {
+      for (const [left, right] of [[triangle.a, triangle.b], [triangle.b, triangle.c], [triangle.c, triangle.a]]) {
+        const a = Math.min(left, right);
+        const b = Math.max(left, right);
+        const key = `${a}:${b}`;
+        const existing = boundaryCounts.get(key);
+        boundaryCounts.set(key, existing ? { a, b, count: existing.count + 1 } : { a, b, count: 1 });
+      }
+    }
+
+    const badSet = new Set(bad);
+    triangles = triangles.filter(triangle => !badSet.has(triangle));
+    for (const boundary of boundaryCounts.values()) {
+      if (boundary.count === 1) triangles.push({ a: boundary.a, b: boundary.b, c: pointIndex });
+    }
+  }
+
+  return triangles.filter(triangle => triangle.a < points.length && triangle.b < points.length && triangle.c < points.length);
+}
+
+function delaunayEdges(points) {
+  const edgeMap = new Map();
+  for (const triangle of delaunayTriangles(points)) {
+    for (const [left, right] of [[triangle.a, triangle.b], [triangle.b, triangle.c], [triangle.c, triangle.a]]) {
+      const a = Math.min(left, right);
+      const b = Math.max(left, right);
+      edgeMap.set(`${a}:${b}`, { a, b });
+    }
+  }
+  return [...edgeMap.values()];
+}
+
+function buildConnectedPlanarEdges(points, edgeCount, random) {
+  const candidates = delaunayEdges(points).map(edge => ({
+    ...edge,
+    distance: Math.sqrt(squaredDistance(points[edge.a], points[edge.b])),
+    weight: Math.sqrt(squaredDistance(points[edge.a], points[edge.b])) * (0.65 + 0.7 * random())
+  }));
+  candidates.sort((left, right) => left.weight - right.weight);
+
+  const parent = points.map((_, index) => index);
+  function find(vertex) {
+    while (parent[vertex] !== vertex) {
+      parent[vertex] = parent[parent[vertex]];
+      vertex = parent[vertex];
+    }
+    return vertex;
+  }
+  function unite(first, second) {
+    const firstRoot = find(first);
+    const secondRoot = find(second);
+    if (firstRoot === secondRoot) return false;
+    parent[secondRoot] = firstRoot;
+    return true;
+  }
+
+  const treeEdges = [];
+  const remaining = [];
+  for (const candidate of candidates) {
+    if (unite(candidate.a, candidate.b)) treeEdges.push({ a: candidate.a, b: candidate.b });
+    else remaining.push({ a: candidate.a, b: candidate.b });
+  }
+
+  const selected = [...treeEdges];
+  for (const edge of shuffle(remaining, random)) {
+    if (selected.length >= edgeCount) break;
+    selected.push(edge);
+  }
+  return { selected, treeEdges };
+}
+
+function findTreePath(treeEdges, start, target, vertexCount) {
+  const adjacency = Array.from({ length: vertexCount }, () => []);
+  for (const edge of treeEdges) {
+    adjacency[edge.a].push(edge.b);
+    adjacency[edge.b].push(edge.a);
+  }
+  const parent = Array(vertexCount).fill(-1);
+  const stack = [start];
+  parent[start] = start;
+  while (stack.length > 0) {
+    const current = stack.pop();
+    if (current === target) break;
+    for (const next of adjacency[current]) {
+      if (parent[next] !== -1) continue;
+      parent[next] = current;
+      stack.push(next);
+    }
+  }
+  const path = [target];
+  while (path[path.length - 1] !== start) path.push(parent[path[path.length - 1]]);
+  path.reverse();
+  return path;
+}
+
+function findUndirectedEdge(edges, a, b) {
+  return edges.find(edge => (edge.a === a && edge.b === b) || (edge.a === b && edge.b === a));
+}
+
+function orientEdge(edge, source, target) {
+  edge.source = source;
+  edge.target = target;
+}
+
+function forceDirectedCycle(edges, treeEdges, vertexCount) {
+  const treeKeys = new Set(treeEdges.map(edge => `${Math.min(edge.a, edge.b)}:${Math.max(edge.a, edge.b)}`));
+  const extra = edges.find(edge => !treeKeys.has(`${Math.min(edge.a, edge.b)}:${Math.max(edge.a, edge.b)}`));
+  if (!extra) return;
+  const path = findTreePath(treeEdges, extra.a, extra.b, vertexCount);
+  for (let index = 0; index + 1 < path.length; ++index) {
+    const edge = findUndirectedEdge(edges, path[index], path[index + 1]);
+    orientEdge(edge, path[index], path[index + 1]);
+  }
+  orientEdge(extra, extra.b, extra.a);
+}
+
+function generateGraph(seed, vertexCount, edgeCount, cyclic) {
+  const random = mulberry32(seedToUint32(seed));
+  const points = generateWellSpacedPoints(vertexCount, random);
+  const { selected: undirectedEdges, treeEdges } = buildConnectedPlanarEdges(points, edgeCount, random);
+  const topologicalOrder = shuffle([...Array(vertexCount).keys()], random);
+  const rank = new Map(topologicalOrder.map((vertex, index) => [vertex, index]));
+  const edges = undirectedEdges.map((edge, index) => {
+    const source = rank.get(edge.a) < rank.get(edge.b) ? edge.a : edge.b;
+    const target = source === edge.a ? edge.b : edge.a;
+    return { id: `e${index}`, a: edge.a, b: edge.b, source, target };
+  });
+  if (cyclic) forceDirectedCycle(edges, treeEdges, vertexCount);
+  return {
+    seed: String(seed),
+    vertexCount,
+    edgeCount,
+    cyclic,
+    vertices: [...Array(vertexCount).keys()],
+    edges,
+    points
+  };
+}
+
+function updateEdgeBounds() {
+  const vertexCount = Math.max(3, Math.min(24, Number(verticesInput.value) || 3));
+  verticesInput.value = String(vertexCount);
+  const minimum = vertexCount - 1;
+  const maximum = 2 * vertexCount - 3;
+  edgesInput.min = String(minimum);
+  edgesInput.max = String(maximum);
+  let edgeCount = Number(edgesInput.value);
+  if (!Number.isFinite(edgeCount)) edgeCount = minimum;
+  edgesInput.value = String(Math.max(minimum, Math.min(maximum, edgeCount)));
+}
+
+function validateGenerator() {
+  updateEdgeBounds();
+  const vertexCount = Number(verticesInput.value);
+  const edgeCount = Number(edgesInput.value);
+  if (cyclicInput.checked && edgeCount < vertexCount) {
+    generatorError.textContent = `Cyclic mode requires at least ${vertexCount} edges.`;
+    return false;
+  }
+  generatorError.textContent = "";
+  return true;
+}
+
+function resetSimulation() {
+  history = [];
+  transientInvalidNode = null;
+  kahnState = {
+    removed: new Set(),
+    order: [],
+    cycleDetected: false
+  };
+  dfsState = {
+    status: Array(graph.vertexCount).fill("unvisited"),
+    stack: [],
+    exploredEdges: new Set(),
+    order: [],
+    cycleDetected: false,
+    cycleEdge: null
+  };
+  updateKahnTerminal();
+  render();
+}
+
+function serializeState() {
+  return JSON.stringify({
+    kahn: {
+      removed: [...kahnState.removed],
+      order: [...kahnState.order],
+      cycleDetected: kahnState.cycleDetected
+    },
+    dfs: {
+      status: [...dfsState.status],
+      stack: [...dfsState.stack],
+      exploredEdges: [...dfsState.exploredEdges],
+      order: [...dfsState.order],
+      cycleDetected: dfsState.cycleDetected,
+      cycleEdge: dfsState.cycleEdge
+    }
+  });
+}
+
+function restoreState(serialized) {
+  const parsed = JSON.parse(serialized);
+  kahnState = {
+    removed: new Set(parsed.kahn.removed),
+    order: parsed.kahn.order,
+    cycleDetected: parsed.kahn.cycleDetected
+  };
+  dfsState = {
+    status: parsed.dfs.status,
+    stack: parsed.dfs.stack,
+    exploredEdges: new Set(parsed.dfs.exploredEdges),
+    order: parsed.dfs.order,
+    cycleDetected: parsed.dfs.cycleDetected,
+    cycleEdge: parsed.dfs.cycleEdge
+  };
+}
+
+function pushHistory() {
+  history.push(serializeState());
+}
+
+function getKahnCandidates() {
+  if (kahnState.cycleDetected) return [];
+  const remaining = graph.vertices.filter(vertex => !kahnState.removed.has(vertex));
+  return remaining.filter(vertex => graph.edges.every(edge => {
+    if (edge.target !== vertex) return true;
+    return kahnState.removed.has(edge.source) || kahnState.removed.has(edge.target);
+  }));
+}
+
+function updateKahnTerminal() {
+  const remainingCount = graph.vertexCount - kahnState.removed.size;
+  if (remainingCount === 0) {
+    kahnState.cycleDetected = false;
+    return;
+  }
+  if (getKahnCandidates().length === 0) kahnState.cycleDetected = true;
+}
+
+function getCurrentDfsVertex() {
+  return dfsState.stack.length === 0 ? null : dfsState.stack[dfsState.stack.length - 1];
+}
+
+function getUnexploredOutgoingEdges(vertex) {
+  if (vertex === null) return [];
+  return graph.edges.filter(edge => edge.source === vertex && !dfsState.exploredEdges.has(edge.id));
+}
+
+function getDfsStartCandidates() {
+  if (dfsState.cycleDetected || dfsState.stack.length > 0) return [];
+  return graph.vertices.filter(vertex => dfsState.status[vertex] === "unvisited");
+}
+
+function markInvalidNode(vertex) {
+  transientInvalidNode = vertex;
+  renderGraph();
+  window.setTimeout(() => {
+    if (transientInvalidNode === vertex) {
+      transientInvalidNode = null;
+      renderGraph();
+    }
+  }, 350);
+}
+
+function handleNodeClick(vertex) {
+  if (algorithm === "kahn") {
+    if (kahnState.cycleDetected || kahnState.removed.has(vertex)) return;
+    if (!getKahnCandidates().includes(vertex)) {
+      markInvalidNode(vertex);
+      return;
+    }
+    pushHistory();
+    kahnState.removed.add(vertex);
+    kahnState.order.push(vertex);
+    updateKahnTerminal();
+    render();
+    return;
+  }
+
+  if (dfsState.cycleDetected) return;
+  const current = getCurrentDfsVertex();
+  if (current === null) {
+    if (dfsState.status[vertex] !== "unvisited") return;
+    pushHistory();
+    dfsState.status[vertex] = "active";
+    dfsState.stack.push(vertex);
+    render();
+    return;
+  }
+
+  if (vertex !== current || getUnexploredOutgoingEdges(current).length > 0) {
+    markInvalidNode(vertex);
+    return;
+  }
+
+  pushHistory();
+  dfsState.status[current] = "finished";
+  dfsState.stack.pop();
+  dfsState.order.unshift(current);
+  render();
+}
+
+function handleEdgeClick(edgeId) {
+  if (algorithm !== "dfs" || dfsState.cycleDetected) return;
+  const edge = graph.edges.find(candidate => candidate.id === edgeId);
+  const current = getCurrentDfsVertex();
+  if (current === null || edge.source !== current || dfsState.exploredEdges.has(edge.id)) return;
+
+  pushHistory();
+  dfsState.exploredEdges.add(edge.id);
+  const targetStatus = dfsState.status[edge.target];
+  if (targetStatus === "unvisited") {
+    dfsState.status[edge.target] = "active";
+    dfsState.stack.push(edge.target);
+  } else if (targetStatus === "active") {
+    dfsState.cycleDetected = true;
+    dfsState.cycleEdge = edge.id;
+  }
+  render();
+}
+
+function createSvgElement(name, attributes = {}) {
+  const element = document.createElementNS(SVG_NS, name);
+  for (const [key, value] of Object.entries(attributes)) element.setAttribute(key, value);
+  return element;
+}
+
+function getVertexPositions() {
+  return graph.points.map(point => ({
+    x: 58 + point.x * 784,
+    y: 48 + point.y * 554
+  }));
+}
+
+function trimmedEdgeLine(sourcePosition, targetPosition, radius = 24) {
+  const deltaX = targetPosition.x - sourcePosition.x;
+  const deltaY = targetPosition.y - sourcePosition.y;
+  const length = Math.hypot(deltaX, deltaY);
+  const unitX = deltaX / length;
+  const unitY = deltaY / length;
+  return {
+    x1: sourcePosition.x + unitX * radius,
+    y1: sourcePosition.y + unitY * radius,
+    x2: targetPosition.x - unitX * (radius + 3),
+    y2: targetPosition.y - unitY * (radius + 3)
+  };
+}
+
+function renderGraph() {
+  graphSvg.replaceChildren();
+  const defs = createSvgElement("defs");
+  const markerColors = {
+    arrowDefault: "var(--edge)",
+    arrowExplored: "var(--edge-done)",
+    arrowHint: "var(--hint)",
+    arrowDanger: "var(--danger)"
+  };
+  for (const [id, fill] of Object.entries(markerColors)) {
+    const marker = createSvgElement("marker", {
+      id,
+      viewBox: "0 0 10 10",
+      refX: "8.5",
+      refY: "5",
+      markerWidth: "8",
+      markerHeight: "8",
+      orient: "auto-start-reverse",
+      markerUnits: "strokeWidth"
+    });
+    marker.appendChild(createSvgElement("path", { d: "M 0 0 L 10 5 L 0 10 z", style: `fill:${fill}` }));
+    defs.appendChild(marker);
+  }
+  graphSvg.appendChild(defs);
+
+  const positions = getVertexPositions();
+  const edgeLayer = createSvgElement("g");
+  const nodeLayer = createSvgElement("g");
+  graphSvg.append(edgeLayer, nodeLayer);
+
+  const dfsCurrent = getCurrentDfsVertex();
+  const dfsHintEdges = new Set();
+  if (algorithm === "dfs" && hintsInput.checked && !dfsState.cycleDetected && dfsCurrent !== null) {
+    for (const edge of getUnexploredOutgoingEdges(dfsCurrent)) dfsHintEdges.add(edge.id);
+  }
+
+  for (const edge of graph.edges) {
+    const line = trimmedEdgeLine(positions[edge.source], positions[edge.target]);
+    const classes = ["edge"];
+    if (algorithm === "kahn" && (kahnState.removed.has(edge.source) || kahnState.removed.has(edge.target))) classes.push("removed");
+    if (algorithm === "dfs" && dfsState.exploredEdges.has(edge.id)) classes.push("explored");
+    if (algorithm === "dfs" && dfsHintEdges.has(edge.id)) classes.push("hint");
+    if (algorithm === "dfs" && dfsState.cycleEdge === edge.id) classes.push("cycle-edge");
+
+    const markerId = classes.includes("cycle-edge") ? "arrowDanger" : classes.includes("hint") ? "arrowHint" : classes.includes("explored") ? "arrowExplored" : "arrowDefault";
+    edgeLayer.appendChild(createSvgElement("line", {
+      x1: line.x1,
+      y1: line.y1,
+      x2: line.x2,
+      y2: line.y2,
+      class: classes.join(" "),
+      "marker-end": `url(#${markerId})`
+    }));
+
+    const hitClasses = ["edge-hit"];
+    if (algorithm !== "dfs" || dfsState.cycleDetected) hitClasses.push("disabled");
+    const hit = createSvgElement("line", {
+      x1: line.x1,
+      y1: line.y1,
+      x2: line.x2,
+      y2: line.y2,
+      class: hitClasses.join(" ")
+    });
+    hit.addEventListener("click", event => {
+      event.stopPropagation();
+      handleEdgeClick(edge.id);
+    });
+    edgeLayer.appendChild(hit);
+  }
+
+  const kahnHints = algorithm === "kahn" && hintsInput.checked ? new Set(getKahnCandidates()) : new Set();
+  const dfsStartHints = algorithm === "dfs" && hintsInput.checked ? new Set(getDfsStartCandidates()) : new Set();
+  const dfsCanFinish = algorithm === "dfs" && hintsInput.checked && dfsCurrent !== null && getUnexploredOutgoingEdges(dfsCurrent).length === 0;
+
+  for (const vertex of graph.vertices) {
+    const classes = ["node"];
+    if (algorithm === "kahn") {
+      if (kahnState.removed.has(vertex)) classes.push("removed");
+      else if (kahnHints.has(vertex)) classes.push("hint");
+    } else {
+      if (dfsState.status[vertex] === "active") classes.push("active");
+      if (dfsState.status[vertex] === "finished") classes.push("finished");
+      if (vertex === dfsCurrent) classes.push("current");
+      if (dfsStartHints.has(vertex) || (dfsCanFinish && vertex === dfsCurrent)) classes.push("hint");
+    }
+    if (transientInvalidNode === vertex) classes.push("invalid");
+
+    const group = createSvgElement("g", {
+      class: classes.join(" "),
+      transform: `translate(${positions[vertex].x} ${positions[vertex].y})`
+    });
+    group.appendChild(createSvgElement("circle", { r: "23" }));
+    const text = createSvgElement("text", { x: "0", y: "1" });
+    text.textContent = vertexLabel(vertex);
+    group.appendChild(text);
+    group.addEventListener("click", () => handleNodeClick(vertex));
+    nodeLayer.appendChild(group);
+  }
+}
+
+function renderOrder() {
+  const order = algorithm === "kahn" ? kahnState.order : dfsState.order;
+  orderVector.replaceChildren();
+  orderVector.style.maxWidth = `${52 + graph.vertexCount * 42}px`;
+  orderVector.style.gridTemplateColumns = `22px repeat(${graph.vertexCount}, minmax(0, 1fr)) 22px`;
+  const open = document.createElement("span");
+  open.className = "order-bracket";
+  open.textContent = "[";
+  orderVector.appendChild(open);
+  const firstFilledIndex = algorithm === "kahn" ? 0 : graph.vertexCount - order.length;
+  for (let index = 0; index < graph.vertexCount; ++index) {
+    const orderIndex = index - firstFilledIndex;
+    const filled = orderIndex >= 0 && orderIndex < order.length;
+    const slot = document.createElement("span");
+    slot.className = `order-slot ${filled ? "filled" : "blank"}`;
+    slot.textContent = filled ? vertexLabel(order[orderIndex]) : "·";
+    orderVector.appendChild(slot);
+  }
+  const close = document.createElement("span");
+  close.className = "order-bracket";
+  close.textContent = "]";
+  orderVector.appendChild(close);
+}
+
+function addStateRow(key, value) {
+  const row = document.createElement("div");
+  row.className = "state-row";
+  const keyElement = document.createElement("div");
+  keyElement.className = "key";
+  keyElement.textContent = key;
+  const valueElement = document.createElement("div");
+  valueElement.className = "value";
+  valueElement.textContent = value;
+  row.append(keyElement, valueElement);
+  stateGrid.appendChild(row);
+}
+
+function setResult(message, type = "") {
+  resultBox.className = `result${type ? ` ${type}` : ""}`;
+  resultBox.textContent = message;
+}
+
+function renderState() {
+  stateGrid.replaceChildren();
+  setResult("");
+  if (algorithm === "kahn") {
+    const candidates = getKahnCandidates();
+    const remaining = graph.vertexCount - kahnState.removed.size;
+    addStateRow("Remaining", String(remaining));
+    addStateRow("Available", candidates.length > 0 ? candidates.map(vertexLabel).join(", ") : "—");
+    if (remaining === 0) setResult("Complete", "success");
+    else if (kahnState.cycleDetected) setResult("Cycle detected", "danger");
+    return;
+  }
+
+  const current = getCurrentDfsVertex();
+  const unexplored = getUnexploredOutgoingEdges(current);
+  const unvisitedCount = dfsState.status.filter(status => status === "unvisited").length;
+  addStateRow("Current", current === null ? "—" : vertexLabel(current));
+  addStateRow("DFS stack", dfsState.stack.length > 0 ? dfsState.stack.map(vertexLabel).join(" → ") : "—");
+  addStateRow("Unvisited", String(unvisitedCount));
+  addStateRow("Outgoing left", current === null ? "—" : String(unexplored.length));
+  if (dfsState.cycleDetected) setResult("Cycle detected", "danger");
+  else if (dfsState.order.length === graph.vertexCount) setResult("Complete", "success");
+}
+
+function render() {
+  renderGraph();
+  renderOrder();
+  renderState();
+  undoButton.disabled = history.length === 0;
+  kahnButton.classList.toggle("selected", algorithm === "kahn");
+  dfsButton.classList.toggle("selected", algorithm === "dfs");
+  graphMeta.textContent = `${graph.vertexCount} vertices · ${graph.edgeCount} edges · ${graph.cyclic ? "cyclic" : "DAG"} · seed ${graph.seed}`;
+}
+
+function applyGeneration() {
+  if (!validateGenerator()) return;
+  graph = generateGraph(seedInput.value, Number(verticesInput.value), Number(edgesInput.value), cyclicInput.checked);
+  resetSimulation();
+}
+
+verticesInput.addEventListener("change", validateGenerator);
+edgesInput.addEventListener("change", validateGenerator);
+cyclicInput.addEventListener("change", validateGenerator);
+generateButton.addEventListener("click", applyGeneration);
+randomSeedButton.addEventListener("click", () => {
+  const values = new Uint32Array(1);
+  crypto.getRandomValues(values);
+  seedInput.value = String(values[0]);
+  applyGeneration();
+});
+kahnButton.addEventListener("click", () => {
+  if (algorithm === "kahn") return;
+  algorithm = "kahn";
+  resetSimulation();
+});
+dfsButton.addEventListener("click", () => {
+  if (algorithm === "dfs") return;
+  algorithm = "dfs";
+  resetSimulation();
+});
+hintsInput.addEventListener("change", render);
+restartButton.addEventListener("click", resetSimulation);
+undoButton.addEventListener("click", () => {
+  if (history.length === 0) return;
+  restoreState(history.pop());
+  transientInvalidNode = null;
+  render();
+});
+
+updateEdgeBounds();
+applyGeneration();
+</script>
+
+
+</body></html>

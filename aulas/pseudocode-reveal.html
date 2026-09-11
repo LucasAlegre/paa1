@@ -209,32 +209,84 @@
     }
   }
 
-  /* ── clear highlight & refresh math colors on slide change ──────────── */
-  function onSlideChanged() {
+  /* ── Auto-fit overflowing slides ────────────────────────────────────── */
+  function autoFitSlide(slide) {
+    if (!slide || 
+        slide.classList.contains("title-slide") || 
+        slide.classList.contains("has-dark-background") ||
+        slide.classList.contains("scrollable") ||
+        slide.classList.contains("live-code-slide")) {
+      return;
+    }
+
+    // Never re-fit a slide that has already been fitted
+    if (slide.dataset.autofitDone === "true") return;
+    if (slide.scrollHeight === 0 && slide.clientHeight === 0) return;
+
+    var configHeight = (typeof Reveal !== "undefined" && typeof Reveal.getConfig === "function" && Reveal.getConfig().height) || 768;
+    var maxH = configHeight - 8;
+
+    if (slide.scrollHeight > maxH) {
+      var ratio = maxH / slide.scrollHeight;
+      var scale = Math.max(0.70, ratio);
+      slide.style.fontSize = (scale * 100).toFixed(1) + "%";
+
+      // Fine-tuning only if still exceeding maxH
+      if (slide.scrollHeight > maxH && scale > 0.70) {
+        var secondRatio = maxH / slide.scrollHeight;
+        scale = Math.max(0.70, scale * secondRatio);
+        slide.style.fontSize = (scale * 100).toFixed(1) + "%";
+      }
+    }
+    slide.dataset.autofitDone = "true";
+  }
+
+  function handleAutoFit(slide) {
+    var target = slide || (typeof Reveal !== "undefined" && typeof Reveal.getCurrentSlide === "function" ? Reveal.getCurrentSlide() : null);
+    if (!target) return;
+    autoFitSlide(target);
+  }
+
+  /* ── clear highlight, refresh math colors & auto-fit on slide change ──── */
+  function onSlideChanged(event) {
     activate(null);
     refreshAll();
+    var current = (event && event.currentSlide) || (typeof Reveal !== "undefined" && typeof Reveal.getCurrentSlide === "function" ? Reveal.getCurrentSlide() : null);
+    handleAutoFit(current);
     setTimeout(refreshAll, 50);
     setTimeout(refreshAll, 150);
+  }
+
+  /* ── only refresh colors on fragment step (never re-fit slide) ───────── */
+  function onFragmentChanged() {
+    refreshAll();
   }
 
   /* ── bootstrap: wait for Reveal to be ready ─────────────────────────── */
   function bootstrap() {
     refreshAll();
     if (typeof Reveal === "undefined") return;
-    if (Reveal.isReady()) {
+
+    function onReady() {
       enableStepThrough();
       refreshAll();
+      handleAutoFit();
+
+      if (window.location.search.indexOf("print-pdf") !== -1) {
+        document.querySelectorAll(".reveal .slides section").forEach(function (s) {
+          autoFitSlide(s);
+        });
+      }
+
       Reveal.on("slidechanged", onSlideChanged);
-      Reveal.on("fragmentshown", onSlideChanged);
-      Reveal.on("fragmenthidden", onSlideChanged);
+      Reveal.on("fragmentshown", onFragmentChanged);
+      Reveal.on("fragmenthidden", onFragmentChanged);
+    }
+
+    if (Reveal.isReady()) {
+      onReady();
     } else {
-      Reveal.on("ready", function () {
-        enableStepThrough();
-        refreshAll();
-        Reveal.on("slidechanged", onSlideChanged);
-        Reveal.on("fragmentshown", onSlideChanged);
-        Reveal.on("fragmenthidden", onSlideChanged);
-      });
+      Reveal.on("ready", onReady);
     }
   }
 

@@ -24,6 +24,8 @@ format:
     highlight-style: github
     fig-align: center
     embed-resources: true
+    include-in-header:
+      - pseudocode-reveal.html
 ---
 
 # Grafos Eulerianos

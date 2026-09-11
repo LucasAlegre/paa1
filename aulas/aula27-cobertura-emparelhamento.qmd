@@ -32,6 +32,8 @@ format:
       theme: whiteboard
       boardmarker-width: 5
       buttons: false
+    include-in-header:
+      - pseudocode-reveal.html
 ---
 
 # Coberturas de Vértices

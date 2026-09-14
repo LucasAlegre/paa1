@@ -17,6 +17,8 @@ Exercícios organizados por tópico. Use o menu lateral para navegar entre os t�
 
 # Prova 1
 
+Além dos exercícios abaixo, também é sugerido realizar os exercícios adicionais do Prof. Frederico Messa: [Lista 1 (PDF)](lista1-frederico.pdf).
+
 ## Emparelhamento Estável
 
 1. Implemente o algoritmo de Gale-Shapley na sua linguagem de programação de preferência. Verifique se ele está correto e se a pior execução não demanda mais do que $n^2$ propostas.

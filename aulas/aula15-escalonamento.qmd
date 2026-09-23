@@ -51,8 +51,7 @@ filters:
 ## 
 
 ```{=html}
-<iframe width="560" height="315" src="https://www.youtube.com/embed/VVxYOQS6ggk" frameborder="0" allowfullscreen></iframe>
-<div style="display:flex; justify-content:center; align-items:center; height:80vh;">
+<div style="display:flex; justify-content:center; align-items:center; height:70vh;">
   <iframe width="95%" height="95%" src="https://www.youtube.com/embed/VVxYOQS6ggk" frameborder="0" allowfullscreen></iframe>
 </div>
 ```
@@ -142,7 +141,7 @@ Considere $n$ atividades que devem ser executadas:
 
 > [**Definição.**]{.label-def} Duas tarefas são [compatíveis]{.alert} se elas não se sobrepõem.
 
-**Objetivo:** Encontrar o subconjunto máximo de tarefas compatíveis.
+> [**Objetivo.**]{.label-def} Encontrar o subconjunto máximo de tarefas compatíveis.
 
 ## Escalonamento de Intervalos
 
@@ -154,16 +153,17 @@ Considere $n$ atividades que devem ser executadas:
 
 . . .
 
-![](images/g1.png){width=50%}
+![](images/g1.png){width=50% fig-align="center"}
 
-<https://brunogrisci.github.io/schedulingalgorithms>
+
+## {data-background-iframe="https://brunogrisci.github.io/schedulingalgorithms" data-background-interactive="true" .hide-header}
 
 ## Escalonamento de Intervalos
 
 **Abordagem Gulosa:**
 
 - Considera as tarefas de acordo com alguma **ordem (critério guloso)**.
-- Seleciona a tarefa atual se ela é compatível.
+- Seleciona a tarefa atual se ela é **compatível**.
 
 . . .
 
@@ -171,10 +171,13 @@ Considere $n$ atividades que devem ser executadas:
 
 . . .
 
-1. Inicia mais Cedo: Considera as tarefas por ordem de ${\color{blue}{s}}_j$.
-2. Termina mais Cedo: Considera as tarefas por ordem de ${\color{red}{f}}_j$.
-3. Menor Intervalo: Considera as tarefas por ordem de ${\color{red}{f}}_j - {\color{blue}{s}}_j$.
-4. Menos Conflitos: Considera as tarefas por ordem de $c_j$ (número de conflitos).
+> 1. Inicia mais Cedo: Considera as tarefas por ordem de ${\color{blue}{s}}_j$.
+ 
+> 2. Termina mais Cedo: Considera as tarefas por ordem de ${\color{red}{f}}_j$.
+ 
+> 3. Menor Intervalo: Considera as tarefas por ordem de ${\color{red}{f}}_j - {\color{blue}{s}}_j$.
+
+> 4. Menos Conflitos: Considera as tarefas por ordem de $c_j$ (número de conflitos).
 
 . . .
 
@@ -188,7 +191,7 @@ Vejamos como essas estratégias funcionam sobre as seguintes instâncias:
 
 Possíveis estratégias gulosas: 1) **Inicia mais cedo**; 2) **Termina mais cedo**; 3) **Menor intervalo**; 4) **Menor número de conflitos**.
 
-![](images/intervals-example.png){width=70%}
+![](images/intervals-example.png){width=70% fig-align="center"}
 
 ## Algoritmo TerminaMaisCedo
 
@@ -210,8 +213,8 @@ Possíveis estratégias gulosas: 1) **Inicia mais cedo**; 2) **Termina mais cedo
 #| html-no-end: true
 
 \begin{algorithmic}
-\Procedure{TerminaMaisCedo}{$\{{\color{blue}{s}}_1, {\color{red}{f}}_1\}, \dots, \{{\color{blue}{s}}_n, {\color{red}{f}}_n\}$}
-  \State \texttt{Sort}$(\{{\color{blue}{s}}_1, {\color{red}{f}}_1\}, \dots, \{{\color{blue}{s}}_n, {\color{red}{f}}_n\})$ \Comment{Em ordem crescente de ${\color{red}{f}}_j$}
+\Procedure{TerminaMaisCedo}{$\{s_1, f_1\}, \dots, \{s_n, f_n\}$}
+  \State \texttt{Sort}$(\{s_1, f_1\}, \dots, \{s_n, f_n\})$ \Comment{Em ordem crescente de $f_j$}
   \State $A \leftarrow \emptyset$
   \For{$j = 1$ \textbf{to} $n$}
     \If{$j$ é compatível com $A$}
@@ -281,14 +284,18 @@ Seja $O = [j_1, j_2, \dots, j_m]$ a sequência ordenada de intervalos em uma [so
 
 ## Argumento do "Sempre Fica à Frente"
 
-**Ideia:** Mostra que, a cada passo, a *solução gulosa é pelo menos tão boa quanto qualquer outra solução viável (inclusive a ótima)* até aquele ponto.
+**Ideia:** Mostra que, a cada passo, a **solução gulosa é pelo menos tão boa quanto qualquer outra solução viável (inclusive a ótima)** até aquele ponto.
 
 . . .
+
+<br>
 
 **Como funciona:**
 
 - Compara a solução gulosa com uma solução ótima passo a passo.
 - Demonstra que, em cada etapa, a gulosa está "na frente" ou "empatada" com a ótima.
+
+<br>
 
 . . .
 
@@ -309,38 +316,42 @@ Seja $O = [j_1, j_2, \dots, j_m]$ a sequência ordenada de intervalos em uma [so
 - **Weighted:** O objetivo até então é maximizar o número de tarefas atendidas. Mas e se cada tarefa tivesse um valor diferente e o objetivo fosse maximizar a soma dos valores das tarefas realizadas?
 
 
+
+
 # Particionamento de Intervalos
 
 ## Particionamento de Intervalos
 
-> [**Definição.**]{.label-def}
-
-- Aula $j$ inicia em ${\color{blue}{s}}_j$ e termina em ${\color{red}{f}}_j$.
-- O objetivo é encontrar o [número mínimo de salas]{.alert} para atribuir as aulas tal que duas aulas não ocorram na mesma sala ao mesmo tempo.
+> [**Definição (Particionamento de Intervalos).**]{.label-def}
+>
+> - Cada aula $j$ inicia em ${\color{blue}{s}}_j$ e termina em ${\color{red}{f}}_j$.
+> - O objetivo é encontrar o [número mínimo de salas]{.alert} para atribuir as aulas tal que duas aulas não ocorram na mesma sala ao mesmo tempo.
 
 . . .
 
-![](images/g6.png){width=50%}
+![](images/g6.png){width=50% fig-align="center"}
 
 **P.** Uma solução?
 
 ## Particionamento de Intervalos
 
-> [**Definição.**]{.label-def}
+> [**Definição (Particionamento de Intervalos).**]{.label-def}
+>
+> - Cada aula $j$ inicia em ${\color{blue}{s}}_j$ e termina em ${\color{red}{f}}_j$.
+> - O objetivo é encontrar o [número mínimo de salas]{.alert} para atribuir as aulas tal que duas aulas não ocorram na mesma sala ao mesmo tempo.
 
-- Aula $j$ inicia em ${\color{blue}{s}}_j$ e termina em ${\color{red}{f}}_j$.
-- O objetivo é encontrar o número mínimo de salas para atribuir as aulas tal que duas aulas não ocorram na mesma sala ao mesmo tempo.
+. . .
 
-![](images/g4.png){width=50%}
+![](images/g4.png){width=50% fig-align="center"}
 
 **P.** Uma solução melhor?
 
 ## Particionamento de Intervalos
 
-> [**Definição.**]{.label-def}
-
-- Aula $j$ inicia em ${\color{blue}{s}}_j$ e termina em ${\color{red}{f}}_j$.
-- O objetivo é encontrar o número mínimo de salas para atribuir as aulas tal que duas aulas não ocorram na mesma sala ao mesmo tempo.
+> [**Definição (Particionamento de Intervalos).**]{.label-def}
+>
+- Cada aula $j$ inicia em ${\color{blue}{s}}_j$ e termina em ${\color{red}{f}}_j$.
+- O objetivo é encontrar o [número mínimo de salas]{.alert} para atribuir as aulas tal que duas aulas não ocorram na mesma sala ao mesmo tempo.
 
 ![](images/g5.png){width=60%}
 
@@ -351,6 +362,8 @@ Seja $O = [j_1, j_2, \dots, j_m]$ a sequência ordenada de intervalos em uma [so
 **Abordagem Gulosa:** Considera as aulas em alguma ordem natural. Atribui cada aula para uma sala disponível, seleciona uma nova sala se nenhuma está disponível.
 
 . . .
+
+<br>
 
 **P.** Qual ordem?
 
@@ -374,8 +387,8 @@ Seja $O = [j_1, j_2, \dots, j_m]$ a sequência ordenada de intervalos em uma [so
 #| html-no-end: true
 
 \begin{algorithmic}
-\Procedure{IniciaMaisCedo}{$\{{\color{blue}{s}}_1, {\color{red}{f}}_1\}, \dots, \{{\color{blue}{s}}_n, {\color{red}{f}}_n\}$}
-  \State \texttt{Sort}$(\{{\color{blue}{s}}_1, {\color{red}{f}}_1\}, \dots, \{{\color{blue}{s}}_n, {\color{red}{f}}_n\})$ \Comment{Em ordem crescente de ${\color{blue}{s}}_j$}
+\Procedure{IniciaMaisCedo}{$\{s_1, f_1\}, \dots, \{s_n, f_n\}$}
+  \State \texttt{Sort}$(\{s_1, f_1\}, \dots, \{s_n, f_n\})$ \Comment{Em ordem crescente de $s_j$}
   \State $d \leftarrow 0$ \Comment{Número de salas}
   \For{$j = 1$ \textbf{to} $n$}
     \If{$j$ é compatível com alguma sala}
@@ -433,7 +446,9 @@ Por contradição, assuma que o algoritmo não é ótimo: ele retorna $d$ mas de
 
 <https://brunogrisci.github.io/schedulingalgorithms>
 
-## Algoritmos em Python
+# Algoritmos em Python
+
+## Algoritmos de Escalonamento e Particionamento de Intervalos
 
 <https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/scheduling.ipynb>
 

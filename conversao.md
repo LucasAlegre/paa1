@@ -28,4 +28,4 @@ Toda aula deve terminar exatamente com:
 [?]{style="font-size: 5em; color: #d10000; font-weight: 700;"}
 :::
 
-Após, atualize o arquivo index.qmd para incluir as novas aulas no cronograma.
+Após, atualize o arquivo index.qmd para incluir as novas aulas em .qmd no cronograma.

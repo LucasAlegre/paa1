@@ -229,7 +229,8 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>qui. 24/set.</td>
   <td>Sala 113</td>
   <td class="t-green">Algoritmos Gulosos. Introdução. Escalonamento de Intervalos. Particionamento de Intervalos.</td>
-  <td></td>
+  <td><a href="aulas/aula15-escalonamento.html">Slides</a></td>
+  <td style="text-align:center;"><a href="aulas/aula15-escalonamento.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
   <td></td>
 </tr>
 <!-- Semana 9 -->

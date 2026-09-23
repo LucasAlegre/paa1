@@ -23,12 +23,11 @@ Recomendamos as seguintes plataformas para você praticar a resolução de probl
 - [Beecrowd (antigo URI)](https://www.beecrowd.com.br/)
 - [Codeforces](https://codeforces.com/)
 - [HackerRank](https://www.hackerrank.com/)
+- [Project Euler (Problemas Matemáticos)](https://projecteuler.net/)
 
 ## Controle de Versão (GitHub)
 
 Para manter seus códigos organizados e seguros, é altamente recomendável criar um repositório no GitHub para a disciplina. 
-
-Ao final do semestre, o seu repositório será avaliado e contará como parte da nota de Atividades Autônomas da disciplina.
 
 **The Missing Semester of Your CS Education**: [https://missing.csail.mit.edu](https://missing.csail.mit.edu)
 - Excelente material para aprender Git, Linux e outras ferramentas úteis para o desenvolvimento de software.

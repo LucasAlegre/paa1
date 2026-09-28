@@ -9,6 +9,10 @@ toc-title: "Tópicos"
 ol[type="a"] > li::marker, ol ol > li::marker {
   content: counter(list-item, lower-alpha) ") ";
 }
+.cell-output-display svg {
+  display: block;
+  margin: 0 auto;
+}
 </style>
 
 Exercícios organizados por tópico. Use o menu lateral para navegar entre os tópicos.
@@ -278,4 +282,281 @@ digraph G {
 
 # Prova 2
 
-*Em breve.*
+## Escalonamento e Particionamento de Intervalos
+
+1. Considere a seguinte tabela de tarefas, com tempo de início e tempo de fim determinados pela tabela abaixo.
+
+   | Tarefa | Início | Fim |
+   | :---: | :---: | :---: |
+   | $t_1$ | 0 | 2 |
+   | $t_2$ | 1 | 4 |
+   | $t_3$ | 2 | 4 |
+   | $t_4$ | 3 | 5 |
+   | $t_5$ | 4 | 6 |
+   | $t_6$ | 4 | 8 |
+   | $t_7$ | 5 | 6 |
+   | $t_8$ | 6 | 7 |
+
+   a) Considere que exista uma única máquina capaz de processar uma tarefa por vez (considere que se uma tarefa termina no tempo $t$ e outra inicia no mesmo tempo $t$, ambas podem ser realizadas). Qual o número máximo de tarefas que podem ser realizadas nessa única máquina (sem conflitos)?
+   b) Considere que será possível alocar mais máquinas para a realização das tarefas acima. Qual o menor número de máquinas necessárias para realizar todas as tarefas acima descritas? Apresente a alocação que usa esse número mínimo.
+
+---
+
+## Caminhos Mínimos
+
+1. Considere um dígrafo $G$ com pesos nas arestas. Assuma que os pesos são todos **distintos** e **não-negativos**. Seja $s$ um vértice inicial e $t$ um vértice final, e assuma que $G$ possui ao menos um caminho entre $s$ e $t$. Determine V (verdadeiro) ou F (falso) para cada uma das seguintes afirmações.
+
+   - (&emsp;) O caminho de menor custo entre $s$ e $t$ pode ter até $n-1$ arestas, sendo $n$ o número de vértices.
+   - (&emsp;) Há um caminho entre $s$ e $t$ sem vértices repetidos (isto é, sem loops).
+   - (&emsp;) O caminho de menor custo entre $s$ e $t$ precisa necessariamente incluir a aresta de menor custo de $G$.
+   - (&emsp;) O caminho de menor custo entre $s$ e $t$ precisa necessariamente excluir a aresta de maior custo de $G$.
+
+2. Considere um grafo direcionado $G$ com comprimentos de aresta não negativos e dois vértices distintos, $s$ e $t$. A letra $P$ denota o caminho mais curto de $s$ para $t$. Se adicionarmos 10 ao comprimento de cada aresta de $G$, então: (determine V ou F)
+
+   - (&emsp;) $P$ definitivamente permanece sendo um caminho mais curto de $s$ para $t$.
+   - (&emsp;) $P$ definitivamente não permanece sendo um caminho mais curto de $s$ para $t$.
+   - (&emsp;) $P$ pode ou não permanecer sendo um caminho mais curto de $s$ para $t$ (dependendo do grafo).
+   - (&emsp;) Se $P$ tiver apenas uma aresta, então $P$ definitivamente permanece sendo um caminho mais curto de $s$ para $t$.
+
+3. Considere um grafo direcionado $G$ e um vértice inicial $s$. Suponha que $G$ tenha alguns comprimentos de aresta negativos, mas nenhum ciclo negativo, o que significa que $G$ não tem um ciclo direcionado no qual a soma dos seus comprimentos de aresta seja negativa. Suponha que você execute o algoritmo de Dijkstra com essa entrada. Quais das seguintes afirmações são verdadeiras? (Determine V ou F)
+
+   - (&emsp;) O algoritmo de Dijkstra pode entrar em loop infinito.
+   - (&emsp;) É impossível executar o algoritmo de Dijkstra em um grafo com comprimentos de aresta negativos.
+   - (&emsp;) O algoritmo de Dijkstra sempre para, mas em alguns casos as distâncias do caminho mais curto que ele calcula não estarão todas corretas.
+   - (&emsp;) O algoritmo de Dijkstra sempre para e, em alguns casos, as distâncias do caminho mais curto que ele calcula estarão todas corretas.
+
+---
+
+## Heaps e Filas de Prioridade
+
+1. Qual dos seguintes padrões em um programa de computador sugere que uma estrutura de dados heap poderia proporcionar um ganho de velocidade significativo? (Marque todas as opções aplicáveis.)
+
+   a) Buscas repetidas.
+   b) Cálculos mínimos repetidos.
+   c) Cálculos máximos repetidos.
+   d) Nenhuma das outras opções.
+
+2. Suponha que você implemente a funcionalidade de uma fila de prioridade (ou seja, `Insert` e `ExtractMin`) usando um **array ordenado do menor para o maior**. Qual é o tempo de execução no pior caso de `Insert` e `ExtractMin`, respectivamente? Considere que você tem um array grande o suficiente para acomodar todas as suas inserções.
+
+   - (&emsp;) $\Theta(1)$ e $\Theta(n)$
+   - (&emsp;) $\Theta(n)$ e $\Theta(1)$
+   - (&emsp;) $\Theta(\log n)$ e $\Theta(1)$
+   - (&emsp;) $\Theta(n)$ e $\Theta(n)$
+
+3. Suponha que você implemente a funcionalidade de uma fila de prioridade (isto é, `Insert` e `ExtractMin`) usando um **array não ordenado**. Qual é o tempo de execução no pior caso de `Insert` e `ExtractMin`, respectivamente? Suponha que você tenha um array grande o suficiente para acomodar todas as suas inserções.
+
+   - (&emsp;) $\Theta(1)$ e $\Theta(n)$
+   - (&emsp;) $\Theta(n)$ e $\Theta(1)$
+   - (&emsp;) $\Theta(1)$ e $\Theta(\log n)$
+   - (&emsp;) $\Theta(n)$ e $\Theta(n)$
+
+---
+
+## Códigos de Huffman
+
+1. Considere as seguintes frequências (normalizadas) de símbolos para um alfabeto de cinco símbolos:
+
+   | Símbolo | Frequência |
+   | :---: | :---: |
+   | A | 0,32 |
+   | B | 0,25 |
+   | C | 0,2 |
+   | D | 0,18 |
+   | E | 0,05 |
+
+   Qual é o comprimento médio de codificação de um código ótimo livre de prefixo?
+
+   a) 2,23
+   b) 2,4
+   c) 3
+   d) 3,45
+
+2. Qual é o número máximo de bits que o algoritmo guloso de Huffman pode usar para codificar um único símbolo? (Como de costume, $n$ denota o tamanho do alfabeto.)
+
+   a) $\log_2 n$
+   b) $\ln n$
+   c) $n-1$
+   d) $n$
+
+3. Quais das seguintes afirmações sobre o algoritmo guloso para a construção do código de Huffman são verdadeiras? Suponha que as frequências dos símbolos somam 1. Determine V ou F:
+
+   - (&emsp;) Uma letra com frequência de pelo menos 0,4 nunca será codificada com dois ou mais bits.
+   - (&emsp;) Uma letra com frequência de pelo menos 0,5 nunca será codificada com dois ou mais bits.
+   - (&emsp;) Se todas as frequências dos símbolos forem menores que 0,33, todos os símbolos serão codificados com pelo menos dois bits.
+   - (&emsp;) Se todas as frequências dos símbolos forem menores que 0,5, todos os símbolos serão codificados com pelo menos dois bits.
+
+---
+
+## Propriedades de Grafos
+
+1. Considere o grafo $G_1$ descrito pelo seguinte diagrama:
+```{dot}
+//| fig-width: 3.5
+//| fig-height: 1.6
+//| fig-align: center
+graph G1 {
+    layout=neato;
+    graph [margin=0.1, pad=0, splines=true];
+    node [fontname="Times-Italic", fontsize=18, shape=plaintext];
+
+    a [pos="0,1.6!"];
+    b [pos="1.8,1.6!"];
+    c [pos="3.6,1.6!"];
+    d [pos="0,0.4!"];
+    e [pos="1.8,0.4!"];
+    f [pos="3.6,0.4!"];
+
+    a -- b;
+    b -- c;
+    a -- f;
+    b -- d;
+    c -- e;
+    c -- f;
+    d -- e;
+    d -- f;
+}
+```
+
+   Complete as seguintes afirmações de forma a torná-las corretas, ou atribua valor verdade (V ou F) às afirmações completas:
+
+   - O número de componentes conexos de $G_1$ é
+
+     a) 1
+     b) 2
+     c) 3
+     d) 4
+
+   - O grau mínimo e o grau máximo de $G_1$ são, respectivamente,
+
+     a) 1 e 3
+     b) 1 e 4
+     c) 2 e 3
+     d) 2 e 4
+
+   - O grafo $G_1$ é uma árvore.
+
+     a) verdadeiro
+     b) falso
+
+   - O grafo $G_1$ é bipartido.
+
+     a) verdadeiro
+     b) falso
+
+   - A respeito de existência de circuito/trilha euleriano(a), temos que $G_1$ é
+
+     a) euleriano
+     b) não-euleriano mas semi-euleriano
+     c) nem euleriano nem semi-euleriano
+
+   - A respeito de existência de ciclo/caminho hamiltoniano, temos que $G_1$ é
+
+     a) hamiltoniano
+     b) não-hamiltoniano mas semi-hamiltoniano
+     c) nem hamiltoniano nem semi-hamiltoniano
+
+   - A respeito de planaridade, temos que $G_1$ é
+
+     a) planar
+     b) não-planar
+
+2. Considere o grafo $G_2$ descrito pelo seguinte diagrama:
+```{dot}
+//| fig-width: 3
+//| fig-height: 3.4
+//| fig-align: center
+graph G2 {
+    layout=neato;
+    graph [margin=0.1, pad=0];
+    node [fontname="Times-Italic", fontsize=18, shape=plaintext];
+
+    d [pos="1.9,3.8!"];
+    a [pos="0.3,3.0!"];
+    b [pos="3.3,3.0!"];
+    c [pos="1.9,2.1!"];
+    e [pos="0.4,1.4!"];
+    f [pos="3.3,1.4!"];
+    g [pos="0.4,0.3!"];
+    h [pos="3.3,0.3!"];
+
+    a -- b;
+    b -- c;
+    d -- e;
+    d -- f;
+    e -- f;
+    e -- g;
+    e -- h;
+    f -- g;
+    f -- h;
+    g -- h;
+}
+```
+
+   Complete as seguintes afirmações de forma a torná-las corretas, ou atribua valor verdade (V ou F) às afirmações completas:
+
+   - O número de componentes conexos de $G_2$ é
+
+     a) 1
+     b) 2
+     c) 3
+     d) 4
+
+   - O grau mínimo e o grau máximo de $G_2$ são, respectivamente,
+
+     a) 1 e 3
+     b) 1 e 4
+     c) 2 e 3
+     d) 2 e 4
+
+   - O grafo $G_2$ é uma árvore.
+
+     a) verdadeiro
+     b) falso
+
+   - O grafo $G_2$ é bipartido.
+
+     a) verdadeiro
+     b) falso
+
+   - A respeito de existência de circuito/trilha euleriano(a), temos que $G_2$ é
+
+     a) euleriano
+     b) não-euleriano mas semi-euleriano
+     c) nem euleriano nem semi-euleriano
+
+   - A respeito de existência de ciclo/caminho hamiltoniano, temos que $G_2$ é
+
+     a) hamiltoniano
+     b) não-hamiltoniano mas semi-hamiltoniano
+     c) nem hamiltoniano nem semi-hamiltoniano
+
+   - A respeito de planaridade, temos que $G_2$ é
+
+     a) planar
+     b) não-planar
+
+---
+
+## Árvores e Árvores Geradoras Mínimas
+
+1. Qual é a única árvore identificada pelo código de Prüfer $1111$? Assuma que o primeiro vértice é o vértice 1, e que os demais vértices são os números naturais a partir de 1 até o único número de vértices possível quando considerando o código dado.
+
+2. Assuma que $G$ é um grafo simples com pesos não-negativos nas arestas. Utilizando um algoritmo clássico (Prim ou Kruskal), você calculou uma árvore geradora mínima para $G$, a qual vamos chamar $T$. Considere agora que $G$ foi modificado pela adição de uma nova aresta $e$ entre os nodos $x$ e $y$ (até então não-adjacentes) com peso $w$. É possível ajustarmos $T$ para gerar de forma eficiente a árvore geradora mínima $T'$ de $G'$, ou é necessário rodarmos novamente um algoritmo clássico do zero para $G'$? Desenvolva essa análise.
+
+---
+
+## Coloração de Grafos
+
+1. Determine V (verdadeiro) ou F (falso) para cada uma das seguintes afirmações sobre coloração de grafos.
+
+   - (&emsp;) Todo grafo bipartido tem número cromático no máximo 2.
+   - (&emsp;) Todo grafo com número cromático 2 é bipartido.
+   - (&emsp;) O número cromático de um grafo qualquer é sempre menor ou igual ao seu grau máximo $\Delta$.
+   - (&emsp;) Se $G$ é um grafo planar, então seu número cromático é no máximo 4.
+   - (&emsp;) Se $G$ possui um clique de tamanho $k$ (isto é, um subgrafo completo $K_k$), então o número cromático de $G$ é pelo menos $k$.
+
+2. Considere o grafo $H$ com vértices $\{1, 2, 3, 4, 5\}$ e arestas $\{1\text{–}2,\ 1\text{–}3,\ 2\text{–}3,\ 2\text{–}4,\ 3\text{–}5,\ 4\text{–}5\}$.
+
+   a) Qual é o número cromático $\chi(H)$? Justifique.
+   b) Exiba uma coloração ótima de $H$ (usando $\chi(H)$ cores), indicando a cor de cada vértice.
+   c) O grafo $H$ é bipartido? Justifique com base no número cromático encontrado.

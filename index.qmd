@@ -244,8 +244,14 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 29/set.</td>
   <td>Sala 113</td>
   <td class="t-green">Algoritmos Gulosos. Minimizar Atraso. Caching Ótimo.</td>
-  <td></td>
-  <td></td>
+  <td style="text-align:center;"><a href="aulas/aula16-escalonamento2.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td>
+    <ul class="list-unstyled mb-0">
+      <li class="mb-1"><a href="https://brunogrisci.github.io/schedulingalgorithms"><i class="bi bi-display me-1"></i>Simulador Escalonamento</a></li>
+      <li class="mb-1"><a href="https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/scheduling.ipynb"><i class="bi bi-file-earmark-code me-1"></i>Código Escalonamento (Python)</a></li>
+      <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>KT (Seção 4.1)</a></li>
+    </ul>
+  </td>
 </tr>
 <tr>
   <td class="wk">17</td>

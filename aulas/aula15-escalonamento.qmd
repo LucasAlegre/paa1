@@ -329,7 +329,36 @@ Seja $O = [j_1, j_2, \dots, j_m]$ a sequência ordenada de intervalos em uma [so
 
 . . .
 
-![](images/g6.png){width=50% fig-align="center"}
+```{=html}
+<svg viewBox="0 0 748 338" style="display:block; margin:0 auto; width:29.216em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dez aulas, de a até j, entre 9h e 16h30, cada uma em sua própria linha">
+<!-- grade de meias-horas -->
+<path d="M24 8V304M68 8V304M112 8V304M156 8V304M200 8V304M244 8V304M288 8V304M332 8V304M376 8V304M420 8V304M464 8V304M508 8V304M552 8V304M596 8V304M640 8V304M684 8V304M728 8V304" stroke="#cfd6dc" stroke-width="1" stroke-dasharray="3 4"/>
+<rect x="24" y="11" width="132" height="23" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="90" y="29.5" font-size="19" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">a</tspan></text>
+<rect x="24" y="40" width="308" height="23" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="178" y="58.5" font-size="19" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">b</tspan></text>
+<rect x="24" y="69" width="132" height="23" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="90" y="87.5" font-size="19" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">c</tspan></text>
+<rect x="200" y="98" width="132" height="23" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="266" y="116.5" font-size="19" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan></text>
+<rect x="200" y="127" width="264" height="23" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="332" y="145.5" font-size="19" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">e</tspan></text>
+<rect x="376" y="156" width="132" height="23" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="442" y="174.5" font-size="19" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">f</tspan></text>
+<rect x="376" y="185" width="132" height="23" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="442" y="203.5" font-size="19" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">g</tspan></text>
+<rect x="464" y="214" width="220" height="23" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="574" y="232.5" font-size="19" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">h</tspan></text>
+<rect x="552" y="243" width="132" height="23" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="618" y="261.5" font-size="19" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">i</tspan></text>
+<rect x="552" y="272" width="132" height="23" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="618" y="290.5" font-size="19" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<!-- eixo do tempo -->
+<line x1="18" y1="304" x2="732" y2="304" stroke="#23373b" stroke-width="2"/><polygon points="742,304 732,299.5 732,308.5" fill="#23373b"/>
+<path d="M24 304v8M68 304v4M112 304v8M156 304v4M200 304v8M244 304v4M288 304v8M332 304v4M376 304v8M420 304v4M464 304v8M508 304v4M552 304v8M596 304v4M640 304v8M684 304v4" stroke="#23373b" stroke-width="1.5"/>
+<text y="330" font-size="17" text-anchor="middle" fill="#5b6770"><tspan x="24">9h</tspan><tspan x="112">10h</tspan><tspan x="200">11h</tspan><tspan x="288">12h</tspan><tspan x="376">13h</tspan><tspan x="464">14h</tspan><tspan x="552">15h</tspan><tspan x="640">16h</tspan></text>
+</svg>
+```
 
 **P.** Uma solução?
 
@@ -342,7 +371,40 @@ Seja $O = [j_1, j_2, \dots, j_m]$ a sequência ordenada de intervalos em uma [so
 
 . . .
 
-![](images/g4.png){width=50% fig-align="center"}
+```{=html}
+<svg viewBox="0 0 814 232" style="display:block; margin:0 auto; width:31.54em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Uma solução com 4 salas para as aulas de a até j">
+<!-- grade de meias-horas -->
+<path d="M90 8V198M134 8V198M178 8V198M222 8V198M266 8V198M310 8V198M354 8V198M398 8V198M442 8V198M486 8V198M530 8V198M574 8V198M618 8V198M662 8V198M706 8V198M750 8V198M794 8V198" stroke="#cfd6dc" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="74" y="37" font-size="17" text-anchor="end" fill="#2e75b6" font-weight="600">Sala 4</text>
+<rect x="266" y="15" width="264" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="398" y="38" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">e</tspan></text>
+<rect x="618" y="15" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="684" y="38" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<text x="74" y="83" font-size="17" text-anchor="end" fill="#2e75b6" font-weight="600">Sala 3</text>
+<rect x="90" y="61" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="156" y="84" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">c</tspan></text>
+<rect x="266" y="61" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="332" y="84" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan></text>
+<rect x="442" y="61" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="508" y="84" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">g</tspan></text>
+<text x="74" y="129" font-size="17" text-anchor="end" fill="#2e75b6" font-weight="600">Sala 2</text>
+<rect x="90" y="107" width="308" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="244" y="130" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">b</tspan></text>
+<rect x="530" y="107" width="220" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="640" y="130" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">h</tspan></text>
+<text x="74" y="175" font-size="17" text-anchor="end" fill="#2e75b6" font-weight="600">Sala 1</text>
+<rect x="90" y="153" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="156" y="176" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">a</tspan></text>
+<rect x="442" y="153" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="508" y="176" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">f</tspan></text>
+<rect x="618" y="153" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="684" y="176" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">i</tspan></text>
+<!-- eixo do tempo -->
+<line x1="84" y1="198" x2="798" y2="198" stroke="#23373b" stroke-width="2"/><polygon points="808,198 798,193.5 798,202.5" fill="#23373b"/>
+<path d="M90 198v8M134 198v4M178 198v8M222 198v4M266 198v8M310 198v4M354 198v8M398 198v4M442 198v8M486 198v4M530 198v8M574 198v4M618 198v8M662 198v4M706 198v8M750 198v4" stroke="#23373b" stroke-width="1.5"/>
+<text y="224" font-size="17" text-anchor="middle" fill="#5b6770"><tspan x="90">9h</tspan><tspan x="178">10h</tspan><tspan x="266">11h</tspan><tspan x="354">12h</tspan><tspan x="442">13h</tspan><tspan x="530">14h</tspan><tspan x="618">15h</tspan><tspan x="706">16h</tspan></text>
+</svg>
+```
 
 **P.** Uma solução melhor?
 
@@ -353,7 +415,39 @@ Seja $O = [j_1, j_2, \dots, j_m]$ a sequência ordenada de intervalos em uma [so
 - Cada aula $j$ inicia em ${\color{blue}{s}}_j$ e termina em ${\color{red}{f}}_j$.
 - O objetivo é encontrar o [número mínimo de salas]{.alert} para atribuir as aulas tal que duas aulas não ocorram na mesma sala ao mesmo tempo.
 
-![](images/g5.png){width=60%}
+```{=html}
+<svg viewBox="0 0 814 186" style="display:block; margin:0 auto; width:31.54em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Uma solução com 3 salas para as aulas de a até j">
+<!-- grade de meias-horas -->
+<path d="M90 8V152M134 8V152M178 8V152M222 8V152M266 8V152M310 8V152M354 8V152M398 8V152M442 8V152M486 8V152M530 8V152M574 8V152M618 8V152M662 8V152M706 8V152M750 8V152M794 8V152" stroke="#cfd6dc" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="74" y="37" font-size="17" text-anchor="end" fill="#2e75b6" font-weight="600">Sala 3</text>
+<rect x="90" y="15" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="156" y="38" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">c</tspan></text>
+<rect x="266" y="15" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="332" y="38" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan></text>
+<rect x="442" y="15" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="508" y="38" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">f</tspan></text>
+<rect x="618" y="15" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="684" y="38" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<text x="74" y="83" font-size="17" text-anchor="end" fill="#2e75b6" font-weight="600">Sala 2</text>
+<rect x="90" y="61" width="308" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="244" y="84" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">b</tspan></text>
+<rect x="442" y="61" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="508" y="84" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">g</tspan></text>
+<rect x="618" y="61" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="684" y="84" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">i</tspan></text>
+<text x="74" y="129" font-size="17" text-anchor="end" fill="#2e75b6" font-weight="600">Sala 1</text>
+<rect x="90" y="107" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="156" y="130" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">a</tspan></text>
+<rect x="266" y="107" width="264" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="398" y="130" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">e</tspan></text>
+<rect x="530" y="107" width="220" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="640" y="130" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">h</tspan></text>
+<!-- eixo do tempo -->
+<line x1="84" y1="152" x2="798" y2="152" stroke="#23373b" stroke-width="2"/><polygon points="808,152 798,147.5 798,156.5" fill="#23373b"/>
+<path d="M90 152v8M134 152v4M178 152v8M222 152v4M266 152v8M310 152v4M354 152v8M398 152v4M442 152v8M486 152v4M530 152v8M574 152v4M618 152v8M662 152v4M706 152v8M750 152v4" stroke="#23373b" stroke-width="1.5"/>
+<text y="178" font-size="17" text-anchor="middle" fill="#5b6770"><tspan x="90">9h</tspan><tspan x="178">10h</tspan><tspan x="266">11h</tspan><tspan x="354">12h</tspan><tspan x="442">13h</tspan><tspan x="530">14h</tspan><tspan x="618">15h</tspan><tspan x="706">16h</tspan></text>
+</svg>
+```
 
 **P.** Uma solução melhor?
 
@@ -418,11 +512,48 @@ Seja $O = [j_1, j_2, \dots, j_m]$ a sequência ordenada de intervalos em uma [so
 
 . . .
 
+<br>
+
 **P.** O número de salas deve ser igual à profundidade?
 
 . . .
 
-![](images/g7.png){width=90%}
+```{=html}
+<svg viewBox="0 0 814 208" style="display:block; margin:0 auto; width:31.54em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Solução com 3 salas; às 9h30 as aulas a, b e c se sobrepõem, então a profundidade é 3">
+<!-- grade de meias-horas -->
+<path d="M90 30V174M134 30V174M178 30V174M222 30V174M266 30V174M310 30V174M354 30V174M398 30V174M442 30V174M486 30V174M530 30V174M574 30V174M618 30V174M662 30V174M706 30V174M750 30V174M794 30V174" stroke="#cfd6dc" stroke-width="1" stroke-dasharray="3 4"/>
+<text x="74" y="59" font-size="17" text-anchor="end" fill="#2e75b6" font-weight="600">Sala 3</text>
+<rect x="90" y="37" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="156" y="60" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">c</tspan></text>
+<rect x="266" y="37" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="332" y="60" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan></text>
+<rect x="442" y="37" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="508" y="60" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">f</tspan></text>
+<rect x="618" y="37" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="684" y="60" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<text x="74" y="105" font-size="17" text-anchor="end" fill="#2e75b6" font-weight="600">Sala 2</text>
+<rect x="90" y="83" width="308" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="244" y="106" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">b</tspan></text>
+<rect x="442" y="83" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="508" y="106" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">g</tspan></text>
+<rect x="618" y="83" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="684" y="106" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">i</tspan></text>
+<text x="74" y="151" font-size="17" text-anchor="end" fill="#2e75b6" font-weight="600">Sala 1</text>
+<rect x="90" y="129" width="132" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="156" y="152" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">a</tspan></text>
+<rect x="266" y="129" width="264" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="398" y="152" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">e</tspan></text>
+<rect x="530" y="129" width="220" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="640" y="152" font-size="21" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">h</tspan></text>
+<!-- instante com a profundidade maxima (por cima das barras) -->
+<rect x="126.1" y="26" width="15.8" height="146" fill="#b31313" fill-opacity="0.3"/>
+<text x="126.1" y="19" font-size="16" text-anchor="start" fill="#b31313" font-weight="600">profundidade = 3</text>
+<!-- eixo do tempo -->
+<line x1="84" y1="174" x2="798" y2="174" stroke="#23373b" stroke-width="2"/><polygon points="808,174 798,169.5 798,178.5" fill="#23373b"/>
+<path d="M90 174v8M134 174v4M178 174v8M222 174v4M266 174v8M310 174v4M354 174v8M398 174v4M442 174v8M486 174v4M530 174v8M574 174v4M618 174v8M662 174v4M706 174v8M750 174v4" stroke="#23373b" stroke-width="1.5"/>
+<text y="200" font-size="17" text-anchor="middle" fill="#5b6770"><tspan x="90">9h</tspan><tspan x="178">10h</tspan><tspan x="266">11h</tspan><tspan x="354">12h</tspan><tspan x="442">13h</tspan><tspan x="530">14h</tspan><tspan x="618">15h</tspan><tspan x="706">16h</tspan></text>
+</svg>
+```
 
 ## Análise Particionamento de Intervalos
 

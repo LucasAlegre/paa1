@@ -1,0 +1,1211 @@
+---
+title: "Projeto e Análise de Algoritmos I"
+subtitle: "Aula 16 - Algoritmos Gulosos: Escalonamento para Minimização de Atraso Máximo e Caching"
+author: "Lucas Nunes Alegre"
+institute: |
+  Universidade Federal do Rio Grande do Sul  <br>
+  Instituto de Informática <br> Departamento de Informática Teórica  
+  <br><br><br>
+  <span style="display:inline-block; max-width:50%; font-size:0.5em; color: #757575;">Estes slides utilizam conteúdo adaptado da bibliografia da disciplina e também de notas de aula e slides prévios dos professores Bruno Grisci, Rodrigo Machado, André Grahl Pereira, Lucas Nunes Alegre, Marcus Ritt e Luciana Buriol.</span>
+date: ""
+lang: pt-BR
+
+format:
+  live-revealjs:
+    theme: [default, metropolis.scss]
+    slide-number: true
+    progress: true
+    transition: fade
+    width: 1024
+    height: 768
+    margin: 0.1
+    html-math-method: katex
+    title-slide-attributes:
+      data-background-color: "#ffffff"
+    center: false
+    highlight-style: github
+    fig-align: center
+    embed-resources: false
+    preview-links: true
+    include-in-header:
+      - pseudocode-reveal.html
+    chalkboard:
+      theme: whiteboard
+      boardmarker-width: 5
+      buttons: false
+
+filters:
+  - leovan/pseudocode
+---
+
+# Algoritmos Gulosos
+
+## Algoritmos Gulosos
+
+> "Embora a gula seja considerada um dos sete pecados capitais, acontece que algoritmos gulosos frequentemente tem uma performance muito boa."
+>
+> — Stuart Russell
+
+## Algoritmos Gulosos
+
+**Ideia Geral:**
+
+- Realizamos uma **sequência de passos**.
+- A cada passo, fazemos uma **escolha**.
+
+. . .
+
+**Premissa dos Algoritmos Gulosos:**
+
+- A escolha é aquela que parece ser a **melhor no momento (miópica)**.
+- Essa escolha é denominada **escolha gulosa**.
+- É feita de acordo com um **critério guloso**.
+
+![](images/miopia.jpg){width=30% fig-align="center"}
+
+## Algoritmos Gulosos
+
+> [**Definição.**]{.label-def} Um **algoritmo guloso** é aquele que constrói a **solução global** para o problema a partir de **decisões locais ótimas**.
+
+. . .
+
+```{=html}
+<div style="display:flex; justify-content:center; align-items:center; height:35vh;">
+  <iframe width="70%" height="100%" src="https://www.youtube.com/embed/VVxYOQS6ggk" frameborder="0" allowfullscreen></iframe>
+</div>
+```
+
+. . .
+
+> [**Observação.**]{.label-rmk} Quando um algoritmo guloso resolve um problema otimamente, isso implica em algo fundamental sobre a estrutura do problema.
+
+## Algoritmos Gulosos
+
+**Divisão e Conquista vs. Algoritmos Gulosos:**
+
+| | **Divisão e Conquista** | **Algoritmos Gulosos** |
+|---|---|---|
+| Propor Algoritmos | [Difícil]{.alert} | [Fácil]{.bold-emph} |
+| Análise de Complexidade | [Difícil]{.alert} | [Fácil]{.bold-emph} |
+| Corretude | [Fácil]{.bold-emph} | [Difícil Demonstrar]{.alert} |
+
+. . .
+
+<br>
+
+> [**Observação.**]{.label-rmk} A maioria das estratégias gulosas não são [corretas]{.alert} (não garantem a solução ótima).
+
+## Provas de Corretude
+
+**Ficar à Frente:**
+
+- Mostra que após cada passo do algoritmo guloso, a solução atual é tão boa quanto qualquer outra solução.
+
+. . .
+
+**Argumento da Troca:**
+
+- Transforma gradualmente qualquer solução para a encontrada pelo algoritmo guloso sem piorar a qualidade da solução.
+
+. . .
+
+**O que Funcionar:**
+
+- Prova por indução, estrutural, contradição.
+
+
+# Escalonamento para Minimizar Atraso
+
+## Minimizar Atraso Máximo
+
+> [**Definição:**]{.label-def}
+>
+> - Um único recurso que processa uma tarefa por vez.
+> - A tarefa $j$ requer tempo ${\color{green}{t}}_j$ para completar e tem um deadline de ${\color{purple}{d}}_j$.
+> - Se a tarefa $j$ inicia em ${\color{blue}{s}}_j$, ela termina em ${\color{blue}{s}}_j + {\color{green}{t}}_j$.
+> - O atraso da tarefa $j$ é ${\color{orange}{l}}_j = \max\{0, {\color{red}{f}}_j - {\color{purple}{d}}_j\}$.
+> - Objetivo é alocar todas as tarefas minimizando o [atraso]{.alert} máximo ${\color{orange}{L}} = \max_j {\color{orange}{l}}_j$.
+
+. . .
+
+```{=html}
+<svg viewBox="0 0 690 280" style="display:block; margin:0 auto; width:21.58em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Três tarefas com durações 1, 2, 3 e deadlines 2, 4, 6, e a solução que executa as três em sequência sem atraso">
+<!-- tarefas: duracao t_j (barra) e deadline d_j (traco) -->
+<text x="115" y="36" font-size="17" text-anchor="end" fill="#23373b">Tarefa 1</text>
+<rect x="130" y="15" width="80" height="30" fill="#e2f1e2" stroke="#008000" stroke-width="1.5"/>
+<text x="170" y="36" font-size="17" text-anchor="middle" fill="#008000"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">t</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">1</tspan><tspan dy="-5.1"> = 1</tspan></text>
+<line x1="290" y1="10" x2="290" y2="50" stroke="#800080" stroke-width="3"/>
+<text x="298" y="36" font-size="17" text-anchor="start" fill="#800080"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">1</tspan><tspan dy="-5.1"> = 2</tspan></text>
+<text x="115" y="94" font-size="17" text-anchor="end" fill="#23373b">Tarefa 2</text>
+<rect x="130" y="73" width="160" height="30" fill="#e2f1e2" stroke="#008000" stroke-width="1.5"/>
+<text x="210" y="94" font-size="17" text-anchor="middle" fill="#008000"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">t</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">2</tspan><tspan dy="-5.1"> = 2</tspan></text>
+<line x1="450" y1="68" x2="450" y2="108" stroke="#800080" stroke-width="3"/>
+<text x="458" y="94" font-size="17" text-anchor="start" fill="#800080"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">2</tspan><tspan dy="-5.1"> = 4</tspan></text>
+<text x="115" y="152" font-size="17" text-anchor="end" fill="#23373b">Tarefa 3</text>
+<rect x="130" y="131" width="240" height="30" fill="#e2f1e2" stroke="#008000" stroke-width="1.5"/>
+<text x="250" y="152" font-size="17" text-anchor="middle" fill="#008000"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">t</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">3</tspan><tspan dy="-5.1"> = 3</tspan></text>
+<line x1="610" y1="126" x2="610" y2="166" stroke="#800080" stroke-width="3"/>
+<text x="618" y="152" font-size="17" text-anchor="start" fill="#800080"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">3</tspan><tspan dy="-5.1"> = 6</tspan></text>
+<!-- solucao -->
+<text x="115" y="237" font-size="17" text-anchor="end" fill="#23373b" font-weight="600">Solução</text>
+<rect x="130" y="212" width="80" height="38" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="210" y="212" width="160" height="38" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="370" y="212" width="240" height="38" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="170" y="236.2" font-size="15" text-anchor="middle" fill="#23373b">Tarefa 1</text>
+<text x="290" y="236.2" font-size="15" text-anchor="middle" fill="#23373b">Tarefa 2</text>
+<text x="490" y="236.2" font-size="15" text-anchor="middle" fill="#23373b">Tarefa 3</text>
+<!-- eixo do tempo -->
+<line x1="124" y1="250" x2="630" y2="250" stroke="#23373b" stroke-width="2"/><polygon points="640,250 630,245.5 630,254.5" fill="#23373b"/>
+<path d="M130 250v6M210 250v6M290 250v6M370 250v6M450 250v6M530 250v6M610 250v6" stroke="#23373b" stroke-width="1.5"/>
+<text y="274" font-size="15" text-anchor="middle" fill="#5b6770"><tspan x="130">0</tspan><tspan x="210">1</tspan><tspan x="290">2</tspan><tspan x="370">3</tspan><tspan x="450">4</tspan><tspan x="530">5</tspan><tspan x="610">6</tspan></text>
+</svg>
+```
+
+## Minimizar Atraso Máximo
+
+Note que aqui estamos minimizando o atraso máximo, mas poderíamos ter outros objetivos:
+
+- Minimizar o número de tarefas com atraso.
+- Minimizar a soma dos atrasos de todas as tarefas.
+- Minimizar o atraso final após todas as tarefas serem executadas.
+- $\dots$
+
+. . .
+
+Cada objetivo pode necessitar de algoritmos diferentes, e pode não haver uma estratégia gulosa ótima.
+
+## Exemplo de Alocação
+
+Considere as seguintes tarefas:
+
+```{=html}
+<svg viewBox="0 0 396 120" style="display:block; margin:0 auto; width:14.94em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tabela com seis tarefas: durações 3, 2, 1, 4, 3, 2 e deadlines 6, 8, 9, 9, 14, 15">
+<rect x="0" y="0" width="396" height="40" fill="#23373b"/>
+<rect x="0" y="40" width="72" height="80" fill="#23373b"/>
+<rect x="72" y="40" width="324" height="80" fill="#eef2f5"/>
+<path d="M126 0V120M180 0V120M234 0V120M288 0V120M342 0V120M72 0V120M0 40H396M0 80H396" stroke="#ffffff" stroke-width="2"/>
+<text x="36" y="27" font-size="20" text-anchor="middle" fill="#ffffff"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<text x="36" y="67" font-size="20" text-anchor="middle" fill="#ffffff"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">t</tspan><tspan dy="6" font-size="14" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<text x="36" y="107" font-size="20" text-anchor="middle" fill="#ffffff"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="6" font-size="14" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<text x="99" y="27" font-size="18" text-anchor="middle" fill="#ffffff">1</text>
+<text x="99" y="67" font-size="18" text-anchor="middle" fill="#23373b">3</text>
+<text x="99" y="107" font-size="18" text-anchor="middle" fill="#23373b">6</text>
+<text x="153" y="27" font-size="18" text-anchor="middle" fill="#ffffff">2</text>
+<text x="153" y="67" font-size="18" text-anchor="middle" fill="#23373b">2</text>
+<text x="153" y="107" font-size="18" text-anchor="middle" fill="#23373b">8</text>
+<text x="207" y="27" font-size="18" text-anchor="middle" fill="#ffffff">3</text>
+<text x="207" y="67" font-size="18" text-anchor="middle" fill="#23373b">1</text>
+<text x="207" y="107" font-size="18" text-anchor="middle" fill="#23373b">9</text>
+<text x="261" y="27" font-size="18" text-anchor="middle" fill="#ffffff">4</text>
+<text x="261" y="67" font-size="18" text-anchor="middle" fill="#23373b">4</text>
+<text x="261" y="107" font-size="18" text-anchor="middle" fill="#23373b">9</text>
+<text x="315" y="27" font-size="18" text-anchor="middle" fill="#ffffff">5</text>
+<text x="315" y="67" font-size="18" text-anchor="middle" fill="#23373b">3</text>
+<text x="315" y="107" font-size="18" text-anchor="middle" fill="#23373b">14</text>
+<text x="369" y="27" font-size="18" text-anchor="middle" fill="#ffffff">6</text>
+<text x="369" y="67" font-size="18" text-anchor="middle" fill="#23373b">2</text>
+<text x="369" y="107" font-size="18" text-anchor="middle" fill="#23373b">15</text>
+</svg>
+```
+
+. . .
+
+<br>
+
+Observe que a seguinte alocação **não é ótima**: a tarefa $1$ possui atraso $2$, e a tarefa $4$ possui atraso $6$ (no caso, o atraso máximo):
+
+<br>
+
+```{=html}
+<svg viewBox="0 0 880 124" style="display:block; margin:0 auto; width:31.54em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Escalonamento não ótimo das seis tarefas: a tarefa 1 atrasa 2 e a tarefa 4 atrasa 6">
+<rect x="20" y="52" width="54" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="74" y="52" width="108" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="182" y="52" width="108" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="290" y="52" width="162" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="452" y="52" width="162" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="614" y="52" width="216" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="47" y="77.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="4.8" font-size="11.2" font-family="KaTeX_Main, 'Times New Roman', serif">3</tspan><tspan dy="-4.8"> = 9</tspan></text>
+<text x="128" y="77.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="4.8" font-size="11.2" font-family="KaTeX_Main, 'Times New Roman', serif">2</tspan><tspan dy="-4.8"> = 8</tspan></text>
+<text x="236" y="77.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="4.8" font-size="11.2" font-family="KaTeX_Main, 'Times New Roman', serif">6</tspan><tspan dy="-4.8"> = 15</tspan></text>
+<text x="371" y="77.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="4.8" font-size="11.2" font-family="KaTeX_Main, 'Times New Roman', serif">1</tspan><tspan dy="-4.8"> = 6</tspan></text>
+<text x="533" y="77.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="4.8" font-size="11.2" font-family="KaTeX_Main, 'Times New Roman', serif">5</tspan><tspan dy="-4.8"> = 14</tspan></text>
+<text x="722" y="77.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="4.8" font-size="11.2" font-family="KaTeX_Main, 'Times New Roman', serif">4</tspan><tspan dy="-4.8"> = 9</tspan></text>
+<!-- eixo do tempo -->
+<line x1="14" y1="92" x2="850" y2="92" stroke="#23373b" stroke-width="2"/><polygon points="860,92 850,87.5 850,96.5" fill="#23373b"/>
+<path d="M20 92v6M74 92v6M128 92v6M182 92v6M236 92v6M290 92v6M344 92v6M398 92v6M452 92v6M506 92v6M560 92v6M614 92v6M668 92v6M722 92v6M776 92v6M830 92v6" stroke="#23373b" stroke-width="1.5"/>
+<text y="116" font-size="15" text-anchor="middle" fill="#5b6770"><tspan x="20">0</tspan><tspan x="74">1</tspan><tspan x="128">2</tspan><tspan x="182">3</tspan><tspan x="236">4</tspan><tspan x="290">5</tspan><tspan x="344">6</tspan><tspan x="398">7</tspan><tspan x="452">8</tspan><tspan x="506">9</tspan><tspan x="560">10</tspan><tspan x="614">11</tspan><tspan x="668">12</tspan><tspan x="722">13</tspan><tspan x="776">14</tspan><tspan x="830">15</tspan></text>
+<!-- atrasos -->
+<text x="452" y="18" font-size="15" text-anchor="middle" fill="#b31313">atraso = 2</text>
+<line x1="452" y1="25" x2="452" y2="39" stroke="#b31313" stroke-width="2.5"/><polygon points="452,50 456.9,39 447.1,39" fill="#b31313"/>
+<text x="614" y="18" font-size="15" text-anchor="middle" fill="#b31313">atraso = 0</text>
+<line x1="614" y1="25" x2="614" y2="39" stroke="#b31313" stroke-width="2.5"/><polygon points="614,50 619,39 609,39" fill="#b31313"/>
+<text x="830" y="18" font-size="15" text-anchor="end" fill="#b31313">atraso = 6</text>
+<line x1="830" y1="25" x2="830" y2="39" stroke="#b31313" stroke-width="2.5"/><polygon points="830,50 835,39 825,39" fill="#b31313"/>
+</svg>
+```
+
+## Visualização Interativa {data-background-iframe="https://brunogrisci.github.io/schedulingalgorithms" data-background-interactive="true" .hide-header}
+
+## Estratégias Gulosas para Minimizar Atraso Máximo
+
+**Estratégia Gulosa:** Considera alocar as tarefas em alguma ordem natural.
+
+. . .
+
+**P.** Qual ordem?
+
+> 1. Menor Duração Primeiro: Considera as tarefas por ordem de ${\color{green}{t}}_j$.
+
+. . .
+
+> 2. Menor Folga: Considera as tarefas por ordem de ${\color{purple}{d}}_j - {\color{green}{t}}_j$.
+
+. . .
+
+> 3. Menor Deadline: Considera as tarefas por ordem de ${\color{purple}{d}}_j$.
+
+. . .
+
+<br>
+
+> [**Pergunta:**]{.label-qstn} Alguma funciona?
+
+## Exemplo de Instância (1)
+
+Teste as seguintes estratégias para minimizar o atraso máximo:
+
+1) menor tempo de duração ${\color{green}{t}}_j$ 
+2) menor folga (${\color{purple}{d}}_j - {\color{green}{t}}_j$)
+3) menor deadline ${\color{purple}{d}}_j$
+
+<br>
+
+**Instância 1:**
+
+| Tarefa | $a$ | $b$ | $c$ |
+|---|:---:|:---:|:---:|
+| Duração (${\color{green}{t}}$) | 1 | 2 | 6 |
+| Deadline (${\color{purple}{d}}$) | 3 | 2 | 7 |
+
+. . .
+
+- **Menor duração:** $a, b, c$ (maxAtraso = $2$)
+- **Menor folga:** $b, c, a$ (maxAtraso = $6$)
+- **Menor deadline:** $b, a, c$ (maxAtraso = $2$)
+
+## Exemplo de Instância (2)
+
+Teste as seguintes estratégias para minimizar o atraso máximo:
+
+1) menor tempo de duração ${\color{green}{t}}_j$ 
+2) menor folga (${\color{purple}{d}}_j - {\color{green}{t}}_j$)
+3) menor deadline ${\color{purple}{d}}_j$
+
+<br>
+
+**Instância 2:**
+
+| Tarefa | $a$ | $b$ | $c$ |
+|---|:---:|:---:|:---:|
+| Duração (${\color{green}{t}}$) | 4 | 5 | 3 |
+| Deadline (${\color{purple}{d}}$) | 10 | 6 | 9 |
+
+. . .
+
+- **Menor duração:** $c, a, b$ (maxAtraso = $6$)
+- **Menor folga:** $b, a, c$ (maxAtraso = $3$) ou $b, c, a$ (maxAtraso = $2$)
+- **Menor deadline:** $b, c, a$ (maxAtraso = $2$)
+
+## Escalonamento para Minimizar Atraso Máximo
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{MenorDeadlinePrimeiro}{$\{t_1, d_1\}, \ldots, \{t_n, d_n\}$}
+  \State \texttt{Sort}$(\{t_1, d_1\}, \ldots, \{t_n, d_n\})$ \Comment{Em ordem crescente de deadline}
+  \State $t \leftarrow 0$
+  \For{$j = 1$ \textbf{to} $n$}
+    \State $j \leftarrow [t, t + t_j]$
+    \State $s_j \leftarrow t;\ f_j \leftarrow t + t_j$
+    \State $t \leftarrow t + t_j$
+  \EndFor
+\EndProcedure
+\end{algorithmic}
+```
+<br>
+
+. . .
+
+```{=html}
+<svg viewBox="0 0 396 120" style="display:block; margin:0 auto; width:13.944em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tabela com seis tarefas: durações 3, 2, 1, 4, 3, 2 e deadlines 6, 8, 9, 9, 14, 15">
+<rect x="0" y="0" width="396" height="40" fill="#23373b"/>
+<rect x="0" y="40" width="72" height="80" fill="#23373b"/>
+<rect x="72" y="40" width="324" height="80" fill="#eef2f5"/>
+<path d="M126 0V120M180 0V120M234 0V120M288 0V120M342 0V120M72 0V120M0 40H396M0 80H396" stroke="#ffffff" stroke-width="2"/>
+<text x="36" y="27" font-size="20" text-anchor="middle" fill="#ffffff"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<text x="36" y="67" font-size="20" text-anchor="middle" fill="#ffffff"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">t</tspan><tspan dy="6" font-size="14" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<text x="36" y="107" font-size="20" text-anchor="middle" fill="#ffffff"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="6" font-size="14" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<text x="99" y="27" font-size="18" text-anchor="middle" fill="#ffffff">1</text>
+<text x="99" y="67" font-size="18" text-anchor="middle" fill="#23373b">3</text>
+<text x="99" y="107" font-size="18" text-anchor="middle" fill="#23373b">6</text>
+<text x="153" y="27" font-size="18" text-anchor="middle" fill="#ffffff">2</text>
+<text x="153" y="67" font-size="18" text-anchor="middle" fill="#23373b">2</text>
+<text x="153" y="107" font-size="18" text-anchor="middle" fill="#23373b">8</text>
+<text x="207" y="27" font-size="18" text-anchor="middle" fill="#ffffff">3</text>
+<text x="207" y="67" font-size="18" text-anchor="middle" fill="#23373b">1</text>
+<text x="207" y="107" font-size="18" text-anchor="middle" fill="#23373b">9</text>
+<text x="261" y="27" font-size="18" text-anchor="middle" fill="#ffffff">4</text>
+<text x="261" y="67" font-size="18" text-anchor="middle" fill="#23373b">4</text>
+<text x="261" y="107" font-size="18" text-anchor="middle" fill="#23373b">9</text>
+<text x="315" y="27" font-size="18" text-anchor="middle" fill="#ffffff">5</text>
+<text x="315" y="67" font-size="18" text-anchor="middle" fill="#23373b">3</text>
+<text x="315" y="107" font-size="18" text-anchor="middle" fill="#23373b">14</text>
+<text x="369" y="27" font-size="18" text-anchor="middle" fill="#ffffff">6</text>
+<text x="369" y="67" font-size="18" text-anchor="middle" fill="#23373b">2</text>
+<text x="369" y="107" font-size="18" text-anchor="middle" fill="#23373b">15</text>
+</svg>
+```
+
+```{=html}
+<svg viewBox="0 0 880 124" style="display:block; margin:0 auto; width:31.54em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Escalonamento por menor deadline primeiro: atraso máximo 1, na tarefa 4">
+<rect x="20" y="52" width="162" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="182" y="52" width="108" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="290" y="52" width="54" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="344" y="52" width="216" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="560" y="52" width="162" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="722" y="52" width="108" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="101" y="77.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="4.8" font-size="11.2" font-family="KaTeX_Main, 'Times New Roman', serif">1</tspan><tspan dy="-4.8"> = 6</tspan></text>
+<text x="236" y="77.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="4.8" font-size="11.2" font-family="KaTeX_Main, 'Times New Roman', serif">2</tspan><tspan dy="-4.8"> = 8</tspan></text>
+<text x="317" y="77.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="4.8" font-size="11.2" font-family="KaTeX_Main, 'Times New Roman', serif">3</tspan><tspan dy="-4.8"> = 9</tspan></text>
+<text x="452" y="77.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="4.8" font-size="11.2" font-family="KaTeX_Main, 'Times New Roman', serif">4</tspan><tspan dy="-4.8"> = 9</tspan></text>
+<text x="641" y="77.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="4.8" font-size="11.2" font-family="KaTeX_Main, 'Times New Roman', serif">5</tspan><tspan dy="-4.8"> = 14</tspan></text>
+<text x="776" y="77.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="4.8" font-size="11.2" font-family="KaTeX_Main, 'Times New Roman', serif">6</tspan><tspan dy="-4.8"> = 15</tspan></text>
+<!-- eixo do tempo -->
+<line x1="14" y1="92" x2="850" y2="92" stroke="#23373b" stroke-width="2"/><polygon points="860,92 850,87.5 850,96.5" fill="#23373b"/>
+<path d="M20 92v6M74 92v6M128 92v6M182 92v6M236 92v6M290 92v6M344 92v6M398 92v6M452 92v6M506 92v6M560 92v6M614 92v6M668 92v6M722 92v6M776 92v6M830 92v6" stroke="#23373b" stroke-width="1.5"/>
+<text y="116" font-size="15" text-anchor="middle" fill="#5b6770"><tspan x="20">0</tspan><tspan x="74">1</tspan><tspan x="128">2</tspan><tspan x="182">3</tspan><tspan x="236">4</tspan><tspan x="290">5</tspan><tspan x="344">6</tspan><tspan x="398">7</tspan><tspan x="452">8</tspan><tspan x="506">9</tspan><tspan x="560">10</tspan><tspan x="614">11</tspan><tspan x="668">12</tspan><tspan x="722">13</tspan><tspan x="776">14</tspan><tspan x="830">15</tspan></text>
+<!-- atrasos -->
+<text x="560" y="18" font-size="15" text-anchor="middle" fill="#b31313">atraso = 1</text>
+<line x1="560" y1="25" x2="560" y2="39" stroke="#b31313" stroke-width="2.5"/><polygon points="560,50 565,39 555,39" fill="#b31313"/>
+</svg>
+```
+
+## Correção de MenorDeadlinePrimeiro
+
+> [**Observação 1.**]{.label-rmk} Existe uma solução ótima sem [tempo ocioso]{.alert}.
+
+. . .
+
+```{=html}
+<svg viewBox="0 0 760 188" style="display:block; margin:0 auto; width:28.22em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dois escalonamentos: o primeiro com intervalos ociosos e o segundo com as mesmas tarefas sem tempo ocioso">
+<!-- com tempo ocioso -->
+<rect x="20" y="22" width="120" height="38" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="200" y="22" width="180" height="38" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="500" y="22" width="180" height="38" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="80" y="46.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan> = 4</text>
+<text x="290" y="46.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan> = 6</text>
+<text x="590" y="46.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan> = 12</text>
+<rect x="143" y="25" width="54" height="32" fill="none" stroke="#9aa5ab" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="170" y="46" font-size="14" text-anchor="middle" fill="#5b6770" font-style="italic">ocioso</text>
+<rect x="383" y="25" width="114" height="32" fill="none" stroke="#9aa5ab" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="440" y="46" font-size="14" text-anchor="middle" fill="#5b6770" font-style="italic">ocioso</text>
+<!-- eixo do tempo -->
+<line x1="14" y1="60" x2="715" y2="60" stroke="#23373b" stroke-width="2"/><polygon points="725,60 715,55.5 715,64.5" fill="#23373b"/>
+<path d="M20 60v6M80 60v6M140 60v6M200 60v6M260 60v6M320 60v6M380 60v6M440 60v6M500 60v6M560 60v6M620 60v6M680 60v6" stroke="#23373b" stroke-width="1.5"/>
+<text y="84" font-size="15" text-anchor="middle" fill="#5b6770"><tspan x="20">0</tspan><tspan x="80">1</tspan><tspan x="140">2</tspan><tspan x="200">3</tspan><tspan x="260">4</tspan><tspan x="320">5</tspan><tspan x="380">6</tspan><tspan x="440">7</tspan><tspan x="500">8</tspan><tspan x="560">9</tspan><tspan x="620">10</tspan><tspan x="680">11</tspan></text>
+<!-- sem tempo ocioso -->
+<rect x="20" y="116" width="120" height="38" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="140" y="116" width="180" height="38" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="320" y="116" width="180" height="38" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<text x="80" y="140.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan> = 4</text>
+<text x="230" y="140.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan> = 6</text>
+<text x="410" y="140.6" font-size="16" text-anchor="middle" fill="#23373b"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan> = 12</text>
+<!-- eixo do tempo -->
+<line x1="14" y1="154" x2="715" y2="154" stroke="#23373b" stroke-width="2"/><polygon points="725,154 715,149.5 715,158.5" fill="#23373b"/>
+<path d="M20 154v6M80 154v6M140 154v6M200 154v6M260 154v6M320 154v6M380 154v6M440 154v6M500 154v6M560 154v6M620 154v6M680 154v6" stroke="#23373b" stroke-width="1.5"/>
+<text y="178" font-size="15" text-anchor="middle" fill="#5b6770"><tspan x="20">0</tspan><tspan x="80">1</tspan><tspan x="140">2</tspan><tspan x="200">3</tspan><tspan x="260">4</tspan><tspan x="320">5</tspan><tspan x="380">6</tspan><tspan x="440">7</tspan><tspan x="500">8</tspan><tspan x="560">9</tspan><tspan x="620">10</tspan><tspan x="680">11</tspan></text>
+</svg>
+```
+
+. . .
+
+> [**Observação 2.**]{.label-rmk} `MenorDeadlinePrimeiro` produz uma alocação sem tempo ocioso.
+
+## Correção de MenorDeadlinePrimeiro (2)
+
+> [**Definição.**]{.label-def} Dado um escalonamento $S$, uma [inversão]{.alert} é um par de tarefas $i$ e $j$ tal que: $d_i < d_j$, mas $j$ é alocado antes de $i$ (onde $d_i$ e $d_j$ correspondem aos deadlines das tarefas).
+
+. . .
+
+```{=html}
+<svg viewBox="0 0 640 94" style="display:block; margin:0 auto; width:28.22em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Escalonamento em que a tarefa j aparece antes da tarefa i, formando uma inversão">
+<rect x="10" y="46" width="55" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="65" y="46" width="95" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="160" y="46" width="135" height="40" fill="#2e75b6" stroke="#ffffff" stroke-width="2"/>
+<text x="227.5" y="73" font-size="21" text-anchor="middle" fill="#ffffff"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<rect x="295" y="46" width="155" height="40" fill="#2e75b6" stroke="#ffffff" stroke-width="2"/>
+<text x="372.5" y="73" font-size="21" text-anchor="middle" fill="#ffffff"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">i</tspan></text>
+<rect x="450" y="46" width="75" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="525" y="46" width="40" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="565" y="46" width="65" height="40" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<path d="M227.5 32V20H372.5V32" fill="none" stroke="#b31313" stroke-width="2"/>
+<line x1="227.5" y1="31" x2="227.5" y2="32" stroke="#b31313" stroke-width="2"/><polygon points="227.5,43 232.4,32 222.6,32" fill="#b31313"/>
+<line x1="372.5" y1="31" x2="372.5" y2="32" stroke="#b31313" stroke-width="2"/><polygon points="372.5,43 377.4,32 367.6,32" fill="#b31313"/>
+<text x="300" y="13" font-size="15" text-anchor="middle" fill="#b31313">inversão</text>
+<text x="450" y="38" font-size="20" text-anchor="middle" fill="#b31313"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">f</tspan><tspan dy="6" font-size="14" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">i</tspan></text>
+</svg>
+```
+
+. . .
+
+> [**Observação 3.**]{.label-rmk} `MenorDeadlinePrimeiro` não tem inversões.
+
+. . .
+
+> [**Observação 4.**]{.label-rmk} Se um escalonamento tem uma inversão, ele tem uma inversão com tarefas consecutivas.
+
+## Correção de MenorDeadlinePrimeiro (3)
+
+```{=html}
+<svg viewBox="0 0 640 152" style="display:block; margin:0 auto; width:22.576em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Troca das tarefas adjacentes invertidas j e i: depois da troca, j termina no mesmo instante em que i terminava">
+<rect x="10" y="38" width="55" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="65" y="38" width="95" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="160" y="38" width="135" height="32" fill="#2e75b6" stroke="#ffffff" stroke-width="2"/>
+<text x="227.5" y="61" font-size="21" text-anchor="middle" fill="#ffffff"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<rect x="295" y="38" width="155" height="32" fill="#2e75b6" stroke="#ffffff" stroke-width="2"/>
+<text x="372.5" y="61" font-size="21" text-anchor="middle" fill="#ffffff"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">i</tspan></text>
+<rect x="450" y="38" width="75" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="525" y="38" width="40" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="565" y="38" width="65" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<path d="M227.5 24V10H372.5V24" fill="none" stroke="#b31313" stroke-width="2"/>
+<line x1="227.5" y1="23" x2="227.5" y2="24" stroke="#b31313" stroke-width="2"/><polygon points="227.5,35 232.4,24 222.6,24" fill="#b31313"/>
+<line x1="372.5" y1="23" x2="372.5" y2="24" stroke="#b31313" stroke-width="2"/><polygon points="372.5,35 377.4,24 367.6,24" fill="#b31313"/>
+<text x="454" y="30" font-size="20" text-anchor="start" fill="#b31313"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">f</tspan><tspan dy="6" font-size="14" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">i</tspan></text>
+<!-- depois da troca -->
+<rect x="10" y="92" width="55" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="65" y="92" width="95" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="160" y="92" width="155" height="32" fill="#2e75b6" stroke="#ffffff" stroke-width="2"/>
+<text x="237.5" y="115" font-size="21" text-anchor="middle" fill="#ffffff"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">i</tspan></text>
+<rect x="315" y="92" width="135" height="32" fill="#2e75b6" stroke="#ffffff" stroke-width="2"/>
+<text x="382.5" y="115" font-size="21" text-anchor="middle" fill="#ffffff"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<rect x="450" y="92" width="75" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="525" y="92" width="40" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<rect x="565" y="92" width="65" height="32" fill="#dbe6f1" stroke="#ffffff" stroke-width="2"/>
+<line x1="450" y1="73" x2="450" y2="89" stroke="#b31313" stroke-width="1.5" stroke-dasharray="5 4"/>
+<text x="454" y="141" font-size="20" text-anchor="start" fill="#b31313"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">f</tspan><tspan dy="-6" font-size="15" font-family="KaTeX_Main, 'Times New Roman', serif">′</tspan><tspan dy="12" font-size="14" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+</svg>
+```
+
+> [**Afirmação.**]{.label-rmk} Trocar duas tarefas adjacentes invertidas reduz o número de inversões e não aumenta o atraso máximo.
+
+. . .
+
+> [**Demonstração.**]{.label-prf} Seja ${\color{orange}{l}}$ o atraso antes da troca, e ${\color{orange}{l}}'$ o atraso depois da troca.
+>
+> Primeiro, ${\color{orange}{l}}_k' = {\color{orange}{l}}_k$ para toda tarefa $k$ diferente de $i, j$, e ${\color{orange}{l}}_i' \leq {\color{orange}{l}}_i$.
+>
+> Se $j$ possui atraso:
+> $$
+> \begin{aligned}
+> {\color{orange}{l}}_j' &= {\color{red}{f}}_j' - {\color{purple}{d}}_j \\
+> {\color{orange}{l}}_j' &= {\color{red}{f}}_i - {\color{purple}{d}}_j \\
+> {\color{orange}{l}}_j' &\leq {\color{red}{f}}_i - {\color{purple}{d}}_i \\
+> {\color{orange}{l}}_j' &\leq {\color{orange}{l}}_i \qquad \blacksquare
+> \end{aligned}
+> $$
+
+## Correção de MenorDeadlinePrimeiro (4)
+
+> [**Teorema.**]{.label-thm} O `MenorDeadlinePrimeiro` é ótimo.
+
+. . .
+
+> [**Demonstração.**]{.label-prf} Seja $S^*$ uma solução ótima.
+
+:::{.incremental}
+- $S^*$ não tem tempo ocioso.
+- Se $S^*$ não tem inversões, então $S^* = S$.
+- Se $S^*$ tem uma inversão, seja $i, j$ uma inversão adjacente.
+- Trocar $i$ e $j$ não aumenta o atraso e diminui o número de inversões.
+- **Argumento da troca:** repetindo as trocas adjacentes, eliminamos todas as inversões sem aumentar o atraso máximo. $\blacksquare$
+:::
+
+## Escalonamento para Minimizar Atraso Máximo: Extensão
+
+- Na versão estudada, o algoritmo tem liberdade para decidir **quando executar qualquer tarefa**.
+
+. . .
+
+- E se, para cada tarefa, além da sua duração e do seu *deadline*, houvesse também um **horário de lançamento** (*release time*), sendo que a tarefa deve ser executada antes do seu *deadline* mas depois do seu lançamento?
+
+. . .
+
+- Essa versão do problema é **muito mais difícil**.
+
+
+# Caching
+
+## Caching Offline Ótimo
+
+- **Cache** com capacidade para armazenar $k$ itens.
+- Sequência de $m$ requisições de itens $d_1, d_2, \dots, d_m$.
+
+<br>
+
+- **Cache hit** (acerto): item [está na cache]{.alert} quando requisitado.
+- **Cache miss** (falta): item [não está na cache]{.alert} quando requisitado.
+  - Neste caso, deve-se remover (*evict*) algum item da cache para trazer o item requisitado.
+
+. . .
+
+<br>
+
+**Objetivo:** Escalonamento de remoção que [minimize o número de faltas na cache]{.alert}.
+
+## Caching Offline Ótimo: Exemplo
+
+> [**Exemplo:**]{.label-exmp} $k = 2$, cache inicial = $\{a, b\}$, requisições: $a, b, c, b, c, a, b$.
+>
+> **Escalonamento ótimo:** 2 remoções (*cache misses*).
+
+```{=html}
+<svg viewBox="0 0 812 204" style="display:block; margin:0 auto; width:33.2em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Exemplo com k = 2 e cache inicial a, b: as requisições a, b, c, b, c, a, b geram duas faltas, removendo a no passo 3 e c no passo 6">
+<text x="181" y="14" font-size="14" text-anchor="middle" fill="#5b6770">início</text>
+<text x="263" y="14" font-size="14" text-anchor="middle" fill="#5b6770">1</text>
+<text x="345" y="14" font-size="14" text-anchor="middle" fill="#5b6770">2</text>
+<text x="427" y="14" font-size="14" text-anchor="middle" fill="#5b6770">3</text>
+<text x="509" y="14" font-size="14" text-anchor="middle" fill="#5b6770">4</text>
+<text x="591" y="14" font-size="14" text-anchor="middle" fill="#5b6770">5</text>
+<text x="673" y="14" font-size="14" text-anchor="middle" fill="#5b6770">6</text>
+<text x="755" y="14" font-size="14" text-anchor="middle" fill="#5b6770">7</text>
+<text x="122" y="47" font-size="17" text-anchor="end" fill="#23373b" font-weight="600">requisição</text>
+<text x="122" y="114" font-size="17" text-anchor="end" fill="#23373b" font-weight="600">cache</text>
+<text x="122" y="174" font-size="17" text-anchor="end" fill="#23373b" font-weight="600">resultado</text>
+<rect x="222" y="22" width="574" height="38" fill="#23373b"/>
+<path d="M304 22v38M386 22v38M468 22v38M550 22v38M632 22v38M714 22v38" stroke="#4d6166" stroke-width="1"/>
+<!-- cache: coluna inicial em cinza, acertos em azul, itens trazidos na falta em rosa -->
+<rect x="140" y="70" width="656" height="76" fill="#ffffff"/>
+<rect x="140" y="70" width="82" height="76" fill="#e1e5e8"/>
+<rect x="222" y="70" width="82" height="38" fill="#dbe6f1"/>
+<rect x="304" y="108" width="82" height="38" fill="#dbe6f1"/>
+<rect x="386" y="70" width="82" height="38" fill="#f2cfca"/>
+<rect x="468" y="108" width="82" height="38" fill="#dbe6f1"/>
+<rect x="550" y="70" width="82" height="38" fill="#dbe6f1"/>
+<rect x="632" y="70" width="82" height="38" fill="#f2cfca"/>
+<rect x="714" y="108" width="82" height="38" fill="#dbe6f1"/>
+<path d="M140 108H796M222 70v76M304 70v76M386 70v76M468 70v76M550 70v76M632 70v76M714 70v76" stroke="#cfd6dc" stroke-width="1"/>
+<rect x="140" y="70" width="656" height="76" fill="none" stroke="#cfd6dc" stroke-width="1"/>
+<g font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="22" text-anchor="middle" fill="#23373b">
+  <text y="48.0" fill="#ffffff"><tspan x="263">a</tspan><tspan x="345">b</tspan><tspan x="427">c</tspan><tspan x="509">b</tspan><tspan x="591">c</tspan><tspan x="673">a</tspan><tspan x="755">b</tspan></text>
+  <text y="96.0"><tspan x="181">a</tspan><tspan x="263">a</tspan><tspan x="345">a</tspan><tspan x="427">c</tspan><tspan x="509">c</tspan><tspan x="591">c</tspan><tspan x="673">a</tspan><tspan x="755">a</tspan></text>
+  <text y="134.0"><tspan x="181">b</tspan><tspan x="263">b</tspan><tspan x="345">b</tspan><tspan x="427">b</tspan><tspan x="509">b</tspan><tspan x="591">b</tspan><tspan x="673">b</tspan><tspan x="755">b</tspan></text>
+</g>
+<!-- acertos e faltas -->
+<text x="263" y="174" font-size="16" text-anchor="middle" fill="#2e75b6" font-weight="600">acerto</text>
+<text x="345" y="174" font-size="16" text-anchor="middle" fill="#2e75b6" font-weight="600">acerto</text>
+<text x="427" y="174" font-size="16" text-anchor="middle" fill="#b31313" font-weight="600">falta</text>
+<text x="427" y="196" font-size="15" text-anchor="middle" fill="#b31313">remove <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">a</tspan></text>
+<text x="509" y="174" font-size="16" text-anchor="middle" fill="#2e75b6" font-weight="600">acerto</text>
+<text x="591" y="174" font-size="16" text-anchor="middle" fill="#2e75b6" font-weight="600">acerto</text>
+<text x="673" y="174" font-size="16" text-anchor="middle" fill="#b31313" font-weight="600">falta</text>
+<text x="673" y="196" font-size="15" text-anchor="middle" fill="#b31313">remove <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">c</tspan></text>
+<text x="755" y="174" font-size="16" text-anchor="middle" fill="#2e75b6" font-weight="600">acerto</text>
+</svg>
+```
+
+## Aplicações de Caching
+
+**Aplicações:**
+
+- CPU
+- RAM
+- Disco rígido
+- Web
+- Browser
+- $\dots$
+
+. . .
+
+<br>
+
+**Visualização:** <https://brunogrisci.github.io/schedulingalgorithms>
+
+## Caching Offline Ótimo: Algoritmos Gulosos
+
+:::: columns
+::: {.column width="48%"}
+- **LIFO/FIFO:** Remove o item [trazido para a cache mais (menos) recentemente]{.alert}.
+  
+- **LRU** (*Least Recently Used*): Remove o item cujo [acesso recente foi o mais antigo]{.alert}.
+
+- **LFU** (*Least Frequently Used*): Remove o item que foi [menos frequentemente requisitado]{.alert}.
+:::
+
+::: {.column width="52%"}
+```{=html}
+<svg viewBox="0 0 560 498" style="display:block; margin:0 auto; width:17.2em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Tabela de caching comparando as políticas FIFO, LRU e LIFO numa falta na cache">
+<text x="219" y="24" font-size="17" text-anchor="middle" fill="#23373b" font-weight="600">cache</text>
+<line x1="18" y1="36" x2="18" y2="202" stroke="#5b6770" stroke-width="2"/>
+<line x1="18" y1="326" x2="18" y2="481" stroke="#5b6770" stroke-width="2"/><polygon points="18,492 22.9,481 13.1,481" fill="#5b6770"/>
+<text transform="translate(12 264) rotate(90)" font-size="16" font-weight="600" text-anchor="middle" fill="#23373b">requisições</text>
+<rect x="44" y="36" width="50" height="456" fill="#23373b"/>
+<rect x="94" y="36" width="250" height="456" fill="#ffffff"/>
+<rect x="94" y="74" width="50" height="38" fill="#f2cfca"/>
+<rect x="244" y="112" width="50" height="38" fill="#f2cfca"/>
+<rect x="144" y="188" width="50" height="38" fill="#f2cfca"/>
+<rect x="194" y="226" width="50" height="38" fill="#f2cfca"/>
+<rect x="294" y="264" width="50" height="38" fill="#f2cfca"/>
+<rect x="94" y="302" width="250" height="38" fill="#2e75b6"/>
+<path d="M94 74H344M94 112H344M94 150H344M94 188H344M94 226H344M94 264H344M94 302H344M94 340H344M94 378H344M94 416H344M94 454H344M144 36V492M194 36V492M244 36V492M294 36V492" stroke="#cfd6dc" stroke-width="1"/>
+<path d="M44 74H94M44 112H94M44 150H94M44 188H94M44 226H94M44 264H94M44 302H94M44 340H94M44 378H94M44 416H94M44 454H94" stroke="#4d6166" stroke-width="1"/>
+<rect x="94" y="36" width="250" height="456" fill="none" stroke="#cfd6dc" stroke-width="1"/>
+<path d="M144 302v38M194 302v38M244 302v38M294 302v38" stroke="#ffffff" stroke-width="1"/>
+<g font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="22" text-anchor="middle" fill="#23373b">
+  <text y="61.6"><tspan x="69" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">⋮</tspan><tspan x="119" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="169" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="219" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="269" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="319" fill="#9aa5ab" font-style="normal">·</tspan></text>
+  <text y="99.6"><tspan x="69" fill="#ffffff">a</tspan><tspan x="119">a</tspan><tspan x="169">w</tspan><tspan x="219">x</tspan><tspan x="269">y</tspan><tspan x="319">z</tspan></text>
+  <text y="137.6"><tspan x="69" fill="#ffffff">d</tspan><tspan x="119">a</tspan><tspan x="169">w</tspan><tspan x="219">x</tspan><tspan x="269">d</tspan><tspan x="319">z</tspan></text>
+  <text y="175.6"><tspan x="69" fill="#ffffff">a</tspan><tspan x="119">a</tspan><tspan x="169">w</tspan><tspan x="219">x</tspan><tspan x="269">d</tspan><tspan x="319">z</tspan></text>
+  <text y="213.6"><tspan x="69" fill="#ffffff">b</tspan><tspan x="119">a</tspan><tspan x="169">b</tspan><tspan x="219">x</tspan><tspan x="269">d</tspan><tspan x="319">z</tspan></text>
+  <text y="251.6"><tspan x="69" fill="#ffffff">c</tspan><tspan x="119">a</tspan><tspan x="169">b</tspan><tspan x="219">c</tspan><tspan x="269">d</tspan><tspan x="319">z</tspan></text>
+  <text y="289.6"><tspan x="69" fill="#ffffff">e</tspan><tspan x="119">a</tspan><tspan x="169">b</tspan><tspan x="219">c</tspan><tspan x="269">d</tspan><tspan x="319">e</tspan></text>
+  <text y="327.6"><tspan x="69" fill="#ffffff">g</tspan><tspan x="119" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">?</tspan><tspan x="169" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">?</tspan><tspan x="219" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">?</tspan><tspan x="269" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">?</tspan><tspan x="319" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">?</tspan></text>
+  <text y="365.6"><tspan x="69" fill="#ffffff">b</tspan></text>
+  <text y="403.6"><tspan x="69" fill="#ffffff">e</tspan></text>
+  <text y="441.6"><tspan x="69" fill="#ffffff">d</tspan></text>
+  <text y="479.6"><tspan x="69" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">⋮</tspan></text>
+</g>
+<!-- politicas -->
+<text x="358" y="99" font-size="17" text-anchor="start" fill="#23373b" font-weight="600">FIFO: remove <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">a</tspan></text>
+<text x="358" y="137" font-size="17" text-anchor="start" fill="#23373b" font-weight="600">LRU: remove <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan></text>
+<text x="358" y="289" font-size="17" text-anchor="start" fill="#23373b" font-weight="600">LIFO: remove <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">e</tspan></text>
+<line x1="404" y1="363" x2="359" y2="331.3" stroke="#b31313" stroke-width="2.5"/><polygon points="350,325 356.1,335.4 361.8,327.3" fill="#b31313"/>
+<text x="454" y="388.2" font-size="16" text-anchor="middle" fill="#b31313">falta na cache</text>
+<text x="454" y="409" font-size="16" text-anchor="middle" fill="#b31313">(qual item remover?)</text>
+</svg>
+```
+:::
+::::
+
+## Caching Offline Ótimo: Farthest-in-Future
+
+**Farthest-in-future** (Mais distante no futuro): Remove o item da cache que não será requisitado até o momento mais distante no futuro.
+
+```{=html}
+<svg viewBox="0 0 620 460" style="display:block; margin:0 auto; width:16.6em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Falta na cache ao requisitar f; o algoritmo FF remove d, cuja próxima requisição é a mais distante">
+<text x="219" y="24" font-size="17" text-anchor="middle" fill="#23373b" font-weight="600">cache</text>
+<line x1="18" y1="36" x2="18" y2="183" stroke="#5b6770" stroke-width="2"/>
+<line x1="18" y1="307" x2="18" y2="443" stroke="#5b6770" stroke-width="2"/><polygon points="18,454 22.9,443 13.1,443" fill="#5b6770"/>
+<text transform="translate(12 245) rotate(90)" font-size="16" font-weight="600" text-anchor="middle" fill="#23373b">requisições</text>
+<rect x="44" y="36" width="50" height="418" fill="#23373b"/>
+<rect x="94" y="36" width="250" height="418" fill="#ffffff"/>
+<rect x="94" y="74" width="250" height="38" fill="#2e75b6"/>
+<path d="M94 74H344M94 112H344M94 150H344M94 188H344M94 226H344M94 264H344M94 302H344M94 340H344M94 378H344M94 416H344M144 36V454M194 36V454M244 36V454M294 36V454" stroke="#cfd6dc" stroke-width="1"/>
+<path d="M44 74H94M44 112H94M44 150H94M44 188H94M44 226H94M44 264H94M44 302H94M44 340H94M44 378H94M44 416H94" stroke="#4d6166" stroke-width="1"/>
+<rect x="94" y="36" width="250" height="418" fill="none" stroke="#cfd6dc" stroke-width="1"/>
+<path d="M144 74v38M194 74v38M244 74v38M294 74v38" stroke="#ffffff" stroke-width="1"/>
+<g font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="22" text-anchor="middle" fill="#23373b">
+  <text y="61.6"><tspan x="69" fill="#ffffff">a</tspan><tspan x="119">a</tspan><tspan x="169">b</tspan><tspan x="219">c</tspan><tspan x="269">d</tspan><tspan x="319">e</tspan></text>
+  <text y="99.6"><tspan x="69" fill="#ffffff">f</tspan><tspan x="119" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">?</tspan><tspan x="169" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">?</tspan><tspan x="219" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">?</tspan><tspan x="269" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">?</tspan><tspan x="319" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">?</tspan></text>
+  <text y="137.6"><tspan x="69" fill="#ffffff">a</tspan></text>
+  <text y="175.6"><tspan x="69" fill="#ffffff">b</tspan></text>
+  <text y="213.6"><tspan x="69" fill="#ffffff">c</tspan></text>
+  <text y="251.6"><tspan x="69" fill="#ffffff">e</tspan></text>
+  <text y="289.6"><tspan x="69" fill="#ffffff">g</tspan></text>
+  <text y="327.6"><tspan x="69" fill="#ffffff">b</tspan></text>
+  <text y="365.6"><tspan x="69" fill="#ffffff">e</tspan></text>
+  <text y="403.6"><tspan x="69" fill="#ffffff">d</tspan></text>
+  <text y="441.6"><tspan x="69" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">⋮</tspan></text>
+</g>
+<line x1="404" y1="93" x2="363" y2="93" stroke="#b31313" stroke-width="2.5"/><polygon points="352,93 363,98 363,88" fill="#b31313"/>
+<text x="414" y="88.2" font-size="16" text-anchor="start" fill="#b31313">falta na cache</text>
+<text x="414" y="109" font-size="16" text-anchor="start" fill="#b31313">(qual item remover?)</text>
+<text x="364" y="403" font-size="17" text-anchor="start" fill="#23373b" font-weight="600">FF: remove <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan></text>
+</svg>
+```
+
+. . .
+
+> [**Teorema [Bélády 1966].**]{.label-thm} **FF** (*Farthest-in-future*) produz o escalonamento ótimo de remoções.
+
+. . .
+
+> [**Demonstração.**]{.label-prf} O algoritmo e o teorema são intuitivos; a prova é sutil.
+
+## Quiz: FF
+
+> [**Pergunta:**]{.label-qstn} Qual item vai ser removido seguindo o algoritmo FF?
+
+```{=html}
+<svg viewBox="0 0 570 498" style="display:block; margin:0 auto; width:20.584em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Quiz: falta na cache ao requisitar F com a cache contendo D, E, C e A">
+<text x="194" y="24" font-size="17" text-anchor="middle" fill="#23373b" font-weight="600">cache</text>
+<line x1="18" y1="36" x2="18" y2="202" stroke="#5b6770" stroke-width="2"/>
+<line x1="18" y1="326" x2="18" y2="481" stroke="#5b6770" stroke-width="2"/><polygon points="18,492 22.9,481 13.1,481" fill="#5b6770"/>
+<text transform="translate(12 264) rotate(90)" font-size="16" font-weight="600" text-anchor="middle" fill="#23373b">requisições</text>
+<rect x="44" y="36" width="50" height="456" fill="#23373b"/>
+<rect x="94" y="36" width="200" height="456" fill="#ffffff"/>
+<rect x="94" y="188" width="200" height="38" fill="#2e75b6"/>
+<path d="M94 74H294M94 112H294M94 150H294M94 188H294M94 226H294M94 264H294M94 302H294M94 340H294M94 378H294M94 416H294M94 454H294M144 36V492M194 36V492M244 36V492" stroke="#cfd6dc" stroke-width="1"/>
+<path d="M44 74H94M44 112H94M44 150H94M44 188H94M44 226H94M44 264H94M44 302H94M44 340H94M44 378H94M44 416H94M44 454H94" stroke="#4d6166" stroke-width="1"/>
+<rect x="94" y="36" width="200" height="456" fill="none" stroke="#cfd6dc" stroke-width="1"/>
+<path d="M144 188v38M194 188v38M244 188v38" stroke="#ffffff" stroke-width="1"/>
+<g font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="22" text-anchor="middle" fill="#23373b">
+  <text y="61.6"><tspan x="69" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">⋮</tspan><tspan x="119" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="169" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="219" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="269" fill="#9aa5ab" font-style="normal">·</tspan></text>
+  <text y="99.6"><tspan x="69" fill="#ffffff">B</tspan><tspan x="119">D</tspan><tspan x="169">B</tspan><tspan x="219">Y</tspan><tspan x="269">A</tspan></text>
+  <text y="137.6"><tspan x="69" fill="#ffffff">C</tspan><tspan x="119">D</tspan><tspan x="169">B</tspan><tspan x="219">C</tspan><tspan x="269">A</tspan></text>
+  <text y="175.6"><tspan x="69" fill="#ffffff">E</tspan><tspan x="119">D</tspan><tspan x="169">E</tspan><tspan x="219">C</tspan><tspan x="269">A</tspan></text>
+  <text y="213.6"><tspan x="69" fill="#ffffff">F</tspan><tspan x="119" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">?</tspan><tspan x="169" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">?</tspan><tspan x="219" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">?</tspan><tspan x="269" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">?</tspan></text>
+  <text y="251.6"><tspan x="69" fill="#ffffff">C</tspan></text>
+  <text y="289.6"><tspan x="69" fill="#ffffff">D</tspan></text>
+  <text y="327.6"><tspan x="69" fill="#ffffff">A</tspan></text>
+  <text y="365.6"><tspan x="69" fill="#ffffff">E</tspan></text>
+  <text y="403.6"><tspan x="69" fill="#ffffff">A</tspan></text>
+  <text y="441.6"><tspan x="69" fill="#ffffff">C</tspan></text>
+  <text y="479.6"><tspan x="69" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">⋮</tspan></text>
+</g>
+<line x1="354" y1="207" x2="313" y2="207" stroke="#b31313" stroke-width="2.5"/><polygon points="302,207 313,211.9 313,202.1" fill="#b31313"/>
+<text x="364" y="202.2" font-size="16" text-anchor="start" fill="#b31313">falta na cache</text>
+<text x="364" y="223" font-size="16" text-anchor="start" fill="#b31313">(qual item remover?)</text>
+</svg>
+```
+
+## Escalonamentos de Remoção Reduzidos
+
+> [**Definição.**]{.label-def} Um **escalonamento reduzido** é um escalonamento que traz um item $d$ para a cache no passo $j$ somente se houver uma requisição por $d$ no passo $j$ e $d$ não estiver já na cache.
+
+. . .
+
+**Ideia Intuitiva:** Não faz sentido trazer itens para a cache antes que eles sejam necessários, ou quando já estão lá.
+
+. . .
+
+```{=html}
+<svg viewBox="0 0 740 396" style="display:block; margin:0 auto; width:23.24em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Um escalonamento não-reduzido, que traz itens para a cache sem requisição, e o escalonamento reduzido equivalente">
+<!-- escalonamento nao-reduzido -->
+<rect x="40" y="10" width="50" height="342" fill="#23373b"/>
+<rect x="90" y="10" width="150" height="342" fill="#ffffff"/>
+<rect x="140" y="86" width="50" height="38" fill="#b31313"/>
+<rect x="140" y="162" width="50" height="38" fill="#b31313"/>
+<rect x="190" y="162" width="50" height="38" fill="#f2cfca"/>
+<rect x="90" y="276" width="50" height="38" fill="#f2cfca"/>
+<rect x="190" y="314" width="50" height="38" fill="#b31313"/>
+<path d="M90 48H240M90 86H240M90 124H240M90 162H240M90 200H240M90 238H240M90 276H240M90 314H240M140 10V352M190 10V352" stroke="#cfd6dc" stroke-width="1"/>
+<path d="M40 48H90M40 86H90M40 124H90M40 162H90M40 200H90M40 238H90M40 276H90M40 314H90" stroke="#4d6166" stroke-width="1"/>
+<rect x="90" y="10" width="150" height="342" fill="none" stroke="#cfd6dc" stroke-width="1"/>
+<g font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="22" text-anchor="middle" fill="#23373b">
+  <text y="35.6"><tspan x="65" fill="#ffffff">a</tspan><tspan x="115">a</tspan><tspan x="165">b</tspan><tspan x="215">c</tspan></text>
+  <text y="73.6"><tspan x="65" fill="#ffffff">a</tspan><tspan x="115">a</tspan><tspan x="165">b</tspan><tspan x="215">c</tspan></text>
+  <text y="111.6"><tspan x="65" fill="#ffffff">c</tspan><tspan x="115">a</tspan><tspan x="165" fill="#ffffff">d</tspan><tspan x="215">c</tspan></text>
+  <text y="149.6"><tspan x="65" fill="#ffffff">d</tspan><tspan x="115">a</tspan><tspan x="165">d</tspan><tspan x="215">c</tspan></text>
+  <text y="187.6"><tspan x="65" fill="#ffffff">a</tspan><tspan x="115">a</tspan><tspan x="165" fill="#ffffff">c</tspan><tspan x="215">b</tspan></text>
+  <text y="225.6"><tspan x="65" fill="#ffffff">b</tspan><tspan x="115">a</tspan><tspan x="165">c</tspan><tspan x="215">b</tspan></text>
+  <text y="263.6"><tspan x="65" fill="#ffffff">c</tspan><tspan x="115">a</tspan><tspan x="165">c</tspan><tspan x="215">b</tspan></text>
+  <text y="301.6"><tspan x="65" fill="#ffffff">d</tspan><tspan x="115">d</tspan><tspan x="165">c</tspan><tspan x="215">b</tspan></text>
+  <text y="339.6"><tspan x="65" fill="#ffffff">d</tspan><tspan x="115">d</tspan><tspan x="165">c</tspan><tspan x="215" fill="#ffffff">d</tspan></text>
+</g>
+<!-- escalonamento reduzido -->
+<rect x="520" y="10" width="50" height="342" fill="#23373b"/>
+<rect x="570" y="10" width="150" height="342" fill="#ffffff"/>
+<rect x="620" y="124" width="50" height="38" fill="#f2cfca"/>
+<rect x="670" y="200" width="50" height="38" fill="#f2cfca"/>
+<rect x="620" y="238" width="50" height="38" fill="#f2cfca"/>
+<rect x="570" y="276" width="50" height="38" fill="#f2cfca"/>
+<path d="M570 48H720M570 86H720M570 124H720M570 162H720M570 200H720M570 238H720M570 276H720M570 314H720M620 10V352M670 10V352" stroke="#cfd6dc" stroke-width="1"/>
+<path d="M520 48H570M520 86H570M520 124H570M520 162H570M520 200H570M520 238H570M520 276H570M520 314H570" stroke="#4d6166" stroke-width="1"/>
+<rect x="570" y="10" width="150" height="342" fill="none" stroke="#cfd6dc" stroke-width="1"/>
+<g font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="22" text-anchor="middle" fill="#23373b">
+  <text y="35.6"><tspan x="545" fill="#ffffff">a</tspan><tspan x="595">a</tspan><tspan x="645">b</tspan><tspan x="695">c</tspan></text>
+  <text y="73.6"><tspan x="545" fill="#ffffff">a</tspan><tspan x="595">a</tspan><tspan x="645">b</tspan><tspan x="695">c</tspan></text>
+  <text y="111.6"><tspan x="545" fill="#ffffff">c</tspan><tspan x="595">a</tspan><tspan x="645">b</tspan><tspan x="695">c</tspan></text>
+  <text y="149.6"><tspan x="545" fill="#ffffff">d</tspan><tspan x="595">a</tspan><tspan x="645">d</tspan><tspan x="695">c</tspan></text>
+  <text y="187.6"><tspan x="545" fill="#ffffff">a</tspan><tspan x="595">a</tspan><tspan x="645">d</tspan><tspan x="695">c</tspan></text>
+  <text y="225.6"><tspan x="545" fill="#ffffff">b</tspan><tspan x="595">a</tspan><tspan x="645">d</tspan><tspan x="695">b</tspan></text>
+  <text y="263.6"><tspan x="545" fill="#ffffff">c</tspan><tspan x="595">a</tspan><tspan x="645">c</tspan><tspan x="695">b</tspan></text>
+  <text y="301.6"><tspan x="545" fill="#ffffff">d</tspan><tspan x="595">d</tspan><tspan x="645">c</tspan><tspan x="695">b</tspan></text>
+  <text y="339.6"><tspan x="545" fill="#ffffff">d</tspan><tspan x="595">d</tspan><tspan x="645">c</tspan><tspan x="695">b</tspan></text>
+</g>
+<line x1="296" y1="105" x2="257" y2="105" stroke="#b31313" stroke-width="2.5"/><polygon points="246,105 257,110 257,100" fill="#b31313"/>
+<text x="304" y="100.2" font-size="16" text-anchor="start" fill="#b31313"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan> entra na cache</text>
+<text x="304" y="121" font-size="16" text-anchor="start" fill="#b31313">sem requisição</text>
+<line x1="296" y1="333" x2="257" y2="333" stroke="#b31313" stroke-width="2.5"/><polygon points="246,333 257,337.9 257,328.1" fill="#b31313"/>
+<text x="304" y="307.8" font-size="16" text-anchor="start" fill="#b31313"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan> entra na cache</text>
+<text x="304" y="328.6" font-size="16" text-anchor="start" fill="#b31313">mesmo já estando</text>
+<text x="304" y="349.4" font-size="16" text-anchor="start" fill="#b31313">nela</text>
+<text x="140" y="384" font-size="17" text-anchor="middle" fill="#23373b" font-weight="600">escalonamento não-reduzido</text>
+<text x="620" y="384" font-size="17" text-anchor="middle" fill="#23373b" font-weight="600">escalonamento reduzido</text>
+</svg>
+```
+
+## Escalonamentos de Remoção Reduzidos
+
+> [**Afirmação.**]{.label-rmk} Dado qualquer escalonamento não-reduzido $S$, podemos transformá-lo em um escalonamento reduzido $S'$ com o mesmo número ou menos remoções.
+
+. . .
+
+> [**Demonstração** [por indução no número de passos $j$]:]{.label-prf}
+
+- Suponha que $S$ traga $d$ para a cache no passo $j$ **mesmo que $d$ não seja requisitado**.
+- Seja $c$ o item que $S$ remove quando traz $d$ para a cache.
+- **Caso 1a:** $d$ é removido de $S$ antes de ser requisitado.
+
+```{=html}
+<svg viewBox="0 0 940 274" style="display:block; margin:0 auto; width:23.24em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Caso 1a: S traz d sem requisição e o remove antes de ser requisitado; em S' o item c permanece na cache">
+<text x="168" y="19" font-size="17" text-anchor="middle" fill="#23373b" font-weight="600">escalonamento não-reduzido <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">S</tspan></text>
+<text x="636" y="19" font-size="19" text-anchor="middle" fill="#23373b" font-weight="600"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">S</tspan><tspan dy="-5.7" font-size="14.2" font-family="KaTeX_Main, 'Times New Roman', serif">′</tspan></text>
+<text x="70" y="141" font-size="16" text-anchor="end" fill="#23373b" font-weight="600">passo <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<text x="70" y="231" font-size="16" text-anchor="end" fill="#23373b" font-weight="600">passo <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan><tspan dy="-4.8" font-size="12" font-family="KaTeX_Main, 'Times New Roman', serif">′</tspan></text>
+<!-- S -->
+<rect x="80" y="30" width="44" height="240" fill="#23373b"/>
+<rect x="124" y="30" width="132" height="240" fill="#ffffff"/>
+<rect x="212" y="120" width="44" height="30" fill="#b31313"/>
+<rect x="212" y="150" width="44" height="30" fill="#e1e5e8"/>
+<rect x="212" y="180" width="44" height="30" fill="#e1e5e8"/>
+<path d="M124 60H256M124 90H256M124 120H256M124 150H256M124 180H256M124 210H256M124 240H256M168 30V270M212 30V270" stroke="#cfd6dc" stroke-width="1"/>
+<path d="M80 60H124M80 90H124M80 120H124M80 150H124M80 180H124M80 210H124M80 240H124" stroke="#4d6166" stroke-width="1"/>
+<rect x="124" y="30" width="132" height="240" fill="none" stroke="#cfd6dc" stroke-width="1"/>
+<rect x="220" y="95" width="28" height="20" fill="none" stroke="#2e75b6" stroke-width="2.5" rx="6"/>
+<g font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="20" text-anchor="middle" fill="#23373b">
+  <text y="51"><tspan x="146" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="190" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="234">c</tspan></text>
+  <text y="81"><tspan x="146" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="190" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="234">c</tspan></text>
+  <text y="111"><tspan x="146" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="190" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="234">c</tspan></text>
+  <text y="141"><tspan x="102" fill="#ffffff"><tspan font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">¬</tspan>d</tspan><tspan x="146" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="190" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="234" fill="#ffffff">d</tspan></text>
+  <text y="171"><tspan x="102" fill="#ffffff"><tspan font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">¬</tspan>d</tspan><tspan x="146" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="190" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="234">d</tspan></text>
+  <text y="201"><tspan x="102" fill="#ffffff"><tspan font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">¬</tspan>d</tspan><tspan x="146" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="190" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="234">d</tspan></text>
+  <text y="231"><tspan x="102" fill="#ffffff">e</tspan><tspan x="146" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="190" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="234">e</tspan></text>
+  <text y="261"><tspan x="146" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="190" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="234">e</tspan></text>
+</g>
+<!-- S' -->
+<rect x="548" y="30" width="44" height="240" fill="#23373b"/>
+<rect x="592" y="30" width="132" height="240" fill="#ffffff"/>
+<rect x="680" y="120" width="44" height="30" fill="#e1e5e8"/>
+<rect x="680" y="150" width="44" height="30" fill="#e1e5e8"/>
+<rect x="680" y="180" width="44" height="30" fill="#e1e5e8"/>
+<path d="M592 60H724M592 90H724M592 120H724M592 150H724M592 180H724M592 210H724M592 240H724M636 30V270M680 30V270" stroke="#cfd6dc" stroke-width="1"/>
+<path d="M548 60H592M548 90H592M548 120H592M548 150H592M548 180H592M548 210H592M548 240H592" stroke="#4d6166" stroke-width="1"/>
+<rect x="592" y="30" width="132" height="240" fill="none" stroke="#cfd6dc" stroke-width="1"/>
+<g font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="20" text-anchor="middle" fill="#23373b">
+  <text y="51"><tspan x="614" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="658" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="702">c</tspan></text>
+  <text y="81"><tspan x="614" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="658" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="702">c</tspan></text>
+  <text y="111"><tspan x="614" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="658" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="702">c</tspan></text>
+  <text y="141"><tspan x="570" fill="#ffffff"><tspan font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">¬</tspan>d</tspan><tspan x="614" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="658" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="702">c</tspan></text>
+  <text y="171"><tspan x="570" fill="#ffffff"><tspan font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">¬</tspan>d</tspan><tspan x="614" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="658" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="702">c</tspan></text>
+  <text y="201"><tspan x="570" fill="#ffffff"><tspan font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">¬</tspan>d</tspan><tspan x="614" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="658" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="702">c</tspan></text>
+  <text y="231"><tspan x="570" fill="#ffffff">e</tspan><tspan x="614" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="658" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="702">e</tspan></text>
+  <text y="261"><tspan x="614" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="658" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="702">e</tspan></text>
+</g>
+<line x1="302" y1="135" x2="272" y2="135" stroke="#b31313" stroke-width="2.5"/><polygon points="261,135 272,139.9 272,130.1" fill="#b31313"/>
+<text x="309" y="130.9" font-size="17" text-anchor="start" fill="#b31313"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan> entra na cache</text>
+<text x="309" y="150.9" font-size="17" text-anchor="start" fill="#b31313">sem requisição</text>
+<line x1="302" y1="225" x2="272" y2="225" stroke="#b31313" stroke-width="2.5"/><polygon points="261,225 272,229.9 272,220.1" fill="#b31313"/>
+<text x="309" y="220.9" font-size="17" text-anchor="start" fill="#b31313"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan> é removido antes da</text>
+<text x="309" y="240.9" font-size="17" text-anchor="start" fill="#b31313">próxima requisição de <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan></text>
+<line x1="770" y1="165" x2="740" y2="165" stroke="#b31313" stroke-width="2.5"/><polygon points="729,165 740,169.9 740,160.1" fill="#b31313"/>
+<text x="777" y="150.9" font-size="17" text-anchor="start" fill="#b31313">podemos deixar <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">c</tspan></text>
+<text x="777" y="170.9" font-size="17" text-anchor="start" fill="#b31313">na cache até <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan></text>
+<text x="777" y="190.9" font-size="17" text-anchor="start" fill="#b31313">ser removido</text>
+</svg>
+```
+
+## Escalonamentos de Remoção Reduzidos
+
+> [**Afirmação.**]{.label-rmk} Dado qualquer escalonamento não-reduzido $S$, podemos transformá-lo em um escalonamento reduzido $S'$ com o mesmo número ou menos remoções.
+
+> [**Demonstração** [por indução no número de passos $j$]:]{.label-prf}
+
+- Suponha que $S$ traga $d$ para a cache no passo $j$ **mesmo que $d$ não seja requisitado**.
+- Seja $c$ o item que $S$ remove quando traz $d$ para a cache.
+- **Caso 1b:** próxima requisição de $d$ ocorre antes da remoção de $d$.
+
+```{=html}
+<svg viewBox="0 0 940 274" style="display:block; margin:0 auto; width:23.24em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Caso 1b: S traz d sem requisição e d ainda está na cache quando é requisitado; em S' o item d só entra quando requisitado">
+<text x="168" y="19" font-size="17" text-anchor="middle" fill="#23373b" font-weight="600">escalonamento não-reduzido <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">S</tspan></text>
+<text x="636" y="19" font-size="19" text-anchor="middle" fill="#23373b" font-weight="600"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">S</tspan><tspan dy="-5.7" font-size="14.2" font-family="KaTeX_Main, 'Times New Roman', serif">′</tspan></text>
+<text x="70" y="141" font-size="16" text-anchor="end" fill="#23373b" font-weight="600">passo <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<text x="70" y="231" font-size="16" text-anchor="end" fill="#23373b" font-weight="600">passo <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan><tspan dy="-4.8" font-size="12" font-family="KaTeX_Main, 'Times New Roman', serif">′</tspan></text>
+<!-- S -->
+<rect x="80" y="30" width="44" height="240" fill="#23373b"/>
+<rect x="124" y="30" width="132" height="240" fill="#ffffff"/>
+<rect x="212" y="120" width="44" height="30" fill="#b31313"/>
+<rect x="212" y="150" width="44" height="30" fill="#e1e5e8"/>
+<rect x="212" y="180" width="44" height="30" fill="#e1e5e8"/>
+<path d="M124 60H256M124 90H256M124 120H256M124 150H256M124 180H256M124 210H256M124 240H256M168 30V270M212 30V270" stroke="#cfd6dc" stroke-width="1"/>
+<path d="M80 60H124M80 90H124M80 120H124M80 150H124M80 180H124M80 210H124M80 240H124" stroke="#4d6166" stroke-width="1"/>
+<rect x="124" y="30" width="132" height="240" fill="none" stroke="#cfd6dc" stroke-width="1"/>
+<g font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="20" text-anchor="middle" fill="#23373b">
+  <text y="51"><tspan x="146" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="190" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="234">c</tspan></text>
+  <text y="81"><tspan x="146" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="190" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="234">c</tspan></text>
+  <text y="111"><tspan x="146" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="190" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="234">c</tspan></text>
+  <text y="141"><tspan x="102" fill="#ffffff"><tspan font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">¬</tspan>d</tspan><tspan x="146" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="190" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="234" fill="#ffffff">d</tspan></text>
+  <text y="171"><tspan x="102" fill="#ffffff"><tspan font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">¬</tspan>d</tspan><tspan x="146" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="190" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="234">d</tspan></text>
+  <text y="201"><tspan x="102" fill="#ffffff"><tspan font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">¬</tspan>d</tspan><tspan x="146" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="190" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="234">d</tspan></text>
+  <text y="231"><tspan x="102" fill="#ffffff">d</tspan><tspan x="146" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="190" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="234">d</tspan></text>
+  <text y="261"><tspan x="146" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="190" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="234">d</tspan></text>
+</g>
+<!-- S' -->
+<rect x="548" y="30" width="44" height="240" fill="#23373b"/>
+<rect x="592" y="30" width="132" height="240" fill="#ffffff"/>
+<rect x="680" y="120" width="44" height="30" fill="#e1e5e8"/>
+<rect x="680" y="150" width="44" height="30" fill="#e1e5e8"/>
+<rect x="680" y="180" width="44" height="30" fill="#e1e5e8"/>
+<rect x="680" y="210" width="44" height="30" fill="#f2cfca"/>
+<path d="M592 60H724M592 90H724M592 120H724M592 150H724M592 180H724M592 210H724M592 240H724M636 30V270M680 30V270" stroke="#cfd6dc" stroke-width="1"/>
+<path d="M548 60H592M548 90H592M548 120H592M548 150H592M548 180H592M548 210H592M548 240H592" stroke="#4d6166" stroke-width="1"/>
+<rect x="592" y="30" width="132" height="240" fill="none" stroke="#cfd6dc" stroke-width="1"/>
+<g font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="20" text-anchor="middle" fill="#23373b">
+  <text y="51"><tspan x="614" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="658" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="702">c</tspan></text>
+  <text y="81"><tspan x="614" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="658" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="702">c</tspan></text>
+  <text y="111"><tspan x="614" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="658" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="702">c</tspan></text>
+  <text y="141"><tspan x="570" fill="#ffffff"><tspan font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">¬</tspan>d</tspan><tspan x="614" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="658" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="702">c</tspan></text>
+  <text y="171"><tspan x="570" fill="#ffffff"><tspan font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">¬</tspan>d</tspan><tspan x="614" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="658" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="702">c</tspan></text>
+  <text y="201"><tspan x="570" fill="#ffffff"><tspan font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">¬</tspan>d</tspan><tspan x="614" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="658" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="702">c</tspan></text>
+  <text y="231"><tspan x="570" fill="#ffffff">d</tspan><tspan x="614" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="658" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="702">d</tspan></text>
+  <text y="261"><tspan x="614" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="658" fill="#9aa5ab" font-style="normal">·</tspan><tspan x="702">d</tspan></text>
+</g>
+<line x1="302" y1="135" x2="272" y2="135" stroke="#b31313" stroke-width="2.5"/><polygon points="261,135 272,139.9 272,130.1" fill="#b31313"/>
+<text x="309" y="130.9" font-size="17" text-anchor="start" fill="#b31313"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan> entra na cache</text>
+<text x="309" y="150.9" font-size="17" text-anchor="start" fill="#b31313">sem requisição</text>
+<line x1="302" y1="225" x2="272" y2="225" stroke="#b31313" stroke-width="2.5"/><polygon points="261,225 272,229.9 272,220.1" fill="#b31313"/>
+<text x="309" y="220.9" font-size="17" text-anchor="start" fill="#b31313"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan> ainda está na cache na</text>
+<text x="309" y="240.9" font-size="17" text-anchor="start" fill="#b31313">próxima requisição de <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan></text>
+<line x1="770" y1="165" x2="740" y2="165" stroke="#b31313" stroke-width="2.5"/><polygon points="729,165 740,169.9 740,160.1" fill="#b31313"/>
+<text x="777" y="150.9" font-size="17" text-anchor="start" fill="#b31313">podemos deixar <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">c</tspan></text>
+<text x="777" y="170.9" font-size="17" text-anchor="start" fill="#b31313">na cache até <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan></text>
+<text x="777" y="190.9" font-size="17" text-anchor="start" fill="#b31313">ser requisitado</text>
+</svg>
+```
+
+## Escalonamentos de Remoção Reduzidos
+
+> [**Afirmação.**]{.label-rmk} Dado qualquer escalonamento não-reduzido $S$, podemos transformá-lo em um escalonamento reduzido $S'$ com o mesmo número ou menos remoções.
+
+> [**Demonstração** [por indução no número de passos $j$]:]{.label-prf}
+
+- Suponha que $S$ traga $d$ para a cache no passo $j$ **mesmo que $d$ já esteja na cache**.
+- Seja $c$ o item que $S$ remove quando traz $d$ para a cache.
+- **Caso 2a:** $d$ é removido antes de ser requisitado.
+
+```{=html}
+<svg viewBox="0 0 940 274" style="display:block; margin:0 auto; width:23.24em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Caso 2a: S traz d3 mesmo com d1 já na cache e remove d3 antes de ser requisitado; em S' o item c permanece na cache">
+<text x="168" y="19" font-size="17" text-anchor="middle" fill="#23373b" font-weight="600">escalonamento não-reduzido <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">S</tspan></text>
+<text x="636" y="19" font-size="19" text-anchor="middle" fill="#23373b" font-weight="600"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">S</tspan><tspan dy="-5.7" font-size="14.2" font-family="KaTeX_Main, 'Times New Roman', serif">′</tspan></text>
+<text x="70" y="141" font-size="16" text-anchor="end" fill="#23373b" font-weight="600">passo <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<text x="70" y="231" font-size="16" text-anchor="end" fill="#23373b" font-weight="600">passo <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan><tspan dy="-4.8" font-size="12" font-family="KaTeX_Main, 'Times New Roman', serif">′</tspan></text>
+<!-- S -->
+<rect x="80" y="30" width="44" height="240" fill="#23373b"/>
+<rect x="124" y="30" width="132" height="240" fill="#ffffff"/>
+<rect x="212" y="120" width="44" height="30" fill="#b31313"/>
+<rect x="124" y="180" width="44" height="30" fill="#f2cfca"/>
+<rect x="212" y="210" width="44" height="30" fill="#f2cfca"/>
+<rect x="212" y="240" width="44" height="30" fill="#f2cfca"/>
+<path d="M124 60H256M124 90H256M124 120H256M124 150H256M124 180H256M124 210H256M124 240H256M168 30V270M212 30V270" stroke="#cfd6dc" stroke-width="1"/>
+<path d="M80 60H124M80 90H124M80 120H124M80 150H124M80 180H124M80 210H124M80 240H124" stroke="#4d6166" stroke-width="1"/>
+<rect x="124" y="30" width="132" height="240" fill="none" stroke="#cfd6dc" stroke-width="1"/>
+<rect x="220" y="95" width="28" height="20" fill="none" stroke="#2e75b6" stroke-width="2.5" rx="6"/>
+<g font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="20" text-anchor="middle" fill="#23373b">
+  <text y="51"><tspan x="146">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="190" dy="-5.6">a</tspan><tspan x="234">c</tspan></text>
+  <text y="81"><tspan x="146">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="190" dy="-5.6">a</tspan><tspan x="234">c</tspan></text>
+  <text y="111"><tspan x="146">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="190" dy="-5.6">a</tspan><tspan x="234">c</tspan></text>
+  <text y="141"><tspan x="102" fill="#ffffff">d</tspan><tspan x="146">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="190" dy="-5.6">a</tspan><tspan x="234" fill="#ffffff">d</tspan><tspan dy="5.6" fill="#ffffff" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">3</tspan></text>
+  <text y="171"><tspan x="102" fill="#ffffff">d</tspan><tspan x="146">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="190" dy="-5.6">a</tspan><tspan x="234">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">3</tspan></text>
+  <text y="201"><tspan x="102" fill="#ffffff">c</tspan><tspan x="146">c</tspan><tspan x="190">a</tspan><tspan x="234">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">3</tspan></text>
+  <text y="231"><tspan x="102" fill="#ffffff">b</tspan><tspan x="146">c</tspan><tspan x="190">a</tspan><tspan x="234">b</tspan></text>
+  <text y="261"><tspan x="102" fill="#ffffff">d</tspan><tspan x="146">c</tspan><tspan x="190">a</tspan><tspan x="234">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">3</tspan></text>
+</g>
+<!-- S' -->
+<rect x="548" y="30" width="44" height="240" fill="#23373b"/>
+<rect x="592" y="30" width="132" height="240" fill="#ffffff"/>
+<rect x="680" y="120" width="44" height="30" fill="#e1e5e8"/>
+<rect x="680" y="150" width="44" height="30" fill="#e1e5e8"/>
+<rect x="592" y="180" width="44" height="30" fill="#b31313"/>
+<rect x="680" y="180" width="44" height="30" fill="#e1e5e8"/>
+<rect x="680" y="210" width="44" height="30" fill="#f2cfca"/>
+<rect x="680" y="240" width="44" height="30" fill="#f2cfca"/>
+<path d="M592 60H724M592 90H724M592 120H724M592 150H724M592 180H724M592 210H724M592 240H724M636 30V270M680 30V270" stroke="#cfd6dc" stroke-width="1"/>
+<path d="M548 60H592M548 90H592M548 120H592M548 150H592M548 180H592M548 210H592M548 240H592" stroke="#4d6166" stroke-width="1"/>
+<rect x="592" y="30" width="132" height="240" fill="none" stroke="#cfd6dc" stroke-width="1"/>
+<g font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="20" text-anchor="middle" fill="#23373b">
+  <text y="51"><tspan x="614">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="658" dy="-5.6">a</tspan><tspan x="702">c</tspan></text>
+  <text y="81"><tspan x="614">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="658" dy="-5.6">a</tspan><tspan x="702">c</tspan></text>
+  <text y="111"><tspan x="614">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="658" dy="-5.6">a</tspan><tspan x="702">c</tspan></text>
+  <text y="141"><tspan x="570" fill="#ffffff">d</tspan><tspan x="614">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="658" dy="-5.6">a</tspan><tspan x="702">c</tspan></text>
+  <text y="171"><tspan x="570" fill="#ffffff">d</tspan><tspan x="614">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="658" dy="-5.6">a</tspan><tspan x="702">c</tspan></text>
+  <text y="201"><tspan x="570" fill="#ffffff">c</tspan><tspan x="614" fill="#ffffff">c</tspan><tspan x="658">a</tspan><tspan x="702">c</tspan></text>
+  <text y="231"><tspan x="570" fill="#ffffff">b</tspan><tspan x="614">c</tspan><tspan x="658">a</tspan><tspan x="702">b</tspan></text>
+  <text y="261"><tspan x="570" fill="#ffffff">d</tspan><tspan x="614">c</tspan><tspan x="658">a</tspan><tspan x="702">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">3</tspan></text>
+</g>
+<line x1="302" y1="135" x2="272" y2="135" stroke="#b31313" stroke-width="2.5"/><polygon points="261,135 272,139.9 272,130.1" fill="#b31313"/>
+<text x="309" y="123" font-size="17" text-anchor="start" fill="#b31313"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">3</tspan><tspan dy="-5.1"> entra na cache mesmo</tspan></text>
+<text x="309" y="142.9" font-size="17" text-anchor="start" fill="#b31313">com <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">1</tspan><tspan dy="-5.1"> já na cache</tspan></text>
+<line x1="302" y1="165" x2="272" y2="165" stroke="#b31313" stroke-width="2.5"/><polygon points="261,165 272,169.9 272,160.1" fill="#b31313"/>
+<text x="309" y="175.9" font-size="17" text-anchor="start" fill="#b31313"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">3</tspan><tspan dy="-5.1"> não é necessário</tspan></text>
+<line x1="302" y1="225" x2="272" y2="225" stroke="#b31313" stroke-width="2.5"/><polygon points="261,225 272,229.9 272,220.1" fill="#b31313"/>
+<text x="309" y="230.9" font-size="17" text-anchor="start" fill="#b31313"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">3</tspan><tspan dy="-5.1"> é removido</tspan></text>
+<line x1="302" y1="255" x2="272" y2="255" stroke="#b31313" stroke-width="2.5"/><polygon points="261,255 272,259.9 272,250.1" fill="#b31313"/>
+<text x="309" y="260.9" font-size="17" text-anchor="start" fill="#b31313"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">3</tspan><tspan dy="-5.1"> é necessário</tspan></text>
+<line x1="770" y1="135" x2="740" y2="135" stroke="#b31313" stroke-width="2.5"/><polygon points="729,135 740,139.9 740,130.1" fill="#b31313"/>
+<text x="777" y="128.9" font-size="17" text-anchor="start" fill="#b31313">podemos deixar <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">c</tspan></text>
+<text x="777" y="148.9" font-size="17" text-anchor="start" fill="#b31313">na cache até <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">3</tspan></text>
+<text x="777" y="168.9" font-size="17" text-anchor="start" fill="#b31313">ser removido</text>
+</svg>
+```
+
+## Escalonamentos de Remoção Reduzidos
+
+> [**Afirmação.**]{.label-rmk} Dado qualquer escalonamento não-reduzido $S$, podemos transformá-lo em um escalonamento reduzido $S'$ com o mesmo número ou menos remoções.
+
+> [**Demonstração** [por indução no número de passos $j$]:]{.label-prf}
+
+:::{.incremental}
+- Suponha que $S$ traga $d$ para a cache no passo $j$ **mesmo que $d$ já esteja na cache**.
+- Seja $c$ o item que $S$ remove quando traz $d$ para a cache.
+- **Caso 2b:** $d$ é requisitado antes de ser removido.
+:::
+
+```{=html}
+<svg viewBox="0 0 940 274" style="display:block; margin:0 auto; width:23.24em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Caso 2b: S traz d3 mesmo com d1 já na cache e d3 é requisitado antes de ser removido; em S' o item d3 só entra quando requisitado">
+<text x="168" y="19" font-size="17" text-anchor="middle" fill="#23373b" font-weight="600">escalonamento não-reduzido <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">S</tspan></text>
+<text x="636" y="19" font-size="19" text-anchor="middle" fill="#23373b" font-weight="600"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">S</tspan><tspan dy="-5.7" font-size="14.2" font-family="KaTeX_Main, 'Times New Roman', serif">′</tspan></text>
+<text x="70" y="141" font-size="16" text-anchor="end" fill="#23373b" font-weight="600">passo <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan></text>
+<text x="70" y="261" font-size="16" text-anchor="end" fill="#23373b" font-weight="600">passo <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">j</tspan><tspan dy="-4.8" font-size="12" font-family="KaTeX_Main, 'Times New Roman', serif">′</tspan></text>
+<!-- S -->
+<rect x="80" y="30" width="44" height="240" fill="#23373b"/>
+<rect x="124" y="30" width="132" height="240" fill="#ffffff"/>
+<rect x="212" y="120" width="44" height="30" fill="#b31313"/>
+<rect x="124" y="180" width="44" height="30" fill="#f2cfca"/>
+<path d="M124 60H256M124 90H256M124 120H256M124 150H256M124 180H256M124 210H256M124 240H256M168 30V270M212 30V270" stroke="#cfd6dc" stroke-width="1"/>
+<path d="M80 60H124M80 90H124M80 120H124M80 150H124M80 180H124M80 210H124M80 240H124" stroke="#4d6166" stroke-width="1"/>
+<rect x="124" y="30" width="132" height="240" fill="none" stroke="#cfd6dc" stroke-width="1"/>
+<rect x="220" y="95" width="28" height="20" fill="none" stroke="#2e75b6" stroke-width="2.5" rx="6"/>
+<g font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="20" text-anchor="middle" fill="#23373b">
+  <text y="51"><tspan x="146">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="190" dy="-5.6">a</tspan><tspan x="234">c</tspan></text>
+  <text y="81"><tspan x="146">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="190" dy="-5.6">a</tspan><tspan x="234">c</tspan></text>
+  <text y="111"><tspan x="146">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="190" dy="-5.6">a</tspan><tspan x="234">c</tspan></text>
+  <text y="141"><tspan x="102" fill="#ffffff">d</tspan><tspan x="146">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="190" dy="-5.6">a</tspan><tspan x="234" fill="#ffffff">d</tspan><tspan dy="5.6" fill="#ffffff" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">3</tspan></text>
+  <text y="171"><tspan x="102" fill="#ffffff">d</tspan><tspan x="146">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="190" dy="-5.6">a</tspan><tspan x="234">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">3</tspan></text>
+  <text y="201"><tspan x="102" fill="#ffffff">c</tspan><tspan x="146">c</tspan><tspan x="190">a</tspan><tspan x="234">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">3</tspan></text>
+  <text y="231"><tspan x="102" fill="#ffffff">a</tspan><tspan x="146">c</tspan><tspan x="190">a</tspan><tspan x="234">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">3</tspan></text>
+  <text y="261"><tspan x="102" fill="#ffffff">d</tspan><tspan x="146">c</tspan><tspan x="190">a</tspan><tspan x="234">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">3</tspan></text>
+</g>
+<!-- S' -->
+<rect x="548" y="30" width="44" height="240" fill="#23373b"/>
+<rect x="592" y="30" width="132" height="240" fill="#ffffff"/>
+<rect x="680" y="120" width="44" height="30" fill="#e1e5e8"/>
+<rect x="680" y="150" width="44" height="30" fill="#e1e5e8"/>
+<rect x="592" y="180" width="44" height="30" fill="#b31313"/>
+<rect x="680" y="180" width="44" height="30" fill="#e1e5e8"/>
+<rect x="680" y="210" width="44" height="30" fill="#e1e5e8"/>
+<rect x="680" y="240" width="44" height="30" fill="#f2cfca"/>
+<path d="M592 60H724M592 90H724M592 120H724M592 150H724M592 180H724M592 210H724M592 240H724M636 30V270M680 30V270" stroke="#cfd6dc" stroke-width="1"/>
+<path d="M548 60H592M548 90H592M548 120H592M548 150H592M548 180H592M548 210H592M548 240H592" stroke="#4d6166" stroke-width="1"/>
+<rect x="592" y="30" width="132" height="240" fill="none" stroke="#cfd6dc" stroke-width="1"/>
+<g font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-size="20" text-anchor="middle" fill="#23373b">
+  <text y="51"><tspan x="614">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="658" dy="-5.6">a</tspan><tspan x="702">c</tspan></text>
+  <text y="81"><tspan x="614">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="658" dy="-5.6">a</tspan><tspan x="702">c</tspan></text>
+  <text y="111"><tspan x="614">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="658" dy="-5.6">a</tspan><tspan x="702">c</tspan></text>
+  <text y="141"><tspan x="570" fill="#ffffff">d</tspan><tspan x="614">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="658" dy="-5.6">a</tspan><tspan x="702">c</tspan></text>
+  <text y="171"><tspan x="570" fill="#ffffff">d</tspan><tspan x="614">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">1</tspan><tspan x="658" dy="-5.6">a</tspan><tspan x="702">c</tspan></text>
+  <text y="201"><tspan x="570" fill="#ffffff">c</tspan><tspan x="614" fill="#ffffff">c</tspan><tspan x="658">a</tspan><tspan x="702">c</tspan></text>
+  <text y="231"><tspan x="570" fill="#ffffff">a</tspan><tspan x="614">c</tspan><tspan x="658">a</tspan><tspan x="702">c</tspan></text>
+  <text y="261"><tspan x="570" fill="#ffffff">d</tspan><tspan x="614">c</tspan><tspan x="658">a</tspan><tspan x="702">d</tspan><tspan dy="5.6" font-size="13.6" font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal">3</tspan></text>
+</g>
+<line x1="302" y1="135" x2="272" y2="135" stroke="#b31313" stroke-width="2.5"/><polygon points="261,135 272,139.9 272,130.1" fill="#b31313"/>
+<text x="309" y="123" font-size="17" text-anchor="start" fill="#b31313"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">3</tspan><tspan dy="-5.1"> entra na cache mesmo</tspan></text>
+<text x="309" y="142.9" font-size="17" text-anchor="start" fill="#b31313">com <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">1</tspan><tspan dy="-5.1"> já na cache</tspan></text>
+<line x1="302" y1="165" x2="272" y2="165" stroke="#b31313" stroke-width="2.5"/><polygon points="261,165 272,169.9 272,160.1" fill="#b31313"/>
+<text x="309" y="175.9" font-size="17" text-anchor="start" fill="#b31313"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">3</tspan><tspan dy="-5.1"> não é necessário</tspan></text>
+<line x1="302" y1="255" x2="272" y2="255" stroke="#b31313" stroke-width="2.5"/><polygon points="261,255 272,259.9 272,250.1" fill="#b31313"/>
+<text x="309" y="260.9" font-size="17" text-anchor="start" fill="#b31313"><tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">3</tspan><tspan dy="-5.1"> é necessário</tspan></text>
+<line x1="770" y1="135" x2="740" y2="135" stroke="#b31313" stroke-width="2.5"/><polygon points="729,135 740,139.9 740,130.1" fill="#b31313"/>
+<text x="777" y="128.9" font-size="17" text-anchor="start" fill="#b31313">podemos deixar <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">c</tspan></text>
+<text x="777" y="148.9" font-size="17" text-anchor="start" fill="#b31313">na cache até <tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">d</tspan><tspan dy="5.1" font-size="11.9" font-family="KaTeX_Main, 'Times New Roman', serif">3</tspan></text>
+<text x="777" y="168.9" font-size="17" text-anchor="start" fill="#b31313">ser necessário</text>
+</svg>
+```
+
+## Escalonamentos de Remoção Reduzidos (4)
+
+> [**Demonstração** [continuação]:]{.label-prf}
+
+:::{.incremental}
+- **Caso 1:** $S$ traz $d$ para a cache no passo $j$ sem que haja uma requisição por $d$. **✓** (Resolve-se da mesma forma: postergando a inserção até o momento da requisição)
+- **Caso 2:** $S$ traz $d$ para a cache no passo $j$ mesmo que $d$ já esteja na cache. **✓** (Visto nos slides anteriores)
+- Se há múltiplos itens não-reduzidos no passo $j$, aplicamos a transformação a cada um, lidando com o Caso 1 antes do Caso 2. $\blacksquare$
+:::
+
+. . .
+
+<br>
+
+> [**Observação:**]{.label-rmk} Resolver o Caso 1 pode acabar engatilhando o Caso 2.
+
+## Farthest-in-Future: Análise
+
+> [**Teorema.**]{.label-thm} FF é o algoritmo ótimo de remoção.
+
+. . .
+
+> [**Demonstração.**]{.label-prf} Segue diretamente do seguinte invariante:
+>
+> [**Invariante.**]{.bold-emph} Existe um escalonamento ótimo reduzido $S$ que realiza as mesmas remoções que o $S_{FF}$ durante os primeiros $j$ passos.
+
+. . .
+
+<br>
+
+*Prova completa:* Seção 4.3 do livro *Algorithm Design*, de Kleinberg e Tardos.
+
+## Perspectiva de Caching
+
+**Algoritmos Online vs. Offline:**
+
+- **Offline:** sequência completa de requisições é conhecida *a priori*.
+- **Online** (realidade): requisições não são conhecidas com antecedência.
+- Caching é um dos problemas online mais fundamentais na Ciência da Computação.
+
+. . .
+
+- **Last-in-first-out (LIFO):** Remove o item trazido mais recentemente.
+- **Least-Recently-Used (LRU):** Remove o item cujo acesso mais recente foi o mais antigo.
+- **Farthest-in-future (FF):** Remove o item cujo próximo acesso é o mais distante no futuro (LRU com a direção do tempo invertida!).
+
+. . .
+
+> [**Teorema.**]{.label-thm} FF é o algoritmo ótimo de remoção offline.
+>
+> - Fornece uma base teórica para entender e analisar algoritmos online.
+> - Experimentalmente, variantes do LRU funcionam muito bem no caso online.
+
+# Algoritmos em Python
+
+## Algoritmos de Escalonamento
+
+<https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/scheduling.ipynb>
+
+
+# Conclusão
+
+## Análise de Estratégias Gulosas
+
+- **Algoritmo guloso fica à frente:** Mostrar que, após cada passo, a solução do algoritmo guloso é pelo menos tão boa quanto a de qualquer outra estratégia. 
+  - Ex: Escalonamento de Intervalos.
+
+. . .
+
+- **Argumento estrutural:** Encontrar um limitante simples que toda solução possível deve satisfazer e provar que o algoritmo sempre atinge esse valor. 
+  - Ex: Particionamento de Intervalos.
+
+. . .
+
+- **Argumento da troca:** Transformar gradualmente qualquer solução em outra com as mesmas escolhas do algoritmo guloso sem piorar sua qualidade. 
+  - Ex: Escalonamento para Minimizar Atraso Máximo.
+
+. . .
+
+- **Outros algoritmos gulosos:** Gale-Shapley, Kruskal, Prim, Dijkstra, Huffman, entre outros.
+
+#
+
+::: {style="text-align: center; margin-top: 15vh;"}
+[?]{style="font-size: 5em; color: #d10000; font-weight: 700;"}
+:::

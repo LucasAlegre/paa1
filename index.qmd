@@ -369,7 +369,11 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>Sala 113</td>
   <td class="t-blue">Análise de Redes.</td>
   <td></td>
-  <td></td>
+  <td>
+    <ul class="list-unstyled mb-0">
+      <li><a href="https://thepalindrome.org/p/matrices-and-graphs"><i class="bi bi-journal-text me-1"></i>Matrices and Graphs</a></li>
+    </ul>
+  </td>
 </tr>
 <tr>
   <td class="wk">29</td>

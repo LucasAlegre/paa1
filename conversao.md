@@ -16,6 +16,8 @@ Para comando \textbf, \emph ou \bemph, use **asteriscos duplos**
 
 Para teoremas, observações, etc, use ">" e os .label-thm, .label-rmk, etc. Ver todos os disponíveis em metropolis.scss
 
+Não use \mathcal para notação assintótica, use $O$, $\Omega$ e $\Theta$.
+
 Confira se os caminhos das imagens estão corretos. Todas as imagens estão em aulas/images ou aulas/fig.
 
 Para títulos de seções e slides, capítalize a letra inicial das palavras (exceto preposições, como habitual).

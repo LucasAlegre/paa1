@@ -258,8 +258,16 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>qui. 01/out.</td>
   <td>Sala 113</td>
   <td class="t-green">Distância em Grafos Valorados. Descrição do Problema, Algoritmo de Dijkstra.</td>
-  <td></td>
-  <td></td>
+  <td style="text-align:center;"><a href="aulas/aula17-dijkstra.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td>
+    <ul class="list-unstyled mb-0">
+      <li class="mb-1"><a href="https://lucasalegre.github.io/dijkstra-visualizer/"><i class="bi bi-display me-1"></i>Visualização Algoritmo de Dijkstra</a></li>
+      <li class="mb-1"><a href="https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/dijkstra.ipynb"><i class="bi bi-file-earmark-code me-1"></i>Código Dijkstra (Python)</a></li>
+      <li class="mb-1"><a href="https://www.youtube.com/watch?v=GazC3A4OQTE"><i class="bi bi-youtube me-1"></i>Dijkstra's Algorithm (Computerphile)</a></li>
+      <li class="mb-1"><a href="https://www.youtube.com/watch?v=2E7MmKv0Y24"><i class="bi bi-youtube me-1"></i>Lecture 16: Dijkstra (MIT OpenCourseWare)</a></li>
+      <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>KT (Seção 4.4)</a></li>
+    </ul>
+  </td>
 </tr>
 <!-- Semana 10 -->
 <tr>
@@ -267,8 +275,15 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 06/out.</td>
   <td>Sala 113</td>
   <td class="t-green">Distância em Grafos Valorados. Estrutura Heap, Algoritmo de Dijkstra otimizado.</td>
-  <td></td>
-  <td></td>
+  <td style="text-align:center;"><a href="aulas/aula18-heaps.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td>
+    <ul class="list-unstyled mb-0">
+      <li class="mb-1"><a href="https://visualgo.net/en/heap?slide=1"><i class="bi bi-display me-1"></i>Visualização Heap (VisuAlgo)</a></li>
+      <li class="mb-1"><a href="https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/heapdijkstra.py"><i class="bi bi-file-earmark-code me-1"></i>Código Dijkstra com Heap (Python)</a></li>
+      <li class="mb-1"><a href="https://removepaywalls.com/https://medium.com/@kanishks772/move-over-dijkstra-the-new-algorithm-that-just-rewrote-70-years-of-computer-science-d670696c440d"><i class="bi bi-newspaper me-1"></i>Novo algoritmo para caminhos mínimos (artigo)</a></li>
+      <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>KT (Seção 4.4)</a></li>
+    </ul>
+  </td>
 </tr>
 <tr class="row-lab">
   <td class="wk">19</td>

@@ -77,6 +77,25 @@ What is the shortest way to travel from Rotterdam to Groningen, in general: from
 > Escolha a estrutura de dados mais simples que suporte todas as operações necessárias da sua aplicação.
 :::
 
+## Caminho Mínimo com Origem Única
+
+> [Problema do Caminho Mínimo com Origem Única]{.label-def}
+
+> **Entrada:** 
+>
+> - Um grafo direcionado $G=(V,E)$
+>   - Cada arco tem um custo não negativo $l_e$ para $e\in E$.
+> - Vértice de **origem** $s$.
+
+> **Saída:** Para cada $v\in V$:
+> 
+> - $L(v)=$ custo do menor caminho entre $s-v$ em $G$ (distância).
+
+**Importante:**
+
+- $l_e \geq 0, \forall e\in E$.
+- Assumiremos representação por **lista de adjacência**.
+
 ## Visualização do Algoritmo de Dijkstra
 
 ```{=html}
@@ -96,18 +115,18 @@ What is the shortest way to travel from Rotterdam to Groningen, in general: from
 \begin{algorithmic}
 \Procedure{Dijkstra}{$G=(V,E,w), s$}
   \State \textbf{Entrada:} Um grafo com pesos não-negativos $(V, E, w)$ e um nodo $s \in V$
-  \State \textbf{Saída:} Uma tabela $\text{dist}$ associando cada $v \in V$ à sua distância $d(s,v)$
+  \State \textbf{Saída:} Uma tabela $\textcolor{#9e0300}{\text{dist}}$ associando cada $v \in V$ à sua distância $d(s,v)$
   \State // Inicialização
-  \State $X \gets \{s\}$
-  \State $\text{dist}(s) \gets 0$
-  \State $\text{dist}(v) \gets +\infty$ para todo $v \neq s$
+  \State $\textcolor{#2e75b6}{X} \gets \{s\}$
+  \State $\textcolor{#9e0300}{\text{dist}}(s) \gets 0$
+  \State $\textcolor{#9e0300}{\text{dist}}(v) \gets +\infty$ para todo $v \neq s$
   \State // Laço principal
-  \While{existe uma aresta $(v, w)$ tal que $v \in X$ e $w \notin X$}
-    \State $(v^*, w^*) \gets$ tal aresta que minimiza $\text{dist}(v) + \ell_{vw}$
-    \State Adicione $w^*$ a $X$
-    \State $\text{dist}(w^*) \gets \text{dist}(v^*) + \ell_{v^*w^*}$
+  \While{existe uma aresta $(v, w)$ tal que $v \in \textcolor{#2e75b6}{X}$ e $w \notin \textcolor{#2e75b6}{X}$}
+    \State $(v^*, w^*) \gets$ tal aresta que minimiza $\textcolor{#9e0300}{\text{dist}}(v) + \ell_{vw}$
+    \State Adicione $w^*$ a $\textcolor{#2e75b6}{X}$
+    \State $\textcolor{#9e0300}{\text{dist}}(w^*) \gets \textcolor{#9e0300}{\text{dist}}(v^*) + \ell_{v^*w^*}$
   \EndWhile
-  \State \textbf{Retorne} $\text{dist}$
+  \State \textbf{Retorne} $\textcolor{#9e0300}{\text{dist}}$
 \EndProcedure
 \end{algorithmic}
 ```
@@ -156,11 +175,13 @@ $\mathcal{O}(mn)$.
 
 > **Ideia Intuitiva**
 >
-> Uma primeira ideia seria armazenar as **arestas** do grafo no heap, substituindo as buscas de mínimo por chamadas a `ExtractMin`. Essa abordagem funciona, mas há uma versão mais **simples e eficiente**: armazenar os **vértices**.
+> Uma primeira ideia seria armazenar as **arestas** do grafo no heap, substituindo as buscas de mínimo por chamadas a `ExtractMin`. 
+> 
+> - Essa abordagem funciona, mas há uma versão mais **simples e eficiente**: armazenar os **vértices**.
 
 :::{.incremental .timeline}
 - Embora o *score* de Dijkstra seja definido para arestas, o que realmente nos importa é **qual vértice será processado em seguida**.
-- O heap guarda **pares** $(d, v)$: o vértice $v$ com a distância $d$ conhecida até ele, usada como **chave**.
+- O heap guarda **pares** $(d, v)$: o vértice $v$ com a distância $d$ conhecida até ele, usada como sua **prioridade**.
 - O heap começa **apenas com** $(0, s)$. Um vértice só entra no heap quando é **alcançado** por uma aresta saindo de um vértice processado.
 - Um mesmo vértice pode aparecer **mais de uma vez** no heap, com distâncias diferentes. Só a menor importa.
 :::
@@ -169,23 +190,23 @@ $\mathcal{O}(mn)$.
 
 > **Invariante**
 >
-> Para $w \in V - X$, $\text{dist}(w)$ é uma **estimativa**: o menor *score de Dijkstra* de uma aresta com início $v \in X$ e fim $w$, ou $+\infty$ se nenhuma aresta assim existir.
+> Para $w \in \textcolor{#6b777d}{V - X}$, $\textcolor{#9e0300}{\text{dist}}(w)$ é uma **estimativa**: o menor *score de Dijkstra* de uma aresta com início $v \in \textcolor{#2e75b6}{X}$ e fim $w$, ou $+\infty$ se nenhuma aresta assim existir.
 > $$
-> \text{dist}(w) =
-> \min_{(v, w) \in E,\; v \in X}
-> \underbrace{\big\{\, \text{dist}(v) + \ell_{vw} \,\big\}}_{\text{score de Dijkstra}}
+> \textcolor{#9e0300}{\text{dist}}(w) =
+> \min_{(v, w) \in E,\; v \in \textcolor{#2e75b6}{X}}
+> \underbrace{\big\{\, \textcolor{#9e0300}{\text{dist}}(v) + \ell_{vw} \,\big\}}_{\text{score de Dijkstra}}
 > $$
-> Para $v \in X$, $\text{dist}(v)$ já é a distância final $d(s, v)$, computada em uma iteração anterior.
+> Para $v \in \textcolor{#2e75b6}{X}$, $\textcolor{#9e0300}{\text{dist}}(v)$ já é a distância final $d(s, v)$, computada em uma iteração anterior.
 
 > **Conteúdo do Heap**
 >
-> - Se $\text{dist}(w) < +\infty$, o heap contém o par $(\text{dist}(w), w)$.
-> - O heap também pode conter **pares obsoletos** $(d, w)$: com $w \in X$, ou com $d > \text{dist}(w)$.
+> - Se $\textcolor{#9e0300}{\text{dist}}(w) < +\infty$, o heap contém o par $(\textcolor{#9e0300}{\text{dist}}(w), w)$.
+> - O heap também pode conter **pares obsoletos** $(d, w)$: com $w \in \textcolor{#2e75b6}{X}$, ou com $d > \textcolor{#9e0300}{\text{dist}}(w)$.
 
 ::: {style="text-align:center;"}
-*Pares obsoletos de $w \in V - X$ têm $d > \text{dist}(w)$ e não saem antes do par válido de $w$.*
+*Pares obsoletos de $w \in \textcolor{#6b777d}{V - X}$ têm $d > \textcolor{#9e0300}{\text{dist}}(w)$ e não saem antes do par válido de $w$.*
 
-*Logo, o primeiro par válido extraído é o vértice de $V - X$ com menor $\text{dist}$.*
+*Logo, o primeiro par válido extraído é o vértice de $\textcolor{#6b777d}{V - X}$ com menor $\textcolor{#9e0300}{\text{dist}}$.*
 :::
 
 ## Invariante Mantido pelo Heap
@@ -223,34 +244,36 @@ $\mathcal{O}(mn)$.
 <text x="540" y="230" font-size="22" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">w</text>
 <circle cx="460" cy="340" r="18" fill="#ffffff" stroke="#23373b" stroke-width="2.5"/>
 <text x="460" y="340" font-size="22" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">z</text>
-<text x="448" y="112" font-size="20" fill="#23373b" stroke="#f5f7f9" stroke-width="5" paint-order="stroke">dist(<tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">u</tspan>) = 3</text>
-<text x="568" y="236" font-size="20" fill="#23373b" stroke="#f5f7f9" stroke-width="5" paint-order="stroke">dist(<tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">w</tspan>) = 5</text>
-<text x="488" y="346" font-size="20" fill="#23373b" stroke="#f5f7f9" stroke-width="5" paint-order="stroke">dist(<tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">z</tspan>) = +∞</text>
+<text x="448" y="112" font-size="20" fill="#23373b" stroke="#f5f7f9" stroke-width="5" paint-order="stroke"><tspan fill="#9e0300">dist</tspan>(<tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">u</tspan>) = 3</text>
+<text x="568" y="236" font-size="20" fill="#23373b" stroke="#f5f7f9" stroke-width="5" paint-order="stroke"><tspan fill="#9e0300">dist</tspan>(<tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">w</tspan>) = 5</text>
+<text x="488" y="346" font-size="20" fill="#23373b" stroke="#f5f7f9" stroke-width="5" paint-order="stroke"><tspan fill="#9e0300">dist</tspan>(<tspan font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">z</tspan>) = +∞</text>
 </svg>
 ```
 
-Um heap possível: $H = \{(3, u),\ (5, w),\ \textcolor{#9aa5ad}{(7, u)}\}$. O par $(7, u)$ é **obsoleto** se foi inserido antes de descobrirmos o score $3$. Como $\text{dist}(z) = +\infty$, $z$ ainda não está no heap.
+- Um heap possível: $\textcolor{#3a7a10}{H} = \{(3, u),\ (5, w),\ \textcolor{#9aa5ad}{(7, u)}\}$. 
+- O par $(7, u)$ é **obsoleto** se foi inserido antes de descobrirmos o score $3$. 
+- Como $\textcolor{#9e0300}{\text{dist}}(z) = +\infty$, $z$ ainda não está no heap.
 
 ## Atualização da Fronteira em Dijkstra
 
 > **Mudança da Fronteira**
 >
-> A cada iteração, um vértice $u$ é movido de $V - X$ para $X$, alterando a **fronteira**:
+> A cada iteração, um vértice $u$ é movido de $\textcolor{#6b777d}{V - X}$ para $\textcolor{#2e75b6}{X}$, alterando a **fronteira**:
 >
-> - Arestas de $X$ para $u$ deixam de cruzar a fronteira.
-> - Arestas de $u$ para vértices em $V - X$ passam a cruzar a fronteira.
+> - Arestas de $\textcolor{#2e75b6}{X}$ para $u$ deixam de cruzar a fronteira.
+> - Arestas de $u$ para vértices em $\textcolor{#6b777d}{V - X}$ passam a cruzar a fronteira.
 
 <br>
 
 > **Consequência**
 >
-> O **invariante** exige que, para cada $w \in V - X$,
+> O **invariante** exige que, para cada $w \in \textcolor{#6b777d}{V - X}$,
 > $$
-> \text{dist}(w) =
-> \min_{(v,w) \in E,\; v \in X}
-> \underbrace{\big\{\, \text{dist}(v) + \ell_{vw} \,\big\}}_{\text{\footnotesize score de Dijkstra}}
+> \textcolor{#9e0300}{\text{dist}}(w) =
+> \min_{(v,w) \in E,\; v \in \textcolor{#2e75b6}{X}}
+> \underbrace{\big\{\, \textcolor{#9e0300}{\text{dist}}(v) + \ell_{vw} \,\big\}}_{\text{\footnotesize score de Dijkstra}}
 > $$
-> As novas arestas que cruzam a fronteira (saindo de $u$) podem **reduzir** $\text{dist}(w)$ de alguns vértices $w$.
+> As novas arestas que cruzam a fronteira (saindo de $u$) podem **reduzir** $\textcolor{#9e0300}{\text{dist}}(w)$ de alguns vértices $w$.
 
 ## Atualização da Fronteira em Dijkstra
 
@@ -317,20 +340,22 @@ Um heap possível: $H = \{(3, u),\ (5, w),\ \textcolor{#9aa5ad}{(7, u)}\}$. O pa
 
 ## Atualização das Distâncias no Heap
 
-> **Quando um vértice $u$ entra em $X$**
+> **Quando um vértice $u$ entra em $\textcolor{#2e75b6}{X}$**
 >
 > - As novas arestas cruzando a fronteira partem de $u$.
 > - Basta percorrer a lista de adjacência de $u$ e, para cada aresta $(u, v)$:
 > $$
-> \text{se } \text{dist}(u) + \ell_{uv} < \text{dist}(v): \quad \text{dist}(v) \gets \text{dist}(u) + \ell_{uv}
+> \text{se } \textcolor{#9e0300}{\text{dist}}(u) + \ell_{uv} < \textcolor{#9e0300}{\text{dist}}(v): \quad \textcolor{#9e0300}{\text{dist}}(v) \gets \textcolor{#9e0300}{\text{dist}}(u) + \ell_{uv}
 > $$
-> - Se $v \in X$, o teste sempre falha: $\text{dist}(v)$ já é a menor distância possível.
+> - Se $v \in \textcolor{#2e75b6}{X}$, o teste sempre falha: $\textcolor{#9e0300}{\text{dist}}(v)$ já é a menor distância possível.
+
+. . .
 
 > **Como diminuir a distância de $v$ no heap?**
 >
 > - Remover o par antigo com `Delete` exige saber **onde** $v$ está no vetor do heap (um mapa auxiliar vértice → posição).
-> - **Mais simples:** apenas **insira** o novo par $(\text{dist}(v), v)$ com `Insert`. O par antigo de $v$ continua no heap, mas fica **obsoleto**.
-> - Ao extrair um par $(d, u)$ com $u \in X$, basta **descartá-lo**.
+> - **Mais simples:** apenas **insira** o novo par $(\textcolor{#9e0300}{\text{dist}}(v), v)$ com `Insert`. O par antigo de $v$ continua no heap, mas fica **obsoleto**.
+> - Ao extrair um par $(d, u)$ com $u \in \textcolor{#2e75b6}{X}$, basta **descartá-lo**.
 
 ## Algoritmo de Dijkstra com Fila de Prioridade
 
@@ -338,40 +363,40 @@ Um heap possível: $H = \{(3, u),\ (5, w),\ \textcolor{#9aa5ad}{(7, u)}\}$. O pa
 #| html-line-number: true
 #| html-no-end: true
 
-\begin{algorithmic}
-\Procedure{DijkstraHeap}{$G=(V,E), s, \ell$}
-  \State \textbf{Entrada:} Grafo dirigido $G = (V, E)$ em representação por listas de adjacência, um vértice $s \in V$, e pesos $\ell_e \geq 0$ para cada $e \in E$
-  \State \textbf{Pós-condição:} Para todo vértice $v$, o valor $\text{dist}(v)$ é a distância $d(s, v)$
-  \State $X \gets \emptyset$
-  \State $\text{dist}(v) \gets +\infty$ para todo $v \in V$
-  \State $\text{dist}(s) \gets 0$
-  \State $H \gets$ heap contendo apenas o par $(0, s)$
-  \While{$H$ não está vazio}
-    \State $(d, u) \gets \text{ExtractMin}(H)$
-    \If{$u \in X$}
-      \State \textbf{continue} \Comment{par obsoleto: $u$ já foi processado}
-    \EndIf
-    \State Adicione $u$ a $X$ \Comment{$d = \text{dist}(u)$}
-    \For{cada aresta $(u, v) \in E$}
-      \If{$d + \ell_{uv} < \text{dist}(v)$}
-        \State $\text{dist}(v) \gets d + \ell_{uv}$
-        \State $\text{Insert}(H, (\text{dist}(v), v))$
+  \begin{algorithmic}
+  \Procedure{DijkstraHeap}{$G=(V,E), s, \ell$}
+    \State \textbf{Entrada:} Grafo dirigido $G = (V, E)$ em representação por listas de adjacência, um vértice $s \in V$, e pesos $\ell_e \geq 0$ para cada $e \in E$
+    \State \textbf{Pós-condição:} Para todo vértice $v$, o valor $\textcolor{#9e0300}{\text{dist}}(v)$ é a distância $d(s, v)$
+    \State $\textcolor{#2e75b6}{X} \gets \emptyset$
+    \State $\textcolor{#9e0300}{\text{dist}}(v) \gets +\infty$ para todo $v \in V$
+    \State $\textcolor{#9e0300}{\text{dist}}(s) \gets 0$
+    \State $\textcolor{#3a7a10}{H} \gets$ heap contendo apenas o par $(0, s)$
+    \While{$\textcolor{#3a7a10}{H}$ não está vazio}
+      \State $(d, u) \gets \text{ExtractMin}(\textcolor{#3a7a10}{H})$
+      \If{$u \in \textcolor{#2e75b6}{X}$}
+        \State \textbf{continue} \Comment{par obsoleto: $u$ já foi processado}
       \EndIf
-    \EndFor
-  \EndWhile
-  \State \textbf{Retorne} $\text{dist}$
-\EndProcedure
-\end{algorithmic}
+      \State Adicione $u$ a $\textcolor{#2e75b6}{X}$ \Comment{$d = \textcolor{#9e0300}{\text{dist}}(u)$}
+      \For{cada aresta $(u, v) \in E$}
+        \If{$d + \ell_{uv} < \textcolor{#9e0300}{\text{dist}}(v)$}
+          \State $\textcolor{#9e0300}{\text{dist}}(v) \gets d + \ell_{uv}$
+          \State $\text{Insert}(\textcolor{#3a7a10}{H}, (\textcolor{#9e0300}{\text{dist}}(v), v))$
+        \EndIf
+      \EndFor
+    \EndWhile
+    \State \textbf{Retorne} $\textcolor{#9e0300}{\text{dist}}$
+  \EndProcedure
+  \end{algorithmic}
 ```
 
 ::: {.small}
-Na primeira vez que $u$ é extraído, $d = \text{dist}(u)$: cada nova inserção de $u$ tem distância menor que as anteriores, então o par mais recente é o primeiro a sair.
+Na primeira vez que $u$ é extraído, $d = \textcolor{#9e0300}{\text{dist}}(u)$: cada nova inserção de $u$ tem distância menor que as anteriores, então o par mais recente é o primeiro a sair.
 :::
 
 ## Algoritmo de Dijkstra com Fila de Prioridade: Execução
 
 ```{=html}
-<svg viewBox="15 15 470 190" style="display:block; margin:0 auto; width:15em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Grafo não direcionado com vértices S, A, B, C, D, E e F; F é isolado">
+<svg viewBox="15 15 470 190" style="display:block; margin:0 auto 0.4em; width:22em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Grafo não direcionado com vértices S, A, B, C, D, E e F; F é isolado">
 <line x1="52.0" y1="98.0" x2="98.0" y2="52.0" stroke="#555555" stroke-width="2.5"/>
 <text x="63.0" y="63.0" font-size="17" text-anchor="middle" dominant-baseline="middle" fill="#c40000" font-family="KaTeX_Main, 'Times New Roman', serif" stroke="#ffffff" stroke-width="4" paint-order="stroke">1</text>
 <line x1="52.0" y1="122.0" x2="98.0" y2="168.0" stroke="#555555" stroke-width="2.5"/>
@@ -405,37 +430,71 @@ Na primeira vez que $u$ é extraído, $d = \text{dist}(u)$: cada nova inserção
 </svg>
 ```
 
-::: {style="font-size:0.6em;"}
-| **`ExtractMin`** | **Ação** | **$H$ ao fim da iteração** |
-|:----------------:|:---------|:---------------------------|
-| — | inicialização: $\text{dist}(S) = 0$ | $(0, S)$ |
-| $(0, S)$ | processa $S$: $\text{dist}(A) = 1$, $\text{dist}(B) = 3$ | $(1, A),\ (3, B)$ |
-| $(1, A)$ | processa $A$: $\text{dist}(D) = 6$, $\text{dist}(C) = 5$ | $(3, B),\ (5, C),\ (6, D)$ |
-| $(3, B)$ | processa $B$: $\text{dist}(C) = 4$ | $(4, C),\ \textcolor{#9aa5ad}{(5, C)},\ (6, D)$ |
-| $(4, C)$ | processa $C$: $\text{dist}(E) = 10$ | $\textcolor{#9aa5ad}{(5, C)},\ (6, D),\ (10, E)$ |
-| $\textcolor{#9aa5ad}{(5, C)}$ | [obsoleto: $C \in X$, descarta]{style="color:#b31313"} | $(6, D),\ (10, E)$ |
-| $(6, D)$ | processa $D$: $\text{dist}(E) = 8$ | $(8, E),\ \textcolor{#9aa5ad}{(10, E)}$ |
+::: {style="font-size:0.72em;"}
+| **`ExtractMin`** | **Ação** | **$\textcolor{#3a7a10}{H}$ ao fim da iteração** |
+|:-------------:|:-----------------------------------------------|:--------------------------------------|
+| — | inicialização: $\textcolor{#9e0300}{\text{dist}}(S) = 0$ | $(0, S)$ |
+| $(0, S)$ | processa $S$: $\textcolor{#9e0300}{\text{dist}}(A) = 1$, $\textcolor{#9e0300}{\text{dist}}(B) = 3$ | $(1, A),\ (3, B)$ |
+| $(1, A)$ | processa $A$: $\textcolor{#9e0300}{\text{dist}}(D) = 6$, $\textcolor{#9e0300}{\text{dist}}(C) = 5$ | $(3, B),\ (5, C),\ (6, D)$ |
+| $(3, B)$ | processa $B$: $\textcolor{#9e0300}{\text{dist}}(C) = 4$ | $(4, C),\ \textcolor{#9aa5ad}{(5, C)},\ (6, D)$ |
+| $(4, C)$ | processa $C$: $\textcolor{#9e0300}{\text{dist}}(E) = 10$ | $\textcolor{#9aa5ad}{(5, C)},\ (6, D),\ (10, E)$ |
+| $\textcolor{#9aa5ad}{(5, C)}$ | [obsoleto: $C \in \textcolor{#2e75b6}{X}$, descarta]{style="color:#b31313"} | $(6, D),\ (10, E)$ |
+| $(6, D)$ | processa $D$: $\textcolor{#9e0300}{\text{dist}}(E) = 8$ | $(8, E),\ \textcolor{#9aa5ad}{(10, E)}$ |
 | $(8, E)$ | processa $E$: nenhuma melhora | $\textcolor{#9aa5ad}{(10, E)}$ |
-| $\textcolor{#9aa5ad}{(10, E)}$ | [obsoleto: $E \in X$, descarta]{style="color:#b31313"} | $\emptyset$ |
+| $\textcolor{#9aa5ad}{(10, E)}$ | [obsoleto: $E \in \textcolor{#2e75b6}{X}$, descarta]{style="color:#b31313"} | $\emptyset$ |
 :::
 
-$F$ nunca entra no heap: $\text{dist}(F) = +\infty$.
+$F$ nunca entra no heap: $\textcolor{#9e0300}{\text{dist}}(F) = +\infty$.
 
 ## Custo das Operações no Heap
 
 > **Observação Importante**
 >
-> Quase todo o trabalho na versão com heap do algoritmo de Dijkstra é feito por **operações de heap** (`Insert` e `ExtractMin`). Cada operação custa $\mathcal{O}(\log k)$, onde $k$ é o número de pares no heap.
+> Quase todo o trabalho na versão com heap do algoritmo de Dijkstra é feito por **operações de heap** (`Insert` e `ExtractMin`). 
+> 
+> - Cada operação custa $\mathcal{O}(\log k)$, onde $k$ é o número de pares no heap.
 
 <br>
 
-- Um mesmo vértice pode estar no heap **várias vezes**: $k$ pode ser maior que $n$!
+- Um mesmo vértice pode estar no heap mais de uma vez, com distâncias diferentes. 
 - A linha 15 (`Insert`) executa sempre que alguma distância diminui;
 - A linha 8 (`ExtractMin`) executa uma vez para cada par inserido, inclusive os obsoletos.
 
 ::: {style="text-align:center;"}
-*Quantas inserções podem acontecer no total?*
+> *[P.]{.label-qstn} Quantas inserções podem acontecer no total?*
 :::
+
+## Algoritmo de Dijkstra com Fila de Prioridade
+
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+  \begin{algorithmic}
+  \Procedure{DijkstraHeap}{$G=(V,E), s, \ell$}
+    \State \textbf{Entrada:} Grafo dirigido $G = (V, E)$ em representação por listas de adjacência, um vértice $s \in V$, e pesos $\ell_e \geq 0$ para cada $e \in E$
+    \State \textbf{Pós-condição:} Para todo vértice $v$, o valor $\textcolor{#9e0300}{\text{dist}}(v)$ é a distância $d(s, v)$
+    \State $\textcolor{#2e75b6}{X} \gets \emptyset$
+    \State $\textcolor{#9e0300}{\text{dist}}(v) \gets +\infty$ para todo $v \in V$
+    \State $\textcolor{#9e0300}{\text{dist}}(s) \gets 0$
+    \State $\textcolor{#3a7a10}{H} \gets$ heap contendo apenas o par $(0, s)$
+    \While{$\textcolor{#3a7a10}{H}$ não está vazio}
+      \State $(d, u) \gets \text{ExtractMin}(\textcolor{#3a7a10}{H})$
+      \If{$u \in \textcolor{#2e75b6}{X}$}
+        \State \textbf{continue} \Comment{par obsoleto: $u$ já foi processado}
+      \EndIf
+      \State Adicione $u$ a $\textcolor{#2e75b6}{X}$ \Comment{$d = \textcolor{#9e0300}{\text{dist}}(u)$}
+      \For{cada aresta $(u, v) \in E$}
+        \If{$d + \ell_{uv} < \textcolor{#9e0300}{\text{dist}}(v)$}
+          \State $\textcolor{#9e0300}{\text{dist}}(v) \gets d + \ell_{uv}$
+          \State $\text{Insert}(\textcolor{#3a7a10}{H}, (\textcolor{#9e0300}{\text{dist}}(v), v))$
+        \EndIf
+      \EndFor
+    \EndWhile
+    \State \textbf{Retorne} $\textcolor{#9e0300}{\text{dist}}$
+  \EndProcedure
+  \end{algorithmic}
+```
 
 ## Contagem de Operações e Complexidade Final
 
@@ -458,7 +517,7 @@ $F$ nunca entra no heap: $\text{dist}(F) = +\infty$.
 > \Rightarrow \text{Tempo total (com a inicialização em } \mathcal{O}(n)\text{): } \boxed{\mathcal{O}((m + n)\log n)}
 > $$
 
-*Mais rápido que $\mathcal{O}(mn)$ da implementação direta!*
+*Mais rápido que $\mathcal{O}(mn)$ da implementação sem heap!*
 
 ## Análise de Complexidade
 
@@ -540,10 +599,10 @@ dijkstra(G1, 'S')
 >
 > Um **heap** pode ser visto como uma **árvore binária enraizada**, em que cada nó possui 0, 1 ou 2 filhos, e **cada nível é preenchido o máximo possível**.
 
-> **Organização dos Níveis**
->
-> - Quando o número de elementos é uma unidade a menos que uma potência de 2, **todos os níveis estão completos**.
-> - Caso contrário, apenas o **último nível** pode estar incompleto, preenchido da **esquerda para a direita**.
+**Organização dos Níveis**
+
+- Quando o número de elementos é uma unidade a menos que uma potência de 2, **todos os níveis estão completos**.
+- Caso contrário, apenas o **último nível** pode estar incompleto, preenchido da **esquerda para a direita**.
 
 ```{=html}
 <svg viewBox="0 0 1200 290" style="display:block; margin:0 auto; width:34em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Três árvores binárias: (a) com 7 nós e (b) com 15 nós, com todos os níveis completos; (c) com 9 nós, com o último nível incompleto preenchido da esquerda para a direita">
@@ -782,12 +841,11 @@ dijkstra(G1, 'S')
 
 ## Desafio: Manter o Heap Correto e Completo
 
-> **O Desafio**
->
-> Ao inserir ou remover um elemento, é preciso:
->
-> 1. Manter a **árvore completa** (ou o mais cheia possível);
-> 2. Preservar a **propriedade de heap**, corrigindo violações quando surgirem.
+**O Desafio**
+  Ao inserir ou remover um elemento, é preciso:
+
+ 1. Manter a **árvore completa** (ou o mais cheia possível);
+ 2. Preservar a **propriedade de heap**, corrigindo violações quando surgirem.
 
 <br>
 
@@ -799,9 +857,9 @@ dijkstra(G1, 'S')
 
 > **Operação `Insert`**
 >
-> Dado um heap $H$ e um novo elemento $x$, adicione $x$ a $H$ respeitando essas duas regras.
+> Dado um heap $\textcolor{#3a7a10}{H}$ e um novo elemento $x$, adicione $x$ a $\textcolor{#3a7a10}{H}$ respeitando essas duas regras.
 >
-> 1. Adicione o novo objeto ao final do heap e aumente o tamanho do heap.
+> 1. Adicione o novo objeto **ao final do heap** e aumente o tamanho do heap.
 > 2. Repetidamente troque o novo objeto pelo seu pai até a propriedade de heap ser restaurada.
 
 ## `Insert`: Exemplo
@@ -1047,12 +1105,12 @@ dijkstra(G1, 'S')
 #| html-no-end: true
 
 \begin{algorithmic}
-\Procedure{Insert}{$H, x$}
-  \State \textbf{Entrada:} Heap $H$ e novo elemento $x$
-  \State \textbf{Saída:} Heap $H$ com $x$ inserido, mantendo a propriedade de heap
-  \State Adicione $x$ ao final do vetor que representa $H$
+\Procedure{Insert}{$\textcolor{#3a7a10}{H}, x$}
+  \State \textbf{Entrada:} Heap $\textcolor{#3a7a10}{H}$ e novo elemento $x$
+  \State \textbf{Saída:} Heap $\textcolor{#3a7a10}{H}$ com $x$ inserido, mantendo a propriedade de heap
+  \State Adicione $x$ ao final do vetor que representa $\textcolor{#3a7a10}{H}$
   \State $\texttt{i} \gets$ posição de $x$
-  \State \texttt{SiftUp}($H, i$)
+  \State \texttt{SiftUp}($\textcolor{#3a7a10}{H}, i$)
 \EndProcedure
 \end{algorithmic}
 ```
@@ -1062,32 +1120,36 @@ dijkstra(G1, 'S')
 #| html-no-end: true
 
 \begin{algorithmic}
-\Procedure{SiftUp}{$H, i$}
-  \State \textbf{Entrada:} Heap $H$ e posição $i$ de um elemento potencialmente fora de lugar
-  \While{$i > 1$ e $H[i] < H[\lfloor i/2 \rfloor]$}
-    \State Troque $H[i]$ e $H[\lfloor i/2 \rfloor]$
+\Procedure{SiftUp}{$\textcolor{#3a7a10}{H}, i$}
+  \State \textbf{Entrada:} Heap $\textcolor{#3a7a10}{H}$ e posição $i$ de um elemento potencialmente fora de lugar
+  \While{$i > 1$ e $\textcolor{#3a7a10}{H}[i] < \textcolor{#3a7a10}{H}[\lfloor i/2 \rfloor]$}
+    \State Troque $\textcolor{#3a7a10}{H}[i]$ e $\textcolor{#3a7a10}{H}[\lfloor i/2 \rfloor]$
     \State $i \gets \lfloor i/2 \rfloor$
   \EndWhile
 \EndProcedure
 \end{algorithmic}
 ```
 
-*Cada troca reduz o índice pela metade, garantindo tempo total* $\mathcal{O}(\log n)$.
+. . .
 
-*Cada troca pode empurrar a violação da propriedade de heap para cima. Por que não para baixo?*
+- Cada troca reduz o índice pela metade, garantindo tempo total $\mathcal{O}(\log n)$.
+
+- Cada troca pode empurrar a violação da propriedade de heap para cima. 
+  - [P.]{.label-qstn} Por que não para baixo?
 
 ## Implementando `ExtractMin`
 
 > **Operação `ExtractMin`**
 >
-> Dado um heap $H$, remova e devolva de $H$ um objeto com a menor **chave**.
+> Dado um heap $\textcolor{#3a7a10}{H}$, remova e devolva de $\textcolor{#3a7a10}{H}$ um objeto com a menor **chave**.
 
-> **O Mínimo**
->
-> A raiz de um heap é sempre o elemento mínimo. Ao removê-la, precisamos **restaurar as propriedades**:
->
-> - A árvore deve continuar **binária completa**;
-> - A **propriedade de heap** deve ser mantida.
+. . .
+
+- A **raiz** de um heap é sempre o [elemento mínimo]{.alert}. Ao removê-la, precisamos **restaurar as propriedades**:
+  - A árvore deve continuar **binária completa**;
+  - A **propriedade de heap** deve ser mantida.
+
+. . .
 
 > **Estratégia**
 >
@@ -1233,13 +1295,13 @@ Duas violações. Qual escolher? [Sempre trocar com o menor valor!]{.fragment}
 #| html-no-end: true
 
 \begin{algorithmic}
-\Procedure{ExtractMin}{$H$}
-  \State \textbf{Entrada:} Heap $H$
+\Procedure{ExtractMin}{$\textcolor{#3a7a10}{H}$}
+  \State \textbf{Entrada:} Heap $\textcolor{#3a7a10}{H}$
   \State \textbf{Saída:} Elemento mínimo removido e heap atualizado
-  \State $min \gets H[1]$ \Comment{a raiz contém o menor elemento}
-  \State $H[1] \gets H[\text{tamanho}(H)]$
-  \State Remova o último elemento do vetor de $H$
-  \State \texttt{SiftDown}($H, 1$)
+  \State $min \gets \textcolor{#3a7a10}{H}[1]$ \Comment{a raiz contém o menor elemento}
+  \State $\textcolor{#3a7a10}{H}[1] \gets \textcolor{#3a7a10}{H}[\text{tamanho}(\textcolor{#3a7a10}{H})]$
+  \State Remova o último elemento do vetor de $\textcolor{#3a7a10}{H}$
+  \State \texttt{SiftDown}($\textcolor{#3a7a10}{H}, 1$)
   \State \textbf{retorne} $min$
 \EndProcedure
 \end{algorithmic}
@@ -1254,17 +1316,17 @@ Duas violações. Qual escolher? [Sempre trocar com o menor valor!]{.fragment}
 #| html-no-end: true
 
 \begin{algorithmic}
-\Procedure{SiftDown}{$H, i$}
-  \State $n \gets \text{tamanho}(H)$
+\Procedure{SiftDown}{$\textcolor{#3a7a10}{H}, i$}
+  \State $n \gets \text{tamanho}(\textcolor{#3a7a10}{H})$
   \While{$2i \le n$}
     \State $m \gets 2i$ \Comment{filho esquerdo}
-    \If{$m+1 \le n$ \textbf{e} $H[m+1] < H[m]$}
+    \If{$m+1 \le n$ \textbf{e} $\textcolor{#3a7a10}{H}[m+1] < \textcolor{#3a7a10}{H}[m]$}
       \State $m \gets m+1$ \Comment{escolhe o menor filho}
     \EndIf
-    \If{$H[i] \le H[m]$}
+    \If{$\textcolor{#3a7a10}{H}[i] \le \textcolor{#3a7a10}{H}[m]$}
       \State \textbf{break}
     \EndIf
-    \State Troque $H[i]$ e $H[m]$
+    \State Troque $\textcolor{#3a7a10}{H}[i]$ e $\textcolor{#3a7a10}{H}[m]$
     \State $i \gets m$
   \EndWhile
 \EndProcedure
@@ -1272,9 +1334,9 @@ Duas violações. Qual escolher? [Sempre trocar com o menor valor!]{.fragment}
 ```
 
 ::: {.small}
-*Cada troca reduz o nível da árvore, garantindo tempo total* $\mathcal{O}(\log n)$.
+- Cada troca reduz o nível da árvore, garantindo tempo total $\mathcal{O}(\log n)$.
 
-*Durante o `SiftDown`, no máximo dois pares pai–filho violam a propriedade de heap; cada troca empurra o nó uma camada para baixo até que ele alcance o último nível (ou antes), e os demais pares permanecem válidos, garantindo término e corretude.*
+- Durante o `SiftDown`, no máximo dois pares pai–filho violam a propriedade de heap; cada troca empurra o nó uma camada para baixo até que ele alcance o último nível (ou antes), e os demais pares permanecem válidos, garantindo término e corretude.
 :::
 
 # HeapSort
@@ -1314,6 +1376,8 @@ Duas violações. Qual escolher? [Sempre trocar com o menor valor!]{.fragment}
 \end{algorithmic}
 ```
 
+. . .
+
 Tempo: $\Theta(n^2)$
 
 ## Ordenando Vetores com Heaps
@@ -1326,20 +1390,25 @@ Tempo: $\Theta(n^2)$
 \Procedure{HeapSort}{$A$}
   \State \textbf{Entrada:} Vetor $A$ com $n$ inteiros distintos
   \State \textbf{Saída:} Vetor $B$ com os mesmos inteiros, ordenados em ordem crescente
-  \State $H \gets$ heap vazio
+  \State $\textcolor{#3a7a10}{H} \gets$ heap vazio
   \For{$i \gets 1$ \textbf{to} $n$}
-    \State \texttt{Insert} $A[i]$ em $H$
+    \State \texttt{Insert} $A[i]$ em $\textcolor{#3a7a10}{H}$
   \EndFor
   \For{$i \gets 1$ \textbf{to} $n$}
-    \State $B[i] \gets$ \texttt{ExtractMin} de $H$
+    \State $B[i] \gets$ \texttt{ExtractMin} de $\textcolor{#3a7a10}{H}$
   \EndFor
 \EndProcedure
 \end{algorithmic}
 ```
 
-> **Complexidade**
->
-> O trabalho do **HeapSort** se resume a $2n$ operações sobre um heap de no máximo $n$ elementos. Cada operação custa $\mathcal{O}(\log n)$, resultando em tempo total $\mathcal{O}(n \log n)$. Além disso, o vetor $B$ não seria necessário e as linhas 4 a 5 poderiam ser substituídas por `Heapify`.
+. . .
+
+**Complexidade**
+
+O trabalho do **HeapSort** se resume a $2n$ operações sobre um heap de no máximo $n$ elementos. 
+
+ - Cada operação custa $\mathcal{O}(\log n)$, resultando em tempo total $\mathcal{O}(n \log n)$. 
+ - Além disso, o vetor $B$ não seria necessário e as linhas 4 a 5 poderiam ser substituídas por `Heapify`.
 
 ## Desafio: Entendendo o Heapify
 
@@ -1352,6 +1421,8 @@ Tempo: $\Theta(n^2)$
 > - **Heapify** transforma um vetor qualquer (não ordenado) em um heap válido.
 > - Cada operação de heap (`Insert`, `ExtractMin`) custa $\mathcal{O}(\log n)$.
 > - O **HeapSort** completo tem complexidade $\mathcal{O}(n \log n)$.
+
+. . .
 
 > [**Desafio**]{.label-prf}
 >

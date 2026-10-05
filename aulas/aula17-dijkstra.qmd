@@ -233,18 +233,18 @@ Custo: $O(m+n)$.
 \begin{algorithmic}
 \Procedure{Dijkstra}{$G=(V,E,w), s$}
   \State \textbf{Entrada:} Um grafo com pesos não-negativos $(V, E, w)$ e um nodo $s \in V$
-  \State \textbf{Saída:} Uma tabela $\text{dist}$ associando cada $v \in V$ à sua distância $d(s,v)$
+  \State \textbf{Saída:} Uma tabela $\textcolor{#9e0300}{\text{dist}}$ associando cada $v \in V$ à sua distância $d(s,v)$
   \State // Inicialização
-  \State $X \gets \{s\}$
-  \State $\text{dist}(s) \gets 0$
-  \State $\text{dist}(v) \gets +\infty$ para todo $v \neq s$
+  \State $\textcolor{#2e75b6}{X} \gets \{s\}$
+  \State $\textcolor{#9e0300}{\text{dist}}(s) \gets 0$
+  \State $\textcolor{#9e0300}{\text{dist}}(v) \gets +\infty$ para todo $v \neq s$
   \State // Laço principal
-  \While{existe uma aresta $(v, w)$ tal que $v \in X$ e $w \notin X$}
-    \State $(v^*, w^*) \gets$ tal aresta que minimiza $\text{dist}(v) + \ell_{vw}$
-    \State Adicione $w^*$ a $X$
-    \State $\text{dist}(w^*) \gets \text{dist}(v^*) + \ell_{v^*w^*}$
+  \While{existe uma aresta $(v, w)$ tal que $v \in \textcolor{#2e75b6}{X}$ e $w \notin \textcolor{#2e75b6}{X}$}
+    \State $(v^*, w^*) \gets$ tal aresta que minimiza $\textcolor{#9e0300}{\text{dist}}(v) + \ell_{vw}$
+    \State Adicione $w^*$ a $\textcolor{#2e75b6}{X}$
+    \State $\textcolor{#9e0300}{\text{dist}}(w^*) \gets \textcolor{#9e0300}{\text{dist}}(v^*) + \ell_{v^*w^*}$
   \EndWhile
-  \State \textbf{Retorne} $\text{dist}$
+  \State \textbf{Retorne} $\textcolor{#9e0300}{\text{dist}}$
 \EndProcedure
 \end{algorithmic}
 ```
@@ -638,15 +638,15 @@ Responda:
 
 ## Corretude: Caso Base e Hipótese
 
-> [**Invariante.**]{.label-lem} Ao fim de cada iteração, $d[v] = L(v)$ para todo $v \in X$.
+> [**Invariante.**]{.label-lem} Ao fim de cada iteração, $d[v] = L(v)$ para todo $v \in \textcolor{#2e75b6}{X}$.
 
 . . .
 
-**Caso base.** Antes do laço, $X = \{s\}$ e $d[s] = 0 = L(s)$ (pesos $\geq 0$).
+**Caso base.** Antes do laço, $\textcolor{#2e75b6}{X} = \{s\}$ e $d[s] = 0 = L(s)$ (pesos $\geq 0$).
 
 . . .
 
-**Hipótese de indução (HI).** No início da iteração, $d[v] = L(v)$ $\forall v \in X$.
+**Hipótese de indução (HI).** No início da iteração, $d[v] = L(v)$ $\forall v \in \textcolor{#2e75b6}{X}$.
 
 . . .
 
@@ -682,8 +682,8 @@ Como $\textcolor{#3a7a10}{P^*}$ é um caminho de custo $d[\textcolor{#3a7a10}{w^
 
 [**Por contradição.**]{.label-prf} Suponha que existe um caminho $\textcolor{#d9690b}{P}$ de $s$ a $\textcolor{#3a7a10}{w^*}$ com $\text{custo}(\textcolor{#d9690b}{P}) < d[\textcolor{#3a7a10}{w^*}]$.
 
-- Como $\textcolor{#d9690b}{P}$ sai de $s \in X$ e chega em $\textcolor{#3a7a10}{w^*} \notin X$, ele **cruza a fronteira**.
-- Seja $(\textcolor{#d9690b}{y}, \textcolor{#d9690b}{z})$ o **primeiro** arco de $\textcolor{#d9690b}{P}$ com $\textcolor{#d9690b}{y} \in X$ e $\textcolor{#d9690b}{z} \notin X$:
+- Como $\textcolor{#d9690b}{P}$ sai de $s \in \textcolor{#2e75b6}{X}$ e chega em $\textcolor{#3a7a10}{w^*} \notin \textcolor{#2e75b6}{X}$, ele **cruza a fronteira**.
+- Seja $(\textcolor{#d9690b}{y}, \textcolor{#d9690b}{z})$ o **primeiro** arco de $\textcolor{#d9690b}{P}$ com $\textcolor{#d9690b}{y} \in \textcolor{#2e75b6}{X}$ e $\textcolor{#d9690b}{z} \notin \textcolor{#2e75b6}{X}$:
 
 ```{=html}
 <svg viewBox="0 0 820 300" style="display:block; margin:0 auto; width:27em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Dois caminhos de s até w estrela: em verde, o caminho do algoritmo por v estrela; em laranja, o caminho hipotético P, que cruza a fronteira pelo arco de y para z">
@@ -717,7 +717,7 @@ Como $\textcolor{#3a7a10}{P^*}$ é um caminho de custo $d[\textcolor{#3a7a10}{w^
 ```{=html}
 <div style="width:fit-content; margin:0.2em auto 0.5em;">
   <div class="fragment" style="display:grid; grid-template-columns:4.8em 8.9em auto; column-gap:0.5em; white-space:nowrap; align-items:baseline; margin:0.12em 0;"><span style="text-align:right;"><span class="math inline">\text{custo}(\textcolor{#d9690b}{P})</span></span><span><span class="math inline">\geq L(\textcolor{#d9690b}{y}) + \ell_{\textcolor{#d9690b}{y}\textcolor{#d9690b}{z}} + 0</span></span><span style="color:#6b777d; font-size:0.85em;">(definição de <span class="math inline">L</span> e pesos <span class="math inline">\geq 0</span>)</span></div>
-  <div class="fragment" style="display:grid; grid-template-columns:4.8em 8.9em auto; column-gap:0.5em; white-space:nowrap; align-items:baseline; margin:0.12em 0;"><span style="text-align:right;"></span><span><span class="math inline">= d[\textcolor{#d9690b}{y}] + \ell_{\textcolor{#d9690b}{y}\textcolor{#d9690b}{z}}</span></span><span style="color:#6b777d; font-size:0.85em;">(HI, pois <span class="math inline">\textcolor{#d9690b}{y} \in X</span>)</span></div>
+  <div class="fragment" style="display:grid; grid-template-columns:4.8em 8.9em auto; column-gap:0.5em; white-space:nowrap; align-items:baseline; margin:0.12em 0;"><span style="text-align:right;"></span><span><span class="math inline">= d[\textcolor{#d9690b}{y}] + \ell_{\textcolor{#d9690b}{y}\textcolor{#d9690b}{z}}</span></span><span style="color:#6b777d; font-size:0.85em;">(HI, pois <span class="math inline">\textcolor{#d9690b}{y} \in \textcolor{#2e75b6}{X}</span>)</span></div>
   <div class="fragment" style="display:grid; grid-template-columns:4.8em 8.9em auto; column-gap:0.5em; white-space:nowrap; align-items:baseline; margin:0.12em 0;"><span style="text-align:right;"></span><span><span class="math inline">\geq d[\textcolor{#3a7a10}{v^*}] + \ell_{\textcolor{#3a7a10}{v^*}\textcolor{#3a7a10}{w^*}}</span></span><span style="color:#6b777d; font-size:0.85em;">(<span class="math inline">(\textcolor{#d9690b}{y}, \textcolor{#d9690b}{z})</span> é arco da fronteira e <span class="math inline">(\textcolor{#3a7a10}{v^*}, \textcolor{#3a7a10}{w^*})</span> é o mínimo)</span></div>
   <div class="fragment" style="display:grid; grid-template-columns:4.8em 8.9em auto; column-gap:0.5em; white-space:nowrap; align-items:baseline; margin:0.12em 0;"><span style="text-align:right;"></span><span><span class="math inline">= d[\textcolor{#3a7a10}{w^*}]</span></span><span style="color:#6b777d; font-size:0.85em;">(definição de <span class="math inline">d[\textcolor{#3a7a10}{w^*}]</span> no algoritmo)</span></div>
 </div>
@@ -725,22 +725,22 @@ Como $\textcolor{#3a7a10}{P^*}$ é um caminho de custo $d[\textcolor{#3a7a10}{w^
 
 . . .
 
-[**Contradição!**]{.alert} Então nenhum caminho é mais curto: $d[\textcolor{#3a7a10}{w^*}] = L(\textcolor{#3a7a10}{w^*})$ e o invariante vale para $X \cup \{\textcolor{#3a7a10}{w^*}\}$.
+[**Contradição!**]{.alert} Então nenhum caminho é mais curto: $d[\textcolor{#3a7a10}{w^*}] = L(\textcolor{#3a7a10}{w^*})$ e o invariante vale para $\textcolor{#2e75b6}{X} \cup \{\textcolor{#3a7a10}{w^*}\}$.
 
 ## Corretude: Conclusão
 
-**Término.** Cada iteração adiciona um vértice a $X$, então o laço executa no máximo $n - 1$ vezes.
+**Término.** Cada iteração adiciona um vértice a $\textcolor{#2e75b6}{X}$, então o laço executa no máximo $n - 1$ vezes.
 
 . . .
 
-Ao final, pelo **invariante**, $d[v] = L(v)$ para todo $v \in X$. E os vértices fora de $X$?
+Ao final, pelo **invariante**, $d[v] = L(v)$ para todo $v \in \textcolor{#2e75b6}{X}$. E os vértices fora de $\textcolor{#2e75b6}{X}$?
 
 . . .
 
 :::: {.columns style="display: flex; align-items: center;"}
 ::: {.column width="60%" .incremental}
-- Se $X = V$, não sobrou nenhum vértice.
-- Se $X \neq V$, o laço parou porque **nenhum arco sai de $X$**. Todo caminho de $s$ até $v \notin X$ teria que cruzar a fronteira, então $v$ é inalcançável: $L(v) = +\infty = d[v]$.
+- Se $\textcolor{#2e75b6}{X} = V$, não sobrou nenhum vértice.
+- Se $\textcolor{#2e75b6}{X} \neq V$, o laço parou porque **nenhum arco sai de $\textcolor{#2e75b6}{X}$**. Todo caminho de $s$ até $v \notin \textcolor{#2e75b6}{X}$ teria que cruzar a fronteira, então $v$ é inalcançável: $L(v) = +\infty = d[v]$.
 :::
 ::: {.column width="40%"}
 ```{=html}
@@ -786,18 +786,18 @@ Ao final, pelo **invariante**, $d[v] = L(v)$ para todo $v \in X$. E os vértices
 \begin{algorithmic}
 \Procedure{Dijkstra}{$G=(V,E,w), s$}
   \State \textbf{Entrada:} Um grafo com pesos não-negativos $(V, E, w)$ e um nodo $s \in V$
-  \State \textbf{Saída:} Uma tabela $\text{dist}$ associando cada $v \in V$ à sua distância $d(s,v)$
+  \State \textbf{Saída:} Uma tabela $\textcolor{#9e0300}{\text{dist}}$ associando cada $v \in V$ à sua distância $d(s,v)$
   \State // Inicialização
-  \State $X \gets \{s\}$
-  \State $\text{dist}(s) \gets 0$
-  \State $\text{dist}(v) \gets +\infty$ para todo $v \neq s$
+  \State $\textcolor{#2e75b6}{X} \gets \{s\}$
+  \State $\textcolor{#9e0300}{\text{dist}}(s) \gets 0$
+  \State $\textcolor{#9e0300}{\text{dist}}(v) \gets +\infty$ para todo $v \neq s$
   \State // Laço principal
-  \While{existe uma aresta $(v, w)$ tal que $v \in X$ e $w \notin X$}
-    \State $(v^*, w^*) \gets$ tal aresta que minimiza $\text{dist}(v) + \ell_{vw}$
-    \State Adicione $w^*$ a $X$
-    \State $\text{dist}(w^*) \gets \text{dist}(v^*) + \ell_{v^*w^*}$
+  \While{existe uma aresta $(v, w)$ tal que $v \in \textcolor{#2e75b6}{X}$ e $w \notin \textcolor{#2e75b6}{X}$}
+    \State $(v^*, w^*) \gets$ tal aresta que minimiza $\textcolor{#9e0300}{\text{dist}}(v) + \ell_{vw}$
+    \State Adicione $w^*$ a $\textcolor{#2e75b6}{X}$
+    \State $\textcolor{#9e0300}{\text{dist}}(w^*) \gets \textcolor{#9e0300}{\text{dist}}(v^*) + \ell_{v^*w^*}$
   \EndWhile
-  \State \textbf{Retorne} $\text{dist}$
+  \State \textbf{Retorne} $\textcolor{#9e0300}{\text{dist}}$
 \EndProcedure
 \end{algorithmic}
 ```
@@ -808,13 +808,13 @@ Ao final, pelo **invariante**, $d[v] = L(v)$ para todo $v \in X$. E os vértices
 
 > **Ideia Principal**
 >
-> Uma implementação direta mantém, para cada vértice, uma variável booleana indicando se ele pertence ao conjunto $X$.
+> Uma implementação direta mantém, para cada vértice, uma variável booleana indicando se ele pertence ao conjunto $\textcolor{#2e75b6}{X}$.
 >
 > A cada iteração:
 >
-> - Percorrem-se todas as arestas $(v, w)$, com $v \in X$ e $w \notin X$;
-> - Calcula-se o **valor de Dijkstra** $\text{dist}(v) + \ell_{vw}$ em tempo constante por aresta;
-> - Escolhe-se a aresta com o menor valor e adiciona-se seu vértice destino a $X$.
+> - Percorrem-se todas as arestas $(v, w)$, com $v \in \textcolor{#2e75b6}{X}$ e $w \notin \textcolor{#2e75b6}{X}$;
+> - Calcula-se o **valor de Dijkstra** $\textcolor{#9e0300}{\text{dist}}(v) + \ell_{vw}$ em tempo constante por aresta;
+> - Escolhe-se a aresta com o menor valor e adiciona-se seu vértice destino a $\textcolor{#2e75b6}{X}$.
 
 > **Análise de Complexidade**
 >

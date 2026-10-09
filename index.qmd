@@ -299,16 +299,29 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 13/out.</td>
   <td>Sala 113</td>
   <td class="t-green">Árvore Geradora Mínima 1 (Descrição do Problema, Algoritmo de Prim)</td>
-  <td></td>
-  <td></td>
+  <td style="text-align:center;"><a href="aulas/aula20-mst1.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td>
+    <ul class="list-unstyled mb-0">
+      <li class="mb-1"><a href="https://lucasalegre.github.io/mst-visualizer/?algo=prim"><i class="bi bi-display me-1"></i>Visualização Algoritmo de Prim</a></li>
+      <li class="mb-1"><a href="https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/arvore_geradora_minima.ipynb"><i class="bi bi-file-earmark-code me-1"></i>Código Árvore Geradora Mínima (Python)</a></li>
+      <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>KT (Seção 4.5)</a></li>
+    </ul>
+  </td>
 </tr>
 <tr>
   <td class="wk">21</td>
   <td>qui. 15/out.</td>
   <td>Sala 113</td>
   <td class="t-green">Árvore Geradora Mínima 2 (Algoritmo de Kruskal, Estrutura Union-Find)</td>
-  <td></td>
-  <td></td>
+  <td style="text-align:center;"><a href="aulas/aula21-mst2.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td>
+    <ul class="list-unstyled mb-0">
+      <li class="mb-1"><a href="https://lucasalegre.github.io/mst-visualizer/?algo=kruskal"><i class="bi bi-display me-1"></i>Visualização Algoritmo de Kruskal</a></li>
+      <li class="mb-1"><a href="https://visualgo.net/en/ufds?slide=1"><i class="bi bi-display me-1"></i>Visualização Union-Find (VisuAlgo)</a></li>
+      <li class="mb-1"><a href="https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/arvore_geradora_minima.ipynb"><i class="bi bi-file-earmark-code me-1"></i>Código Árvore Geradora Mínima (Python)</a></li>
+      <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>KT (Seções 4.5 e 4.6)</a></li>
+    </ul>
+  </td>
 </tr>
 <!-- Semana Acadêmica -->
 <tr class="row-sa">

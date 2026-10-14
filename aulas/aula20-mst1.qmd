@@ -2286,6 +2286,9 @@ Assim, como $c_{\textcolor{#c40000}{e}} < c_{\textcolor{#6b777d}{e'}}$, $T$ tem 
 > - No máximo $m + 1$ triplas no heap, contando $(0, s, \bot)$;
 > - Cada tripla é extraída no máximo uma vez: no máximo $m + 1$ chamadas de `ExtractMin` (linha 6), incluindo as obsoletas descartadas (linhas 7 e 8).
 
+
+. . .
+
 > **Complexidade Total**
 >
 > $$
@@ -2298,7 +2301,7 @@ Assim, como $c_{\textcolor{#c40000}{e}} < c_{\textcolor{#6b777d}{e'}}$, $T$ tem 
 > \Rightarrow \text{Tempo total: } \boxed{O(m \log n)}
 > $$
 
-A parada antecipada ao completar $|V| - 1$ arestas (linhas 12 e 13) ajuda na prática, mas não muda o pior caso.
+[Obs:]{.label-rmk} A parada antecipada ao completar $|V| - 1$ arestas (linhas 12 e 13) ajuda na prática, mas não muda o pior caso.
 
 # Implementação em Python
 

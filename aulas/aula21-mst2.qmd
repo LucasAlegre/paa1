@@ -63,7 +63,7 @@ filters:
 
 1. Adiciona a $T$ a aresta com menor custo que não forma um ciclo. [(**Kruskal**, hoje)]{style="color:#3a7a10"}
 2. Adiciona a $T$ o vértice que minimiza o custo de conexão. [(**Prim**)]{style="color:#2e75b6"}
-3. Deleta de $G$ a aresta com maior custo mantendo $G$ conectado.
+3. Deleta de $G$ a aresta com maior custo mantendo $G$ conectado. ([**Reverse-Delete**](https://en.wikipedia.org/wiki/Reverse-delete_algorithm), não visto na disciplina.)
 4. Outras regras.
 
 <br>
@@ -610,9 +610,11 @@ filters:
 </div>
 ```
 
+# Corretude do Algoritmo de Kruskal
+
 ## Corretude do Algoritmo de Kruskal
 
-> [**Invariante do algoritmo.**]{.label-lem} Em cada passo, o conjunto $T$ construído por Kruskal é um subconjunto de alguma Árvore Geradora Mínima.
+> [**Invariante do algoritmo.**]{.label-lem} Em cada passo, o conjunto $T$ construído por Kruskal é um **subconjunto de alguma Árvore Geradora Mínima**.
 
 . . .
 
@@ -635,80 +637,121 @@ filters:
 
 # Union-Find
 
-## Estrutura de Dados Union-Find
+## Union-Find: Motivação
 
-**Union-Find**, também chamada de **Disjoint-set**, mantém uma partição dos elementos em conjuntos distintos.
+**No Kruskal:** para cada aresta $e=(u,v)$, precisamos saber se $\textcolor{#3a7a10}{T}\cup\{e\}$ tem ciclo.
 
-<br>
+:::: {.columns style="display: flex; align-items: center;"}
+::: {.column width="50%"}
+```{=html}
+<svg viewBox="0 0 470 200" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floresta T com componentes {A,B,C}, {D,E} e {F}; aresta A–C fecha ciclo, aresta C–D une componentes">
+<rect x="22" y="18" width="186" height="170" rx="16" fill="#f3f6f8" stroke="#dde3e7" stroke-width="1.5"/>
+<rect x="243" y="18" width="140" height="170" rx="16" fill="#f3f6f8" stroke="#dde3e7" stroke-width="1.5"/>
+<rect x="393" y="113" width="64" height="75" rx="16" fill="#f3f6f8" stroke="#dde3e7" stroke-width="1.5"/>
+<line x1="60" y1="55" x2="170" y2="55" stroke="#3a7a10" stroke-width="4"/>
+<line x1="170" y1="55" x2="115" y2="150" stroke="#3a7a10" stroke-width="4"/>
+<line x1="280" y1="150" x2="345" y2="55" stroke="#3a7a10" stroke-width="4"/>
+<line x1="60" y1="55" x2="115" y2="150" stroke="#c40000" stroke-width="3.5" stroke-dasharray="7 5"/>
+<line x1="115" y1="150" x2="280" y2="150" stroke="#eb811b" stroke-width="4" stroke-dasharray="7 5"/>
+<circle cx="60" cy="55" r="17" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="60" y="55" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
+<circle cx="170" cy="55" r="17" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="170" y="55" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
+<circle cx="115" cy="150" r="17" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="115" y="150" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
+<circle cx="280" cy="150" r="17" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="280" y="150" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
+<circle cx="345" cy="55" r="17" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="345" y="55" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">E</text>
+<circle cx="425" cy="150" r="17" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="425" y="150" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">F</text>
+<text x="80.0" y="112.0" font-size="15" text-anchor="end" dominant-baseline="central" fill="#c40000" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">ciclo!</text>
+<text x="197.0" y="137.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#b35c00" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">ok</text>
+</svg>
+```
+:::
+::: {.column width="50%"}
+::: {style="font-size:0.85em;"}
+[**Observação.**]{.label-rmk} $\textcolor{#3a7a10}{T}$ é sempre uma **floresta**. Então
 
-**Objetivo:** tornar eficientes as operações de
+$T\cup\{(u,v)\}$ tem ciclo $\iff$ $u$ e $v$ já estão na **mesma componente** de $T$.
 
-- Determinar se dois nodos do grafo **estão no mesmo componente conexo**
-- **Unir** dois componentes conexos
+::: {.fragment}
+Basta manter a **partição de $V$** nas componentes de $T$ e saber:
 
-## Estrutura de Dados Union-Find
+- **consultar** se dois vértices estão no mesmo conjunto;
+- **unir** dois conjuntos quando aceitamos uma aresta.
+:::
+:::
+:::
+::::
 
-Operações principais:
-
-- **Inicialize:** Cria um array de n objetos, cada um em sua própria partição (estrutura union-find)
-
-<br>
-
-- **Find:** Dada a estrutura union-find e um objeto, determina o nome da partição a qual ele pertence
-
-<br>
-
-- **Union:** Dada a estrutura union-find e dois objetos, unifica as partições a quais ambos pertencem
+::: {.fragment style="font-size:0.7em;"}
+| **Operação** | **O que faz** | **No Kruskal** |
+|:--|:--|:--|
+| `Inicialize(V)` | cria $n$ conjuntos unitários $\{v\}$ | $T=\emptyset$: cada vértice isolado |
+| `Find(v)` | devolve o [representante]{.alert} do conjunto de $v$ | ciclo $\iff$ `Find(u) = Find(v)` |
+| `Union(u,v)` | une os conjuntos de $u$ e de $v$ | aceitar $(u,v)$ funde duas componentes |
+:::
 
 ## Union-Find: Representação
 
-**Ideia:** Manter uma partição dos vértices em componentes disjuntas. Cada componente tem um [representante]{.alert} ou [raiz]{.alert}.
+**Ideia:** cada conjunto é uma **árvore enraizada** em que cada elemento aponta para o seu pai. A raiz é o [representante]{.alert} do conjunto.
 
 :::: {.columns style="display: flex; align-items: center;"}
-::: {.column width="48%"}
-::: {style="text-align:center;"}
-**Floresta de ponteiros**
-
+::: {.column width="50%"}
 ```{=html}
-<svg viewBox="0 0 335 85" style="display:block; margin:0 auto; width:13em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Seis vértices, cada um é sua própria raiz">
-<defs><marker id="muf1g" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="muf1r" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
-<circle cx="30.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
-<text x="30.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
-<circle cx="85.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
-<text x="85.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
-<circle cx="140.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
-<text x="140.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
-<circle cx="195.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
-<text x="195.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
-<circle cx="250.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
-<text x="250.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
-<circle cx="305.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
-<text x="305.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
-<text x="167.0" y="72.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">cada vértice é sua própria raiz</text>
+<svg viewBox="0 0 360 300" style="display:block; margin:0 auto; width:15em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floresta: 2 e 3 apontam para 1, 4 aponta para 2, 5 aponta para 4; 7 aponta para 6. Raízes 1 e 6.">
+<defs><marker id="ufrpg" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="ufrpr" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
+<line x1="127.4" y1="76.7" x2="142.2" y2="46.2" stroke="#555555" stroke-width="2.5" marker-end="url(#ufrpg)"/>
+<line x1="172.6" y1="76.7" x2="157.8" y2="46.2" stroke="#555555" stroke-width="2.5" marker-end="url(#ufrpg)"/>
+<line x1="120.0" y1="137.0" x2="120.0" y2="110.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufrpg)"/>
+<line x1="120.0" y1="199.0" x2="120.0" y2="172.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufrpg)"/>
+<line x1="240.0" y1="75.0" x2="240.0" y2="48.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufrpg)"/>
+<circle cx="150.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="150.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<circle cx="120.0" cy="92.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="120.0" y="92.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
+<circle cx="180.0" cy="92.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="180.0" y="92.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
+<circle cx="120.0" cy="154.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="120.0" y="154.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
+<circle cx="120.0" cy="216.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="120.0" y="216.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<circle cx="240.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="240.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
+<circle cx="240.0" cy="92.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="240.0" y="92.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">7</text>
+<text x="61.0" y="256.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">v</text>
+<text x="61.0" y="282.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">pai</text>
+<line x1="44.0" y1="269.0" x2="316.0" y2="269.0" stroke="#23373b" stroke-width="1.2"/>
+<line x1="78.0" y1="244.0" x2="78.0" y2="294.0" stroke="#23373b" stroke-width="1.2"/>
+<text x="95.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="95.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="129.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<text x="129.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="163.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<text x="163.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="197.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<text x="197.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<text x="231.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<text x="231.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<text x="265.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<text x="265.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<text x="299.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">7</text>
+<text x="299.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
 </svg>
 ```
-
-::: {style="font-size:0.75em;"}
-$$
-\begin{array}{c|cccccc}
-v        & 1 & 2 & 3 & 4 & 5 & 6\\
-\hline
-\texttt{pai[v]} & 1 & 2 & 3 & 4 & 5 & 6\\
-\texttt{tam[v]} & 1 & 1 & 1 & 1 & 1 & 1
-\end{array}
-$$
 :::
-:::
-:::
-::: {.column width="52%"}
+::: {.column width="50%"}
 ::: {style="font-size:0.8em;"}
-**Invariante**
+- Um único vetor `pai[1..n]`.
+- `pai[v] = v` $\iff$ $v$ é raiz (representante).
+- Seguindo `pai` a partir de $v$, chegamos ao representante do conjunto de $v$.
 
-- `pai[v]` aponta para o próximo vértice no caminho até a raiz.
-- Se `pai[v] = v`, então $v$ é representante da componente.
-- `tam[r]` só precisa estar correto quando $r$ é raiz.
+[**Atenção:**]{.label-rmk} as árvores da Union-Find **não** são as árvores de $\textcolor{#3a7a10}{T}$: elas só registram *quem está junto com quem*.
 
-::: {.pc-md}
+::: {.pc-lg}
 ```pseudocode
 #| html-line-number: true
 #| html-no-end: true
@@ -716,8 +759,7 @@ $$
 \begin{algorithmic}
 \Procedure{Inicialize}{$V$}
   \For{$v \in V$}
-    \State $\texttt{pai[v]} \gets v$
-    \State $\texttt{tam[v]} \gets 1$
+    \State $\texttt{pai[v]} \gets v$ \Comment{$n$ raízes}
   \EndFor
 \EndProcedure
 \end{algorithmic}
@@ -727,111 +769,153 @@ $$
 :::
 ::::
 
-## Estrutura de Dados Union-Find
-
-Otimizações importantes:
-
-- **Compressão de caminho (find):** ao fazer a busca pelo **nome da partição**, registre os nodos intermediários percorridos.
-
-  Após achar o nome da partição, volte no registro e faça todos os nós registrados apontarem **diretamente** ao nome da partição, reduzindo o custo da próxima consulta a partir deles.
-
-- **Critério de unificação (union):** ao fazer uma união, fazer a raiz de **menor rank** (menor altura estimada) apontar para a de **maior rank**. A ideia é tentar reduzir a altura das árvores.
-
-  Para o critério de unificação, é necessário manter um registro do **rank de cada raiz** em um vetor auxiliar, e atualizá-lo apenas quando dois ranks iguais são unidos.
-
-## Union-Find: Operação `Find`
-
-**Objetivo:** Encontrar o representante da componente de $v$.
+## Union-Find: `Find` e `Union` (Versão Simples)
 
 :::: {.columns style="display: flex; align-items: center;"}
-::: {.column width="45%"}
-::: {style="text-align:center;"}
+::: {.column width="42%"}
 ```{=html}
-<svg viewBox="0 0 320 255" style="display:block; margin:0 auto; width:12.5em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Floresta: 2 e 3 apontam para 1, 4 aponta para 2, 5 aponta para 4; 6 é raiz. Find(5) segue 5, 4, 2, 1">
-<defs><marker id="muf2g" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="muf2r" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
-<line x1="101.5" y1="82.5" x2="137.8" y2="43.2" stroke="#c40000" stroke-width="3.5" marker-end="url(#muf2r)"/>
-<line x1="198.5" y1="82.5" x2="162.2" y2="43.2" stroke="#555555" stroke-width="2.5" marker-end="url(#muf2g)"/>
-<line x1="58.9" y1="145.5" x2="80.6" y2="110.3" stroke="#c40000" stroke-width="3.5" marker-end="url(#muf2r)"/>
-<line x1="31.1" y1="209.1" x2="43.5" y2="176.8" stroke="#c40000" stroke-width="3.5" marker-end="url(#muf2r)"/>
-<circle cx="150.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
-<text x="150.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
-<circle cx="90.0" cy="95.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="90.0" y="95.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
-<circle cx="210.0" cy="95.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="210.0" y="95.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
-<circle cx="50.0" cy="160.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="50.0" y="160.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
-<circle cx="25.0" cy="225.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="25.0" y="225.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
-<circle cx="290.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
-<text x="290.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
+<svg viewBox="0 0 360 285" style="display:block; margin:0 auto; width:15.5em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Find(5) segue 5, 4, 2, 1 e devolve 1">
+<defs><marker id="uffdg" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="uffdr" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
+<line x1="127.4" y1="80.7" x2="142.2" y2="50.2" stroke="#c40000" stroke-width="3.5" marker-end="url(#uffdr)"/>
+<line x1="172.6" y1="80.7" x2="157.8" y2="50.2" stroke="#555555" stroke-width="2.5" marker-end="url(#uffdg)"/>
+<line x1="120.0" y1="141.0" x2="120.0" y2="114.0" stroke="#c40000" stroke-width="3.5" marker-end="url(#uffdr)"/>
+<line x1="120.0" y1="203.0" x2="120.0" y2="176.0" stroke="#c40000" stroke-width="3.5" marker-end="url(#uffdr)"/>
+<line x1="240.0" y1="79.0" x2="240.0" y2="52.0" stroke="#555555" stroke-width="2.5" marker-end="url(#uffdg)"/>
+<circle cx="150.0" cy="34.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="150.0" y="34.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<circle cx="120.0" cy="96.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="120.0" y="96.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
+<circle cx="180.0" cy="96.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="180.0" y="96.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
+<circle cx="120.0" cy="158.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="120.0" y="158.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
+<circle cx="120.0" cy="220.0" r="22" fill="none" stroke="#eb811b" stroke-width="3"/>
+<circle cx="120.0" cy="220.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="120.0" y="220.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<circle cx="240.0" cy="34.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="240.0" y="34.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
+<circle cx="240.0" cy="96.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="240.0" y="96.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">7</text>
+<text x="180.0" y="271.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">Find(5) devolve 1</text>
 </svg>
 ```
-
-::: {style="font-size:0.75em;"}
-`Find(5)` segue [$5 \to 4 \to 2 \to 1$]{style="color:#c40000"} e devolve $1$
 :::
-:::
-:::
-::: {.column width="55%"}
-::: {style="font-size:0.75em;"}
-$$
-\begin{array}{c|cccccc}
-v              & 1 & 2 & 3 & 4 & 5 & 6\\
-\hline
-\texttt{pai[v]}& 1 & 1 & 1 & 2 & 4 & 6
-\end{array}
-$$
-:::
-
+::: {.column width="58%"}
+::: {style="font-size:1em;"}
 ```pseudocode
 #| html-line-number: true
 #| html-no-end: true
 
 \begin{algorithmic}
-\Procedure{Find}{$v$} \Comment{sem compressão}
+\Procedure{Find}{$v$}
   \While{$\texttt{pai[v]} \neq v$}
-    \State $v \gets \texttt{pai[v]}$
+    \State $v \gets \texttt{pai[v]}$ \Comment{sobe um nível}
   \EndWhile
   \State \textbf{Retorne} $v$
 \EndProcedure
 \end{algorithmic}
 ```
 
-**Custo:** proporcional ao comprimento do caminho até a raiz.
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Union}{$u, v$}
+  \State $r \gets \textbf{Find}(u)$; $s \gets \textbf{Find}(v)$
+  \If{$r \neq s$}
+    \State $\texttt{pai[r]} \gets s$ \Comment{pendura $r$ em $s$}
+  \EndIf
+\EndProcedure
+\end{algorithmic}
+```
+:::
 :::
 ::::
 
-## Union-Find: Operação `Union`
+. . .
 
-**Objetivo:** unir duas componentes fazendo a raiz de menor rank apontar para a de maior rank.
+**Custo:** `Find` e `Union` custam $O(\text{altura da árvore})$.
 
-:::: {.columns style="display: flex; align-items: center;"}
+. . .
+
+[**P.**]{.label-qstn} Qual pode ser a altura de uma árvore?
+
+## Union-Find: Árvores Degeneradas
+
+A versão simples **não controla a altura**. Considere a sequência
+
+$$
+\texttt{Union}(1,2),\ \texttt{Union}(1,3),\ \texttt{Union}(1,4),\ \dots,\ \texttt{Union}(1,n).
+$$
+
+```{=html}
+<svg viewBox="0 0 520 120" style="display:block; margin:0 auto; width:22em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cadeia 1 aponta para 2, 2 para 3, até n, que é a raiz">
+<defs><marker id="ufchg" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="ufchr" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
+<line x1="57.0" y1="45.0" x2="97.0" y2="45.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufchg)"/>
+<line x1="132.0" y1="45.0" x2="172.0" y2="45.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufchg)"/>
+<line x1="207.0" y1="45.0" x2="247.0" y2="45.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufchg)"/>
+<line x1="282.0" y1="45.0" x2="322.0" y2="45.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufchg)"/>
+<line x1="357.0" y1="45.0" x2="374.0" y2="45.0" stroke="#555555" stroke-width="2.5"/>
+<text x="410.0" y="45.0" font-size="22" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">⋯</text>
+<line x1="445.0" y1="45.0" x2="462.0" y2="45.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufchg)"/>
+<circle cx="40.0" cy="45.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="40.0" y="45.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<circle cx="115.0" cy="45.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="115.0" y="45.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
+<circle cx="190.0" cy="45.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="190.0" y="45.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
+<circle cx="265.0" cy="45.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="265.0" y="45.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
+<circle cx="340.0" cy="45.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="340.0" y="45.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<circle cx="480.0" cy="45.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="480.0" y="45.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold"><tspan font-style="italic">n</tspan></text>
+<text x="260.0" y="100.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">altura n − 1: Find(1) percorre todos os n nós</text>
+</svg>
+```
+
+::: {.fragment style="font-size:0.9em;"}
+- `Union(1,k)` executa `Find(1)`, que percorre $k-1$ ponteiros: total $\Theta(n^2)$.
+- Cada `Find` pode custar $\Theta(n)$ $\Rightarrow$ laço do Kruskal em $O(mn)$, igual a usar listas.
+:::
+
+::: {.fragment}
+[**Ideia:**]{.label-rmk} ao unir, pendurar a árvore **mais baixa** na **mais alta**.
+:::
+
+## Union-Find: União por Rank
+
+Cada raiz $r$ guarda $\texttt{rank[r]}$, a **altura** da sua árvore (inicialmente $0$).
+
+:::: {.columns style="display: flex; align-items: flex-start;"}
 ::: {.column width="50%"}
 ::: {style="text-align:center;"}
 **Antes de `Union(3,6)`**
 
 ```{=html}
-<svg viewBox="0 0 320 180" style="display:block; margin:0 auto; width:14em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Antes de Union(3,6): raiz 1 com filhos 2 e 3; raiz 4 com filhos 5 e 6">
-<defs><marker id="muf3g" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="muf3r" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
-<line x1="47.6" y1="94.8" x2="72.0" y2="46.1" stroke="#555555" stroke-width="2.5" marker-end="url(#muf3g)"/>
-<line x1="112.4" y1="94.8" x2="88.0" y2="46.1" stroke="#555555" stroke-width="2.5" marker-end="url(#muf3g)"/>
-<line x1="207.6" y1="94.8" x2="232.0" y2="46.1" stroke="#555555" stroke-width="2.5" marker-end="url(#muf3g)"/>
-<line x1="272.4" y1="94.8" x2="248.0" y2="46.1" stroke="#555555" stroke-width="2.5" marker-end="url(#muf3g)"/>
-<circle cx="80.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
-<text x="80.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
-<circle cx="40.0" cy="110.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="40.0" y="110.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
-<circle cx="120.0" cy="110.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="120.0" y="110.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
-<circle cx="240.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
-<text x="240.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
-<circle cx="200.0" cy="110.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="200.0" y="110.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
-<circle cx="280.0" cy="110.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="280.0" y="110.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
-<text x="80.0" y="160.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank[1] = 1</text>
-<text x="240.0" y="160.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank[4] = 1</text>
+<svg viewBox="0 0 340 245" style="display:block; margin:0 auto; width:13em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Antes de Union(3,6): raiz 1 com filhos 2 e 3; raiz 4 com filhos 5 e 6; ambos rank 1">
+<defs><marker id="ufubg" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="ufubr" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
+<line x1="86.5" y1="101.3" x2="103.1" y2="61.6" stroke="#555555" stroke-width="2.5" marker-end="url(#ufubg)"/>
+<line x1="133.5" y1="101.3" x2="116.9" y2="61.6" stroke="#555555" stroke-width="2.5" marker-end="url(#ufubg)"/>
+<line x1="206.5" y1="101.3" x2="223.1" y2="61.6" stroke="#555555" stroke-width="2.5" marker-end="url(#ufubg)"/>
+<line x1="253.5" y1="101.3" x2="236.9" y2="61.6" stroke="#555555" stroke-width="2.5" marker-end="url(#ufubg)"/>
+<circle cx="110.0" cy="45.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="110.0" y="45.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<text x="110.0" y="13.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 1</text>
+<circle cx="80.0" cy="117.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="80.0" y="117.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
+<circle cx="140.0" cy="117.0" r="22" fill="none" stroke="#eb811b" stroke-width="3"/>
+<circle cx="140.0" cy="117.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="140.0" y="117.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
+<circle cx="230.0" cy="45.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="230.0" y="45.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
+<text x="230.0" y="13.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 1</text>
+<circle cx="200.0" cy="117.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="200.0" y="117.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<circle cx="260.0" cy="117.0" r="22" fill="none" stroke="#eb811b" stroke-width="3"/>
+<circle cx="260.0" cy="117.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="260.0" y="117.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
 </svg>
 ```
 :::
@@ -841,204 +925,470 @@ $$
 **Depois**
 
 ```{=html}
-<svg viewBox="0 0 310 260" style="display:block; margin:0 auto; width:13em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Depois: 4 passa a apontar para 1 (em vermelho); rank[1] passa a 2">
-<defs><marker id="muf4g" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="muf4r" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
-<line x1="62.7" y1="98.7" x2="126.5" y2="42.0" stroke="#555555" stroke-width="2.5" marker-end="url(#muf4g)"/>
-<line x1="140.0" y1="93.0" x2="140.0" y2="48.0" stroke="#555555" stroke-width="2.5" marker-end="url(#muf4g)"/>
-<line x1="217.3" y1="98.7" x2="153.5" y2="42.0" stroke="#c40000" stroke-width="3.5" marker-end="url(#muf4r)"/>
-<line x1="193.3" y1="175.2" x2="221.2" y2="125.7" stroke="#555555" stroke-width="2.5" marker-end="url(#muf4g)"/>
-<line x1="266.7" y1="175.2" x2="238.8" y2="125.7" stroke="#555555" stroke-width="2.5" marker-end="url(#muf4g)"/>
-<circle cx="140.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
-<text x="140.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
-<circle cx="50.0" cy="110.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="50.0" y="110.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
-<circle cx="140.0" cy="110.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="140.0" y="110.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
-<circle cx="230.0" cy="110.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="230.0" y="110.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
-<circle cx="185.0" cy="190.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="185.0" y="190.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
-<circle cx="275.0" cy="190.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="275.0" y="190.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
-<text x="140.0" y="240.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#c40000" font-family="monospace">rank[1] ← 2</text>
+<svg viewBox="0 0 340 245" style="display:block; margin:0 auto; width:13em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Depois: 4 passa a apontar para 1; rank de 1 passa a 2">
+<defs><marker id="ufuag" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="ufuar" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
+<line x1="92.3" y1="105.2" x2="142.0" y2="57.5" stroke="#555555" stroke-width="2.5" marker-end="url(#ufuag)"/>
+<line x1="143.5" y1="100.4" x2="151.3" y2="62.6" stroke="#555555" stroke-width="2.5" marker-end="url(#ufuag)"/>
+<line x1="217.7" y1="105.2" x2="168.0" y2="57.5" stroke="#c40000" stroke-width="3.5" marker-end="url(#ufuar)"/>
+<line x1="206.5" y1="173.3" x2="223.1" y2="133.6" stroke="#555555" stroke-width="2.5" marker-end="url(#ufuag)"/>
+<line x1="253.5" y1="173.3" x2="236.9" y2="133.6" stroke="#555555" stroke-width="2.5" marker-end="url(#ufuag)"/>
+<circle cx="155.0" cy="45.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="155.0" y="45.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<text x="155.0" y="13.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#c40000" font-family="monospace">rank 2</text>
+<circle cx="80.0" cy="117.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="80.0" y="117.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
+<circle cx="140.0" cy="117.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="140.0" y="117.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
+<circle cx="230.0" cy="117.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="230.0" y="117.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
+<circle cx="200.0" cy="189.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="200.0" y="189.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<circle cx="260.0" cy="189.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="260.0" y="189.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
 </svg>
 ```
 :::
 :::
 ::::
 
-::: {style="font-size:0.65em;"}
-$$
-\begin{array}{c|c|c|c}
-\text{passo} & \text{raízes} & \text{mudança} & \text{observação}\\
-\hline
-\texttt{Find(3)}, \texttt{Find(6)} & 1,\ 4 & \texttt{pai[4]} \gets 1 &
-\text{empate: escolhemos }1\\
-& & \texttt{rank[1]} \gets 2 &
-\text{aumenta só em empate de ranks}
-\end{array}
-$$
+::: {style="font-size:0.85em;"}
+- **Ranks diferentes:** a raiz de **menor** rank aponta para a de **maior** rank. Nenhum rank muda.
+- **Empate:** qualquer uma vira a raiz, e o seu rank aumenta em $1$. É o **único** caso em que a altura cresce.
+:::
+
+## União por Rank: Altura $O(\log n)$
+
+> [**Lema.**]{.label-lem} Com união por rank, uma árvore cuja raiz tem rank $k$ tem altura $k$ e **pelo menos $2^k$ nós**.
+
+::: {.fragment style="font-size:0.85em;"}
+[**Prova.**]{.label-prf} Indução no número de operações `Union`.
+
+- **Base:** após `Inicialize`, cada árvore tem rank $0$, altura $0$ e $1 = 2^0$ nó.
+- **Ranks $k_1 < k_2$:** a árvore menor fica abaixo da raiz de rank $k_2$; a nova altura é $\max(k_1+1,\, k_2) = k_2$. Rank e altura não mudam, e o número de nós só cresce.
+- **Empate $k_1 = k_2 = k$:** a nova raiz tem rank $k+1$ e altura $k+1$, com pelo menos $2^k + 2^k = 2^{k+1}$ nós. $\blacksquare$
+:::
+
+::: {.fragment}
+> [**Corolário.**]{.label-cor} $2^k \le n \Rightarrow k \le \log_2 n$. Toda árvore tem altura $\le \log_2 n$, então `Find` e `Union` custam $O(\log n)$.
+:::
+
+::: {.fragment}
+No Kruskal: $2m$ `Find` + $(n-1)$ `Union` $= O(m \log n)$, mesmo custo da ordenação.
 :::
 
 ## Union-Find: Compressão de Caminho
 
-**Ideia:** Durante o `Find`, fazer todos os vértices visitados apontarem diretamente para a raiz.
+**Ideia:** o `Find` já percorre o caminho até a raiz; aproveitamos para fazer todos os nós visitados apontarem [**diretamente**]{.alert} para ela.
 
 :::: {.columns style="display: flex; align-items: flex-end;"}
-::: {.column width="50%"}
+::: {.column width="26%"}
 ::: {style="text-align:center;"}
 **Antes de `Find(8)`**
 
 ```{=html}
-<svg viewBox="0 0 185 285" style="display:block; margin:0 auto; width:8em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Antes de Find(8): 8 aponta para 7, 7 para 6, 6 para 1; 5 aponta para 4 e 4 para 1">
-<defs><marker id="muf5g" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="muf5r" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
-<line x1="130.0" y1="88.0" x2="130.0" y2="48.0" stroke="#c40000" stroke-width="3.5" marker-end="url(#muf5r)"/>
-<line x1="130.0" y1="163.0" x2="130.0" y2="123.0" stroke="#c40000" stroke-width="3.5" marker-end="url(#muf5r)"/>
-<line x1="130.0" y1="238.0" x2="130.0" y2="198.0" stroke="#c40000" stroke-width="3.5" marker-end="url(#muf5r)"/>
-<line x1="57.7" y1="93.8" x2="116.5" y2="41.9" stroke="#555555" stroke-width="2.5" marker-end="url(#muf5g)"/>
-<line x1="45.0" y1="163.0" x2="45.0" y2="123.0" stroke="#555555" stroke-width="2.5" marker-end="url(#muf5g)"/>
-<circle cx="130.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
-<text x="130.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
-<circle cx="130.0" cy="105.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="130.0" y="105.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
-<circle cx="130.0" cy="180.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="130.0" y="180.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">7</text>
-<circle cx="130.0" cy="255.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="130.0" y="255.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">8</text>
-<circle cx="45.0" cy="105.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="45.0" y="105.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
-<circle cx="45.0" cy="180.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="45.0" y="180.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<svg viewBox="0 0 250 300" style="display:block; margin:0 auto; width:9.5em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Antes de Find(8): 8 aponta para 7, 7 para 6, 6 para 1; 9 aponta para 7; 5 para 4 e 4 para 1">
+<defs><marker id="ufcbg" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="ufcbr" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
+<line x1="75.3" y1="93.2" x2="101.7" y2="45.7" stroke="#555555" stroke-width="2.5" marker-end="url(#ufcbg)"/>
+<line x1="67.0" y1="169.0" x2="67.0" y2="126.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufcbg)"/>
+<line x1="145.7" y1="93.2" x2="119.3" y2="45.7" stroke="#c40000" stroke-width="3.5" marker-end="url(#ufcbr)"/>
+<line x1="154.0" y1="169.0" x2="154.0" y2="126.0" stroke="#c40000" stroke-width="3.5" marker-end="url(#ufcbr)"/>
+<line x1="130.9" y1="248.1" x2="147.7" y2="202.9" stroke="#c40000" stroke-width="3.5" marker-end="url(#ufcbr)"/>
+<line x1="177.1" y1="248.1" x2="160.3" y2="202.9" stroke="#555555" stroke-width="2.5" marker-end="url(#ufcbg)"/>
+<circle cx="110.5" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="110.5" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<circle cx="67.0" cy="108.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="67.0" y="108.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
+<circle cx="67.0" cy="186.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="67.0" y="186.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<circle cx="154.0" cy="108.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="154.0" y="108.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
+<circle cx="154.0" cy="186.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="154.0" y="186.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">7</text>
+<circle cx="125.0" cy="264.0" r="22" fill="none" stroke="#eb811b" stroke-width="3"/>
+<circle cx="125.0" cy="264.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="125.0" y="264.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">8</text>
+<circle cx="183.0" cy="264.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="183.0" y="264.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">9</text>
 </svg>
 ```
-
-::: {style="font-size:0.7em;"}
-$$
-\texttt{pai[8]}=7,\ \texttt{pai[7]}=6,\ \texttt{pai[6]}=1
-$$
 :::
 :::
-:::
-::: {.column width="50%"}
+::: {.column width="30%"}
 ::: {style="text-align:center;"}
 **Depois**
 
 ```{=html}
-<svg viewBox="0 0 340 230" style="display:block; margin:0 auto; width:13em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Depois: 6, 7 e 8 apontam diretamente para 1">
-<defs><marker id="muf6g" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="muf6r" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
-<line x1="71.7" y1="102.6" x2="127.7" y2="43.1" stroke="#c40000" stroke-width="3.5" marker-end="url(#muf6r)"/>
-<line x1="140.0" y1="98.0" x2="140.0" y2="48.0" stroke="#c40000" stroke-width="3.5" marker-end="url(#muf6r)"/>
-<line x1="208.3" y1="102.6" x2="152.3" y2="43.1" stroke="#c40000" stroke-width="3.5" marker-end="url(#muf6r)"/>
-<line x1="285.0" y1="107.0" x2="155.9" y2="38.4" stroke="#555555" stroke-width="2.5" marker-end="url(#muf6g)"/>
-<line x1="300.0" y1="183.0" x2="300.0" y2="133.0" stroke="#555555" stroke-width="2.5" marker-end="url(#muf6g)"/>
-<circle cx="140.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
-<text x="140.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
-<circle cx="60.0" cy="115.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="60.0" y="115.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
-<circle cx="140.0" cy="115.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="140.0" y="115.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">7</text>
-<circle cx="220.0" cy="115.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="220.0" y="115.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">8</text>
-<circle cx="300.0" cy="115.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="300.0" y="115.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
-<circle cx="300.0" cy="200.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="300.0" y="200.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<svg viewBox="0 0 300 300" style="display:block; margin:0 auto; width:11.5em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Depois: 6, 7 e 8 apontam diretamente para 1; 9 continua apontando para 7">
+<defs><marker id="ufcag" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="ufcar" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
+<line x1="75.7" y1="96.7" x2="136.6" y2="42.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufcag)"/>
+<line x1="63.0" y1="169.0" x2="63.0" y2="126.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufcag)"/>
+<line x1="126.9" y1="92.1" x2="143.7" y2="46.9" stroke="#555555" stroke-width="2.5" marker-end="url(#ufcag)"/>
+<line x1="173.1" y1="92.1" x2="156.3" y2="46.9" stroke="#c40000" stroke-width="3.5" marker-end="url(#ufcar)"/>
+<line x1="224.3" y1="96.7" x2="163.4" y2="42.0" stroke="#c40000" stroke-width="3.5" marker-end="url(#ufcar)"/>
+<line x1="179.0" y1="169.0" x2="179.0" y2="126.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufcag)"/>
+<circle cx="150.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="150.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<circle cx="63.0" cy="108.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="63.0" y="108.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
+<circle cx="63.0" cy="186.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="63.0" y="186.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<circle cx="121.0" cy="108.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="121.0" y="108.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
+<circle cx="179.0" cy="108.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="179.0" y="108.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">7</text>
+<circle cx="237.0" cy="108.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="237.0" y="108.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">8</text>
+<circle cx="179.0" cy="186.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="179.0" y="186.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">9</text>
 </svg>
 ```
-
-::: {style="font-size:0.7em;"}
-$$
-\texttt{pai[8]}=\texttt{pai[7]}=\texttt{pai[6]}=1
-$$
 :::
+:::
+::: {.column width="44%"}
+::: {.pc-md}
+```pseudocode
+#| html-line-number: true
+#| html-no-end: true
+
+\begin{algorithmic}
+\Procedure{Find}{$v$} \Comment{com compressão}
+  \If{$\texttt{pai[v]} \neq v$}
+    \State $\texttt{pai[v]} \gets \textbf{Find}(\texttt{pai[v]})$
+  \EndIf
+  \State \textbf{Retorne} $\texttt{pai[v]}$
+\EndProcedure
+\end{algorithmic}
+```
 :::
 :::
 ::::
 
-::: {style="font-size:0.75em;"}
-$$
-\begin{array}{l}
-\texttt{Find(v):}\\
-\quad \text{se } \texttt{pai[v]} \neq v,\
-      \texttt{pai[v]} \gets \texttt{Find(pai[v])}\\
-\quad \text{devolva } \texttt{pai[v]}
-\end{array}
-$$
+::: {style="font-size:0.8em;"}
+- A subárvore de $9$ sobe junto com $7$: os próximos `Find` a partir de $9$ também ficam mais curtos.
+- A compressão **não** atualiza `rank`: ele passa a ser apenas um **limitante superior** da altura, e o Lema continua valendo.
 :::
 
 ## Union-Find: Exemplo Passo a Passo
 
-Processando arestas na ordem
-$$
-(1,2),\ (3,4),\ (2,3),\ (5,6),\ (4,5).
-$$
-
-:::: {.columns style="display: flex; align-items: center;"}
-::: {.column width="55%"}
-::: {style="font-size:0.72em;"}
-$$
-\begin{array}{c|c|c|c}
-i & \text{aresta} & \text{raízes antes} & \texttt{pai[1..6] após}\\
-\hline
-0 & -     & -       & 1\ 2\ 3\ 4\ 5\ 6\\
-1 & (1,2) & 1,\ 2   & 1\ \boxed{1}\ 3\ 4\ 5\ 6\\
-2 & (3,4) & 3,\ 4   & 1\ 1\ 3\ \boxed{3}\ 5\ 6\\
-3 & (2,3) & 1,\ 3   & 1\ 1\ \boxed{1}\ 3\ 5\ 6\\
-4 & (5,6) & 5,\ 6   & 1\ 1\ 1\ 3\ 5\ \boxed{5}\\
-5 & (4,5) & 1,\ 5   & 1\ 1\ 1\ \boxed{1}\ \boxed{1}\ 5
-\end{array}
-$$
-
-$$
-\begin{array}{c|cccccc}
-v & 1 & 2 & 3 & 4 & 5 & 6\\
-\hline
-\texttt{rank[v] final} & 2 & - & - & - & - & -
-\end{array}
-$$
-:::
-:::
-::: {.column width="45%"}
-::: {style="text-align:center;"}
-**Estado final**
-
 ```{=html}
-<svg viewBox="0 0 300 230" style="display:block; margin:0 auto; width:12em; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Estado final: 2, 3, 4 e 5 apontam para 1; 6 aponta para 5">
-<defs><marker id="muf7g" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="muf7r" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
-<line x1="48.7" y1="104.9" x2="135.5" y2="40.7" stroke="#555555" stroke-width="2.5" marker-end="url(#muf7g)"/>
-<line x1="117.2" y1="99.6" x2="142.3" y2="46.3" stroke="#555555" stroke-width="2.5" marker-end="url(#muf7g)"/>
-<line x1="182.8" y1="99.6" x2="157.7" y2="46.3" stroke="#555555" stroke-width="2.5" marker-end="url(#muf7g)"/>
-<line x1="251.3" y1="104.9" x2="164.5" y2="40.7" stroke="#555555" stroke-width="2.5" marker-end="url(#muf7g)"/>
-<line x1="265.0" y1="183.0" x2="265.0" y2="133.0" stroke="#555555" stroke-width="2.5" marker-end="url(#muf7g)"/>
-<circle cx="150.0" cy="30.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
-<text x="150.0" y="30.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
-<circle cx="35.0" cy="115.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="35.0" y="115.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
-<circle cx="110.0" cy="115.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="110.0" y="115.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
-<circle cx="190.0" cy="115.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="190.0" y="115.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
-<circle cx="265.0" cy="115.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="265.0" y="115.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
-<circle cx="265.0" cy="200.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="265.0" y="200.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
+<p style="font-size:0.6em; margin:0 0 0.3em;"><strong>Arestas, na ordem:</strong> <span class="math inline">(1,2),\ (3,4),\ (2,3),\ (5,6),\ (1,4),\ (4,5)</span>. Union por rank (empate: a raiz de <span class="math inline">u</span> vence) + compressão de caminho.</p>
+<div style="display:flex; gap:0.8em; align-items:flex-start;">
+<div style="flex:0 0 40%;">
+<div class="r-stack" style="width:100%;">
+<div style="width:100%;">
+<svg viewBox="0 0 400 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Union-Find, passo 0">
+<defs><marker id="ufx0g" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="ufx0r" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
+<rect x="0" y="0" width="400" height="300" fill="#ffffff"/>
+<circle cx="40.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="40.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<text x="40.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 0</text>
+<circle cx="104.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="104.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
+<text x="104.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 0</text>
+<circle cx="168.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="168.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
+<text x="168.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 0</text>
+<circle cx="232.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="232.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
+<text x="232.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 0</text>
+<circle cx="296.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="296.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<text x="296.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 0</text>
+<circle cx="360.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="360.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
+<text x="360.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 0</text>
+<text x="98.0" y="256.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">v</text>
+<text x="98.0" y="282.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">pai</text>
+<line x1="81.0" y1="269.0" x2="319.0" y2="269.0" stroke="#23373b" stroke-width="1.2"/>
+<line x1="115.0" y1="244.0" x2="115.0" y2="294.0" stroke="#23373b" stroke-width="1.2"/>
+<text x="132.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="132.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="166.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<text x="166.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<text x="200.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<text x="200.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<text x="234.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<text x="234.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<text x="268.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<text x="268.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<text x="302.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<text x="302.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
 </svg>
+</div>
+<div class="fragment" data-fragment-index="1" style="width:100%;">
+<svg viewBox="0 0 400 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Union-Find, passo 1">
+<defs><marker id="ufx1g" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="ufx1r" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
+<rect x="0" y="0" width="400" height="300" fill="#ffffff"/>
+<line x1="72.0" y1="103.0" x2="72.0" y2="64.0" stroke="#c40000" stroke-width="3.5" marker-end="url(#ufx1r)"/>
+<circle cx="72.0" cy="46.0" r="22" fill="none" stroke="#eb811b" stroke-width="3"/>
+<circle cx="72.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="72.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<text x="72.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#c40000" font-family="monospace">rank 1</text>
+<circle cx="72.0" cy="120.0" r="22" fill="none" stroke="#eb811b" stroke-width="3"/>
+<circle cx="72.0" cy="120.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="72.0" y="120.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
+<circle cx="136.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="136.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
+<text x="136.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 0</text>
+<circle cx="200.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="200.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
+<text x="200.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 0</text>
+<circle cx="264.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="264.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<text x="264.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 0</text>
+<circle cx="328.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="328.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
+<text x="328.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 0</text>
+<text x="98.0" y="256.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">v</text>
+<text x="98.0" y="282.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">pai</text>
+<line x1="81.0" y1="269.0" x2="319.0" y2="269.0" stroke="#23373b" stroke-width="1.2"/>
+<line x1="115.0" y1="244.0" x2="115.0" y2="294.0" stroke="#23373b" stroke-width="1.2"/>
+<text x="132.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="132.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#c40000" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<text x="166.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<text x="166.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#c40000" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<text x="200.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<text x="200.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<text x="234.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<text x="234.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<text x="268.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<text x="268.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<text x="302.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<text x="302.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+</svg>
+</div>
+<div class="fragment" data-fragment-index="2" style="width:100%;">
+<svg viewBox="0 0 400 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Union-Find, passo 2">
+<defs><marker id="ufx2g" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="ufx2r" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
+<rect x="0" y="0" width="400" height="300" fill="#ffffff"/>
+<line x1="104.0" y1="103.0" x2="104.0" y2="64.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufx2g)"/>
+<line x1="168.0" y1="103.0" x2="168.0" y2="64.0" stroke="#c40000" stroke-width="3.5" marker-end="url(#ufx2r)"/>
+<circle cx="104.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="104.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<text x="104.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 1</text>
+<circle cx="104.0" cy="120.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="104.0" y="120.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
+<circle cx="168.0" cy="46.0" r="22" fill="none" stroke="#eb811b" stroke-width="3"/>
+<circle cx="168.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="168.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
+<text x="168.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#c40000" font-family="monospace">rank 1</text>
+<circle cx="168.0" cy="120.0" r="22" fill="none" stroke="#eb811b" stroke-width="3"/>
+<circle cx="168.0" cy="120.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="168.0" y="120.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
+<circle cx="232.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="232.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<text x="232.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 0</text>
+<circle cx="296.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="296.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
+<text x="296.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 0</text>
+<text x="98.0" y="256.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">v</text>
+<text x="98.0" y="282.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">pai</text>
+<line x1="81.0" y1="269.0" x2="319.0" y2="269.0" stroke="#23373b" stroke-width="1.2"/>
+<line x1="115.0" y1="244.0" x2="115.0" y2="294.0" stroke="#23373b" stroke-width="1.2"/>
+<text x="132.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="132.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="166.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<text x="166.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="200.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<text x="200.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#c40000" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
+<text x="234.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<text x="234.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#c40000" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
+<text x="268.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<text x="268.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<text x="302.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<text x="302.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+</svg>
+</div>
+<div class="fragment" data-fragment-index="3" style="width:100%;">
+<svg viewBox="0 0 400 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Union-Find, passo 3">
+<defs><marker id="ufx3g" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="ufx3r" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
+<rect x="0" y="0" width="400" height="300" fill="#ffffff"/>
+<line x1="110.7" y1="104.4" x2="128.9" y2="62.5" stroke="#555555" stroke-width="2.5" marker-end="url(#ufx3g)"/>
+<line x1="161.3" y1="104.4" x2="143.1" y2="62.5" stroke="#c40000" stroke-width="3.5" marker-end="url(#ufx3r)"/>
+<line x1="168.0" y1="177.0" x2="168.0" y2="138.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufx3g)"/>
+<circle cx="136.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="136.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<text x="136.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#c40000" font-family="monospace">rank 2</text>
+<circle cx="104.0" cy="120.0" r="22" fill="none" stroke="#eb811b" stroke-width="3"/>
+<circle cx="104.0" cy="120.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="104.0" y="120.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
+<circle cx="168.0" cy="120.0" r="22" fill="none" stroke="#eb811b" stroke-width="3"/>
+<circle cx="168.0" cy="120.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="168.0" y="120.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
+<circle cx="168.0" cy="194.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="168.0" y="194.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
+<circle cx="232.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="232.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<text x="232.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 0</text>
+<circle cx="296.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="296.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
+<text x="296.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 0</text>
+<text x="98.0" y="256.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">v</text>
+<text x="98.0" y="282.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">pai</text>
+<line x1="81.0" y1="269.0" x2="319.0" y2="269.0" stroke="#23373b" stroke-width="1.2"/>
+<line x1="115.0" y1="244.0" x2="115.0" y2="294.0" stroke="#23373b" stroke-width="1.2"/>
+<text x="132.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="132.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#c40000" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<text x="166.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<text x="166.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="200.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<text x="200.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#c40000" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<text x="234.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<text x="234.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<text x="268.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<text x="268.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<text x="302.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<text x="302.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+</svg>
+</div>
+<div class="fragment" data-fragment-index="4" style="width:100%;">
+<svg viewBox="0 0 400 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Union-Find, passo 4">
+<defs><marker id="ufx4g" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="ufx4r" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
+<rect x="0" y="0" width="400" height="300" fill="#ffffff"/>
+<line x1="142.7" y1="104.4" x2="160.9" y2="62.5" stroke="#555555" stroke-width="2.5" marker-end="url(#ufx4g)"/>
+<line x1="193.3" y1="104.4" x2="175.1" y2="62.5" stroke="#555555" stroke-width="2.5" marker-end="url(#ufx4g)"/>
+<line x1="200.0" y1="177.0" x2="200.0" y2="138.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufx4g)"/>
+<line x1="264.0" y1="103.0" x2="264.0" y2="64.0" stroke="#c40000" stroke-width="3.5" marker-end="url(#ufx4r)"/>
+<circle cx="168.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="168.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<text x="168.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 2</text>
+<circle cx="136.0" cy="120.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="136.0" y="120.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
+<circle cx="200.0" cy="120.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="200.0" y="120.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
+<circle cx="200.0" cy="194.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="200.0" y="194.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
+<circle cx="264.0" cy="46.0" r="22" fill="none" stroke="#eb811b" stroke-width="3"/>
+<circle cx="264.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="264.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<text x="264.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#c40000" font-family="monospace">rank 1</text>
+<circle cx="264.0" cy="120.0" r="22" fill="none" stroke="#eb811b" stroke-width="3"/>
+<circle cx="264.0" cy="120.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="264.0" y="120.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
+<text x="98.0" y="256.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">v</text>
+<text x="98.0" y="282.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">pai</text>
+<line x1="81.0" y1="269.0" x2="319.0" y2="269.0" stroke="#23373b" stroke-width="1.2"/>
+<line x1="115.0" y1="244.0" x2="115.0" y2="294.0" stroke="#23373b" stroke-width="1.2"/>
+<text x="132.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="132.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="166.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<text x="166.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="200.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<text x="200.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="234.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<text x="234.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<text x="268.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<text x="268.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#c40000" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<text x="302.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<text x="302.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#c40000" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+</svg>
+</div>
+<div class="fragment" data-fragment-index="5" style="width:100%;">
+<svg viewBox="0 0 400 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Union-Find, passo 5">
+<defs><marker id="ufx5g" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="ufx5r" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
+<rect x="0" y="0" width="400" height="300" fill="#ffffff"/>
+<line x1="115.1" y1="107.1" x2="156.2" y2="59.6" stroke="#555555" stroke-width="2.5" marker-end="url(#ufx5g)"/>
+<line x1="168.0" y1="103.0" x2="168.0" y2="64.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufx5g)"/>
+<line x1="220.9" y1="107.1" x2="179.8" y2="59.6" stroke="#c40000" stroke-width="3.5" marker-end="url(#ufx5r)"/>
+<line x1="296.0" y1="103.0" x2="296.0" y2="64.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufx5g)"/>
+<circle cx="168.0" cy="46.0" r="22" fill="none" stroke="#eb811b" stroke-width="3"/>
+<circle cx="168.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="168.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<text x="168.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 2</text>
+<circle cx="104.0" cy="120.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="104.0" y="120.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
+<circle cx="168.0" cy="120.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="168.0" y="120.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
+<circle cx="232.0" cy="120.0" r="22" fill="none" stroke="#eb811b" stroke-width="3"/>
+<circle cx="232.0" cy="120.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="232.0" y="120.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
+<circle cx="296.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="296.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<text x="296.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 1</text>
+<circle cx="296.0" cy="120.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="296.0" y="120.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
+<text x="98.0" y="256.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">v</text>
+<text x="98.0" y="282.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">pai</text>
+<line x1="81.0" y1="269.0" x2="319.0" y2="269.0" stroke="#23373b" stroke-width="1.2"/>
+<line x1="115.0" y1="244.0" x2="115.0" y2="294.0" stroke="#23373b" stroke-width="1.2"/>
+<text x="132.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="132.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="166.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<text x="166.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="200.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<text x="200.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="234.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<text x="234.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#c40000" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<text x="268.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<text x="268.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<text x="302.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<text x="302.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+</svg>
+</div>
+<div class="fragment" data-fragment-index="6" style="width:100%;">
+<svg viewBox="0 0 400 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Union-Find, passo 6">
+<defs><marker id="ufx6g" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#555555"/></marker><marker id="ufx6r" viewBox="0 0 10 10" refX="10" refY="5" markerWidth="13" markerHeight="13" markerUnits="userSpaceOnUse" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#c40000"/></marker></defs>
+<rect x="0" y="0" width="400" height="300" fill="#ffffff"/>
+<line x1="117.5" y1="109.6" x2="185.7" y2="57.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufx6g)"/>
+<line x1="174.7" y1="104.4" x2="192.9" y2="62.5" stroke="#555555" stroke-width="2.5" marker-end="url(#ufx6g)"/>
+<line x1="225.3" y1="104.4" x2="207.1" y2="62.5" stroke="#555555" stroke-width="2.5" marker-end="url(#ufx6g)"/>
+<line x1="282.5" y1="109.6" x2="214.3" y2="57.0" stroke="#c40000" stroke-width="3.5" marker-end="url(#ufx6r)"/>
+<line x1="296.0" y1="177.0" x2="296.0" y2="138.0" stroke="#555555" stroke-width="2.5" marker-end="url(#ufx6g)"/>
+<circle cx="200.0" cy="46.0" r="17" fill="#e3eef8" stroke="#2e75b6" stroke-width="2"/>
+<text x="200.0" y="46.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<text x="200.0" y="14.0" font-size="12" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">rank 2</text>
+<circle cx="104.0" cy="120.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="104.0" y="120.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">2</text>
+<circle cx="168.0" cy="120.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="168.0" y="120.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">3</text>
+<circle cx="232.0" cy="120.0" r="22" fill="none" stroke="#eb811b" stroke-width="3"/>
+<circle cx="232.0" cy="120.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="232.0" y="120.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
+<circle cx="296.0" cy="120.0" r="22" fill="none" stroke="#eb811b" stroke-width="3"/>
+<circle cx="296.0" cy="120.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="296.0" y="120.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">5</text>
+<circle cx="296.0" cy="194.0" r="17" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="296.0" y="194.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">6</text>
+<text x="98.0" y="256.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">v</text>
+<text x="98.0" y="282.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="monospace">pai</text>
+<line x1="81.0" y1="269.0" x2="319.0" y2="269.0" stroke="#23373b" stroke-width="1.2"/>
+<line x1="115.0" y1="244.0" x2="115.0" y2="294.0" stroke="#23373b" stroke-width="1.2"/>
+<text x="132.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="132.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="166.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<text x="166.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="200.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<text x="200.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="234.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<text x="234.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">1</text>
+<text x="268.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<text x="268.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#c40000" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<text x="302.0" y="256.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<text x="302.0" y="282.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+</svg>
+</div>
+</div>
+<div style="font-size:0.55em; margin-top:0.3em; line-height:1.5;"><span style="display:inline-block; width:1em; height:1em; border:3px solid #eb811b; border-radius:50%; vertical-align:middle;"></span> extremos da aresta &nbsp; <span style="display:inline-block; width:1.6em; border-top:4px solid #c40000; vertical-align:middle;"></span> ponteiro alterado &nbsp; <span style="display:inline-block; width:1em; height:1em; background:#e3eef8; border:2px solid #2e75b6; border-radius:50%; vertical-align:middle;"></span> raiz</div>
+</div>
+<div style="flex:1;">
+<table style="width:100%; border-collapse:collapse; font-size:0.62em;"><thead><tr><th style="border-bottom:2px solid #23373b; padding:0.2em 0.4em; text-align:left;">#</th><th style="border-bottom:2px solid #23373b; padding:0.2em 0.4em; text-align:left;">aresta</th><th style="border-bottom:2px solid #23373b; padding:0.2em 0.4em; text-align:left;">raízes</th><th style="border-bottom:2px solid #23373b; padding:0.2em 0.4em; text-align:left;">decisão</th><th style="border-bottom:2px solid #23373b; padding:0.2em 0.4em; text-align:left;">mudança</th></tr></thead><tbody>
+<tr class="fragment" data-fragment-index="1"><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;">1</td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">(1,2)</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">1,\ 2</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span style="color:#3a7a10; font-weight:600;">une</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">\texttt{pai[2]}\gets 1,\ \texttt{rank[1]}\gets 1</span></td></tr>
+<tr class="fragment" data-fragment-index="2"><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;">2</td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">(3,4)</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">3,\ 4</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span style="color:#3a7a10; font-weight:600;">une</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">\texttt{pai[4]}\gets 3,\ \texttt{rank[3]}\gets 1</span></td></tr>
+<tr class="fragment" data-fragment-index="3"><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;">3</td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">(2,3)</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">1,\ 3</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span style="color:#3a7a10; font-weight:600;">une</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">\texttt{pai[3]}\gets 1,\ \texttt{rank[1]}\gets 2</span></td></tr>
+<tr class="fragment" data-fragment-index="4"><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;">4</td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">(5,6)</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">5,\ 6</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span style="color:#3a7a10; font-weight:600;">une</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">\texttt{pai[6]}\gets 5,\ \texttt{rank[5]}\gets 1</span></td></tr>
+<tr class="fragment" data-fragment-index="5"><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;">5</td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">(1,4)</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">1,\ 1</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span style="color:#b31313; font-weight:600;">rejeita (ciclo)</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">\text{compressão: }\texttt{pai[4]}\gets 1</span></td></tr>
+<tr class="fragment" data-fragment-index="6"><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;">6</td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">(4,5)</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">1,\ 5</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span style="color:#3a7a10; font-weight:600;">une</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.4em;"><span class="math inline">\texttt{pai[5]}\gets 1\ \ (\text{rank } 2 > 1)</span></td></tr>
+</tbody></table>
+<div class="fragment" data-fragment-index="5" style="font-size:0.6em; margin-top:0.6em;"><strong>Passo 5:</strong> o <span class="math inline">\textbf{Find}(4)</span> percorre <span class="math inline">4 \to 3 \to 1</span> e já comprime o caminho. As raízes são iguais, logo <span class="math inline">(1,4)</span> fecharia um ciclo em <span class="math inline">\textcolor{#3a7a10}{T}</span>.</div>
+</div>
+</div>
 ```
-
-::: {style="font-size:0.7em; text-align:left;"}
-- A aresta é aceita se as raízes são diferentes.
-- A união evita ciclos no Kruskal.
-- Um `Find(6)` futuro comprime $6 \to 1$.
-:::
-:::
-:::
-::::
 
 ## Union-Find: Implementação Final
 
 :::: {.columns}
 ::: {.column width="50%"}
-::: {.pc-sm}
+::: {style="font-size:1em;"}
 ```pseudocode
 #| html-line-number: true
 #| html-no-end: true
@@ -1069,7 +1419,7 @@ $$
 :::
 :::
 ::: {.column width="50%"}
-::: {.pc-sm}
+::: {style="font-size:1em;"}
 ```pseudocode
 #| html-line-number: true
 #| html-no-end: true
@@ -1096,59 +1446,31 @@ $$
 :::
 ::::
 
-::: {style="font-size:0.7em;"}
-| **Heurística** | **Efeito** |
-|:--|:--|
-| união por rank | evita árvores altas |
-| compressão de caminho | achata caminhos durante `Find` |
-| ambas | tempo amortizado praticamente constante $O(\alpha(n))$ |
-:::
-
-## Union-Find: Por que Quase Constante?
-
-O custo relevante é **amortizado**: analisamos uma sequência inteira de operações, não apenas uma chamada isolada de `Find`.
-
-:::: {.columns style="display: flex; align-items: center;"}
-::: {.column width="55%"}
-**Intuição**
-
-- **União por rank:** a raiz de menor rank aponta para a de maior rank.
-- A altura só aumenta quando unimos duas árvores com o mesmo rank.
-- **Compressão de caminho:** cada `Find` encurta os caminhos que acabou de percorrer.
-:::
-::: {.column width="45%"}
-::: {style="text-align:center;"}
-**Resultado de Tarjan**
-
-$$
-\begin{array}{c}
-q \text{ operações em } n \text{ elementos}\\[0.4ex]
-\Downarrow\\[0.4ex]
-O(q\,\alpha(n))
-\end{array}
-$$
-
-$$
-\begin{array}{c}
-\alpha(n)= \text{inversa da}\\
-\text{função de Ackermann}
-\end{array}
-$$
-:::
-:::
-::::
+## Union-Find: Resumo de Custos
 
 ::: {style="font-size:0.8em;"}
-$$
-\alpha(n) \text{ cresce extremamente devagar: para tamanhos práticos, }
-\alpha(n) \leq 4 \text{ ou } 5.
-$$
-
-$$
-\text{Logo, cada operação custa } O(\alpha(n))
-\text{ amortizado, isto é, praticamente } O(1).
-$$
+| **Estratégia** | **Custo por operação** | **Laço do Kruskal** |
+|:--|:-:|:-:|
+| versão simples | $O(n)$ | $O(mn)$ |
+| união por rank | $O(\log n)$ | $O(m\log n)$ |
+| união por rank + compressão | $O(\alpha(n))$ amortizado | $O(m\,\alpha(n))$ |
 :::
+
+. . .
+
+> [**Teorema**]{.label-thm} ([Tarjan, 1975](https://doi.org/10.1145/321879.321884){target="_blank" data-preview-link="false"})**.** Com as duas heurísticas, qualquer sequência de $q$ operações sobre $n$ elementos custa $O(q\,\alpha(n))$.
+
+::: {.fragment style="font-size:0.85em;"}
+- $\alpha(n)$ é a **inversa da função de Ackermann**: $\alpha(n) \le 4$ para qualquer $n$ menor que o número de átomos do universo observável.
+- *Amortizado:* um `Find` isolado ainda pode ser caro, mas o custo médio ao longo da sequência é $O(\alpha(n))$.
+- No Kruskal, a ordenação $O(m\log n)$ já domina: a compressão importa quando as arestas **já vêm ordenadas**.
+:::
+
+::: {style="font-size:0.6em; margin-top:0.6em;"}
+Visualização interativa: <a href="https://visualgo.net/en/ufds" target="_blank" data-preview-link="false">visualgo.net/en/ufds</a>
+:::
+
+# Kruskal com Union-Find
 
 ## Kruskal com Union-Find
 
@@ -1267,12 +1589,12 @@ Ver também: [arvore_geradora_minima.ipynb](https://github.com/BrunoGrisci/proje
 
 ```{=html}
 <table style="margin:0.5em auto; border-collapse:collapse; font-size:0.85em;"><thead><tr><th style="border-bottom:2px solid #23373b; padding:0.25em 1em; text-align:left;">Ano</th><th style="border-bottom:2px solid #23373b; padding:0.25em 1em; text-align:left;">Algoritmo</th><th style="border-bottom:2px solid #23373b; padding:0.25em 1em; text-align:left;">Complexidade</th></tr></thead><tbody>
-<tr class="fragment"><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">1975</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">Yao</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><span class="math inline">O(m\log\log n)</span></td></tr>
-<tr class="fragment"><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">1976</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">Cheriton-Tarjan</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><span class="math inline">O(m\log\log n)</span></td></tr>
-<tr class="fragment"><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">1984</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">Fredman-Tarjan</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><span class="math inline">O(m\log^{*} n)</span></td></tr>
-<tr class="fragment"><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">1986</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">Chazelle</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><span class="math inline">O(m\alpha(n)\log\alpha(n))</span></td></tr>
-<tr class="fragment"><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">2000</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">Chazelle</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><span class="math inline">O(m\alpha(n))</span></td></tr>
-<tr class="fragment"><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">2002</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">Pettie-Ramachandran</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">Ótimo</td></tr>
+<tr class="fragment"><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">1975</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><a href="https://doi.org/10.1016/0020-0190(75)90056-3" target="_blank" data-preview-link="false">Yao</a></td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><span class="math inline">O(m\log\log n)</span></td></tr>
+<tr class="fragment"><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">1976</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><a href="https://doi.org/10.1137/0205051" target="_blank" data-preview-link="false">Cheriton-Tarjan</a></td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><span class="math inline">O(m\log\log n)</span></td></tr>
+<tr class="fragment"><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">1984</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><a href="https://doi.org/10.1109/SFCS.1984.715934" target="_blank" data-preview-link="false">Fredman-Tarjan</a></td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><span class="math inline">O(m\log^{*} n)</span></td></tr>
+<tr class="fragment"><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">1997</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><a href="https://doi.org/10.1109/SFCS.1997.646089" target="_blank" data-preview-link="false">Chazelle</a></td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><span class="math inline">O(m\alpha(n)\log\alpha(n))</span></td></tr>
+<tr class="fragment"><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">2000</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><a href="https://doi.org/10.1145/355541.355562" target="_blank" data-preview-link="false">Chazelle</a></td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><span class="math inline">O(m\alpha(n))</span></td></tr>
+<tr class="fragment"><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">2002</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><a href="https://doi.org/10.1145/505241.505243" target="_blank" data-preview-link="false">Pettie-Ramachandran</a></td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">Ótimo</td></tr>
 <tr class="fragment"><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">?</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;">?</td><td style="border-bottom:1px solid #dde3e7; padding:0.25em 1em;"><span class="math inline">O(m)</span></td></tr>
 </tbody></table>
 ```
@@ -1281,7 +1603,7 @@ Ver também: [arvore_geradora_minima.ipynb](https://github.com/BrunoGrisci/proje
 
 <br>
 
-[**Observação:**]{.label-rmk} $O(m)$ algoritmo randomizado por Karger-Klein-Tarjan (1995).
+[**Observação:**]{.label-rmk} $O(m)$ algoritmo randomizado por [Karger-Klein-Tarjan](https://doi.org/10.1145/201019.201022){target="_blank" data-preview-link="false"} (1995).
 
 #
 

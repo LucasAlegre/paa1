@@ -1474,7 +1474,9 @@ Visualização interativa: <a href="https://visualgo.net/en/ufds" target="_blank
 
 ## Kruskal com Union-Find
 
-**Entrada:** grafo $G=(V,E)$ com custo $c_e$ para cada $e\in E$. **Saída:** árvore geradora mínima $T$.
+**Entrada:** grafo $G=(V,E)$ com custo $c_e$ para cada $e\in E$. 
+
+**Saída:** árvore geradora mínima $T$.
 
 ```pseudocode
 #| html-line-number: true
@@ -1484,11 +1486,11 @@ Visualização interativa: <a href="https://visualgo.net/en/ufds" target="_blank
 \Procedure{KruskalUF}{$G=(V,E),c$}
   \State $\textcolor{#3a7a10}{T} \gets \emptyset$
   \State ordene $E$ em ordem crescente de custo
-  \State \textbf{Inicialize}$(V)$ \Comment{um conjunto por vértice}
+  \State $\mathit{UF} \gets \textbf{Inicialize}(V)$ \Comment{um conjunto por vértice}
   \For{cada $(u,v) \in E$, na ordem escolhida}
-    \If{$\textbf{Find}(u) \neq \textbf{Find}(v)$}
+    \If{$\mathit{UF}.\textbf{Find}(u) \neq \mathit{UF}.\textbf{Find}(v)$}
       \State $\textcolor{#3a7a10}{T} \gets \textcolor{#3a7a10}{T} \cup \{(u,v)\}$
-      \State \textbf{Union}$(u,v)$
+      \State $\mathit{UF}.\textbf{Union}(u,v)$
     \EndIf
     \If{$|\textcolor{#3a7a10}{T}| = |V|-1$}
       \State \textbf{Retorne} $\textcolor{#3a7a10}{T}$

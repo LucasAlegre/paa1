@@ -38,6 +38,9 @@
 .pc-md .ps-root { font-size: 0.90em; }
 .pc-lg .ps-root { font-size: 1.15em; }
 
+/* Auto-fit measures sizes right away: no animated font-size changes then. */
+.autofit-measuring, .autofit-measuring * { transition: none !important; }
+
 /* make every content line hoverable/clickable */
 .ps-algorithmic .ps-line {
   cursor: pointer;
@@ -223,27 +226,76 @@
     if (slide.dataset.autofitDone === "true") return;
     if (slide.scrollHeight === 0 && slide.clientHeight === 0) return;
 
+    // Measure only after the web fonts (Lexend, KaTeX) are loaded: fallback
+    // fonts have different metrics and would make the slide shrink too much.
+    if (document.fonts && document.fonts.status !== "loaded") {
+      if (slide.dataset.autofitWaiting !== "true") {
+        slide.dataset.autofitWaiting = "true";
+        document.fonts.ready.then(function () {
+          slide.dataset.autofitWaiting = "";
+          autoFitSlide(slide);
+        });
+      }
+      return;
+    }
+
+    // Same for math: raw $$...$$ text is much taller than the rendered KaTeX.
+    var pendingMath = Array.prototype.some.call(slide.querySelectorAll("span.math"), function (el) {
+      return !el.querySelector(".katex");
+    });
+    if (pendingMath && (Number(slide.dataset.autofitTries) || 0) < 30) {
+      slide.dataset.autofitTries = (Number(slide.dataset.autofitTries) || 0) + 1;
+      setTimeout(function () { autoFitSlide(slide); }, 100);
+      return;
+    }
+
     var configHeight = (typeof Reveal !== "undefined" && typeof Reveal.getConfig === "function" && Reveal.getConfig().height) || 768;
     var maxH = configHeight - 8;
 
-    if (slide.scrollHeight > maxH) {
-      var ratio = maxH / slide.scrollHeight;
-      var scale = Math.max(0.70, ratio);
-      slide.style.fontSize = (scale * 100).toFixed(1) + "%";
-
-      // Fine-tuning only if still exceeding maxH
-      if (slide.scrollHeight > maxH && scale > 0.70) {
-        var secondRatio = maxH / slide.scrollHeight;
-        scale = Math.max(0.70, scale * secondRatio);
-        slide.style.fontSize = (scale * 100).toFixed(1) + "%";
-      }
+    // Height actually used by the content (the section itself may have a
+    // fixed height, so slide.scrollHeight never drops below it).
+    // Measured from the rendered boxes, undoing Reveal's scale transform.
+    function contentHeight() {
+      var box = slide.getBoundingClientRect();
+      var k = slide.offsetHeight ? box.height / slide.offsetHeight : 1;
+      if (!k) k = 1;
+      var bottom = 0;
+      Array.prototype.forEach.call(slide.children, function (child) {
+        var r = child.getBoundingClientRect();
+        if (!r.height) return;
+        var mb = parseFloat(getComputedStyle(child).marginBottom) || 0;
+        bottom = Math.max(bottom, (r.bottom - box.top) / k + mb);
+      });
+      return bottom;
     }
+
+    // Reveal animates fragments (transition: all), so their font-size would
+    // lag behind the slide's while we measure.
+    slide.classList.add("autofit-measuring");
+    slide.style.fontSize = "";
+    if (contentHeight() > maxH) {
+      // Largest scale in [0.70, 1] that fits (binary search): not every
+      // element scales with the font, so a single ratio shrinks too much.
+      var lo = 0.70, hi = 1.0;
+      for (var i = 0; i < 8; i++) {
+        var mid = (lo + hi) / 2;
+        slide.style.fontSize = (mid * 100).toFixed(1) + "%";
+        if (contentHeight() > maxH) hi = mid; else lo = mid;
+      }
+      slide.style.fontSize = (lo * 100).toFixed(1) + "%";
+    }
+    void slide.offsetHeight;
+    slide.classList.remove("autofit-measuring");
     slide.dataset.autofitDone = "true";
   }
 
+  // Re-fits every time the slide is shown: right after loading the layout is
+  // not settled yet, so a fit computed then can be far too small.
   function handleAutoFit(slide) {
     var target = slide || (typeof Reveal !== "undefined" && typeof Reveal.getCurrentSlide === "function" ? Reveal.getCurrentSlide() : null);
     if (!target) return;
+    target.dataset.autofitDone = "";
+    target.dataset.autofitTries = "";
     autoFitSlide(target);
   }
 
@@ -271,6 +323,10 @@
       enableStepThrough();
       refreshAll();
       handleAutoFit();
+      // Fit the first slide shown again once the page has fully settled.
+      var refitFirst = function () { setTimeout(function () { handleAutoFit(); }, 400); };
+      if (document.readyState === "complete") refitFirst();
+      else window.addEventListener("load", refitFirst);
 
       if (window.location.search.indexOf("print-pdf") !== -1) {
         document.querySelectorAll(".reveal .slides section").forEach(function (s) {

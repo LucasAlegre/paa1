@@ -345,8 +345,17 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 27/out.</td>
   <td>Sala 113</td>
   <td class="t-green">Código de Huffman.</td>
-  <td></td>
-  <td></td>
+  <td style="text-align:center;"><a href="aulas/aula22-huffman.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td>
+    <ul class="list-unstyled mb-0">
+      <li class="mb-1"><a href="https://lucasalegre.github.io/huffman-visualizer/"><i class="bi bi-display me-1"></i>Visualização Algoritmo de Huffman</a></li>
+      <li class="mb-1"><a href="https://see-algorithms.com/other/HuffmanCoding"><i class="bi bi-display me-1"></i>Visualização Huffman (See Algorithms)</a></li>
+      <li class="mb-1"><a href="https://alexdowad.github.io/huffman-coding/"><i class="bi bi-display me-1"></i>Huffman Coding (Alex Dowad)</a></li>
+      <li class="mb-1"><a href="https://www.youtube.com/watch?v=JsTptu56GM8"><i class="bi bi-youtube me-1"></i>How Computers Compress Text: Huffman Coding and Huffman Trees (Tom Scott)</a></li>
+      <li class="mb-1"><a href="https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/huffman.ipynb"><i class="bi bi-file-earmark-code me-1"></i>Código Huffman (Python)</a></li>
+      <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>KT (Seção 4.8)</a></li>
+    </ul>
+  </td>
 </tr>
 <tr class="row-lab">
   <td class="wk">23</td>

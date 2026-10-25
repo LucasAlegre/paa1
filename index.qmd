@@ -55,7 +55,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>qui. 06/ago.</td>
   <td>Sala 113</td>
   <td class="t-red">Introdução à Disciplina. Problema do Troco.</td>
-  <td style="text-align:center;"><a href="aulas/aula1-intro.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula1-intro.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li class="mb-1"><a href="https://colab.research.google.com/drive/1NTX2_Xdrp_uBE72-WmnId2fL5lTmG1Ha?usp=sharing"><i class="bi bi-file-earmark-code me-1"></i>De C para Python (Prof. Álvaro Becker)</a></li>
@@ -70,7 +70,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 11/ago.</td>
   <td>Sala 113</td>
   <td class="t-red">Emparelhamento Estável. Gale-Shapley.</td>
-  <td style="text-align:center;"><a href="aulas/aula2-gale-shapley.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula2-gale-shapley.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li class="mb-1"><a href="https://brunogrisci.github.io/stablematching"><i class="bi bi-display me-1"></i>Visualização Gale-Shapley</a></li>
@@ -85,7 +85,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>qui. 13/ago.</td>
   <td>Sala 113</td>
   <td class="t-red">Correção de Algoritmos. Invariantes. Algoritmos de ordenamento.</td>
-  <td style="text-align:center;"><a href="aulas/aula3-correcao.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula3-correcao.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li class="mb-1"><a href="https://visualgo.net/en/sorting"><i class="bi bi-display me-1"></i>Visualização Algoritmos de Ordenação</a></li>
@@ -101,7 +101,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 18/ago.</td>
   <td>Sala 113</td>
   <td class="t-red">Complexidade de Algoritmos. Notação Assintótica I.</td>
-  <td style="text-align:center;"><a href="aulas/aula4-notacao-assintotica.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula4-notacao-assintotica.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>AI1 (2), KT (2)</a></li>
@@ -114,7 +114,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>qui. 20/ago.</td>
   <td>Sala 113</td>
   <td class="t-red">Notação Assintótica II.</td>
-  <td style="text-align:center;"><a href="aulas/aula5-notacao-assintotica2.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula5-notacao-assintotica2.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>AI1 (2), KT (2)</a></li>
@@ -128,7 +128,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 25/ago.</td>
   <td>Sala 113</td>
   <td class="t-blue">Teoria dos Grafos: Definições, Representação, Graus.</td>
-  <td style="text-align:center;"><a href="aulas/aula6-grafos.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula6-grafos.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li><a href="https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/graph_example.ipynb"><i class="bi bi-file-earmark-code me-1"></i>Representações de Grafos em Python</a></li>
@@ -141,7 +141,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>qui. 27/ago.</td>
   <td>Sala 113</td>
   <td class="t-blue">Teoria dos Grafos: Operações sobre Grafos, Isomorfismo, Famílias de Grafos, Conectividade, Pseudografos.</td>
-  <td style="text-align:center;"><a href="aulas/aula7-grafos.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula7-grafos.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>EP (1.4, 1.6, 2.1, 3.1, 3.2)</a></li>
@@ -162,7 +162,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>qui. 03/set.</td>
   <td>Sala 113</td>
   <td class="t-blue">Cliques. Conjuntos Independentes. Árvores. Grafos Bipartidos e k-partidos. Dígrafos.</td>
-  <td style="text-align:center;"><a href="aulas/aula9-grafos.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula9-grafos.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li><a href="#bibliografia"><i class="bi bi-book me-1"></i>EP (2.2, 4.1, 4.2, 6.1, 6.2)</a></li>
@@ -175,7 +175,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 08/set.</td>
   <td>Sala 113</td>
   <td class="t-blue">Algoritmos para Grafos: BFS e DFS. Correção e Complexidade.</td>
-  <td style="text-align:center;"><a href="aulas/aula10-busca.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula10-busca.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li class="mb-1"><a href="https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/graph_search.ipynb"><i class="bi bi-file-earmark-code me-1"></i>Código Buscas em Grafos (Python)</a></li>
@@ -188,7 +188,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>qui. 10/set.</td>
   <td>Sala 113</td>
   <td class="t-blue">Algoritmos para Grafos: Distância. Ordenação Topológica. Teste de Bipartição. Componentes Conexos.</td>
-  <td style="text-align:center;"><a href="aulas/aula11-algoritmos-grafos.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula11-algoritmos-grafos.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li class="mb-1"><a href="aulas/toposort.html"><i class="bi bi-display me-1"></i>Simulador Ordenação Topológica</a></li>
@@ -229,7 +229,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>qui. 24/set.</td>
   <td>Sala 113</td>
   <td class="t-green">Algoritmos Gulosos. Introdução. Escalonamento de Intervalos. Particionamento de Intervalos.</td>
-  <td style="text-align:center;"><a href="aulas/aula15-escalonamento.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula15-escalonamento.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li class="mb-1"><a href="https://brunogrisci.github.io/schedulingalgorithms"><i class="bi bi-display me-1"></i>Simulador Escalonamento</a></li>
@@ -244,7 +244,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 29/set.</td>
   <td>Sala 113</td>
   <td class="t-green">Algoritmos Gulosos. Minimizar Atraso. Caching Ótimo.</td>
-  <td style="text-align:center;"><a href="aulas/aula16-escalonamento2.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula16-escalonamento2.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li class="mb-1"><a href="https://brunogrisci.github.io/schedulingalgorithms"><i class="bi bi-display me-1"></i>Simulador Escalonamento</a></li>
@@ -258,7 +258,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>qui. 01/out.</td>
   <td>Sala 113</td>
   <td class="t-green">Distância em Grafos Valorados. Descrição do Problema, Algoritmo de Dijkstra.</td>
-  <td style="text-align:center;"><a href="aulas/aula17-dijkstra.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula17-dijkstra.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li class="mb-1"><a href="https://lucasalegre.github.io/dijkstra-visualizer/"><i class="bi bi-display me-1"></i>Visualização Algoritmo de Dijkstra</a></li>
@@ -275,7 +275,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 06/out.</td>
   <td>Sala 113</td>
   <td class="t-green">Distância em Grafos Valorados. Estrutura Heap, Algoritmo de Dijkstra otimizado.</td>
-  <td style="text-align:center;"><a href="aulas/aula18-heaps.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula18-heaps.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li class="mb-1"><a href="https://visualgo.net/en/heap?slide=1"><i class="bi bi-display me-1"></i>Visualização Heap (VisuAlgo)</a></li>
@@ -299,7 +299,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 13/out.</td>
   <td>Sala 113</td>
   <td class="t-green">Árvore Geradora Mínima 1 (Descrição do Problema, Algoritmo de Prim)</td>
-  <td style="text-align:center;"><a href="aulas/aula20-mst1.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula20-mst1.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li class="mb-1"><a href="https://lucasalegre.github.io/mst-visualizer/?algo=prim"><i class="bi bi-display me-1"></i>Visualização Algoritmo de Prim</a></li>
@@ -313,7 +313,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>qui. 15/out.</td>
   <td>Sala 113</td>
   <td class="t-green">Árvore Geradora Mínima 2 (Algoritmo de Kruskal, Estrutura Union-Find)</td>
-  <td style="text-align:center;"><a href="aulas/aula21-mst2.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula21-mst2.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li class="mb-1"><a href="https://lucasalegre.github.io/mst-visualizer/?algo=kruskal"><i class="bi bi-display me-1"></i>Visualização Algoritmo de Kruskal</a></li>
@@ -345,11 +345,10 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 27/out.</td>
   <td>Sala 113</td>
   <td class="t-green">Código de Huffman.</td>
-  <td style="text-align:center;"><a href="aulas/aula22-huffman.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula22-huffman.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
       <li class="mb-1"><a href="https://lucasalegre.github.io/huffman-visualizer/"><i class="bi bi-display me-1"></i>Visualização Algoritmo de Huffman</a></li>
-      <li class="mb-1"><a href="https://see-algorithms.com/other/HuffmanCoding"><i class="bi bi-display me-1"></i>Visualização Huffman (See Algorithms)</a></li>
       <li class="mb-1"><a href="https://alexdowad.github.io/huffman-coding/"><i class="bi bi-display me-1"></i>Huffman Coding (Alex Dowad)</a></li>
       <li class="mb-1"><a href="https://www.youtube.com/watch?v=JsTptu56GM8"><i class="bi bi-youtube me-1"></i>How Computers Compress Text: Huffman Coding and Huffman Trees (Tom Scott)</a></li>
       <li class="mb-1"><a href="https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/huffman.ipynb"><i class="bi bi-file-earmark-code me-1"></i>Código Huffman (Python)</a></li>
@@ -396,7 +395,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>qui. 12/nov.</td>
   <td>Sala 113</td>
   <td class="t-blue">Cobertura de Vértices e Emparelhamentos.</td>
-  <td style="text-align:center;"><a href="aulas/aula27-cobertura-emparelhamento.qmd" title="Slides"><i class="bi bi-easel-fill"></i></a></td>
+  <td style="text-align:center;"><a href="aulas/aula27-cobertura-emparelhamento.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td></td>
 </tr>
 <!-- Semana 15 -->

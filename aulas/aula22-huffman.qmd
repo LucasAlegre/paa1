@@ -494,6 +494,17 @@ Construção é **bottom-up** e **gulosa**.
 - Emprego em compiladores e técnicas de representação compacta de símbolos.
 :::
 
+## Visualização do Algoritmo de Huffman
+
+```{=html}
+<iframe id="huffman-viz" src="https://lucasalegre.github.io/huffman-visualizer/?exemplo=aula22-2" title="Visualização do algoritmo de Huffman" style="display:block; width:100%; height:595px; border:1px solid #dde3e7; border-radius:8px;" allow="fullscreen" allowfullscreen></iframe>
+<div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.35em; font-size:0.6em;">
+  <span><a href="https://lucasalegre.github.io/huffman-visualizer/?exemplo=aula22-2" target="_blank" data-preview-link="false">lucasalegre.github.io/huffman-visualizer</a> &nbsp;·&nbsp; <a href="https://see-algorithms.com/other/HuffmanCoding" target="_blank" data-preview-link="false">see-algorithms.com/other/HuffmanCoding</a></span>
+  <button type="button" onclick="const f = document.getElementById('huffman-viz'); (f.requestFullscreen || f.webkitRequestFullscreen).call(f);" style="font: inherit; padding: 0.25em 0.8em; border: 1px solid #2e75b6; border-radius: 6px; background: #2e75b6; color: #fff; cursor: pointer;">⛶ Tela cheia</button>
+</div>
+```
+
+
 ## Algoritmo de Huffman: Pseudocódigo
 
 **Entrada:** alfabeto $\Sigma$ e tabela $p_a$ para cada símbolo $a \in \Sigma$.
@@ -526,57 +537,6 @@ Construção é **bottom-up** e **gulosa**.
 \end{algorithmic}
 ```
 
-## Implementação em Python
-
-```pyodide
-import heapq
-
-class Node:
-    """Nodo da árvore: folha (símbolo) ou nodo interno (só peso)."""
-    def __init__(self, symbol=None, peso=0, left=None, right=None):
-        self.symbol = symbol
-        self.peso = peso
-        self.left = left
-        self.right = right
-
-    def __lt__(self, other):              # comparação usada pelo heap
-        return self.peso < other.peso
-
-def huffman(p: dict) -> Node:
-    """Algoritmo de Huffman O(n log n) com heap."""
-    F = [Node(a, p_a) for a, p_a in p.items()]  # árvores unitárias
-    heapq.heapify(F)
-    while len(F) >= 2:
-        T1 = heapq.heappop(F)             # árvore de menor P
-        T2 = heapq.heappop(F)             # árvore de segundo menor P
-        T3 = Node(peso=T1.peso + T2.peso, left=T1, right=T2)
-        heapq.heappush(F, T3)
-    return F[0]
-
-def codigos(T: Node, prefixo: str = '', C: dict = None) -> dict:
-    """Percorre a árvore: esquerda = 0, direita = 1."""
-    if C is None:
-        C = {}
-    if T.symbol is not None:
-        C[T.symbol] = prefixo
-    else:
-        codigos(T.left, prefixo + '0', C)
-        codigos(T.right, prefixo + '1', C)
-    return C
-
-p = {'A': 3, 'B': 2, 'C': 6, 'D': 8, 'E': 2, 'F': 6}
-C = codigos(huffman(p))  # empates podem gerar outro código, de mesmo ABL
-for a in sorted(C):
-    print(a, p[a], C[a])
-
-abl = sum(p[a] * len(C[a]) for a in p) / sum(p.values())
-print(f'ABL = {abl:.2f} bits por símbolo')
-
-texto = 'FACADE'
-print(texto, '->', ''.join(C[a] for a in texto))
-```
-
-Ver também: [huffman.ipynb](https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/huffman.ipynb){data-preview-link="false"}
 
 ## Exemplo de Execução
 
@@ -1026,15 +986,59 @@ Média de bits por símbolo: $\;\dfrac{3\cdot 3 + 2\cdot 4 + 6\cdot 2 + 8\cdot 2
 Um código de tamanho fixo precisaria de $3$ bits por símbolo.
 :::
 
-## Visualização do Algoritmo de Huffman
+# Implementação do Algoritmo de Huffman em Python
 
-```{=html}
-<iframe id="huffman-viz" src="https://lucasalegre.github.io/huffman-visualizer/?exemplo=aula22-2" title="Visualização do algoritmo de Huffman" style="display:block; width:100%; height:595px; border:1px solid #dde3e7; border-radius:8px;" allow="fullscreen" allowfullscreen></iframe>
-<div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.35em; font-size:0.6em;">
-  <span><a href="https://lucasalegre.github.io/huffman-visualizer/?exemplo=aula22-2" target="_blank" data-preview-link="false">lucasalegre.github.io/huffman-visualizer</a> &nbsp;·&nbsp; <a href="https://see-algorithms.com/other/HuffmanCoding" target="_blank" data-preview-link="false">see-algorithms.com/other/HuffmanCoding</a></span>
-  <button type="button" onclick="const f = document.getElementById('huffman-viz'); (f.requestFullscreen || f.webkitRequestFullscreen).call(f);" style="font: inherit; padding: 0.25em 0.8em; border: 1px solid #2e75b6; border-radius: 6px; background: #2e75b6; color: #fff; cursor: pointer;">⛶ Tela cheia</button>
-</div>
+## Implementação em Python
+
+```pyodide
+import heapq
+
+class Node:
+    """Nodo da árvore: folha (símbolo) ou nodo interno (só peso)."""
+    def __init__(self, symbol=None, peso=0, left=None, right=None):
+        self.symbol = symbol
+        self.peso = peso
+        self.left = left
+        self.right = right
+
+    def __lt__(self, other):              # comparação usada pelo heap
+        return self.peso < other.peso
+
+def huffman(p: dict) -> Node:
+    """Algoritmo de Huffman O(n log n) com heap."""
+    F = [Node(a, p_a) for a, p_a in p.items()]  # árvores unitárias
+    heapq.heapify(F)
+    while len(F) >= 2:
+        T1 = heapq.heappop(F)             # árvore de menor P
+        T2 = heapq.heappop(F)             # árvore de segundo menor P
+        T3 = Node(peso=T1.peso + T2.peso, left=T1, right=T2)
+        heapq.heappush(F, T3)
+    return F[0]
+
+def codigos(T: Node, prefixo: str = '', C: dict = None) -> dict:
+    """Percorre a árvore: esquerda = 0, direita = 1."""
+    if C is None:
+        C = {}
+    if T.symbol is not None:
+        C[T.symbol] = prefixo
+    else:
+        codigos(T.left, prefixo + '0', C)
+        codigos(T.right, prefixo + '1', C)
+    return C
+
+p = {'A': 3, 'B': 2, 'C': 6, 'D': 8, 'E': 2, 'F': 6}
+C = codigos(huffman(p))  # empates podem gerar outro código, de mesmo ABL
+for a in sorted(C):
+    print(a, p[a], C[a])
+
+abl = sum(p[a] * len(C[a]) for a in p) / sum(p.values())
+print(f'ABL = {abl:.2f} bits por símbolo')
+
+texto = 'FACADE'
+print(texto, '->', ''.join(C[a] for a in texto))
 ```
+
+Ver também: [huffman.ipynb](https://github.com/BrunoGrisci/projeto-e-analise-de-algoritmos/blob/main/paa1/huffman.ipynb){data-preview-link="false"}
 
 # Análise do Algoritmo de Huffman
 
@@ -1077,16 +1081,16 @@ Um código de tamanho fixo precisaria de $3$ bits por símbolo.
 ::: {.column width="48%"}
 ::: {style="font-size:0.75em;"}
 ::: {.fragment}
-Seja $|\Sigma| = n$. Temos então que o algoritmo de Huffman, se implementado ingenuamente, possui tempo de execução $O(n^2)$.
+Seja $|\Sigma| = n$. Temos então que o algoritmo de **Huffman**, se implementado ingenuamente, possui [tempo de execução]{.alert} $O(n^2)$.
 :::
 
 ::: {.incremental}
-- Iniciamos com $n$ árvores unitárias, e a cada passo unimos duas delas em uma. Serão ao todo $n-1$ unificações (passos no laço principal).
-- Determinar as duas árvores de menor ocorrência ($P$) custa $O(n)$ se utilizarmos vetores ou listas para $F$.
+- Iniciamos com $n$ árvores unitárias, e a cada passo unimos duas delas em uma. Serão ao todo $n-1$ **unificações** (passos no laço principal).
+- Determinar as **duas árvores de menor ocorrência** ($P$) custa $O(n)$ se utilizarmos **vetores ou listas** para $F$.
 :::
 
 ::: {.fragment}
-Contudo, se utilizarmos uma **heap** para $F$, reduzimos para $O(\log n)$ o custo de extração das duas menores árvores, e o algoritmo fica com custo total $O(n \log n)$.
+> Contudo, ao usarmos uma **heap** para $F$, reduzimos para $O(\log n)$ o custo de extração das duas menores árvores, e o algoritmo fica com [custo total]{.alert} $O(n \log n)$.
 :::
 :::
 :::
@@ -1101,11 +1105,11 @@ Contudo, se utilizarmos uma **heap** para $F$, reduzimos para $O(\log n)$ o cust
 
 ## Correção do Algoritmo de Huffman
 
-Para garantir que a árvore gerada é *prefix-free*, basta utilizar indução:
+Para garantir que a árvore gerada é **prefix-free**, basta utilizar indução:
 
 ::: {.incremental}
-- Árvores unitárias iniciais são prefix-free.
-- A operação de composição (merge) gera árvores prefix-free.
+- Árvores **unitárias** iniciais são **prefix-free**.
+- A operação de **composição (merge)** gera árvores **prefix-free**.
 :::
 
 . . .
@@ -1124,7 +1128,8 @@ Assuma que $a$ e $b$ são, em algum momento, os símbolos com menores pesos:
 ## Correção: Lema Auxiliar
 
 ::: {style="font-size:0.85em;"}
-Seja $T$ a $\Sigma$-árvore gerada por Huffman para $S$, onde $y^*$ e $z^*$ são os dois símbolos de menor frequência e $\omega$ é a meta-letra com $f_\omega = f_{y^*} + f_{z^*}$. Seja $T'$ a $S'$-árvore obtida de $T$ removendo as folhas $y^*$ e $z^*$ e renomeando o pai deles para $\omega$.
+- Seja $T$ a $\Sigma$-árvore gerada por Huffman para $S$, onde $\textcolor{#d9690b}{y^*}$ e $\textcolor{#d9690b}{z^*}$ são os dois símbolos de menor frequência e $\textcolor{#3a7a10}{\omega}$ é a meta-letra com $f_{\textcolor{#3a7a10}{\omega}} = f_{\textcolor{#d9690b}{y^*}} + f_{\textcolor{#d9690b}{z^*}}$.
+- Seja $\textcolor{#2e75b6}{T'}$ a $S'$-árvore obtida de $T$ removendo as folhas $\textcolor{#d9690b}{y^*}$ e $\textcolor{#d9690b}{z^*}$ e renomeando o pai deles para $\textcolor{#3a7a10}{\omega}$.
 
 ::: {.fragment}
 [**Notação:**]{.label-notn} $\text{prof}_T(a)$ denota a **profundidade** (número de bits) do símbolo $a$ na árvore $T$.
@@ -1138,7 +1143,7 @@ Seja $T$ a $\Sigma$-árvore gerada por Huffman para $S$, onde $y^*$ e $z^*$ são
 ::: {.fragment}
 ```{=html}
 <div style="width:78%; margin:0 auto;">
-<svg viewBox="0 0 800 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="À esquerda, a árvore T de Huffman do segundo exemplo com as folhas y*=B e z*=E em laranja; à direita, T' obtida removendo B e E e renomeando o pai deles para a meta-letra ω, em laranja">
+<svg viewBox="0 0 800 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="À esquerda, a árvore T de Huffman do segundo exemplo com as folhas y*=B e z*=E em laranja; à direita, T' obtida removendo B e E e renomeando o pai deles para a meta-letra ω, em verde">
 <line x1="224.9" y1="28.0" x2="148.8" y2="80.0" stroke="#555555" stroke-width="2.5"/>
 <line x1="224.9" y1="28.0" x2="301.0" y2="80.0" stroke="#555555" stroke-width="2.5"/>
 <line x1="148.8" y1="80.0" x2="83.5" y2="132.0" stroke="#555555" stroke-width="2.5"/>
@@ -1194,7 +1199,7 @@ Seja $T$ a $\Sigma$-árvore gerada por Huffman para $S$, onde $y^*$ e $z^*$ são
 <circle cx="470.0" cy="184.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
 <text x="470.0" y="184.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
 <text x="470.0" y="213.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
-<circle cx="534.0" cy="184.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
+<circle cx="534.0" cy="184.0" r="16" fill="#3a7a10" stroke="#2b5c0c" stroke-width="2"/>
 <text x="534.0" y="184.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">ω</text>
 <text x="534.0" y="213.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
 <circle cx="598.0" cy="132.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
@@ -1210,44 +1215,58 @@ Seja $T$ a $\Sigma$-árvore gerada por Huffman para $S$, onde $y^*$ e $z^*$ são
 <text x="726.0" y="161.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
 <text x="400.0" y="150.0" font-size="34" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">⟹</text>
 <text x="185.0" y="290.0" font-size="22" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">T</text>
-<text x="598.0" y="290.0" font-size="22" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">T<tspan font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal" font-size="18" dy="-7">′</tspan></text>
+<text x="598.0" y="290.0" font-size="22" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic">T<tspan font-family="KaTeX_Main, 'Times New Roman', serif" font-style="normal" font-size="18" dy="-7">′</tspan></text>
 </svg>
 </div>
 ```
 
 ::: {style="font-size:0.7em; text-align:center;"}
-[**Exemplo:**]{.label-exmp} $y^* = B$, $z^* = E$, $f_\omega = \frac{4}{27}$, $\;\text{ABL}(T) = \frac{65}{27}$ e $\text{ABL}(T') = \frac{61}{27}$.
+[**Exemplo:**]{.label-exmp} $\textcolor{#d9690b}{y^*} = B$, $\textcolor{#d9690b}{z^*} = E$, $f_{\textcolor{#3a7a10}{\omega}} = \frac{4}{27}$, $\;\text{ABL}(T) = \frac{65}{27}$ e $\text{ABL}(\textcolor{#2e75b6}{T'}) = \frac{61}{27}$.
 :::
 :::
 
 ## Correção: Lema Auxiliar
 
-::: {style="font-size:0.8em;"}
-Seja $T$ a $\Sigma$-árvore gerada por Huffman para $S$, onde $y^*$ e $z^*$ são os dois símbolos de menor frequência e $\omega$ é a meta-letra com $f_\omega = f_{y^*} + f_{z^*}$. Seja $T'$ a $S'$-árvore obtida de $T$ removendo as folhas $y^*$ e $z^*$ e renomeando o pai deles para $\omega$.
+::: {style="font-size:0.85em;"}
+- $T$: árvore gerada por **Huffman** para $S$; $\textcolor{#d9690b}{y^*}$ e $\textcolor{#d9690b}{z^*}$: os **dois símbolos de menor frequência**.
+- $\textcolor{#2e75b6}{T'}$: obtida de $T$ **removendo** as folhas $\textcolor{#d9690b}{y^*}$ e $\textcolor{#d9690b}{z^*}$ e **renomeando** o pai deles para $\textcolor{#3a7a10}{\omega}$, com $f_{\textcolor{#3a7a10}{\omega}} = f_{\textcolor{#d9690b}{y^*}} + f_{\textcolor{#d9690b}{z^*}}$.
 
 ::: {.fragment}
-> [**Lema:**]{.label-lem} $\text{ABL}(T') = \text{ABL}(T) - f_\omega$.
+> [**Lema:**]{.label-lem} $\text{ABL}(\textcolor{#2e75b6}{T'}) = \text{ABL}(T) - f_{\textcolor{#3a7a10}{\omega}}$.
 :::
 
 ::: {.fragment}
-[**Demonstração:**]{.label-prf} A profundidade de cada $x \neq y^*, z^*$ é a mesma em $T$ e $T'$. As profundidades de $y^*$ e $z^*$ em $T$ são cada uma exatamente $1 +$ a profundidade de $\omega$ em $T'$. Logo:
+Comparando as profundidades em $T$ e $\textcolor{#2e75b6}{T'}$:
 :::
 
-::: {.fragment}
-$$
-\begin{aligned}
-\text{ABL}(T) &= f_{y^*} \cdot \text{prof}_T(y^*) + f_{z^*} \cdot \text{prof}_T(z^*) + \sum_{x \neq y^*, z^*} f_x \cdot \text{prof}_T(x) \\
-&= (f_{y^*} + f_{z^*}) \cdot (1 + \text{prof}_{T'}(\omega)) + \sum_{x \neq y^*, z^*} f_x \cdot \text{prof}_{T'}(x) \\
-&= f_\omega + f_\omega \cdot \text{prof}_{T'}(\omega) + \sum_{x \neq y^*, z^*} f_x \cdot \text{prof}_{T'}(x) \\
-&= f_\omega + \sum_{x \in S'} f_x \cdot \text{prof}_{T'}(x) = f_\omega + \text{ABL}(T'). \qquad \blacksquare
-\end{aligned}
-$$
+::: {.incremental}
+- **(1)** Os demais símbolos **não mudam de profundidade**: $\text{prof}_T(x) = \text{prof}_{\textcolor{#2e75b6}{T'}}(x)$, para todo $x \neq \textcolor{#d9690b}{y^*}, \textcolor{#d9690b}{z^*}$.
+- **(2)** $\textcolor{#d9690b}{y^*}$ e $\textcolor{#d9690b}{z^*}$ ficam **um nível abaixo** de $\textcolor{#3a7a10}{\omega}$: $\text{prof}_T(\textcolor{#d9690b}{y^*}) = \text{prof}_T(\textcolor{#d9690b}{z^*}) = 1 + \text{prof}_{\textcolor{#2e75b6}{T'}}(\textcolor{#3a7a10}{\omega})$.
+- **Intuição:** $T$ gasta **1 bit a mais** em cada ocorrência de $\textcolor{#d9690b}{y^*}$ ou $\textcolor{#d9690b}{z^*}$, um custo extra por letra de $f_{\textcolor{#d9690b}{y^*}} + f_{\textcolor{#d9690b}{z^*}} = f_{\textcolor{#3a7a10}{\omega}}$.
+:::
+:::
+
+## Correção: Lema Auxiliar (Cont.)
+
+::: {style="font-size:0.85em;"}
+[**Demonstração:**]{.label-prf} Vamos mostrar que $\text{ABL}(T) = \text{ABL}(\textcolor{#2e75b6}{T'}) + f_{\textcolor{#3a7a10}{\omega}}$.
+
+::: {.incremental}
+- Pela **definição** de ABL, separando $\textcolor{#d9690b}{y^*}$ e $\textcolor{#d9690b}{z^*}$ dos demais símbolos:
+  $$\text{ABL}(T) = f_{\textcolor{#d9690b}{y^*}} \cdot \text{prof}_T(\textcolor{#d9690b}{y^*}) + f_{\textcolor{#d9690b}{z^*}} \cdot \text{prof}_T(\textcolor{#d9690b}{z^*}) + \sum_{x \neq \textcolor{#d9690b}{y^*}, \textcolor{#d9690b}{z^*}} f_x \cdot \text{prof}_T(x)$$
+- Aplicando **(2)** às duas primeiras parcelas e **(1)** ao somatório:
+  $$\text{ABL}(T) = (f_{\textcolor{#d9690b}{y^*}} + f_{\textcolor{#d9690b}{z^*}}) \cdot (1 + \text{prof}_{\textcolor{#2e75b6}{T'}}(\textcolor{#3a7a10}{\omega})) + \sum_{x \neq \textcolor{#d9690b}{y^*}, \textcolor{#d9690b}{z^*}} f_x \cdot \text{prof}_{\textcolor{#2e75b6}{T'}}(x)$$
+- Como $f_{\textcolor{#d9690b}{y^*}} + f_{\textcolor{#d9690b}{z^*}} = f_{\textcolor{#3a7a10}{\omega}}$, **distribuindo**:
+  $$\text{ABL}(T) = f_{\textcolor{#3a7a10}{\omega}} + f_{\textcolor{#3a7a10}{\omega}} \cdot \text{prof}_{\textcolor{#2e75b6}{T'}}(\textcolor{#3a7a10}{\omega}) + \sum_{x \neq \textcolor{#d9690b}{y^*}, \textcolor{#d9690b}{z^*}} f_x \cdot \text{prof}_{\textcolor{#2e75b6}{T'}}(x)$$
+- O termo de $\textcolor{#3a7a10}{\omega}$ **entra no somatório**, que passa a percorrer exatamente $S'$:
+  $$\text{ABL}(T) = f_{\textcolor{#3a7a10}{\omega}} + \underbrace{\sum_{x \in S'} f_x \cdot \text{prof}_{\textcolor{#2e75b6}{T'}}(x)}_{\text{ABL}(\textcolor{#2e75b6}{T'})}$$
+- Logo, $\text{ABL}(\textcolor{#2e75b6}{T'}) = \text{ABL}(T) - f_{\textcolor{#3a7a10}{\omega}}$. $\blacksquare$
 :::
 :::
 
 ## Correção: Otimalidade do Algoritmo de Huffman
 
-> [**Teorema:**]{.label-thm} O código de Huffman atinge o menor número médio de bits por letra dentre todos os códigos *prefix-free*.
+> [**Teorema:**]{.label-thm} O código de Huffman atinge o **menor número médio de bits por letra** dentre todos os códigos *prefix-free*.
 
 ::: {.fragment}
 [**Demonstração:**]{.label-prf} Por indução no tamanho do alfabeto $|S|$.

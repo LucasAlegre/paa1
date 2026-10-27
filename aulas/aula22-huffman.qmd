@@ -548,128 +548,128 @@ Construção é **bottom-up** e **gulosa**.
 <div style="width:100%;">
 <svg viewBox="0 0 360 262" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Huffman, passo 0: floresta F; a árvore recém-composta aparece em laranja">
 <rect x="0" y="0" width="360" height="262" fill="#ffffff"/>
-<circle cx="45.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="45.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
-<text x="45.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">60</text>
-<circle cx="135.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="135.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
-<text x="135.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">25</text>
-<circle cx="225.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="225.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
-<text x="225.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">10</text>
 <circle cx="315.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="315.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
-<text x="315.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<text x="315.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
+<text x="315.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">60</text>
+<circle cx="225.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="225.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
+<text x="225.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">25</text>
+<circle cx="135.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="135.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
+<text x="135.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">10</text>
+<circle cx="45.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="45.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
+<text x="45.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
 </svg>
 </div>
 <div class="fragment" data-fragment-index="1" style="width:100%;">
 <svg viewBox="0 0 360 262" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Huffman, passo 1: floresta F; a árvore recém-composta aparece em laranja">
 <rect x="0" y="0" width="360" height="262" fill="#ffffff"/>
-<circle cx="57.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="57.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
-<text x="57.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">60</text>
-<circle cx="147.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="147.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
-<text x="147.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">25</text>
-<line x1="270.0" y1="150.0" x2="237.0" y2="212.0" stroke="#eb811b" stroke-width="3.5"/>
-<line x1="270.0" y1="150.0" x2="303.0" y2="212.0" stroke="#eb811b" stroke-width="3.5"/>
-<circle cx="270.0" cy="150.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
-<text x="270.0" y="150.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">15</text>
-<circle cx="237.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="237.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
-<text x="237.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">10</text>
-<circle cx="303.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="303.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
-<text x="303.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<circle cx="315.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="315.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
+<text x="315.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">60</text>
+<circle cx="225.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="225.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
+<text x="225.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">25</text>
+<line x1="90.0" y1="150.0" x2="45.0" y2="212.0" stroke="#eb811b" stroke-width="3.5"/>
+<line x1="90.0" y1="150.0" x2="135.0" y2="212.0" stroke="#eb811b" stroke-width="3.5"/>
+<circle cx="90.0" cy="150.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
+<text x="90.0" y="150.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">15</text>
+<circle cx="45.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="45.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
+<text x="45.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<circle cx="135.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="135.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
+<text x="135.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">10</text>
 </svg>
 </div>
 <div class="fragment" data-fragment-index="2" style="width:100%;">
 <svg viewBox="0 0 360 262" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Huffman, passo 2: floresta F; a árvore recém-composta aparece em laranja">
 <rect x="0" y="0" width="360" height="262" fill="#ffffff"/>
-<circle cx="69.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="69.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
-<text x="69.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">60</text>
-<line x1="208.5" y1="88.0" x2="159.0" y2="150.0" stroke="#eb811b" stroke-width="3.5"/>
-<line x1="208.5" y1="88.0" x2="258.0" y2="150.0" stroke="#eb811b" stroke-width="3.5"/>
-<line x1="258.0" y1="150.0" x2="225.0" y2="212.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="258.0" y1="150.0" x2="291.0" y2="212.0" stroke="#555555" stroke-width="2.5"/>
-<circle cx="208.5" cy="88.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
-<text x="208.5" y="88.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">40</text>
-<circle cx="159.0" cy="150.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="159.0" y="150.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
-<text x="159.0" y="179.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">25</text>
-<circle cx="258.0" cy="150.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="258.0" y="150.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">15</text>
-<circle cx="225.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="225.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
-<text x="225.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">10</text>
-<circle cx="291.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="291.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
-<text x="291.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<circle cx="315.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="315.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
+<text x="315.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">60</text>
+<line x1="157.5" y1="88.0" x2="90.0" y2="150.0" stroke="#eb811b" stroke-width="3.5"/>
+<line x1="157.5" y1="88.0" x2="225.0" y2="150.0" stroke="#eb811b" stroke-width="3.5"/>
+<line x1="90.0" y1="150.0" x2="45.0" y2="212.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="90.0" y1="150.0" x2="135.0" y2="212.0" stroke="#555555" stroke-width="2.5"/>
+<circle cx="157.5" cy="88.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
+<text x="157.5" y="88.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">40</text>
+<circle cx="90.0" cy="150.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="90.0" y="150.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">15</text>
+<circle cx="45.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="45.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
+<text x="45.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<circle cx="135.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="135.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
+<text x="135.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">10</text>
+<circle cx="225.0" cy="150.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="225.0" y="150.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
+<text x="225.0" y="179.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">25</text>
 </svg>
 </div>
 <div class="fragment" data-fragment-index="3" style="width:100%;">
 <svg viewBox="0 0 360 262" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Huffman, passo 3: floresta F; a árvore recém-composta aparece em laranja">
 <rect x="0" y="0" width="360" height="262" fill="#ffffff"/>
-<line x1="138.8" y1="26.0" x2="81.0" y2="88.0" stroke="#eb811b" stroke-width="3.5"/>
-<line x1="138.8" y1="26.0" x2="196.5" y2="88.0" stroke="#eb811b" stroke-width="3.5"/>
-<line x1="196.5" y1="88.0" x2="147.0" y2="150.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="196.5" y1="88.0" x2="246.0" y2="150.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="246.0" y1="150.0" x2="213.0" y2="212.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="246.0" y1="150.0" x2="279.0" y2="212.0" stroke="#555555" stroke-width="2.5"/>
-<circle cx="138.8" cy="26.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
-<text x="138.8" y="26.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">100</text>
-<circle cx="81.0" cy="88.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="81.0" y="88.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
-<text x="81.0" y="117.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">60</text>
-<circle cx="196.5" cy="88.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="196.5" y="88.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">40</text>
-<circle cx="147.0" cy="150.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="147.0" y="150.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
-<text x="147.0" y="179.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">25</text>
-<circle cx="246.0" cy="150.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="246.0" y="150.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">15</text>
-<circle cx="213.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="213.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
-<text x="213.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">10</text>
-<circle cx="279.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="279.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
-<text x="279.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<line x1="236.2" y1="26.0" x2="157.5" y2="88.0" stroke="#eb811b" stroke-width="3.5"/>
+<line x1="236.2" y1="26.0" x2="315.0" y2="88.0" stroke="#eb811b" stroke-width="3.5"/>
+<line x1="157.5" y1="88.0" x2="90.0" y2="150.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="157.5" y1="88.0" x2="225.0" y2="150.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="90.0" y1="150.0" x2="45.0" y2="212.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="90.0" y1="150.0" x2="135.0" y2="212.0" stroke="#555555" stroke-width="2.5"/>
+<circle cx="236.2" cy="26.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
+<text x="236.2" y="26.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">100</text>
+<circle cx="157.5" cy="88.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="157.5" y="88.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">40</text>
+<circle cx="90.0" cy="150.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="90.0" y="150.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">15</text>
+<circle cx="45.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="45.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
+<text x="45.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">5</text>
+<circle cx="135.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="135.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
+<text x="135.0" y="241.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">10</text>
+<circle cx="225.0" cy="150.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="225.0" y="150.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
+<text x="225.0" y="179.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">25</text>
+<circle cx="315.0" cy="88.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="315.0" y="88.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
+<text x="315.0" y="117.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">60</text>
 </svg>
 </div>
 <div class="fragment" data-fragment-index="4" style="width:100%;">
 <svg viewBox="0 0 360 262" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Árvore final com os rótulos 0 (esquerda) e 1 (direita) nas arestas e o código de cada símbolo abaixo da folha">
 <rect x="0" y="0" width="360" height="262" fill="#ffffff"/>
-<line x1="138.8" y1="26.0" x2="81.0" y2="88.0" stroke="#555555" stroke-width="2.5"/>
-<text x="101.1" y="48.8" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">0</text>
-<line x1="138.8" y1="26.0" x2="196.5" y2="88.0" stroke="#555555" stroke-width="2.5"/>
-<text x="176.4" y="48.8" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
-<line x1="196.5" y1="88.0" x2="147.0" y2="150.0" stroke="#555555" stroke-width="2.5"/>
-<text x="162.4" y="111.5" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">0</text>
-<line x1="196.5" y1="88.0" x2="246.0" y2="150.0" stroke="#555555" stroke-width="2.5"/>
-<text x="230.6" y="111.5" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
-<line x1="246.0" y1="150.0" x2="213.0" y2="212.0" stroke="#555555" stroke-width="2.5"/>
-<text x="218.9" y="175.4" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">0</text>
-<line x1="246.0" y1="150.0" x2="279.0" y2="212.0" stroke="#555555" stroke-width="2.5"/>
-<text x="273.1" y="175.4" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
-<circle cx="138.8" cy="26.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="138.8" y="26.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">100</text>
-<circle cx="81.0" cy="88.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="81.0" y="88.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
-<text x="81.0" y="118.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">0</text>
-<circle cx="196.5" cy="88.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="196.5" y="88.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">40</text>
-<circle cx="147.0" cy="150.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="147.0" y="150.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
-<text x="147.0" y="180.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">10</text>
-<circle cx="246.0" cy="150.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="246.0" y="150.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">15</text>
-<circle cx="213.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="213.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
-<text x="213.0" y="242.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">110</text>
-<circle cx="279.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="279.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
-<text x="279.0" y="242.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">111</text>
+<line x1="236.2" y1="26.0" x2="157.5" y2="88.0" stroke="#555555" stroke-width="2.5"/>
+<text x="189.5" y="47.6" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">0</text>
+<line x1="236.2" y1="26.0" x2="315.0" y2="88.0" stroke="#555555" stroke-width="2.5"/>
+<text x="283.0" y="47.6" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<line x1="157.5" y1="88.0" x2="90.0" y2="150.0" stroke="#555555" stroke-width="2.5"/>
+<text x="115.6" y="110.2" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">0</text>
+<line x1="157.5" y1="88.0" x2="225.0" y2="150.0" stroke="#555555" stroke-width="2.5"/>
+<text x="199.4" y="110.2" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<line x1="90.0" y1="150.0" x2="45.0" y2="212.0" stroke="#555555" stroke-width="2.5"/>
+<text x="57.8" y="174.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">0</text>
+<line x1="90.0" y1="150.0" x2="135.0" y2="212.0" stroke="#555555" stroke-width="2.5"/>
+<text x="122.2" y="174.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<circle cx="236.2" cy="26.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="236.2" y="26.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">100</text>
+<circle cx="157.5" cy="88.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="157.5" y="88.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">40</text>
+<circle cx="90.0" cy="150.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="90.0" y="150.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">15</text>
+<circle cx="45.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="45.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
+<text x="45.0" y="242.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">000</text>
+<circle cx="135.0" cy="212.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="135.0" y="212.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
+<text x="135.0" y="242.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">001</text>
+<circle cx="225.0" cy="150.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="225.0" y="150.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
+<text x="225.0" y="180.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">01</text>
+<circle cx="315.0" cy="88.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="315.0" y="88.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
+<text x="315.0" y="118.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">1</text>
 </svg>
 </div>
 </div>
@@ -681,7 +681,7 @@ Construção é **bottom-up** e **gulosa**.
 <tr class="fragment" data-fragment-index="2"><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.45em; text-align:left;">2</td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.45em; text-align:left;"><span class="math inline">\{C,D\}\,(15)</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.45em; text-align:left;"><span class="math inline">B\,(25)</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.45em; text-align:left;"><span style="color:#b35c00; font-weight:600;">40</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.45em; text-align:left;"><span class="math inline">40,\ 60</span></td></tr>
 <tr class="fragment" data-fragment-index="3"><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.45em; text-align:left;">3</td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.45em; text-align:left;"><span class="math inline">\{B,C,D\}\,(40)</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.45em; text-align:left;"><span class="math inline">A\,(60)</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.45em; text-align:left;"><span style="color:#b35c00; font-weight:600;">100</span></td><td style="border-bottom:1px solid #dde3e7; padding:0.2em 0.45em; text-align:left;"><span class="math inline">100</span></td></tr>
 </tbody></table>
-<div class="fragment" data-fragment-index="4" style="font-size:0.7em; margin-top:0.5em;"><strong>Fim:</strong> código obtido <span style="white-space:nowrap;"><span class="math inline">A=0</span></span>, <span style="white-space:nowrap;"><span class="math inline">B=10</span></span>, <span style="white-space:nowrap;"><span class="math inline">C=110</span></span>, <span style="white-space:nowrap;"><span class="math inline">D=111</span></span>: exatamente o código <em>prefix-free</em> visto antes, com <span class="math inline">1{,}55</span> bits por caractere em média.</div>
+<div class="fragment" data-fragment-index="4" style="font-size:0.7em; margin-top:0.5em;"><strong>Fim:</strong> código obtido <span style="white-space:nowrap;"><span class="math inline">A=1</span></span>, <span style="white-space:nowrap;"><span class="math inline">B=01</span></span>, <span style="white-space:nowrap;"><span class="math inline">C=001</span></span>, <span style="white-space:nowrap;"><span class="math inline">D=000</span></span>: o código <em>prefix-free</em> visto antes com os bits 0 e 1 trocados (mesmos comprimentos), com <span class="math inline">1{,}55</span> bits por caractere em média.</div>
 </div>
 </div>
 ```
@@ -696,199 +696,199 @@ Construção é **bottom-up** e **gulosa**.
 <div style="width:100%;">
 <svg viewBox="0 0 500 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Huffman, passo 0: floresta F; a árvore recém-composta aparece em laranja">
 <rect x="0" y="0" width="500" height="300" fill="#ffffff"/>
-<circle cx="55.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="55.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
-<text x="55.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
-<circle cx="133.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="133.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
-<text x="133.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
 <circle cx="211.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="211.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
-<text x="211.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<text x="211.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
+<text x="211.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
 <circle cx="289.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="289.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
-<text x="289.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">8</text>
+<text x="289.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
+<text x="289.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<circle cx="55.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="55.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
+<text x="55.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<circle cx="445.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="445.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
+<text x="445.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">8</text>
 <circle cx="367.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
 <text x="367.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">E</text>
 <text x="367.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
-<circle cx="445.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="445.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">F</text>
-<text x="445.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<circle cx="133.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="133.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">F</text>
+<text x="133.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
 </svg>
 </div>
 <div class="fragment" data-fragment-index="1" style="width:100%;">
 <svg viewBox="0 0 500 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Huffman, passo 1: floresta F; a árvore recém-composta aparece em laranja">
 <rect x="0" y="0" width="500" height="300" fill="#ffffff"/>
-<circle cx="66.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="66.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
-<text x="66.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
-<line x1="172.0" y1="194.0" x2="144.0" y2="250.0" stroke="#eb811b" stroke-width="3.5"/>
-<line x1="172.0" y1="194.0" x2="200.0" y2="250.0" stroke="#eb811b" stroke-width="3.5"/>
-<circle cx="172.0" cy="194.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
-<text x="172.0" y="194.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
-<circle cx="144.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="144.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
-<text x="144.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
-<circle cx="200.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="200.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">E</text>
-<text x="200.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
-<circle cx="278.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="278.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
-<text x="278.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
-<circle cx="356.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="356.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
-<text x="356.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">8</text>
-<circle cx="434.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="434.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">F</text>
-<text x="434.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<circle cx="211.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="211.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
+<text x="211.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<line x1="328.0" y1="194.0" x2="289.0" y2="250.0" stroke="#eb811b" stroke-width="3.5"/>
+<line x1="328.0" y1="194.0" x2="367.0" y2="250.0" stroke="#eb811b" stroke-width="3.5"/>
+<circle cx="328.0" cy="194.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
+<text x="328.0" y="194.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">4</text>
+<circle cx="289.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="289.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
+<text x="289.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<circle cx="367.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="367.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">E</text>
+<text x="367.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<circle cx="55.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="55.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
+<text x="55.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<circle cx="445.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="445.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
+<text x="445.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">8</text>
+<circle cx="133.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="133.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">F</text>
+<text x="133.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
 </svg>
 </div>
 <div class="fragment" data-fragment-index="2" style="width:100%;">
 <svg viewBox="0 0 500 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Huffman, passo 2: floresta F; a árvore recém-composta aparece em laranja">
 <rect x="0" y="0" width="500" height="300" fill="#ffffff"/>
-<line x1="119.0" y1="138.0" x2="77.0" y2="194.0" stroke="#eb811b" stroke-width="3.5"/>
-<line x1="119.0" y1="138.0" x2="161.0" y2="194.0" stroke="#eb811b" stroke-width="3.5"/>
-<line x1="161.0" y1="194.0" x2="133.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="161.0" y1="194.0" x2="189.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
-<circle cx="119.0" cy="138.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
-<text x="119.0" y="138.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">7</text>
-<circle cx="77.0" cy="194.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="77.0" y="194.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
-<text x="77.0" y="223.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
-<circle cx="161.0" cy="194.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="161.0" y="194.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<line x1="269.5" y1="138.0" x2="211.0" y2="194.0" stroke="#eb811b" stroke-width="3.5"/>
+<line x1="269.5" y1="138.0" x2="328.0" y2="194.0" stroke="#eb811b" stroke-width="3.5"/>
+<line x1="328.0" y1="194.0" x2="289.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="328.0" y1="194.0" x2="367.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
+<circle cx="269.5" cy="138.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
+<text x="269.5" y="138.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">7</text>
+<circle cx="211.0" cy="194.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="211.0" y="194.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
+<text x="211.0" y="223.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<circle cx="328.0" cy="194.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="328.0" y="194.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<circle cx="289.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="289.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
+<text x="289.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<circle cx="367.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="367.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">E</text>
+<text x="367.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<circle cx="55.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="55.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
+<text x="55.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<circle cx="445.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="445.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
+<text x="445.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">8</text>
 <circle cx="133.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="133.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
-<text x="133.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
-<circle cx="189.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="189.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">E</text>
-<text x="189.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
-<circle cx="267.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="267.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
-<text x="267.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
-<circle cx="345.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="345.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
-<text x="345.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">8</text>
-<circle cx="423.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="423.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">F</text>
-<text x="423.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<text x="133.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">F</text>
+<text x="133.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
 </svg>
 </div>
 <div class="fragment" data-fragment-index="3" style="width:100%;">
 <svg viewBox="0 0 500 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Huffman, passo 3: floresta F; a árvore recém-composta aparece em laranja">
 <rect x="0" y="0" width="500" height="300" fill="#ffffff"/>
-<line x1="130.0" y1="138.0" x2="88.0" y2="194.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="130.0" y1="138.0" x2="172.0" y2="194.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="172.0" y1="194.0" x2="144.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="172.0" y1="194.0" x2="200.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
-<circle cx="130.0" cy="138.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="130.0" y="138.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">7</text>
-<circle cx="88.0" cy="194.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="88.0" y="194.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
-<text x="88.0" y="223.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
-<circle cx="172.0" cy="194.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="172.0" y="194.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
-<circle cx="144.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="144.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
-<text x="144.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
-<circle cx="200.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="200.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">E</text>
-<text x="200.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
-<line x1="306.0" y1="194.0" x2="278.0" y2="250.0" stroke="#eb811b" stroke-width="3.5"/>
-<line x1="306.0" y1="194.0" x2="334.0" y2="250.0" stroke="#eb811b" stroke-width="3.5"/>
-<circle cx="306.0" cy="194.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
-<text x="306.0" y="194.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">12</text>
-<circle cx="278.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="278.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
-<text x="278.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
-<circle cx="334.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="334.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">F</text>
-<text x="334.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
-<circle cx="412.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="412.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
-<text x="412.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">8</text>
+<line x1="269.5" y1="138.0" x2="211.0" y2="194.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="269.5" y1="138.0" x2="328.0" y2="194.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="328.0" y1="194.0" x2="289.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="328.0" y1="194.0" x2="367.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
+<circle cx="269.5" cy="138.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="269.5" y="138.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">7</text>
+<circle cx="211.0" cy="194.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="211.0" y="194.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
+<text x="211.0" y="223.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<circle cx="328.0" cy="194.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="328.0" y="194.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<circle cx="289.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="289.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
+<text x="289.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<circle cx="367.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="367.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">E</text>
+<text x="367.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<line x1="94.0" y1="194.0" x2="55.0" y2="250.0" stroke="#eb811b" stroke-width="3.5"/>
+<line x1="94.0" y1="194.0" x2="133.0" y2="250.0" stroke="#eb811b" stroke-width="3.5"/>
+<circle cx="94.0" cy="194.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
+<text x="94.0" y="194.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">12</text>
+<circle cx="55.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="55.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
+<text x="55.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<circle cx="133.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="133.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">F</text>
+<text x="133.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<circle cx="445.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="445.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
+<text x="445.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">8</text>
 </svg>
 </div>
 <div class="fragment" data-fragment-index="4" style="width:100%;">
 <svg viewBox="0 0 500 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Huffman, passo 4: floresta F; a árvore recém-composta aparece em laranja">
 <rect x="0" y="0" width="500" height="300" fill="#ffffff"/>
-<line x1="204.0" y1="82.0" x2="141.0" y2="138.0" stroke="#eb811b" stroke-width="3.5"/>
-<line x1="204.0" y1="82.0" x2="267.0" y2="138.0" stroke="#eb811b" stroke-width="3.5"/>
-<line x1="141.0" y1="138.0" x2="99.0" y2="194.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="141.0" y1="138.0" x2="183.0" y2="194.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="183.0" y1="194.0" x2="155.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="183.0" y1="194.0" x2="211.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
-<circle cx="204.0" cy="82.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
-<text x="204.0" y="82.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">15</text>
-<circle cx="141.0" cy="138.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="141.0" y="138.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">7</text>
-<circle cx="99.0" cy="194.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="99.0" y="194.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
-<text x="99.0" y="223.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
-<circle cx="183.0" cy="194.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="183.0" y="194.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
-<circle cx="155.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="155.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
-<text x="155.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
-<circle cx="211.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="211.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">E</text>
-<text x="211.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
-<circle cx="267.0" cy="138.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="267.0" y="138.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
-<text x="267.0" y="167.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">8</text>
-<line x1="373.0" y1="194.0" x2="345.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="373.0" y1="194.0" x2="401.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
-<circle cx="373.0" cy="194.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="373.0" y="194.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">12</text>
-<circle cx="345.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="345.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
-<text x="345.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
-<circle cx="401.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="401.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">F</text>
-<text x="401.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<line x1="357.2" y1="82.0" x2="269.5" y2="138.0" stroke="#eb811b" stroke-width="3.5"/>
+<line x1="357.2" y1="82.0" x2="445.0" y2="138.0" stroke="#eb811b" stroke-width="3.5"/>
+<line x1="269.5" y1="138.0" x2="211.0" y2="194.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="269.5" y1="138.0" x2="328.0" y2="194.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="328.0" y1="194.0" x2="289.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="328.0" y1="194.0" x2="367.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
+<circle cx="357.2" cy="82.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
+<text x="357.2" y="82.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">15</text>
+<circle cx="269.5" cy="138.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="269.5" y="138.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">7</text>
+<circle cx="211.0" cy="194.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="211.0" y="194.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
+<text x="211.0" y="223.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<circle cx="328.0" cy="194.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="328.0" y="194.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<circle cx="289.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="289.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
+<text x="289.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<circle cx="367.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="367.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">E</text>
+<text x="367.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<circle cx="445.0" cy="138.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="445.0" y="138.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
+<text x="445.0" y="167.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">8</text>
+<line x1="94.0" y1="194.0" x2="55.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="94.0" y1="194.0" x2="133.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
+<circle cx="94.0" cy="194.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="94.0" y="194.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">12</text>
+<circle cx="55.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="55.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
+<text x="55.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<circle cx="133.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="133.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">F</text>
+<text x="133.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
 </svg>
 </div>
 <div class="fragment" data-fragment-index="5" style="width:100%;">
 <svg viewBox="0 0 500 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Huffman, passo 5: floresta F; a árvore recém-composta aparece em laranja">
 <rect x="0" y="0" width="500" height="300" fill="#ffffff"/>
-<line x1="288.5" y1="26.0" x2="215.0" y2="82.0" stroke="#eb811b" stroke-width="3.5"/>
-<line x1="288.5" y1="26.0" x2="362.0" y2="82.0" stroke="#eb811b" stroke-width="3.5"/>
-<line x1="215.0" y1="82.0" x2="152.0" y2="138.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="215.0" y1="82.0" x2="278.0" y2="138.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="152.0" y1="138.0" x2="110.0" y2="194.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="152.0" y1="138.0" x2="194.0" y2="194.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="194.0" y1="194.0" x2="166.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="194.0" y1="194.0" x2="222.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="362.0" y1="82.0" x2="334.0" y2="138.0" stroke="#555555" stroke-width="2.5"/>
-<line x1="362.0" y1="82.0" x2="390.0" y2="138.0" stroke="#555555" stroke-width="2.5"/>
-<circle cx="288.5" cy="26.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
-<text x="288.5" y="26.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">27</text>
-<circle cx="215.0" cy="82.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="215.0" y="82.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">15</text>
-<circle cx="152.0" cy="138.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="152.0" y="138.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">7</text>
-<circle cx="110.0" cy="194.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="110.0" y="194.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
-<text x="110.0" y="223.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
-<circle cx="194.0" cy="194.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="194.0" y="194.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
-<circle cx="166.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="166.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
-<text x="166.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
-<circle cx="222.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="222.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">E</text>
-<text x="222.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
-<circle cx="278.0" cy="138.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="278.0" y="138.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
-<text x="278.0" y="167.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">8</text>
-<circle cx="362.0" cy="82.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="362.0" y="82.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">12</text>
-<circle cx="334.0" cy="138.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="334.0" y="138.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
-<text x="334.0" y="167.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
-<circle cx="390.0" cy="138.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="390.0" y="138.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">F</text>
-<text x="390.0" y="167.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<line x1="225.6" y1="26.0" x2="94.0" y2="82.0" stroke="#eb811b" stroke-width="3.5"/>
+<line x1="225.6" y1="26.0" x2="357.2" y2="82.0" stroke="#eb811b" stroke-width="3.5"/>
+<line x1="94.0" y1="82.0" x2="55.0" y2="138.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="94.0" y1="82.0" x2="133.0" y2="138.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="357.2" y1="82.0" x2="269.5" y2="138.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="357.2" y1="82.0" x2="445.0" y2="138.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="269.5" y1="138.0" x2="211.0" y2="194.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="269.5" y1="138.0" x2="328.0" y2="194.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="328.0" y1="194.0" x2="289.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
+<line x1="328.0" y1="194.0" x2="367.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
+<circle cx="225.6" cy="26.0" r="16" fill="#eb811b" stroke="#b35c00" stroke-width="2"/>
+<text x="225.6" y="26.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">27</text>
+<circle cx="94.0" cy="82.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="94.0" y="82.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">12</text>
+<circle cx="55.0" cy="138.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="55.0" y="138.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
+<text x="55.0" y="167.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<circle cx="133.0" cy="138.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="133.0" y="138.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">F</text>
+<text x="133.0" y="167.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">6</text>
+<circle cx="357.2" cy="82.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="357.2" y="82.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">15</text>
+<circle cx="269.5" cy="138.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="269.5" y="138.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">7</text>
+<circle cx="211.0" cy="194.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="211.0" y="194.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
+<text x="211.0" y="223.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">3</text>
+<circle cx="328.0" cy="194.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="328.0" y="194.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<circle cx="289.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="289.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
+<text x="289.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<circle cx="367.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="367.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">E</text>
+<text x="367.0" y="279.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">2</text>
+<circle cx="445.0" cy="138.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="445.0" y="138.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
+<text x="445.0" y="167.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#6b777d" font-family="KaTeX_Main, 'Times New Roman', serif">8</text>
 </svg>
 </div>
 </div>
@@ -916,64 +916,64 @@ O que nos gera o seguinte código ótimo:
 ::: {style="font-size:0.75em;"}
 | **Símbolo** | **Peso** | **Codificação** |
 |:-:|:-:|:-:|
-| $A$ | 3 | `000` |
-| $B$ | 2 | `0010` |
-| $C$ | 6 | `10` |
-| $D$ | 8 | `01` |
-| $E$ | 2 | `0011` |
-| $F$ | 6 | `11` |
+| $A$ | 3 | `100` |
+| $B$ | 2 | `1010` |
+| $C$ | 6 | `00` |
+| $D$ | 8 | `11` |
+| $E$ | 2 | `1011` |
+| $F$ | 6 | `01` |
 :::
 :::
 ::: {.column .fragment width="62%"}
 ```{=html}
-<svg viewBox="0 0 420 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Árvore final do segundo exemplo com rótulos 0/1 nas arestas: A=000, B=0010, E=0011, D=01, C=10, F=11">
-<line x1="255.4" y1="26.0" x2="168.8" y2="82.0" stroke="#555555" stroke-width="2.5"/>
-<text x="205.5" y="43.9" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">0</text>
-<line x1="255.4" y1="26.0" x2="342.0" y2="82.0" stroke="#555555" stroke-width="2.5"/>
-<text x="305.2" y="43.9" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
-<line x1="168.8" y1="82.0" x2="94.5" y2="138.0" stroke="#555555" stroke-width="2.5"/>
-<text x="124.4" y="100.4" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">0</text>
-<line x1="168.8" y1="82.0" x2="243.0" y2="138.0" stroke="#555555" stroke-width="2.5"/>
-<text x="213.1" y="100.4" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
-<line x1="94.5" y1="138.0" x2="45.0" y2="194.0" stroke="#555555" stroke-width="2.5"/>
-<text x="60.8" y="158.1" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">0</text>
-<line x1="94.5" y1="138.0" x2="144.0" y2="194.0" stroke="#555555" stroke-width="2.5"/>
-<text x="128.2" y="158.1" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
-<line x1="144.0" y1="194.0" x2="111.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
-<text x="117.2" y="215.9" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">0</text>
-<line x1="144.0" y1="194.0" x2="177.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
-<text x="170.8" y="215.9" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
-<line x1="342.0" y1="82.0" x2="309.0" y2="138.0" stroke="#555555" stroke-width="2.5"/>
-<text x="315.2" y="103.9" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">0</text>
-<line x1="342.0" y1="82.0" x2="375.0" y2="138.0" stroke="#555555" stroke-width="2.5"/>
-<text x="368.8" y="103.9" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
-<circle cx="255.4" cy="26.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="255.4" y="26.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">27</text>
-<circle cx="168.8" cy="82.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="168.8" y="82.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">15</text>
-<circle cx="94.5" cy="138.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="94.5" y="138.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">7</text>
-<circle cx="45.0" cy="194.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="45.0" y="194.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
-<text x="45.0" y="224.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">000</text>
-<circle cx="144.0" cy="194.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="144.0" y="194.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
-<circle cx="111.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="111.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
-<text x="111.0" y="280.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">0010</text>
-<circle cx="177.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="177.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">E</text>
-<text x="177.0" y="280.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">0011</text>
-<circle cx="243.0" cy="138.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="243.0" y="138.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
-<text x="243.0" y="168.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">01</text>
-<circle cx="342.0" cy="82.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
-<text x="342.0" y="82.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">12</text>
-<circle cx="309.0" cy="138.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="309.0" y="138.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
-<text x="309.0" y="168.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">10</text>
+<svg viewBox="0 0 420 300" style="display:block; margin:0 auto; width:100%; max-width:100%; height:auto;" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Árvore final do segundo exemplo com rótulos 0/1 nas arestas: C=00, F=01, A=100, B=1010, E=1011, D=11">
+<line x1="189.4" y1="26.0" x2="78.0" y2="82.0" stroke="#555555" stroke-width="2.5"/>
+<text x="128.3" y="43.3" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">0</text>
+<line x1="189.4" y1="26.0" x2="300.8" y2="82.0" stroke="#555555" stroke-width="2.5"/>
+<text x="250.5" y="43.3" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<line x1="78.0" y1="82.0" x2="45.0" y2="138.0" stroke="#555555" stroke-width="2.5"/>
+<text x="51.2" y="103.9" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">0</text>
+<line x1="78.0" y1="82.0" x2="111.0" y2="138.0" stroke="#555555" stroke-width="2.5"/>
+<text x="104.8" y="103.9" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<line x1="300.8" y1="82.0" x2="226.5" y2="138.0" stroke="#555555" stroke-width="2.5"/>
+<text x="256.4" y="100.4" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">0</text>
+<line x1="300.8" y1="82.0" x2="375.0" y2="138.0" stroke="#555555" stroke-width="2.5"/>
+<text x="345.1" y="100.4" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<line x1="226.5" y1="138.0" x2="177.0" y2="194.0" stroke="#555555" stroke-width="2.5"/>
+<text x="192.8" y="158.1" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">0</text>
+<line x1="226.5" y1="138.0" x2="276.0" y2="194.0" stroke="#555555" stroke-width="2.5"/>
+<text x="260.2" y="158.1" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<line x1="276.0" y1="194.0" x2="243.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
+<text x="249.2" y="215.9" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">0</text>
+<line x1="276.0" y1="194.0" x2="309.0" y2="250.0" stroke="#555555" stroke-width="2.5"/>
+<text x="302.8" y="215.9" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Main, 'Times New Roman', serif" font-weight="bold">1</text>
+<circle cx="189.4" cy="26.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="189.4" y="26.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">27</text>
+<circle cx="78.0" cy="82.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="78.0" y="82.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">12</text>
+<circle cx="45.0" cy="138.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="45.0" y="138.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">C</text>
+<text x="45.0" y="168.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">00</text>
+<circle cx="111.0" cy="138.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="111.0" y="138.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">F</text>
+<text x="111.0" y="168.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">01</text>
+<circle cx="300.8" cy="82.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="300.8" y="82.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">15</text>
+<circle cx="226.5" cy="138.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="226.5" y="138.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">7</text>
+<circle cx="177.0" cy="194.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="177.0" y="194.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">A</text>
+<text x="177.0" y="224.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">100</text>
+<circle cx="276.0" cy="194.0" r="16" fill="#ffffff" stroke="#23373b" stroke-width="2"/>
+<text x="276.0" y="194.0" font-size="14" text-anchor="middle" dominant-baseline="central" fill="#23373b" font-family="KaTeX_Main, 'Times New Roman', serif">4</text>
+<circle cx="243.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="243.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">B</text>
+<text x="243.0" y="280.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">1010</text>
+<circle cx="309.0" cy="250.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
+<text x="309.0" y="250.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">E</text>
+<text x="309.0" y="280.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">1011</text>
 <circle cx="375.0" cy="138.0" r="16" fill="#23373b" stroke="#152224" stroke-width="2"/>
-<text x="375.0" y="138.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">F</text>
+<text x="375.0" y="138.0" font-size="16" text-anchor="middle" dominant-baseline="central" fill="#ffffff" font-family="KaTeX_Math, 'Times New Roman', serif" font-style="italic" font-weight="bold">D</text>
 <text x="375.0" y="168.0" font-size="15" text-anchor="middle" dominant-baseline="central" fill="#2e75b6" font-family="KaTeX_Typewriter, 'Courier New', monospace" font-weight="bold">11</text>
 </svg>
 ```

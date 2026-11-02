@@ -1,0 +1,280 @@
+<script src="https://unpkg.com/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+<script>
+// Executa `callback` quando o Reveal estiver pronto. Os scripts dos slides rodam
+// antes de o reveal.js ser carregado, então não dá para registrar eventos direto.
+window.onRevealReady = function(callback) {
+  const start = () => {
+    if (typeof Reveal === 'undefined') return;
+    if (Reveal.isReady()) callback();
+    else Reveal.on('ready', callback);
+  };
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start);
+  else start();
+};
+
+window.setupCyResize = function(cy, container, padding) {
+  const pad = padding !== undefined ? padding : 18;
+  const fitGraph = () => {
+    if (!cy || !container) return;
+    cy.resize();
+    cy.fit(undefined, pad);
+  };
+  window.onRevealReady(() => {
+    const refit = () => {
+      if (container.closest('section') === Reveal.getCurrentSlide()) {
+        setTimeout(fitGraph, 10);
+      }
+    };
+    refit();
+    Reveal.on('slidechanged', refit);
+  });
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(fitGraph).observe(container);
+  }
+  // O cytoscape descarta cliques fora de (largura, altura) do container sem a
+  // escala do Reveal: com o slide ampliado (escala > 1), a faixa direita/inferior
+  // do grafo deixava de responder. Antes de cada clique, usa o tamanho escalado.
+  const renderer = cy.renderer();
+  const fixHitArea = () => {
+    renderer.invalidateContainerClientCoordsCache();
+    const [left, top, width, height, scale] = renderer.findContainerClientCoords();
+    renderer.containerBB = [left, top, width * scale, height * scale, scale];
+  };
+  ["mousedown", "touchstart"].forEach(e => container.addEventListener(e, fixHitArea, true));
+  setTimeout(fitGraph, 50);
+  setTimeout(fitGraph, 200);
+};
+
+// Desenha um grafo com posições fixas no container `id`. O tamanho do
+// container é calculado a partir das posições, multiplicadas por `scale`.
+//   nodes: [[id, x, y, classes?, rótulo?]]
+//   edges: [[origem, destino, classes?, rótulo?]]   (id da aresta: "origem-destino")
+//   opts:  { labels: mostra o id dentro de cada nodo,
+//            colorable: clicar em um nodo alterna sua cor,
+//            edgeColorable: clicar em uma aresta alterna sua cor (e a engrossa),
+//            steps: [passo, ...] animação sincronizada com os fragmentos do slide:
+//                   o passo i é aplicado quando o i-ésimo fragmento (0, 1, ...) aparece.
+//                   Cada passo é { id | "nodes" | "edges": "classe -classeRemovida ..." },
+//                   e os passos se acumulam a partir das classes iniciais.
+//            onStep: função chamada com o número de passos aplicados,
+//            scale (padrão 1.3), padding }
+// Classes de nodo: "labeled" (rótulo dentro), "out"/"above"/"below" (rótulo fora),
+//   "dots" (reticências), "blue", "red", "green", "orange", "hidden".
+// Classes de aresta: "red", "blue", "green", "orange", "thick", "dashed", "used" (tracejada e apagada),
+//   "nolabel", "hidden", "up"/"down" (curva acima/abaixo; "up2".."up4" e "down2".."down4" mais altas).
+window.drawGraph = function(id, nodes, edges, opts) {
+  opts = opts || {};
+  const container = document.getElementById(id);
+  if (!container || typeof cytoscape === "undefined") return;
+  const pad = opts.padding !== undefined ? opts.padding : 10;
+  const scale = opts.scale !== undefined ? opts.scale : 1.3;
+  const palette = [
+    ["#23373b", "#152224"],
+    ["#1565c0", "#0d47a1"],
+    ["#c62828", "#8e1b1b"],
+    ["#2e7d32", "#1b5e20"],
+    ["#f9a825", "#c17900"]
+  ];
+  const edgeIds = new Set();
+
+  const cy = cytoscape({
+    container,
+    elements: [
+      ...nodes.map(([nid, x, y, cls, label]) => {
+        const text = label !== undefined ? label : (opts.labels ? nid : undefined);
+        const data = { id: nid, colorIndex: 0 };
+        if (text !== undefined) data.label = text;
+        const classes = [cls || ""];
+        if (opts.labels && !cls) classes.push("labeled");
+        return { data, position: { x, y }, classes: classes.join(" ").trim() };
+      }),
+      ...edges.map(([source, target, cls, label]) => {
+        const data = { source, target };
+        const eid = `${source}-${target}`;
+        if (!edgeIds.has(eid)) { edgeIds.add(eid); data.id = eid; }
+        if (label !== undefined) data.label = label;
+        return { data, classes: cls || "" };
+      })
+    ],
+    style: [
+      {
+        selector: "node",
+        style: {
+          width: 16,
+          height: 16,
+          "background-color": "#23373b",
+          "border-width": 2,
+          "border-color": "#152224"
+        }
+      },
+      {
+        selector: "node.labeled",
+        style: {
+          label: "data(label)",
+          width: 34,
+          height: 34,
+          color: "#ffffff",
+          "font-size": 16,
+          "font-weight": "bold",
+          "text-valign": "center",
+          "text-halign": "center",
+          "border-width": 2.5
+        }
+      },
+      {
+        selector: "node.out, node.above, node.below",
+        style: {
+          label: "data(label)",
+          color: "#23373b",
+          "font-size": 14,
+          "font-weight": "bold"
+        }
+      },
+      { selector: "node.out", style: { "text-valign": "center", "text-halign": "right", "text-margin-x": 4 } },
+      { selector: "node.above", style: { "text-valign": "top", "text-halign": "center", "text-margin-y": -4 } },
+      { selector: "node.below", style: { "text-valign": "bottom", "text-halign": "center", "text-margin-y": 4 } },
+      {
+        selector: "node.dots",
+        style: {
+          label: "data(label)",
+          width: 30,
+          height: 16,
+          "background-color": "#ffffff",
+          "border-width": 0,
+          color: "#23373b",
+          "font-size": 30,
+          "font-weight": "bold",
+          "text-valign": "center",
+          "text-halign": "center",
+          "text-margin-y": -4
+        }
+      },
+      { selector: "node.blue", style: { "background-color": "#1565c0", "border-color": "#0d47a1" } },
+      { selector: "node.red", style: { "background-color": "#c62828", "border-color": "#8e1b1b" } },
+      { selector: "node.green", style: { "background-color": "#2e7d32", "border-color": "#1b5e20" } },
+      { selector: "node.orange", style: { "background-color": "#eb811b", "border-color": "#b85d08" } },
+      {
+        selector: "edge",
+        style: {
+          width: 3,
+          "line-color": "#555555",
+          "curve-style": "straight"
+        }
+      },
+      {
+        selector: "edge[label]",
+        style: {
+          label: "data(label)",
+          color: "#23373b",
+          "font-size": 14,
+          "font-weight": "bold",
+          "text-background-color": "#ffffff",
+          "text-background-opacity": 1,
+          "text-background-padding": 2
+        }
+      },
+      { selector: "edge.red", style: { "line-color": "#c62828", color: "#c62828" } },
+      { selector: "edge.blue", style: { "line-color": "#1565c0", color: "#1565c0" } },
+      { selector: "edge.green", style: { "line-color": "#2e7d32", color: "#2e7d32" } },
+      { selector: "edge.orange", style: { "line-color": "#eb811b", color: "#b85d08" } },
+      { selector: "edge.thick", style: { width: 5 } },
+      { selector: "edge.dashed", style: { "line-style": "dashed" } },
+      { selector: "edge.used", style: { "line-style": "dashed", opacity: 0.35 } },
+      { selector: "edge.nolabel", style: { "text-opacity": 0, "text-background-opacity": 0 } },
+      {
+        selector: "edge.up, edge.down, edge.up2, edge.down2, edge.up3, edge.down3, edge.up4, edge.down4",
+        style: { "curve-style": "unbundled-bezier", "control-point-weights": 0.5 }
+      },
+      { selector: "edge.up", style: { "control-point-distances": -35 } },
+      { selector: "edge.down", style: { "control-point-distances": 35 } },
+      { selector: "edge.up2", style: { "control-point-distances": -55 } },
+      { selector: "edge.down2", style: { "control-point-distances": 55 } },
+      { selector: "edge.up3", style: { "control-point-distances": -80 } },
+      { selector: "edge.down3", style: { "control-point-distances": 80 } },
+      { selector: "edge.up4", style: { "control-point-distances": -110 } },
+      { selector: "edge.down4", style: { "control-point-distances": 110 } },
+      { selector: ".hidden", style: { opacity: 0 } }
+    ],
+    layout: { name: "preset", fit: false },
+    maxZoom: scale,
+    userZoomingEnabled: false,
+    userPanningEnabled: false,
+    boxSelectionEnabled: false,
+    autoungrabify: true
+  });
+
+  const bb = cy.elements().boundingBox();
+  container.style.width = `${Math.ceil(bb.w * scale + 2 * pad)}px`;
+  container.style.height = `${Math.ceil(bb.h * scale + 2 * pad)}px`;
+  // Os canvas do cytoscape são absolutos sem `left`: um `text-align: center` herdado
+  // os desloca para a direita e o grafo aparece cortado.
+  container.style.textAlign = "left";
+
+  if (opts.colorable) {
+    cy.on("tap", "node", event => {
+      const node = event.target;
+      const colorIndex = (node.data("colorIndex") + 1) % palette.length;
+      const [color, borderColor] = palette[colorIndex];
+      node.data("colorIndex", colorIndex);
+      node.style({ "background-color": color, "border-color": borderColor });
+    });
+  }
+
+  if (opts.edgeColorable) {
+    const edgePalette = [null, "#1565c0", "#c62828", "#2e7d32", "#eb811b"];
+    cy.on("tap", "edge", event => {
+      const edge = event.target;
+      const colorIndex = ((edge.scratch("colorIndex") || 0) + 1) % edgePalette.length;
+      edge.scratch("colorIndex", colorIndex);
+      if (colorIndex === 0) edge.removeStyle();
+      else edge.style({ "line-color": edgePalette[colorIndex], width: 5 });
+    });
+  }
+
+  if (opts.steps) {
+    const initial = cy.elements().map(el => [el, el.classes().join(" ")]);
+    const find = key => {
+      if (key === "nodes") return cy.nodes();
+      if (key === "edges") return cy.edges();
+      const el = cy.getElementById(key);
+      return el.length ? el : cy.getElementById(key.split("-").reverse().join("-"));
+    };
+    const apply = k => {
+      cy.batch(() => {
+        initial.forEach(([el, cls]) => el.classes(cls));
+        opts.steps.slice(0, k).forEach(step => Object.entries(step).forEach(([key, cls]) => {
+          const els = find(key);
+          cls.split(/\s+/).filter(Boolean).forEach(c =>
+            c[0] === "-" ? els.removeClass(c.slice(1)) : els.addClass(c));
+        }));
+      });
+      if (opts.onStep) opts.onStep(k);
+    };
+    const section = container.closest("section");
+    const update = () => {
+      if (Reveal.getCurrentSlide() !== section) return;
+      const f = Reveal.getIndices().f;
+      apply(f === undefined ? 0 : f + 1);
+    };
+    apply(0);
+    window.onRevealReady(() => {
+      update();
+      ["slidechanged", "fragmentshown", "fragmenthidden"].forEach(e => Reveal.on(e, update));
+    });
+  }
+
+  window.setupCyResize(cy, container, pad);
+  return cy;
+};
+
+// Transforma as linhas do corpo da tabela dentro de `id` em fragmentos, a partir
+// da linha `skip`, com índices de fragmento `start`, `start + 1`, ...
+// Deve ser chamada logo após a tabela (antes de o Reveal ser inicializado).
+window.fragmentRows = function(id, skip, start) {
+  document.querySelectorAll(`#${id} tbody tr`).forEach((tr, i) => {
+    if (i < skip) return;
+    tr.classList.add("fragment");
+    tr.dataset.fragmentIndex = start + i - skip;
+  });
+};
+</script>

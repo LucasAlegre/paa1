@@ -6,6 +6,7 @@
 *.html
 !_footer.html
 !aulas/pseudocode-reveal.html
+!aulas/cytoscape-reveal.html
 .DS_Store
 
 .aulas-projeto-e-analise-de-algoritmos/*

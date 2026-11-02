@@ -370,7 +370,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 03/nov.</td>
   <td>Sala 113</td>
   <td class="t-blue">Grafos Eulerianos e Hamiltonianos. Caixeiro Viajante.</td>
-  <td></td>
+  <td style="text-align:center;"><a href="aulas/aula24-grafos-eulerianos.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td></td>
 </tr>
 <tr>

@@ -378,8 +378,14 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>qui. 05/nov.</td>
   <td>Sala 113</td>
   <td class="t-blue">Planaridade.</td>
-  <td></td>
-  <td></td>
+  <td style="text-align:center;"><a href="aulas/aula25-planaridade.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
+  <td>
+    <ul class="list-unstyled mb-0">
+      <li class="mb-1"><a href="https://en.wikipedia.org/wiki/Three_utilities_problem"><i class="bi bi-journal-text me-1"></i>Three Utilities Problem (Wikipedia)</a></li>
+      <li class="mb-1"><a href="https://moodle.ufrgs.br/pluginfile.php/8595713/mod_resource/content/1/Planarity.pdf"><i class="bi bi-file-earmark-pdf me-1"></i>Planarity (PDF)</a></li>
+      <li><a href="https://www.youtube.com/watch?v=uvGqWv1dzpY"><i class="bi bi-youtube me-1"></i>Hopcroft on collaborating with Tarjan</a></li>
+    </ul>
+  </td>
 </tr>
 <!-- Semana 14 -->
 <tr>
@@ -387,7 +393,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 10/nov.</td>
   <td>Sala 113</td>
   <td class="t-blue">Coloração de Grafos.</td>
-  <td></td>
+  <td style="text-align:center;"><a href="aulas/aula26-coloracao.qmd" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td></td>
 </tr>
 <tr>

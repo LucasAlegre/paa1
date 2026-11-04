@@ -52,15 +52,17 @@ window.setupCyResize = function(cy, container, padding) {
 //   opts:  { labels: mostra o id dentro de cada nodo,
 //            colorable: clicar em um nodo alterna sua cor,
 //            edgeColorable: clicar em uma aresta alterna sua cor (e a engrossa),
+//            draggable: os nodos podem ser arrastados (sem sair da área do grafo),
 //            steps: [passo, ...] animação sincronizada com os fragmentos do slide:
 //                   o passo i é aplicado quando o i-ésimo fragmento (0, 1, ...) aparece.
 //                   Cada passo é { id | "nodes" | "edges": "classe -classeRemovida ..." },
 //                   e os passos se acumulam a partir das classes iniciais.
+//                   Um passo também pode ter pos: { id: [x, y] } para mover nodos (animado).
 //            onStep: função chamada com o número de passos aplicados,
 //            scale (padrão 1.3), padding }
 // Classes de nodo: "labeled" (rótulo dentro), "out"/"above"/"below" (rótulo fora),
-//   "dots" (reticências), "blue", "red", "green", "orange", "hidden".
-// Classes de aresta: "red", "blue", "green", "orange", "thick", "dashed", "used" (tracejada e apagada),
+//   "dots" (reticências), "blue", "red", "green", "orange", "purple", "gray", "small", "point", "hidden".
+// Classes de aresta: "red", "blue", "green", "orange", "purple", "thick", "dashed", "used" (tracejada e apagada),
 //   "nolabel", "hidden", "up"/"down" (curva acima/abaixo; "up2".."up4" e "down2".."down4" mais altas).
 window.drawGraph = function(id, nodes, edges, opts) {
   opts = opts || {};
@@ -153,6 +155,11 @@ window.drawGraph = function(id, nodes, edges, opts) {
       { selector: "node.red", style: { "background-color": "#c62828", "border-color": "#8e1b1b" } },
       { selector: "node.green", style: { "background-color": "#2e7d32", "border-color": "#1b5e20" } },
       { selector: "node.orange", style: { "background-color": "#eb811b", "border-color": "#b85d08" } },
+      { selector: "node.purple", style: { "background-color": "#7b1fa2", "border-color": "#4a148c" } },
+      { selector: "node.gray", style: { "background-color": "#bdbdbd", "border-color": "#9e9e9e", color: "#9e9e9e" } },
+      { selector: "node.small", style: { width: 10, height: 10 } },
+      // Nodo reduzido a um ponto: as arestas passam por ele sem falhas (suavização).
+      { selector: "node.point", style: { width: 0.1, height: 0.1, "border-width": 0 } },
       {
         selector: "edge",
         style: {
@@ -177,6 +184,7 @@ window.drawGraph = function(id, nodes, edges, opts) {
       { selector: "edge.blue", style: { "line-color": "#1565c0", color: "#1565c0" } },
       { selector: "edge.green", style: { "line-color": "#2e7d32", color: "#2e7d32" } },
       { selector: "edge.orange", style: { "line-color": "#eb811b", color: "#b85d08" } },
+      { selector: "edge.purple", style: { "line-color": "#7b1fa2", color: "#7b1fa2" } },
       { selector: "edge.thick", style: { width: 5 } },
       { selector: "edge.dashed", style: { "line-style": "dashed" } },
       { selector: "edge.used", style: { "line-style": "dashed", opacity: 0.35 } },
@@ -200,8 +208,27 @@ window.drawGraph = function(id, nodes, edges, opts) {
     userZoomingEnabled: false,
     userPanningEnabled: false,
     boxSelectionEnabled: false,
-    autoungrabify: true
+    autoungrabify: !opts.draggable
   });
+
+  if (opts.draggable) {
+    // Arrastar um nodo em tela touch não deve trocar de slide.
+    container.setAttribute("data-prevent-swipe", "");
+    cy.on("mouseover", "node", () => { container.style.cursor = "grab"; });
+    cy.on("mouseout", "node", () => { container.style.cursor = ""; });
+    cy.on("grab", "node", () => { container.style.cursor = "grabbing"; });
+    cy.on("free", "node", () => { container.style.cursor = "grab"; });
+    // Mantém o nodo dentro da área visível do container.
+    cy.on("drag", "node", event => {
+      const node = event.target;
+      const ext = cy.extent();
+      const rx = node.outerWidth() / 2, ry = node.outerHeight() / 2;
+      const p = node.position();
+      const x = Math.min(Math.max(p.x, ext.x1 + rx), ext.x2 - rx);
+      const y = Math.min(Math.max(p.y, ext.y1 + ry), ext.y2 - ry);
+      if (x !== p.x || y !== p.y) node.position({ x, y });
+    });
+  }
 
   const bb = cy.elements().boundingBox();
   container.style.width = `${Math.ceil(bb.w * scale + 2 * pad)}px`;
@@ -239,14 +266,29 @@ window.drawGraph = function(id, nodes, edges, opts) {
       const el = cy.getElementById(key);
       return el.length ? el : cy.getElementById(key.split("-").reverse().join("-"));
     };
-    const apply = k => {
+    const initialPos = {};
+    cy.nodes().forEach(n => { initialPos[n.id()] = { ...n.position() }; });
+    const apply = (k, animate) => {
       cy.batch(() => {
         initial.forEach(([el, cls]) => el.classes(cls));
         opts.steps.slice(0, k).forEach(step => Object.entries(step).forEach(([key, cls]) => {
+          if (key === "pos") return;
           const els = find(key);
           cls.split(/\s+/).filter(Boolean).forEach(c =>
             c[0] === "-" ? els.removeClass(c.slice(1)) : els.addClass(c));
         }));
+      });
+      const target = { ...initialPos };
+      opts.steps.slice(0, k).forEach(step => Object.entries(step.pos || {}).forEach(([nid, [x, y]]) => {
+        target[nid] = { x, y };
+      }));
+      cy.nodes().forEach(n => {
+        const t = target[n.id()];
+        const p = n.position();
+        if (Math.abs(p.x - t.x) < 0.01 && Math.abs(p.y - t.y) < 0.01) return;
+        n.stop();
+        if (animate) n.animate({ position: t }, { duration: 900, easing: "ease-in-out-cubic" });
+        else n.position(t);
       });
       if (opts.onStep) opts.onStep(k);
     };
@@ -254,7 +296,7 @@ window.drawGraph = function(id, nodes, edges, opts) {
     const update = () => {
       if (Reveal.getCurrentSlide() !== section) return;
       const f = Reveal.getIndices().f;
-      apply(f === undefined ? 0 : f + 1);
+      apply(f === undefined ? 0 : f + 1, true);
     };
     apply(0);
     window.onRevealReady(() => {

@@ -1,0 +1,516 @@
+---
+title: "Projeto e Análise de Algoritmos I"
+subtitle: "Aula 25 - Planaridade"
+author: "Lucas Nunes Alegre"
+institute: |
+  Universidade Federal do Rio Grande do Sul  <br>
+  Instituto de Informática <br> Departamento de Informática Teórica
+  <br><br><br>
+  <span style="display:inline-block; max-width:50%; font-size:0.5em; color: #757575;">Estes slides utilizam conteúdo adaptado da bibliografia da disciplina e também de notas de aula e slides prévios dos professores Bruno Grisci, Rodrigo Machado e André Grahl.</span>
+date: ""
+lang: pt-BR
+
+format:
+  live-revealjs:
+    theme: [default, metropolis.scss]
+    slide-number: true
+    progress: true
+    transition: fade
+    width: 1024
+    height: 768
+    margin: 0.1
+    html-math-method: katex
+    title-slide-attributes:
+      data-background-color: "#ffffff"
+    center: false
+    highlight-style: github
+    fig-align: center
+    embed-resources: false
+    preview-links: true
+    include-in-header:
+      - pseudocode-reveal.html
+      - cytoscape-reveal.html
+    chalkboard:
+      theme: whiteboard
+      boardmarker-width: 5
+      buttons: false
+
+filters:
+  - leovan/pseudocode
+---
+
+
+# Planaridade
+
+## Imersões Planares
+
+Como já vimos, um mesmo grafo $G$ pode ser desenhado de diversas formas (diversas representações gráficas)
+
+```{=html}
+<div style="display: flex; justify-content: center; align-items: center; gap: 60px; margin: 10px 0;">
+  <div id="imersao-1"></div>
+  <div id="imersao-2"></div>
+  <div id="imersao-3"></div>
+  <div style="font-size: 1.5em;">…</div>
+</div>
+<script>
+drawGraph("imersao-1",
+  [["a", 0, 0], ["b", 70, 0], ["c", 0, 70], ["d", 70, 70]],
+  [["a", "b"], ["a", "c"], ["b", "c"], ["c", "d"]],
+  { labels: true, scale: 1.25 });
+
+drawGraph("imersao-2",
+  [["d", 50, 0], ["c", 50, 50], ["a", 0, 100], ["b", 100, 100]],
+  [["d", "c"], ["c", "a"], ["c", "b"], ["a", "b"]],
+  { labels: true, scale: 1.25 });
+
+drawGraph("imersao-3",
+  [["c", 0, 0], ["b", 70, 0], ["a", 0, 70], ["d", 70, 70]],
+  [["c", "b"], ["c", "a"], ["c", "d"], ["b", "a"]],
+  { labels: true, scale: 1.25 });
+</script>
+```
+
+> [**Definição:**]{.label-def} Uma associação:
+>
+> ::: {style="margin-left: 2em;"}
+> nodos $\mapsto$ pontos\
+> arestas $\mapsto$ curvas simples contínuas entre os pontos associados a vértices
+> :::
+>
+> determina uma **imersão** (*embedding*) do grafo no plano X-Y.
+
+. . .
+
+> [**Definição:**]{.label-def} Uma imersão é **planar** **sss** duas curvas distintas se encontram somente nos pontos dos vértices. Em inglês, uma imersão planar é chamada **plane graph**.
+
+## O Problema das Três Casas
+
+![](images/210e2691125be507fbceacdc053bc67a.png){width=80% fig-align="center"}
+
+[Em inglês, *three utilities problem*: <https://en.wikipedia.org/wiki/Three_utilities_problem>]{style="font-size: 0.8em;"}
+
+## Grafos Planares
+
+> [**Definição:**]{.label-def} Um grafo $G$ é **planar** sss $G$ possui alguma imersão planar.
+
+**Intuitivamente:** Existe uma forma de desenhá-lo no plano sem que tenhamos arestas cortando outras arestas.
+
+. . .
+
+> [**Exercício:**]{.label-excs} Determine quais dos seguintes grafos são planares:
+
+```{=html}
+<div style="display: flex; justify-content: center; align-items: center; gap: 70px; margin: 10px 0;">
+  <div id="planar-ex-k3"></div>
+  <div id="planar-ex-k4"></div>
+  <div id="planar-ex-c5"></div>
+</div>
+<div style="display: flex; justify-content: center; align-items: center; gap: 70px; margin: 10px 0;">
+  <div id="planar-ex-k5"></div>
+  <div id="planar-ex-k23"></div>
+  <div id="planar-ex-k33"></div>
+</div>
+<script>
+drawGraph("planar-ex-k3",
+  [["v0", 50, 10], ["v1", 15, 70], ["v2", 85, 70]],
+  [["v0", "v1"], ["v1", "v2"], ["v2", "v0"]],
+  { scale: 1.3 });
+
+drawGraph("planar-ex-k4",
+  [["v0", 50, 10], ["v1", 10, 50], ["v2", 50, 90], ["v3", 90, 50]],
+  [["v0", "v1"], ["v0", "v2"], ["v0", "v3"], ["v1", "v2"], ["v1", "v3"], ["v2", "v3"]],
+  { scale: 1.3 });
+
+drawGraph("planar-ex-c5",
+  [["v0", 50, 10], ["v1", 12, 38], ["v2", 26, 82], ["v3", 74, 82], ["v4", 88, 38]],
+  [["v0", "v2"], ["v2", "v4"], ["v4", "v1"], ["v1", "v3"], ["v3", "v0"]],
+  { scale: 1.3 });
+
+drawGraph("planar-ex-k5",
+  [["v0", 50, 10], ["v1", 12, 38], ["v2", 26, 82], ["v3", 74, 82], ["v4", 88, 38]],
+  [["v0", "v1"], ["v0", "v2"], ["v0", "v3"], ["v0", "v4"], ["v1", "v2"],
+   ["v1", "v3"], ["v1", "v4"], ["v2", "v3"], ["v2", "v4"], ["v3", "v4"]],
+  { scale: 1.3 });
+
+drawGraph("planar-ex-k23",
+  [["t0", 0, 0], ["t1", 50, 0], ["t2", 100, 0], ["u0", 25, 70], ["u1", 75, 70]],
+  [["t0", "u0"], ["t0", "u1"], ["t1", "u0"], ["t1", "u1"], ["t2", "u0"], ["t2", "u1"]],
+  { scale: 1.3 });
+
+drawGraph("planar-ex-k33",
+  [["t0", 0, 0], ["t1", 50, 0], ["t2", 100, 0], ["u0", 0, 70], ["u1", 50, 70], ["u2", 100, 70]],
+  [["t0", "u0"], ["t0", "u1"], ["t0", "u2"], ["t1", "u0"], ["t1", "u1"],
+   ["t1", "u2"], ["t2", "u0"], ["t2", "u1"], ["t2", "u2"]],
+  { scale: 1.3 });
+</script>
+```
+
+## Grafos Planares: Exemplos
+
+Os grafos que representam os cinco poliedros regulares são planares:
+
+**Ideia:** "Expandir" um dos lados do poliedro, achatando a superfície tridimensional. Considera-se a região externa a "face" do lado expandido.
+
+:::: {.columns style="align-items: center;"}
+::: {.column width="18%"}
+![](fig/tetra.png){width=100%}
+:::
+::: {.column width="18%"}
+![](fig/octa.png){width=100%}
+:::
+::: {.column width="18%"}
+![](fig/hexa.png){width=100%}
+:::
+::: {.column width="18%"}
+![](fig/dode.png){width=100%}
+:::
+::: {.column width="18%"}
+![](fig/ico.png){width=100%}
+:::
+::::
+
+![](fig/grafos-platonicos.gif){width=85% fig-align="center"}
+
+## Grafos Planares: Definições de Topologia
+
+> [**Definição:**]{.label-def} Um **conjunto aberto** (no plano) é um subconjunto $X \subseteq R^2$ tal que, para qualquer ponto $p \in X$ há uma dada distância $\epsilon$ para a qual todos os pontos no plano a $\epsilon$ de distância de $p$ estão em $X$.
+
+> [**Definição:**]{.label-def} Uma **região** $R$ é um conjunto aberto (no plano) onde, para qualquer par de pontos $p1$ e $p2$, há um caminho simples contínuo entre eles em $R$.
+
+> [**Definição:**]{.label-def} Uma **face** de uma imersão de um grafo $G$ no plano é uma região maximal que não contém nenhum ponto da imersão.
+
+> [**Teorema:**]{.label-thm} (Jordan) Uma curva $c$ em $R^2$ fechada contínua e simples (não repete elementos, com exceção dos pontos iniciais/finais) divide o plano em exatas duas regiões: interna e externa, sendo que toda curva contínua ligando um ponto interno a um ponto externo intersecciona $c$ em no mínimo um ponto.
+
+## Grafos Planares: Grafo Dual Planar
+
+> [**Definição:**]{.label-def} Seja $G$ um pseudografo planar. O [**pseudografo dual planar**]{style="color:#c40000"} de uma [imersão planar de $G$]{style="color:#1565c0"}, também chamado dual geométrico, é o pseudografo $G'=(V',E')$ onde
+>
+> - $V'$ é o conjunto de faces da imersão planar de $G$.
+> - existe uma aresta $\{f_1,f_2\} \in E'$ para cada aresta $e \in E$ dividindo as faces $f_1$ e $f_2$ em $G$.
+
+> [**Exemplo:**]{.label-exmp} [Pseudografo G]{style="color:#1565c0"} e o [dual de G]{style="color:#c40000"}.
+
+![](fig/grafo-dual.png){width=40% fig-align="center" .nostretch}
+
+> [**Nota:**]{.label-rmk} Duas imersões planares distintas de um mesmo pseudografo $G$ podem ter duais não-isomorfos.
+
+## Mapas
+
+![](images/polygonmaps2_01.png){width=90% fig-align="center"}
+
+## Grafos Planares: Fórmula de Euler (Lema)
+
+> [**Lema:**]{.label-lem} Para um grafo planar $G$,
+>
+> $$ \textcolor{#d96c00}{v} + \textcolor{#006666}{f} = \textcolor{#bf0000}{e} + \textcolor{#6c006c}{c} + 1 $$
+>
+> onde
+>
+> - $\textcolor{#d96c00}{v}$: número de vértices $= |V|$
+> - $\textcolor{#006666}{f}$: número de faces de uma imersão planar de $G$
+> - $\textcolor{#bf0000}{e}$: número de arestas $= |E|$
+> - $\textcolor{#6c006c}{c}$: número de componentes conexos
+
+## Grafos Planares: Fórmula de Euler (Prova do Lema)
+
+[**Demonstração:**]{.label-prf} Por indução no número de arestas ($\textcolor{#bf0000}{e}$):
+
+- **Caso base:** $\textcolor{#bf0000}{e}=0$: $\textcolor{#d96c00}{v} + 1 = 0 + \textcolor{#d96c00}{v} + 1$ (prova válida)
+- **Passo indutivo:** Suponha que $\textcolor{#d96c00}{v} + \textcolor{#006666}{f} = \textcolor{#bf0000}{e} + \textcolor{#6c006c}{c} + 1$ valha para grafo planar $G$ (hipótese indutiva). Tome uma imersão planar de $G$, como base, e considere a adição de uma aresta $i$ entre dois nodos não-adjacentes de $G$ de tal forma que não haja cruzamento de arestas. Duas possibilidades:
+
+  ::: {.incremental}
+  - $i$ conecta dois nodos de um mesmo componente conexo. Nesse caso, aumenta-se em um o número de faces (planaridade) e o número de arestas, onde temos $\textcolor{#d96c00}{v} + (\textcolor{#006666}{f}+1) = (\textcolor{#bf0000}{e}+1) + \textcolor{#6c006c}{c} + 1$.
+  - $i$ conecta dois nodos em componentes conexos distintos. Neste caso, não se adicionam faces porém reduz-se (em uma unidade) o número de componentes conexos do grafo, e temos $\textcolor{#d96c00}{v} + \textcolor{#006666}{f} = (\textcolor{#bf0000}{e}+1) + (\textcolor{#6c006c}{c}-1) + 1$.
+  :::
+
+## Grafos Planares: Fórmula de Euler
+
+> [**Teorema:**]{.label-thm} Para um grafo planar e conexo $G$,
+>
+> $$ \textcolor{#d96c00}{v} + \textcolor{#006666}{f} = \textcolor{#bf0000}{e} + 2 $$
+>
+> onde
+>
+> - $\textcolor{#d96c00}{v}$: número de vértices
+> - $\textcolor{#006666}{f}$: número de faces de uma imersão planar de $G$
+> - $\textcolor{#bf0000}{e}$: número de arestas
+
+[**Demonstração:**]{.label-prf} Usando a prova do lema anterior, contando $\textcolor{#d96c00}{v}-1$ vezes o caso 2 (conexão de nodos em componentes conexos distintos).
+
+## Grafos Planares: Quantidade Máxima de Arestas
+
+Os grafos planares possuem a propriedade de **serem esparsos** (poucas arestas).
+
+. . .
+
+> [**Definição:**]{.label-def} Um grafo simples planar $G = (V,E)$ é [**maximal**]{style="color:#c40000"} se, para toda aresta $e \notin E$, $G' = (V,E \cup \{e\})$ não é planar.
+
+. . .
+
+> [**Teorema:**]{.label-thm} Um grafo simples planar maximal $G$ possui $\textcolor{#bf0000}{e} = 3\textcolor{#d96c00}{v} - 6$ arestas.
+
+[**Demonstração:**]{.label-prf}
+
+::: {.incremental}
+- $G$ é conexo.
+- Todas as regiões de um grafo simples planar maximal são triângulos.
+- Como cada face é composta por três arestas, podemos inicialmente aproximar $3\textcolor{#006666}{f} \propto \textcolor{#bf0000}{e}$.
+- Contudo, isso estaria contando duas vezes cada aresta, portanto a fórmula exata é $3\textcolor{#006666}{f} = 2\textcolor{#bf0000}{e}$.
+- Substituindo $\textcolor{#006666}{f}$ na fórmula de Euler pelo resultado anterior, obtemos $\textcolor{#bf0000}{e} = 3\textcolor{#d96c00}{v} -6$. $\blacksquare$
+:::
+
+## Grafos Planares: Quantidade Máxima de Arestas
+
+> [**Teorema:**]{.label-thm} Um grafo simples planar maximal $G$ possui $\textcolor{#bf0000}{e} = 3\textcolor{#d96c00}{v} - 6$ arestas.
+
+> [**Corolário:**]{.label-cor} Se $G$ é **planar**, então $\textcolor{#bf0000}{e} \leq 3\textcolor{#d96c00}{v} - 6$.
+
+> [**Obs:**]{.label-rmk} Note que isto não é uma equivalência:
+>
+> - Nem todo grafo com $\textcolor{#bf0000}{e} \leq 3\textcolor{#d96c00}{v} - 6$ é planar.
+> - Exemplo: $K_{3,3}$ tem $\textcolor{#d96c00}{v} = 6$ e $\textcolor{#bf0000}{e} = 9$, e portanto $\textcolor{#bf0000}{e} \leq 3\textcolor{#d96c00}{v} - 6$, mas $K_{3,3}$ é não-planar.
+
+## Não-Planaridade de $K_{3,3}$ e $K_5$
+
+Os seguintes **grafos não-planares** são especiais:
+
+::: {style="display: flex; justify-content: center; align-items: center; gap: 30px;"}
+$K_5 =$
+
+```{=html}
+<div id="nao-planar-k5"></div>
+<script>
+drawGraph("nao-planar-k5",
+  [["v0", 80, 10], ["v1", 13, 58], ["v2", 39, 137], ["v3", 121, 137], ["v4", 147, 58]],
+  [["v0", "v1"], ["v0", "v2"], ["v0", "v3"], ["v0", "v4"], ["v1", "v2"],
+   ["v1", "v3"], ["v1", "v4"], ["v2", "v3"], ["v2", "v4"], ["v3", "v4"]],
+  { scale: 1.1 });
+</script>
+```
+
+$\textcolor{#d96c00}{v} = 5 \qquad \textcolor{#bf0000}{e} = 10$
+:::
+
+::: {style="display: flex; justify-content: center; align-items: center; gap: 30px;"}
+$K_{3,3} =$
+
+```{=html}
+<div id="nao-planar-k33"></div>
+<script>
+drawGraph("nao-planar-k33",
+  [["t0", 0, 0], ["t1", 80, 0], ["t2", 160, 0], ["u0", 0, 90], ["u1", 80, 90], ["u2", 160, 90]],
+  [["t0", "u0"], ["t0", "u1"], ["t0", "u2"], ["t1", "u0"], ["t1", "u1"],
+   ["t1", "u2"], ["t2", "u0"], ["t2", "u1"], ["t2", "u2"]],
+  { scale: 1.1 });
+</script>
+```
+
+$\textcolor{#d96c00}{v} = 6 \qquad \textcolor{#bf0000}{e} = 9$
+:::
+
+## Caracterização de Planaridade
+
+> [**Definição:**]{.label-def} Dado um grafo simples $G$, uma **extensão direta** de $G$ é um grafo $G'$ obtido pela eliminação de uma aresta em $G$ e a introdução de um caminho de tamanho 2 no lugar da aresta removida (com um nodo novo).
+
+[**Exemplo:**]{.label-exmp}
+
+::: {style="display: flex; justify-content: center; align-items: center; gap: 20px;"}
+$G =$
+
+```{=html}
+<div id="extensao-direta-g"></div>
+<script>
+drawGraph("extensao-direta-g",
+  [["g00", 0, 0], ["g02", 60, 0], ["g20", 0, 60], ["g22", 60, 60]],
+  [["g00", "g20"], ["g00", "g02"], ["g00", "g22"], ["g20", "g22"]],
+  { scale: 1.1 });
+</script>
+```
+
+$\quad \Rightarrow \quad G' =$
+
+```{=html}
+<div id="extensao-direta-g1"></div>
+<script>
+drawGraph("extensao-direta-g1",
+  [["g00", 0, 0], ["g02", 60, 0], ["g11", 30, 30], ["g20", 0, 60], ["g22", 60, 60]],
+  [["g00", "g20"], ["g00", "g02"], ["g00", "g11"], ["g11", "g22"], ["g20", "g22"]],
+  { scale: 1.1 });
+</script>
+```
+:::
+
+. . .
+
+> [**Definição:**]{.label-def} Dado um grafo simples $G$, uma **extensão** de $G$ é um grafo $G'$ obtido através de um número finito (possivelmente zero) de sucessivas extensões diretas de $G$.
+
+::: {style="display: flex; justify-content: center; align-items: center; gap: 20px;"}
+$G =$
+
+```{=html}
+<div id="extensao-g"></div>
+<script>
+drawGraph("extensao-g",
+  [["g00", 0, 0], ["g02", 60, 0], ["g20", 0, 60], ["g22", 60, 60]],
+  [["g00", "g20"], ["g00", "g02"], ["g00", "g22"], ["g20", "g22"]],
+  { scale: 1.1 });
+</script>
+```
+
+$\quad \Rightarrow \quad G' =$
+
+```{=html}
+<div id="extensao-g1"></div>
+<script>
+drawGraph("extensao-g1",
+  [["n00", 0, 0], ["n01", 30, 0], ["n02", 60, 0], ["n03", 90, 0],
+   ["n11", 30, 30], ["n20", 0, 60], ["n21", 30, 60], ["n22", 60, 60]],
+  [["n00", "n01"], ["n01", "n02"], ["n02", "n03"], ["n00", "n20"],
+   ["n00", "n11"], ["n11", "n22"], ["n20", "n21"], ["n21", "n22"]],
+  { scale: 1.1 });
+</script>
+```
+:::
+
+## Caracterização de Grafos Planares
+
+> [**Teorema:**]{.label-thm} (Kuratowski) Um grafo simples é não-planar sss possui como subgrafo uma extensão de $K_5$ ou de $K_{3,3}$.
+
+[**Demonstração:**]{.label-prf} Não será vista nessa disciplina.
+
+. . .
+
+> [**Exemplo:**]{.label-exmp} Mostre que o grafo de Petersen não é planar utilizando o teorema de Kuratowski.
+
+::: {style="display: flex; justify-content: center; align-items: center; gap: 30px;"}
+```{=html}
+<div id="kuratowski-petersen"></div>
+<script>
+drawGraph("kuratowski-petersen",
+  [["a0", 220, 110, "out", "a0"], ["a1", 151, 15, "out", "a1"], ["a2", 39, 51, "out", "a2"],
+   ["a3", 39, 169, "out", "a3"], ["a4", 151, 205, "out", "a4"],
+   ["b0", 170, 110, "out", "b0"], ["b1", 135, 62, "out", "b1"], ["b2", 80, 81, "out", "b2"],
+   ["b3", 80, 139, "out", "b3"], ["b4", 135, 158, "out", "b4"]],
+  [["a0", "a1"], ["a1", "a2"], ["a2", "a3"], ["a3", "a4"], ["a4", "a0"],
+   ["a0", "b0"], ["a1", "b1"], ["a2", "b2"], ["a3", "b3"], ["a4", "b4"],
+   ["b0", "b2"], ["b2", "b4"], ["b4", "b1"], ["b1", "b3"], ["b3", "b0"]],
+  { scale: 1.15 });
+</script>
+```
+
+$\Rightarrow$
+
+$$
+\begin{array}{l}
+V_1 = \{ a1, b0, a4\} \\
+V_2 = \{ a0, b2, b3\}
+\end{array}
+$$
+:::
+
+O grafo de Petersen com as arestas $\{ a2,a3\}$ e $\{b1,b4\}$ removidas é uma extensão de $K_{3,3}$, onde $V_1$ e $V_2$ representam os dois conjuntos de vértices.
+
+<https://graphonline.top/?graph=liVXTrQtcXUOlvQc>
+
+## Caracterização de Grafos Planares (2)
+
+> [**Definição:**]{.label-def} **Contração de aresta (grafos simples)**.\
+> Seja $G=(V,E)$ um grafo simples e uma aresta $e=\{v,w\} \in E$. Definimos a contração de $e$ em $G$, denotada $G/e$, como o grafo $G' = (V',E')$ onde
+>
+> $V' = V - \{v,w\} \uplus \{\bullet\}$
+>
+> $E' = \{ e \mid e \in E,\ \ v \notin e,\ \ w \notin e \} \cup \{ \{\bullet, x\} \mid x \in V \land (v \ \text{adj}\ x \lor w\ \text{adj}\ x) \}$
+
+[**Exemplo:**]{.label-exmp}
+
+::: {style="display: flex; justify-content: center; align-items: center; gap: 20px;"}
+$G =$
+
+```{=html}
+<div id="contracao-g"></div>
+<script>
+drawGraph("contracao-g",
+  [["a", 0, 0], ["b", 80, 0], ["c", 0, 80], ["d", 80, 80]],
+  [["a", "c"], ["a", "b"], ["a", "d"], ["c", "d"]],
+  { labels: true, scale: 1.0 });
+</script>
+```
+
+$\quad \Rightarrow \quad G/\{a,d\} =$
+
+```{=html}
+<div id="contracao-g1"></div>
+<script>
+drawGraph("contracao-g1",
+  [["ad", 0, 0, "bullet"], ["b", 80, 0], ["c", 0, 80]],
+  [["ad", "c"], ["ad", "b"]],
+  { labels: true, scale: 1.0 });
+</script>
+```
+:::
+
+. . .
+
+> [**Teorema:**]{.label-thm} (Wagner) Um grafo simples $G$ é não-planar sss possui um subgrafo que pode ser transformado em $K_5$ ou $K_{3,3}$ através de um número finito (possivelmente zero) de contrações de aresta.
+
+[**Demonstração:**]{.label-prf} Não será vista nessa disciplina.
+
+## Caracterização de Grafos Planares (2)
+
+> [**Exemplo:**]{.label-exmp} mostre que o grafo de Petersen não é planar utilizando o teorema de Wagner.
+
+```{=html}
+<div style="display: flex; justify-content: center; align-items: center; gap: 50px; margin: 20px 0;">
+  <div id="wagner-petersen"></div>
+  <div style="font-size: 1.5em;">⇒</div>
+  <div id="wagner-k5"></div>
+</div>
+<script>
+drawGraph("wagner-petersen",
+  [["a0", 220, 110, "out", "a0"], ["a1", 151, 15, "out", "a1"], ["a2", 39, 51, "out", "a2"],
+   ["a3", 39, 169, "out", "a3"], ["a4", 151, 205, "out", "a4"],
+   ["b0", 170, 110, "out", "b0"], ["b1", 135, 62, "out", "b1"], ["b2", 80, 81, "out", "b2"],
+   ["b3", 80, 139, "out", "b3"], ["b4", 135, 158, "out", "b4"]],
+  [["a0", "a1"], ["a1", "a2"], ["a2", "a3"], ["a3", "a4"], ["a4", "a0"],
+   ["a0", "b0"], ["a1", "b1"], ["a2", "b2"], ["a3", "b3"], ["a4", "b4"],
+   ["b0", "b2"], ["b2", "b4"], ["b4", "b1"], ["b1", "b3"], ["b3", "b0"]],
+  { scale: 1.1 });
+
+drawGraph("wagner-k5",
+  [["k0", 220, 110], ["k1", 151, 15], ["k2", 39, 51], ["k3", 39, 169], ["k4", 151, 205]],
+  [["k0", "k1"], ["k0", "k2"], ["k0", "k3"], ["k0", "k4"], ["k1", "k2"],
+   ["k1", "k3"], ["k1", "k4"], ["k2", "k3"], ["k2", "k4"], ["k3", "k4"]],
+  { scale: 1.1 });
+</script>
+```
+
+Contrações: $/\{a0,b0\}/ \{a1,b1\} /\{a2,b2\}/\{a3,b3\}/ \{a4,b4\}$
+
+## Algoritmo de Hopcroft-Tarjan
+
+O **algoritmo de Hopcroft-Tarjan** determina a planaridade de um grafo de forma linear usando DFS: $O(n)$.
+
+<br>
+
+Não será visto em aula, conferir material complementar.
+
+## Circuitos Planares e Não Planares
+
+- **Circuitos planares**\
+  Usados em placas de circuitos impressos (finas camadas de material isolante com traços condutores impressos). São usadas para conectar componentes eletrônicos em computadores, celulares, etc.
+
+. . .
+
+- **Circuitos não planares**\
+  Usados em circuitos integrados 3D, compostos por múltiplas camadas de componentes eletrônicos conectados por fios ou trilhas verticais. Circuitos integrados 3D normalmente oferecem maior densidade e menor consumo de energia.
+
+## Printed Circuit Board
+
+![](images/SEG_DVD_430_-_Printed_circuit_board-4276.jpg){width=75% fig-align="center"}
+
+#
+
+::: {style="text-align: center; margin-top: 15vh;"}
+[?]{style="font-size: 5em; color: #d10000; font-weight: 700;"}
+:::

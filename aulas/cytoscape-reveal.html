@@ -41,6 +41,17 @@ window.setupCyResize = function(cy, container, padding) {
     renderer.containerBB = [left, top, width * scale, height * scale, scale];
   };
   ["mousedown", "touchstart"].forEach(e => container.addEventListener(e, fixHitArea, true));
+  // O Reveal amplia o slide via CSS para ocupar a tela, mas o canvas do cytoscape só
+  // considera o devicePixelRatio: num telão, o grafo era desenhado na resolução do
+  // slide original e esticado (borrado). Ao (re)dimensionar o canvas, inclui a escala.
+  const matchCanvasSize = renderer.matchCanvasSize.bind(renderer);
+  renderer.matchCanvasSize = function(canvasContainer) {
+    const scale = renderer.findContainerClientCoords()[4];
+    if (Number.isFinite(scale) && scale > 0) {
+      renderer.forcedPixelRatio = Math.min(4, (window.devicePixelRatio || 1) * Math.max(1, scale));
+    }
+    return matchCanvasSize(canvasContainer);
+  };
   setTimeout(fitGraph, 50);
   setTimeout(fitGraph, 200);
 };
@@ -61,7 +72,9 @@ window.setupCyResize = function(cy, container, padding) {
 //            onStep: função chamada com o número de passos aplicados,
 //            scale (padrão 1.3), padding }
 // Classes de nodo: "labeled" (rótulo dentro), "out"/"above"/"below" (rótulo fora),
-//   "dots" (reticências), "blue", "red", "green", "orange", "purple", "gray", "small", "point", "hidden".
+//   "box" (caixa com o rótulo dentro), "dots" (reticências), "white" (sem cor),
+//   "blue", "red", "green", "orange", "purple", "yellow", "cyan", "pink", "brown", "gray",
+//   "ring" (halo de destaque), "lg" (rótulo maior), "big" (nodo maior), "small", "point", "hidden".
 // Classes de aresta: "red", "blue", "green", "orange", "purple", "thick", "dashed", "used" (tracejada e apagada),
 //   "nolabel", "hidden", "up"/"down" (curva acima/abaixo; "up2".."up4" e "down2".."down4" mais altas).
 window.drawGraph = function(id, nodes, edges, opts) {
@@ -135,6 +148,7 @@ window.drawGraph = function(id, nodes, edges, opts) {
       { selector: "node.out", style: { "text-valign": "center", "text-halign": "right", "text-margin-x": 4 } },
       { selector: "node.above", style: { "text-valign": "top", "text-halign": "center", "text-margin-y": -4 } },
       { selector: "node.below", style: { "text-valign": "bottom", "text-halign": "center", "text-margin-y": 4 } },
+      { selector: "node.lg", style: { "font-size": 20 } },
       {
         selector: "node.dots",
         style: {
@@ -151,13 +165,44 @@ window.drawGraph = function(id, nodes, edges, opts) {
           "text-margin-y": -4
         }
       },
+      // Caixa com o rótulo dentro (para nomes longos).
+      {
+        selector: "node.box",
+        style: {
+          shape: "round-rectangle",
+          label: "data(label)",
+          width: 84,
+          height: 32,
+          color: "#23373b",
+          "font-size": 15,
+          "font-weight": "bold",
+          "text-valign": "center",
+          "text-halign": "center",
+          "border-width": 2.5
+        }
+      },
+      // Nodo ainda não colorido (declarado antes das cores: qualquer cor o sobrepõe).
+      { selector: "node.white", style: { "background-color": "#ffffff", "border-color": "#23373b" } },
       { selector: "node.blue", style: { "background-color": "#1565c0", "border-color": "#0d47a1" } },
       { selector: "node.red", style: { "background-color": "#c62828", "border-color": "#8e1b1b" } },
       { selector: "node.green", style: { "background-color": "#2e7d32", "border-color": "#1b5e20" } },
       { selector: "node.orange", style: { "background-color": "#eb811b", "border-color": "#b85d08" } },
       { selector: "node.purple", style: { "background-color": "#7b1fa2", "border-color": "#4a148c" } },
+      { selector: "node.yellow", style: { "background-color": "#f9a825", "border-color": "#c17900" } },
+      { selector: "node.cyan", style: { "background-color": "#00acc1", "border-color": "#00838f" } },
+      { selector: "node.pink", style: { "background-color": "#ec407a", "border-color": "#ad1457" } },
+      { selector: "node.brown", style: { "background-color": "#8d6e63", "border-color": "#5d4037" } },
       { selector: "node.gray", style: { "background-color": "#bdbdbd", "border-color": "#9e9e9e", color: "#9e9e9e" } },
+      // Rótulo interno legível sobre fundo claro.
+      { selector: "node.labeled.white, node.labeled.yellow", style: { color: "#23373b" } },
+      { selector: "node.box.blue, node.box.red, node.box.green, node.box.purple, node.box.orange", style: { color: "#ffffff" } },
+      // Destaque: halo vermelho ao redor do nodo.
+      {
+        selector: "node.ring",
+        style: { "underlay-color": "#c62828", "underlay-padding": 7, "underlay-opacity": 0.35, "underlay-shape": "ellipse" }
+      },
       { selector: "node.small", style: { width: 10, height: 10 } },
+      { selector: "node.big", style: { width: 24, height: 24, "border-width": 2.5 } },
       // Nodo reduzido a um ponto: as arestas passam por ele sem falhas (suavização).
       { selector: "node.point", style: { width: 0.1, height: 0.1, "border-width": 0 } },
       {
@@ -238,10 +283,13 @@ window.drawGraph = function(id, nodes, edges, opts) {
   container.style.textAlign = "left";
 
   if (opts.colorable) {
+    // Nodos com a classe "white" começam sem cor e voltam a ficar brancos no fim do ciclo.
+    const whitePalette = [["#ffffff", "#23373b"], ...palette.slice(1), ["#7b1fa2", "#4a148c"]];
     cy.on("tap", "node", event => {
       const node = event.target;
-      const colorIndex = (node.data("colorIndex") + 1) % palette.length;
-      const [color, borderColor] = palette[colorIndex];
+      const pal = node.hasClass("white") ? whitePalette : palette;
+      const colorIndex = (node.data("colorIndex") + 1) % pal.length;
+      const [color, borderColor] = pal[colorIndex];
       node.data("colorIndex", colorIndex);
       node.style({ "background-color": color, "border-color": borderColor });
     });

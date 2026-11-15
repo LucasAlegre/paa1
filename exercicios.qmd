@@ -300,6 +300,17 @@ digraph G {
    a) Considere que exista uma única máquina capaz de processar uma tarefa por vez (considere que se uma tarefa termina no tempo $t$ e outra inicia no mesmo tempo $t$, ambas podem ser realizadas). Qual o número máximo de tarefas que podem ser realizadas nessa única máquina (sem conflitos)?
    b) Considere que será possível alocar mais máquinas para a realização das tarefas acima. Qual o menor número de máquinas necessárias para realizar todas as tarefas acima descritas? Apresente a alocação que usa esse número mínimo.
 
+2. Considere o problema de **escalonamento para minimizar o atraso máximo**, em que cada tarefa $j$ tem duração $t_j$ e deadline $d_j$, o atraso é $l_j = \max\{0, f_j - d_j\}$ e o objetivo é minimizar $L = \max_j l_j$.
+
+   | Tarefa | 1 | 2 | 3 | 4 | 5 |
+   | :---: | :---: | :---: | :---: | :---: | :---: |
+   | $t_j$ | 3 | 2 | 1 | 4 | 2 |
+   | $d_j$ | 4 | 3 | 10 | 10 | 6 |
+
+   a) Aplique a estratégia *MenorDeadlinePrimeiro* e calcule o atraso máximo $L$ obtido.
+   b) Aplique a estratégia *menor duração primeiro* e calcule o atraso máximo $L$ obtido. A estratégia é ótima nesta instância?
+   c) Defina o que é uma **inversão** em um escalonamento e explique por que trocar duas tarefas invertidas e adjacentes não aumenta o atraso máximo.
+
 ---
 
 ## Caminhos Mínimos
@@ -325,6 +336,45 @@ digraph G {
    - (&emsp;) O algoritmo de Dijkstra sempre para, mas em alguns casos as distâncias do caminho mais curto que ele calcula não estarão todas corretas.
    - (&emsp;) O algoritmo de Dijkstra sempre para e, em alguns casos, as distâncias do caminho mais curto que ele calcula estarão todas corretas.
 
+4. Execute o algoritmo de Dijkstra no dígrafo abaixo a partir do vértice $s$.
+
+```{dot}
+//| fig-width: 4.5
+//| fig-height: 2.2
+//| fig-align: center
+digraph D1 {
+    layout=neato;
+    graph [margin=0.1, pad=0];
+    node [fontname="Times-Italic", fontsize=18, shape=circle, width=0.4, fixedsize=true];
+    edge [fontname="Times", fontsize=14, arrowsize=0.7];
+
+    s [pos="0,1!"];
+    a [pos="1.5,2!"];
+    b [pos="1.5,0!"];
+    c [pos="3,1!"];
+    d [pos="4.5,2!"];
+    e [pos="4.5,0!"];
+    t [pos="6,1!"];
+
+    s -> a [label="4"];
+    s -> b [label="1"];
+    b -> a [label="2"];
+    a -> c [label="1"];
+    a -> d [label="5"];
+    b -> c [label="6"];
+    b -> e [label="8"];
+    c -> d [label="2"];
+    c -> e [label="4"];
+    d -> t [label="3"];
+    e -> t [label="2"];
+}
+```
+
+   a) Indique a ordem em que os vértices são removidos da fronteira e a tabela de distâncias $dist(v)$ após cada iteração.
+   b) Desenhe a árvore de caminhos mínimos resultante e compare a complexidade da implementação ingênua ($O(nm)$) com a implementação via heap binário ($O((n + m) \log n)$).
+
+5. Uma rede de computadores possui $n$ roteadores e $m$ enlaces direcionados. Cada enlace $(u, v)$ possui um atraso de transmissão $l(u, v) > 0$, e cada roteador $v$ impõe um atraso interno de processamento $p(v) > 0$ sempre que um pacote passa por ele ou chega nele (exceto no próprio roteador de origem $s$, onde o pacote é gerado). Dados o roteador de origem $s$ e o roteador de destino $t$, deseja-se encontrar a rota de $s$ a $t$ com o menor atraso total (soma dos atrasos de transmissão dos enlaces e de processamento dos roteadores percorridos). Explique como modelar esse problema em um dígrafo ponderado exclusivamente nas arestas para resolvê-lo diretamente com um algoritmo clássico visto em aula, escreva o pseudocódigo do algoritmo resultante e determine sua complexidade de tempo assintótica em função de $n$ e $m$.
+
 ---
 
 ## Heaps e Filas de Prioridade
@@ -349,6 +399,12 @@ digraph G {
    - (&emsp;) $\Theta(n)$ e $\Theta(1)$
    - (&emsp;) $\Theta(1)$ e $\Theta(\log n)$
    - (&emsp;) $\Theta(n)$ e $\Theta(n)$
+
+4. Considere um **min-heap** binário armazenado em um vetor indexado a partir de 1, inicialmente vazio.
+
+   a) Insira, nesta ordem, as chaves $9, 4, 7, 1, 8, 2, 6, 3$. Mostre o vetor após cada inserção, indicando as trocas realizadas pelo `SiftUp`.
+   b) A partir do heap obtido em (a), execute uma operação `ExtractMin`, mostrando as trocas realizadas pelo `SiftDown`.
+   c) Explique como um heap pode ser usado para ordenar um vetor (HeapSort) em tempo $O(n \log n)$.
 
 ---
 
@@ -535,6 +591,26 @@ graph G2 {
      a) planar
      b) não-planar
 
+3. Sobre grafos eulerianos e hamiltonianos:
+
+   a) Para quais valores de $n$ e $m$ os grafos $K_n$ e $K_{m,n}$ são eulerianos? E para quais valores são semi-eulerianos?
+   b) Enuncie o **Teorema de Dirac** e mostre que sua condição é suficiente mas não necessária, exibindo um grafo hamiltoniano com $\delta(G) < |V|/2$.
+
+4. Seja $G$ um grafo simples, conexo e planar com $n \geq 3$ vértices e $m$ arestas. Sabendo que $G$ tem 10 vértices, todos de grau 3, determine o número de faces de uma imersão planar de $G$ usando a Fórmula de Euler.
+
+5. Considere novamente o grafo $G_1$ do Exercício 1.
+
+   a) Determine uma cobertura de vértices mínima e o valor de $\beta(G_1)$.
+   b) Determine um conjunto independente máximo e o valor de $\alpha(G_1)$, verificando que $\alpha(G_1) + \beta(G_1) = |V|$.
+   c) Determine um emparelhamento máximo e o valor de $\alpha'(G_1)$. Esse emparelhamento é perfeito?
+
+6. Seja $G = (V, E)$ um grafo simples.
+
+   a) Prove que $\alpha'(G) \leq \beta(G)$, isto é, o tamanho de qualquer emparelhamento é no máximo o tamanho de qualquer cobertura de vértices.
+   b) Seja $M$ um emparelhamento maximal. Prove que o conjunto dos extremos das arestas de $M$ forma uma cobertura de vértices de tamanho no máximo $2\beta(G)$.
+
+7. Considere um conjunto de $m$ peças de dominó distintas, em que cada peça possui duas metades numeradas com valores inteiros distintos no conjunto $\{1, 2, \dots, n\}$. Deseja-se decidir (`Verdadeiro` ou `Falso`) se é possível dispor **todas** as $m$ peças em uma única fileira válida — isto é, de modo que metades adjacentes de peças consecutivas tenham exatamente o mesmo número (não é necessário construir a sequência de peças, apenas decidir se ela existe). Explique como modelar esse problema como um grafo de modo a resolvê-lo diretamente usando a caracterização de grafos eulerianos/semi-eulerianos e um algoritmo clássico de busca visto em aula, escreva o pseudocódigo do algoritmo resultante e determine sua complexidade de tempo assintótica em função de $n$ e $m$.
+
 ---
 
 ## Árvores e Árvores Geradoras Mínimas
@@ -542,6 +618,53 @@ graph G2 {
 1. Qual é a única árvore identificada pelo código de Prüfer $1111$? Assuma que o primeiro vértice é o vértice 1, e que os demais vértices são os números naturais a partir de 1 até o único número de vértices possível quando considerando o código dado.
 
 2. Assuma que $G$ é um grafo simples com pesos não-negativos nas arestas. Utilizando um algoritmo clássico (Prim ou Kruskal), você calculou uma árvore geradora mínima para $G$, a qual vamos chamar $T$. Considere agora que $G$ foi modificado pela adição de uma nova aresta $e$ entre os nodos $x$ e $y$ (até então não-adjacentes) com peso $w$. É possível ajustarmos $T$ para gerar de forma eficiente a árvore geradora mínima $T'$ de $G'$, ou é necessário rodarmos novamente um algoritmo clássico do zero para $G'$? Desenvolva essa análise.
+
+3. Considere o grafo com pesos abaixo.
+
+```{dot}
+//| fig-width: 4.5
+//| fig-height: 2.6
+//| fig-align: center
+graph M1 {
+    layout=neato;
+    graph [margin=0.1, pad=0];
+    node [fontname="Times-Italic", fontsize=18, shape=circle, width=0.4, fixedsize=true];
+    edge [fontname="Times", fontsize=14];
+
+    A [pos="0,2!"];
+    B [pos="2,2.6!"];
+    C [pos="4,2!"];
+    D [pos="0.6,0.6!"];
+    E [pos="2.6,1.2!"];
+    F [pos="1.4,-0.6!"];
+    G [pos="4,-0.2!"];
+
+    A -- B [label="7"];
+    A -- D [label="5"];
+    B -- C [label="8"];
+    B -- D [label="9"];
+    B -- E [label="6"];
+    C -- E [label="4"];
+    D -- E [label="15"];
+    D -- F [label="3"];
+    E -- F [label="10"];
+    E -- G [label="11"];
+    F -- G [label="12"];
+    C -- G [label="13"];
+}
+```
+
+   a) Execute o algoritmo de Prim a partir do vértice $A$, indicando a ordem em que as arestas são adicionadas à árvore.
+   b) Execute o algoritmo de Kruskal, indicando a ordem em que as arestas são consideradas e quais são descartadas. Qual o papel da estrutura **Union-Find** nessa verificação?
+
+4. Seja $G$ um grafo conexo com pesos **distintos** nas arestas. Determine V (verdadeiro) ou F (falso):
+
+   - (&emsp;) A aresta de menor peso de $G$ pertence a toda árvore geradora mínima.
+   - (&emsp;) A aresta de maior peso de $G$ nunca pertence a uma árvore geradora mínima.
+   - (&emsp;) Para todo corte $(S, V - S)$, a aresta de menor peso que cruza o corte pertence à árvore geradora mínima.
+   - (&emsp;) A árvore geradora mínima contém necessariamente um caminho mínimo entre quaisquer dois vértices de $G$.
+
+5. Um parque industrial possui $n$ prédios interligados por $m$ trechos de iluminação subterrânea bidirecionais (o sistema atual é conexo, mas possui trechos redundantes). Cada trecho $(u, v)$ possui um custo mensal de manutenção $c(u, v) > 0$. Para cortar gastos, a administração deseja desativar um subconjunto de trechos de modo que todos os $n$ prédios continuem direta ou indiretamente interligados pelos trechos mantidos, mas **maximizando a economia mensal total** (isto é, a soma dos custos de manutenção dos trechos desativados). Explique como modelar esse problema como um grafo e resolvê-lo diretamente utilizando um algoritmo clássico de Árvore Geradora Mínima visto em aula, escreva o pseudocódigo do algoritmo que retorna a economia máxima e determine sua complexidade de tempo assintótica em função de $n$ e $m$.
 
 ---
 
@@ -560,3 +683,5 @@ graph G2 {
    a) Qual é o número cromático $\chi(H)$? Justifique.
    b) Exiba uma coloração ótima de $H$ (usando $\chi(H)$ cores), indicando a cor de cada vértice.
    c) O grafo $H$ é bipartido? Justifique com base no número cromático encontrado.
+
+3. Prove que $\chi(G) \leq \Delta(G) + 1$ para todo grafo simples $G$, analisando o algoritmo guloso de coloração. Em seguida, mostre por meio de um exemplo em um grafo bipartido que o algoritmo guloso pode usar mais do que $\chi(G)$ cores dependendo da ordem dos vértices.

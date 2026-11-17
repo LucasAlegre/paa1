@@ -414,10 +414,14 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
   <td>ter. 17/nov.</td>
   <td>Sala 113</td>
   <td class="t-blue">Análise de Redes.</td>
-  <td></td>
+  <td style="text-align:center;"><a href="aulas/redessociais_slides_todasSecoes.pdf" title="Slides" target="_blank"><i class="bi bi-easel-fill"></i></a></td>
   <td>
     <ul class="list-unstyled mb-0">
-      <li><a href="https://thepalindrome.org/p/matrices-and-graphs"><i class="bi bi-journal-text me-1"></i>Matrices and Graphs</a></li>
+      <li class="mb-1"><a href="https://thepalindrome.org/p/matrices-and-graphs"><i class="bi bi-journal-text me-1"></i>Matrices and Graphs</a></li>
+      <li class="mb-1"><a href="https://www.youtube.com/watch?v=CYlon2tvywA"><i class="bi bi-youtube me-1"></i>Can you really reach anyone in 6 steps? (Veritasium)</a></li>
+      <li class="mb-1"><a href="https://www.youtube.com/watch?v=JGQe4kiPnrU"><i class="bi bi-youtube me-1"></i>PageRank: A Trillion Dollar Algorithm (Reducible)</a></li>
+      <li class="mb-1"><a href="https://www.youtube.com/watch?v=D0iQ9WuvxXc"><i class="bi bi-youtube me-1"></i>All One Piece Factions In One Massive Network (Actually Not David)</a></li>
+      <li><a href="aulas/fig/centrality_time.png" target="_blank"><i class="bi bi-image me-1"></i>Complexidade de Métricas de Centralidade</a></li>
     </ul>
   </td>
 </tr>

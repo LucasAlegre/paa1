@@ -604,12 +604,7 @@ graph G2 {
    b) Determine um conjunto independente máximo e o valor de $\alpha(G_1)$, verificando que $\alpha(G_1) + \beta(G_1) = |V|$.
    c) Determine um emparelhamento máximo e o valor de $\alpha'(G_1)$. Esse emparelhamento é perfeito?
 
-6. Seja $G = (V, E)$ um grafo simples.
-
-   a) Prove que $\alpha'(G) \leq \beta(G)$, isto é, o tamanho de qualquer emparelhamento é no máximo o tamanho de qualquer cobertura de vértices.
-   b) Seja $M$ um emparelhamento maximal. Prove que o conjunto dos extremos das arestas de $M$ forma uma cobertura de vértices de tamanho no máximo $2\beta(G)$.
-
-7. Considere um conjunto de $m$ peças de dominó distintas, em que cada peça possui duas metades numeradas com valores inteiros distintos no conjunto $\{1, 2, \dots, n\}$. Deseja-se decidir (`Verdadeiro` ou `Falso`) se é possível dispor **todas** as $m$ peças em uma única fileira válida — isto é, de modo que metades adjacentes de peças consecutivas tenham exatamente o mesmo número (não é necessário construir a sequência de peças, apenas decidir se ela existe). Explique como modelar esse problema como um grafo de modo a resolvê-lo diretamente usando a caracterização de grafos eulerianos/semi-eulerianos e um algoritmo clássico de busca visto em aula, escreva o pseudocódigo do algoritmo resultante e determine sua complexidade de tempo assintótica em função de $n$ e $m$.
+6. Considere um conjunto de $m$ peças de dominó distintas, em que cada peça possui duas metades numeradas com valores inteiros distintos no conjunto $\{1, 2, \dots, n\}$. Deseja-se decidir (`Verdadeiro` ou `Falso`) se é possível dispor **todas** as $m$ peças em uma única fileira válida — isto é, de modo que metades adjacentes de peças consecutivas tenham exatamente o mesmo número (não é necessário construir a sequência de peças, apenas decidir se ela existe). Explique como modelar esse problema como um grafo de modo a resolvê-lo diretamente usando a caracterização de grafos eulerianos/semi-eulerianos e um algoritmo clássico de busca visto em aula, escreva o pseudocódigo do algoritmo resultante e determine sua complexidade de tempo assintótica em função de $n$ e $m$.
 
 ---
 

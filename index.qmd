@@ -437,7 +437,7 @@ Este cronograma pode sofrer modificações ao longo do semestre, sendo important
 <tr class="row-prova">
   <td class="wk">30</td>
   <td>qui. 26/nov.</td>
-  <td>Lab 102 (43413)</td>
+  <td>Auditório Inferior (43413)</td>
   <td><strong>PROVA 2</strong></td>
   <td></td>
   <td></td>
